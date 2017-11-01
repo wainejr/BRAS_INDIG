@@ -1,6 +1,7 @@
 #include "Jogo.h"
 
-
+enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE };
+bool keys[5] = { false, false, false, false, false };
 
 Jogo::Jogo()
 {
@@ -26,6 +27,7 @@ Jogo::Jogo()
 	inimigo1.setY(50);
 	inimigo1.setArma(&armaInimigo);
 	inimigo1.setVida(100);
+	inimigo1.setAlvo(&player);
 
 	chao.setFisica(false);
 	chao.setAtivo(true);
@@ -74,8 +76,6 @@ Jogo::~Jogo()
 
 void Jogo::exec()
 {
-	
-
 	//VARIAVEIS PRIMITIVAS
 	bool done = false;
 	bool redraw = false;
@@ -96,6 +96,48 @@ void Jogo::exec()
 		{
 			done = true;
 		}
+		else if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			switch (ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_UP:
+				keys[UP] = true;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				keys[DOWN] = true;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = true;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = true;
+				break;
+			case ALLEGRO_KEY_SPACE:
+				keys[SPACE] = true;
+				break;
+			}
+		}
+		else if (ev.type == ALLEGRO_EVENT_KEY_UP)
+		{
+			switch (ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_UP:
+				keys[UP] = false;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				keys[DOWN] = false;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				keys[RIGHT] = false;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				keys[LEFT] = false;
+				break;
+			case ALLEGRO_KEY_SPACE:
+				keys[SPACE] = false;
+				break;
+			}
+		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
@@ -103,8 +145,20 @@ void Jogo::exec()
 			{
 			case FASE:
 				///execFase();
+			{
+				if (keys[LEFT])
+					player.moverEsq();
+				if (keys[RIGHT])
+					player.moverDir();
+				if (keys[UP] && fasePrototipo.personagemPodePular(&player))
+					player.pular();
+				if (keys[SPACE])
+					player.atacar();
+				if (!keys[LEFT] && !keys[RIGHT])
+					player.parar();
 				fasePrototipo.atualizaFase();
 				break;
+			}
 			case MENUPRINCIPAL:
 				///execMenuPrincipal();
 				break;
@@ -114,13 +168,11 @@ void Jogo::exec()
 			}
 		}
 
-
 		if (redraw && al_is_event_queue_empty(queue))
 		{
 			switch (estado_jogo)
 			{
 			case FASE:
-				
 				fasePrototipo.desenhaFase();
 				break;
 			case MENUPRINCIPAL:

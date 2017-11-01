@@ -1,25 +1,28 @@
 #pragma once
 #include "definesMacros.h"
-#include "ListaEntidades.h"
+#include "EntConcreteClasses.h"
+#include "Lista.h"
 
 class Fase
 {	
 protected:
 	//	DECIDIR SE AS LISTAS DE ENTIDADES SERÃO TEMPLATES OU SÓ RECEBERÃO 
 	//	ENTIDADES OU FAZER LISTAS DERIVADAS DE LISTA ENTIDADE
-	ListaEntidades plataformas;
-	ListaEntidades inimigos;
-	ListaEntidades jogadores;
-	ListaEntidades projeteis;
+	Lista <Plataforma*> plataformas;
+	Lista <Inimigo*> inimigos;
+	Lista <Jogador*> jogadores;
+	Lista <Projetil*> projeteis;
 	int limX;
 	int limY;
+	int posRelX;
 
-	void checaColisoes(); //tiros, ataques e afins
+	void gerenciaColisoes(); //tiros, ataques e afins
 	void desenhaObjs();
 	void atualizaObjs();
-	bool ColisaoPersChao(Entidade* const pPers, Entidade* const pPlataforma);
-	bool colisaoPlayerInimigo(Entidade* const pPlayer, Entidade* const pInimigo);
-	bool colisaoChao(Entidade* pEnt);
+	bool colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma);
+	bool colisaoPlayerInimigo(Jogador* const pPlayer, Inimigo* const pInimigo);
+	bool colisaoChao(Personagem* const pEnt);
+	bool colisaoInimigo(Jogador* const pJog);
 	
 public:
 	Fase();
@@ -30,16 +33,22 @@ public:
 	void addPlayer(Jogador* const pPlayer);
 	void addProjetil(Projetil* const pProj);
 
-	bool jogadorPodePular(Jogador* pJog);
+	bool personagemPodePular(Personagem* const pPers);
 	void atualizaFase();
+	void atualizaPlayer();
+	void atualizaInimigos();
+	void atualizaProjeteis();
+
 	void desenhaFase();
 
 	const int getLimX();
 	void setLimX(const int aLimX);
 	const int getLimY();
 	void setLimY(const int aLimY);
-	bool colisaoInimigo(Jogador* const pJog);
-	void atualizaPlayer();
-	void atualizaInimigos();
-	void atualizaProjeteis();
+	
+	
+	void desenhaJogadores();
+	void desenhaInimigos();
+	void desenhaPlataformas();
+	void desenhaProjeteis();
 };

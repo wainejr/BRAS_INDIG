@@ -7,7 +7,7 @@ class Arma :
 {
 protected:
 	int dano;
-	Entidade* donoArma;
+	Personagem* donoArma;
 public:
 	Arma();
 	~Arma();
@@ -15,7 +15,8 @@ public:
 	void setDano(const int aDano);
 	virtual void atacar() = 0;
 
-	void setDonoArma(Entidade* const pPers);
-	Entidade* const getDonoArma();
+	void setDonoArma(Personagem* const pPers);
+	Personagem* const getDonoArma();
+	void atualizar();
 };
 

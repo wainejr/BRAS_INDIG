@@ -1,6 +1,5 @@
 #pragma once
-#include "fase.h"
-#include "definesMacros.h"
+#include "Fase.h"
 
 enum ESTADOS{FASE, MENUPRINCIPAL, MENUPAUSE};
 
@@ -16,7 +15,7 @@ private:
 	//OBJETOS
 	Fase fasePrototipo;
 	Jogador player;
-	Mosqueteiro inimigo1;
+	Espadachim inimigo1;
 	Plataforma chao;
 	Espada armaPlayer;
 	Espada armaInimigo;

@@ -33,3 +33,8 @@ void Plataforma::draw()
 void Plataforma::builderPlataforma()
 {
 }
+
+
+void Plataforma::atualizar()
+{
+}

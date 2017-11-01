@@ -137,7 +137,7 @@
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Lanca.h" />
-    <ClInclude Include="ListaEntidades.h" />
+    <ClInclude Include="Lista.h" />
     <ClInclude Include="ListaFases.h" />
     <ClInclude Include="Mosquete.h" />
     <ClInclude Include="Mosqueteiro.h" />
@@ -147,6 +147,7 @@
     <ClInclude Include="Projetil.h" />
     <ClInclude Include="Rede.h" />
     <ClInclude Include="EntConcreteClasses.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arco.cpp" />
@@ -168,7 +169,6 @@
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="Lanca.cpp" />
-    <ClCompile Include="ListaEntidades.cpp" />
     <ClCompile Include="ListaFases.cpp" />
     <ClCompile Include="Mosquete.cpp" />
     <ClCompile Include="Mosqueteiro.cpp" />
@@ -181,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BRAS_INDIG.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

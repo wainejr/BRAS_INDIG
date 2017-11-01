@@ -7,6 +7,6 @@ public:
 	Projetil();
 	~Projetil();
 	void builderProjetil();
-	void atualizaProjetil();
+	void atualizar();
 };
 

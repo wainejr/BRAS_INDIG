@@ -1,7 +1,6 @@
 #pragma once
 #include "Entidade.h"
 #include "Arma.h"
-#define VEL_PULO 30
 
 class Personagem :
 	public Entidade
@@ -18,13 +17,16 @@ public:
 	~Personagem();
 	const int getVida();
 	void setVida(const int aVida);
-	Arma* getArma();
+	Arma* const getArma();
+	void parar();
 	virtual void atacar();
-	virtual void atualizar();
+	virtual void atualizar() = 0;
 	void atualizaArma();
 	virtual void draw() = 0;
+
 	void setArma(Arma* const pArma);
 	void setDir(bool const aDir);
 	const bool getDir();
+	void cair(const float acAt);
 };
 

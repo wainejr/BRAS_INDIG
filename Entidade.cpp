@@ -12,12 +12,6 @@ Entidade::~Entidade()
 }
 
 
-void Entidade::atualizar()
-{
-
-}
-
-
 void Entidade::setX(const float px)
 {
 	posX = px;
@@ -117,4 +111,27 @@ const float Entidade::getVelMaxY()
 void Entidade::setVelMaxY(const float aVelMaxY)
 {
 	velMaxY = aVelMaxY;
+}
+
+void Entidade::setVelX(const float aVelX)
+{
+	velX = aVelX;
+}
+
+
+const int Entidade::getVelX()
+{
+	return velX;
+}
+
+
+void Entidade::setVelY(const float aVelY)
+{
+	velY = aVelY;
+}
+
+
+const int Entidade::getVelY()
+{
+	return velY;
 }

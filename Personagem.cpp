@@ -18,12 +18,14 @@ void Personagem::atacar()
 {
 }
 
-
-void Personagem::atualizar()
+// recebe como parâmetro a aceleração de vY
+void Personagem::cair(const float acAt)
 {
-	atualizaArma();
+	if (velY > -velMaxY)
+		velY -= acAt;
+	if (velY < -velMaxY)
+		velY = -velMaxY;
 }
-
 
 void Personagem::atualizaArma()
 {
@@ -34,7 +36,7 @@ void Personagem::atualizaArma()
 	else
 		arma->setX(posX);
 
-	arma->setY(posY);
+	arma->setY(posY-limY/2);
 }
 
 
@@ -50,7 +52,7 @@ const bool Personagem::getDir()
 }
 
 
-Arma* Personagem::getArma()
+Arma* const Personagem::getArma()
 {
 	return arma;
 }
@@ -72,4 +74,21 @@ const int Personagem::getVida()
 void Personagem::setVida(const int aVida)
 {
 	vida = aVida;
+}
+
+
+void Personagem::parar()
+{
+	if (velX != 0) {
+		if (!(int)velX)
+		{
+			velX = 0;
+		}
+		else if (velX > 0)
+		{
+			velX--;
+		}
+		else
+			velX++;
+	}
 }

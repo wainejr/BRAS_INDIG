@@ -1,9 +1,15 @@
 #pragma once
+
 #include <string>
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#define VEL_PULO 7
+#define VEL_MAX_X_PERS 3
+#define VEL_MAX_X_JOG 5
+#define VEL_MAX_X_CAV 7
+
 using namespace std;
 
 enum IDS{JOGADOR1, JOGADOR2, MOSQUETEIRO, ESPADACHIM, ESP_CAVALEIRO, CHEFAO_CAP, 
@@ -19,6 +25,10 @@ protected:
 	//	A posição x e y correspondem a posição do canto esquerdo
 	//	inferior do objeto. A posição x+limX e y+limY correspondem
 	//	ao canto direito superior do objeto
+	//					---------------
+	//	Arrumar as funções que não são realmente pertencentes a classe
+	//	entidade, mas sim aos personagens, depois que arrumar a questão
+	//	da lista e do tipo que ela suporta
 
 	float posX;
 	float posY;
@@ -56,6 +66,10 @@ public:
 
 	const int getID();
 	virtual void draw() = 0;
-	virtual void atualizar();
+	void setVelX(const float aVelX);
+	const int getVelX();
+	void setVelY(const float aVelY);
+	const int getVelY();
+	virtual void atualizar() = 0;
 };
 

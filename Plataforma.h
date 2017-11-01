@@ -12,5 +12,6 @@ public:
 	const bool getColisaoBaixo();
 	virtual void draw();
 	void builderPlataforma();
+	virtual void atualizar();
 };
 

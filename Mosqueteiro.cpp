@@ -29,6 +29,9 @@ void Mosqueteiro::atacar()
 
 void Mosqueteiro::atualizar()
 {
+	posX += velX;
+	posY -= velY;
+	atualizaArma();
 }
 
 

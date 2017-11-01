@@ -1,6 +1,7 @@
+
 #pragma once
 #include "Inimigo.h"
-#include "ListaEntidades.h"
+#include "Lista.h"
 
 class ChefaoCapitao :
 	public Inimigo
@@ -9,8 +10,8 @@ public:
 	ChefaoCapitao();
 	~ChefaoCapitao();
 private:
-	ListaEntidades capangas1;
-	ListaEntidades capangas2;
+	Lista<Inimigo*> capangas1;
+	Lista<Inimigo*> capangas2;
 public:
 	void mover();
 	void atacar();
@@ -21,4 +22,3 @@ public:
 	void mandaCapangas2();
 	void builderChefaoCapitao();
 };
-

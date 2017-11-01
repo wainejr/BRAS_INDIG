@@ -129,9 +129,6 @@
     <ClInclude Include="EntConcreteClasses.h">
       <Filter>Header Files\Gerenciadores</Filter>
     </ClInclude>
-    <ClInclude Include="ListaEntidades.h">
-      <Filter>Header Files\Gerenciadores</Filter>
-    </ClInclude>
     <ClInclude Include="ListaFases.h">
       <Filter>Header Files\Gerenciadores</Filter>
     </ClInclude>
@@ -153,13 +150,16 @@
     <ClInclude Include="definesMacros.h">
       <Filter>Header Files\Gerenciadores</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lista.h">
+      <Filter>Header Files\Gerenciadores</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ListaEntidades.cpp">
-      <Filter>Source Files\Gerenciadores</Filter>
     </ClCompile>
     <ClCompile Include="ListaFases.cpp">
       <Filter>Source Files\Gerenciadores</Filter>
@@ -245,5 +245,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BRAS_INDIG.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

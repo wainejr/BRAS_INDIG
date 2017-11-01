@@ -10,5 +10,6 @@ public:
 	void atacar();
 	void atualizar();
 	void builderEspadachim();
+	void draw();
 };
 

@@ -16,11 +16,9 @@ public:
 	void moverDir();
 	void moverEsq();
 	void pular();
-	void parar();
 	void setChances(const int aChances);
 	// para cordas
 	void subir();
-	void cair(const float acAt);
 	void draw();
 
 	// para não tomar dano seguidamente

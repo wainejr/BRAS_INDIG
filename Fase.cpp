@@ -1,42 +1,41 @@
 #include "Fase.h"
 
-
-
 Fase::Fase()
 {
 	limX = 0;
 	limY = 0;
+	posRelX = 0;
 }
 
 
 Fase::~Fase()
 {
+
 }
 
 
-bool Fase::jogadorPodePular(Jogador* pJog)
+bool Fase::personagemPodePular(Personagem* const pPers)
 {
-	return (colisaoChao(static_cast<Entidade*>(pJog)));
+	return (colisaoChao(pPers));
 }
 
 
-void Fase::checaColisoes()
+void Fase::gerenciaColisoes()
 {
-	/* a fazer */
+
 }
 
 
-bool Fase::colisaoChao(Entidade* pEnt)
+bool Fase::colisaoChao(Personagem* const pEnt)
 {
-	Entidade* pPlat;
+	Plataforma* pPlat;
 	if (pEnt->getAtivo()) {
-		for (int i = 0; i < plataformas.numEntidades(); i++)
+		for (int i = 0; i < plataformas.numObjs(); i++)
 		{
-			pPlat = plataformas.entidadeI(i);
+			pPlat = plataformas.objI(i);
 			if (pPlat->getAtivo())
-				if (ColisaoPersChao(pEnt, pPlat))
+				if (colisaoPersChao(pEnt, pPlat))
 					return true;
-
 		}
 	}
 	return false;
@@ -45,13 +44,13 @@ bool Fase::colisaoChao(Entidade* pEnt)
 
 bool Fase::colisaoInimigo(Jogador* const pJog)
 {
-	Entidade* pIni;
+	Inimigo* pIni;
 	if (pJog->getAtivo()) {
-		for (int i = 0; i < inimigos.numEntidades(); i++)
+		for (int i = 0; i < inimigos.numObjs(); i++)
 		{
-			pIni = inimigos.entidadeI(i);
+			pIni = inimigos.objI(i);
 			if (pIni->getAtivo())
-				if (ColisaoPersChao(pJog, pIni))
+				if (colisaoPlayerInimigo(pJog, pIni))
 					return true;
 		}
 	}
@@ -59,19 +58,23 @@ bool Fase::colisaoInimigo(Jogador* const pJog)
 }
 
 
-bool Fase::ColisaoPersChao(Entidade* const pPers, Entidade* const pPlataforma)
+bool Fase::colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma)
 {
-	/* checa apenas o pe do personagem se bateu no chao */
+	//	checa apenas o pe do personagem se bateu no chao, caso 
+	//	afirmativo coloca o pé do player na altura da plataforma
 	if (pPers->getY() > (pPlataforma->getY() - pPlataforma->getLimY()) &&
 		pPers->getX() < (pPlataforma->getX() + pPlataforma->getLimX()) &&
 		(pPers->getX() + pPers->getLimX()) > pPlataforma->getX())
+	{
+		pPers->setY(pPlataforma->getY() - pPlataforma->getLimY());
+		pPers->setVelY(0);
 		return true;
-
+	}
 	return false;
 }
 
 
-bool Fase::colisaoPlayerInimigo(Entidade* const pPlayer, Entidade* const pInimigo)
+bool Fase::colisaoPlayerInimigo(Jogador* const pPlayer, Inimigo* const pInimigo)
 {
 	if (pPlayer->getY() > (pInimigo->getY() - pInimigo->getLimY()) &&
 		pPlayer->getX() < (pInimigo->getX() + pInimigo->getLimX()) &&
@@ -86,28 +89,51 @@ bool Fase::colisaoPlayerInimigo(Entidade* const pPlayer, Entidade* const pInimig
 void Fase::atualizaFase()
 {
 	atualizaObjs();
-	checaColisoes();
+	gerenciaColisoes();
 }
 
 
 void Fase::atualizaObjs()
 {
 	int i;
-	for (i = 0; i < jogadores.numEntidades(); i++)
-		jogadores.entidadeI(i)->atualizar();
-	for (i = 0; i < inimigos.numEntidades(); i++)
-		inimigos.entidadeI(i)->atualizar();
-	for (i = 0; i < projeteis.numEntidades(); i++)
-		projeteis.entidadeI(i)->atualizar();
+	//atualizaPlayers();
+	for (i = 0; i < jogadores.numObjs(); i++)
+	{
+		if (jogadores.objI(i)->getAtivo())
+		{
+			if (jogadores.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(jogadores.objI(i))))
+				jogadores.objI(i)->cair(((float)GRAV/FPS));
+			jogadores.objI(i)->atualizar();
+		}
+	}
+
+	//atualizaInimigos();
+	for (i = 0; i < inimigos.numObjs(); i++)
+	{
+		if (inimigos.objI(i)->getAtivo())
+		{
+			if (inimigos.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(inimigos.objI(i))))
+				inimigos.objI(i)->cair(((float)GRAV /FPS));
+			inimigos.objI(i)->atualizar();
+		}
+	}
+
+	//atualizaProjeteis();
+	for (i = 0; i < projeteis.numObjs(); i++)
+	{
+		if (projeteis.objI(i)->getAtivo())
+			projeteis.objI(i)->atualizar();
+	}
+
 }
 
 
 void Fase::desenhaObjs()
 {
-	plataformas.desenhaAtivos();
-	jogadores.desenhaAtivos();	
-	inimigos.desenhaAtivos();
-	projeteis.desenhaAtivos();
+	desenhaProjeteis();
+	desenhaPlataformas();
+	desenhaInimigos();
+	desenhaJogadores();
 }
 
 
@@ -116,28 +142,67 @@ void Fase::desenhaFase()
 	desenhaObjs();
 }
 
+void Fase::desenhaJogadores()
+{
+	for (int i = 0; i < jogadores.numObjs(); i++)
+	{
+		if (jogadores.objI(i)->getAtivo())
+			jogadores.objI(i)->draw();
+	}
+}
+
+
+void Fase::desenhaInimigos()
+{
+	for (int i = 0; i < inimigos.numObjs(); i++)
+	{
+		if (inimigos.objI(i)->getAtivo())
+			inimigos.objI(i)->draw();
+	}
+}
+
+
+void Fase::desenhaPlataformas()
+{
+	for (int i = 0; i < plataformas.numObjs(); i++)
+	{
+		if (plataformas.objI(i)->getAtivo())
+			plataformas.objI(i)->draw();
+	}
+}
+
+
+void Fase::desenhaProjeteis()
+{
+	for (int i = 0; i < projeteis.numObjs(); i++)
+	{
+		if (projeteis.objI(i)->getAtivo())
+			projeteis.objI(i)->draw();
+	}
+}
+
 
 void Fase::addPlataforma(Plataforma* const pPlataforma)
 {
-	plataformas.addEntidade(static_cast<Entidade*>(pPlataforma));
+	plataformas.addObj(pPlataforma);
 }
 
 
 void Fase::addInimigo(Inimigo* const pInimigo)
 {
-	inimigos.addEntidade(static_cast<Entidade*>(pInimigo));
+	inimigos.addObj(pInimigo);
 }
 
 
 void Fase::addPlayer(Jogador* const pPlayer)
 {
-	jogadores.addEntidade(static_cast<Entidade*>(pPlayer));
+	jogadores.addObj(pPlayer);
 }
 
 
 void Fase::addProjetil(Projetil* const pProj)
 {
-	projeteis.addEntidade(static_cast<Entidade*>(pProj));
+	projeteis.addObj(pProj);
 }
 
 

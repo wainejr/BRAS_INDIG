@@ -29,7 +29,11 @@ void EspadachimCavaleiro::atacar()
 
 void EspadachimCavaleiro::atualizar()
 {
+	posX += velX;
+	posY -= velY;
+	atualizaArma();
 }
+
 
 
 const bool EspadachimCavaleiro::getCavalo()

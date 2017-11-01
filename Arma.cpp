@@ -22,12 +22,18 @@ void Arma::setDano(const int aDano)
 }
 
 
-void Arma::setDonoArma(Entidade* const pPers)
+void Arma::setDonoArma(Personagem* const pPers)
 {
 	donoArma = pPers;
 }
 
-Entidade* const Arma::getDonoArma()
+Personagem* const Arma::getDonoArma()
 {
 	return donoArma;
+}
+
+
+void Arma::atualizar()
+{
+
 }

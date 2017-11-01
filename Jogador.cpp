@@ -5,6 +5,8 @@ int Jogador::num_jogs = 0;
 Jogador::Jogador()
 {
 	//MUDAR PARA SINGLETON O ESQUEMA DE CONSTRUTOR
+	velMaxX = VEL_MAX_X_JOG;
+	velMaxY = VEL_PULO;
 	num_jogs++;
 	chances = 0;
 }
@@ -42,7 +44,7 @@ void Jogador::moverEsq()
 {
 	if (velX > -velMaxX)
 		velX--;
-	else
+	if(velX < -velMaxX)
 		velX = -velMaxX;
 	dir = false;
 }
@@ -62,33 +64,6 @@ void Jogador::subir()
 {
 
 }
-
-
-// recebe como parâmetro a aceleração de vY
-void Jogador::cair(const float acAt)
-{
-	//A VELOCIDADE ´MÁXIMA DE CAÍDA É A MESMA DO PULO
-	if (velY > -VEL_PULO)
-		velY -= acAt;
-	if (velY < -VEL_PULO)
-		velY = -VEL_PULO;
-}
-
-
-void Jogador::parar()
-{
-	if (velX != 0) {
-		if (velX > 0 && velX > 1)
-			velX--;
-		else if (velX > 0 && velX < 1)
-			velX = 0;
-		else if (velX < 0 && velX < -1)
-			velX++;
-		else if (velX < 0 && velX > -1)
-			velX = 0;
-	}
-}
-
 
 void Jogador::atualizar()
 {
