@@ -33,7 +33,7 @@ void Jogador::atacar()
 void Jogador::moverDir()
 {
 	if (velX < velMaxX)
-		velX++;
+		velX+=(float) ACEL10_X_PERS/10;
 	if(velX > velMaxX)
 		velX = velMaxX;
 	dir = true;
@@ -43,7 +43,7 @@ void Jogador::moverDir()
 void Jogador::moverEsq()
 {
 	if (velX > -velMaxX)
-		velX--;
+		velX-= (float) ACEL10_X_PERS / 10;
 	if(velX < -velMaxX)
 		velX = -velMaxX;
 	dir = false;

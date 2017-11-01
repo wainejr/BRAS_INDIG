@@ -19,20 +19,20 @@ void Espadachim::builderEspadachim()
 
 void Espadachim::mover()
 {
-	//VALOR DE DISTÂNCIA PARA PARAR DECIDO EMPIRICAMENTE
-	if (posY > (alvo->getY()-alvo->getLimY()) && (posY-limY) < alvo->getY())
+	//VALOR DE DISTÂNCIA PARA PARAR DECIDIDO EMPIRICAMENTE
+	if ((posY) > (alvo->getY()-alvo->getLimY()-DIFF_PIXELS_SEGUIR_Y) && (posY-limY) < (alvo->getY()+DIFF_PIXELS_SEGUIR_Y))
 	{
-		if (posX - 10 > (alvo->getX() + alvo->getLimX()))
+		if (posX - DIFF_PIXELS_PARAR_X > (alvo->getX() + alvo->getLimX()))
 		{
 			if (velX > -velMaxX)
-				velX--;
+				velX-= (float) ACEL10_X_PERS / 10;
 			else
 				velX = -velMaxX;
 		}
-		else if ((posX + limX) < (alvo->getX() - 10))
+		else if ((posX + limX) < (alvo->getX() - DIFF_PIXELS_PARAR_X))
 		{
 			if (velX < velMaxX)
-				velX++;
+				velX+= (float)ACEL10_X_PERS / 10;
 			else
 				velX = velMaxX;
 		}

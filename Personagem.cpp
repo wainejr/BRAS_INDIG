@@ -86,9 +86,9 @@ void Personagem::parar()
 		}
 		else if (velX > 0)
 		{
-			velX--;
+			velX -= (float)ACEL10_X_PERS / 10;
 		}
 		else
-			velX++;
+			velX += (float)ACEL10_X_PERS / 10;
 	}
 }

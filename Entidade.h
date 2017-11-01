@@ -5,10 +5,17 @@
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+
 #define VEL_PULO 7
+//	10 vezes a aceleração real em x
+#define ACEL10_X_PERS 5
 #define VEL_MAX_X_PERS 3
 #define VEL_MAX_X_JOG 5
 #define VEL_MAX_X_CAV 7
+#define VEL_MAX_PROJ 20
+
+#define DIFF_PIXELS_PARAR_X 10
+#define DIFF_PIXELS_SEGUIR_Y 40
 
 using namespace std;
 
@@ -25,10 +32,6 @@ protected:
 	//	A posição x e y correspondem a posição do canto esquerdo
 	//	inferior do objeto. A posição x+limX e y+limY correspondem
 	//	ao canto direito superior do objeto
-	//					---------------
-	//	Arrumar as funções que não são realmente pertencentes a classe
-	//	entidade, mas sim aos personagens, depois que arrumar a questão
-	//	da lista e do tipo que ela suporta
 
 	float posX;
 	float posY;
@@ -36,7 +39,6 @@ protected:
 	int limY;
 	float velX;
 	float velY;
-	string nome;
 	bool fisica;
 	bool ativo;
 	float velMaxX;
