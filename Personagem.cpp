@@ -5,37 +5,71 @@
 Personagem::Personagem()
 {
 	vida = 0;
+	dir = true;
 }
+
 
 Personagem::~Personagem()
 {
 }
 
-const int Personagem::getVida()
+
+void Personagem::atacar()
 {
-	return vida;
 }
 
-void Personagem::setVida(const int aVida)
+
+void Personagem::atualizar()
 {
-	vida = aVida;
+	atualizaArma();
 }
+
+
+void Personagem::atualizaArma()
+{
+	if (dir)
+	{
+		arma->setX(posX + limX);
+	}
+	else
+		arma->setX(posX);
+
+	arma->setY(posY);
+}
+
+
+void Personagem::setDir(bool const aDir)
+{
+	dir = aDir;
+}
+
+
+const bool Personagem::getDir()
+{
+	return dir;
+}
+
 
 Arma* Personagem::getArma()
 {
 	return arma;
 }
 
+
 void Personagem::setArma(Arma* const pArma)
 {
 	arma = pArma;
+	pArma->setDonoArma(this);
 }
 
-void Personagem::atacar()
+
+const int Personagem::getVida()
 {
+	return vida;
 }
 
-void Personagem::atualizar()
+
+void Personagem::setVida(const int aVida)
 {
+	vida = aVida;
 }
-

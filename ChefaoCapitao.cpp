@@ -12,6 +12,11 @@ ChefaoCapitao::~ChefaoCapitao()
 }
 
 
+void ChefaoCapitao::builderChefaoCapitao()
+{
+}
+
+
 void ChefaoCapitao::mover()
 {
 }
@@ -49,6 +54,3 @@ void ChefaoCapitao::mandaCapangas2()
 }
 
 
-void ChefaoCapitao::builderChefaoCapitao()
-{
-}

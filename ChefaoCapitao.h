@@ -1,6 +1,7 @@
 #pragma once
 #include "Inimigo.h"
 #include "ListaEntidades.h"
+
 class ChefaoCapitao :
 	public Inimigo
 {

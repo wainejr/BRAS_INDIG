@@ -12,12 +12,17 @@ Espada::~Espada()
 }
 
 
-void Espada::draw()
+void Espada::builderEspada()
 {
-
 }
 
 
-void Espada::builderEspada()
+void Espada::atacar()
 {
+}
+
+
+void Espada::draw()
+{
+
 }

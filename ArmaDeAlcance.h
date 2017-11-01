@@ -7,5 +7,6 @@ public:
 	ArmaDeAlcance();
 	~ArmaDeAlcance();
 	void atirar(const int ax, const int ay);
+	virtual void atacar() = 0;
 };
 

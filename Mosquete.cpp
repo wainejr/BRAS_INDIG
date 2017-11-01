@@ -15,3 +15,8 @@ Mosquete::~Mosquete()
 void Mosquete::builderMosquete()
 {
 }
+
+
+void Mosquete::atacar()
+{
+}

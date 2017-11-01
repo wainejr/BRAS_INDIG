@@ -12,6 +12,11 @@ Mosqueteiro::~Mosqueteiro()
 }
 
 
+void Mosqueteiro::builderMosqueteiro()
+{
+}
+
+
 void Mosqueteiro::mover()
 {
 }
@@ -33,6 +38,4 @@ void Mosqueteiro::draw()
 }
 
 
-void Mosqueteiro::builderMosqueteiro()
-{
-}
+

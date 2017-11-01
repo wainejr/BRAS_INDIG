@@ -27,3 +27,18 @@ void ListaEntidades::desenhaAtivos()
 			entidades[i]->draw();
 	}
 }
+
+
+Entidade* const ListaEntidades::entidadeI(const int i)
+{
+	if (i < (int)entidades.size() && i >= 0)
+		return entidades[i];
+	else
+		return NULL;
+}
+
+
+const int ListaEntidades::numEntidades()
+{
+	return entidades.size();
+}

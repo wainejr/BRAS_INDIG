@@ -7,5 +7,6 @@ public:
 	Lanca();
 	~Lanca();
 	void builderLanca();
+	void atacar();
 };
 

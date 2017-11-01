@@ -1,25 +1,2 @@
-﻿  Rede.cpp
-  Projetil.cpp
-  Plataforma.cpp
-  Mosqueteiro.cpp
-  Mosquete.cpp
-  Lanca.cpp
-  Jogador.cpp
-  Espinho.cpp
-  EspadachimCavaleiro.cpp
-  Espadachim.cpp
-  Espada.cpp
-  Corda.cpp
-  ChefaoCapitao.cpp
-  Armadilha.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Source.cpp
-  ListaFases.cpp
-  ListaEntidades.cpp
-  Jogo.cpp
-  FaseFinal.cpp
-  Fase2.cpp
-  Fase1.cpp
-  Fase.cpp
+﻿  Entidade.cpp
   BRAS_INDIG.vcxproj -> F:\Projects\BRAS_INDIG\Debug\BRAS_INDIG.exe

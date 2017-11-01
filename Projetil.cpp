@@ -15,3 +15,8 @@ Projetil::~Projetil()
 void Projetil::builderProjetil()
 {
 }
+
+
+void Projetil::atualizaProjetil()
+{
+}

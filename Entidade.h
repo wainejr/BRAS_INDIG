@@ -6,13 +6,22 @@
 #include <allegro5\allegro_ttf.h>
 using namespace std;
 
-enum IDS{/*a fazer, com ordem e afins*/};
+enum IDS{JOGADOR1, JOGADOR2, MOSQUETEIRO, ESPADACHIM, ESP_CAVALEIRO, CHEFAO_CAP, 
+	ESPADA, LANCA, MOSQUETE, ARCO, PROJETIL, PLATAFORMA, CORDA, ARMADILHA, ESPINHO, 
+	REDE, CORDA_REDE};
 
 class Entidade
 {
 protected:
-	int posX;
-	int posY;
+	//	float foi optado na posição para ser possível adicionar
+	//	frações com relação a movimentação, tanto em X quanto em Y
+	//					---------------
+	//	A posição x e y correspondem a posição do canto esquerdo
+	//	inferior do objeto. A posição x+limX e y+limY correspondem
+	//	ao canto direito superior do objeto
+
+	float posX;
+	float posY;
 	int limX;
 	int limY;
 	float velX;
@@ -20,17 +29,18 @@ protected:
 	string nome;
 	bool fisica;
 	bool ativo;
-
+	float velMaxX;
+	float velMaxY;
 private:
 	int ID;
 	//sprite
 public:
 	Entidade();
 	virtual ~Entidade();
-	void setX(const int px);
-	const int getX();
-	void setY(const int py);
-	const int getY();
+	void setX(const float px);
+	const float getX();
+	void setY(const float py);
+	const float getY();
 	void setLimX(const int aLimX);
 	const int getLimX();
 	void setLimY(const int aLimY);
@@ -39,8 +49,13 @@ public:
 	const bool getAtivo();
 	void setFisica(const bool aFisica);
 	const bool getFisica();
+	const float getVelMaxX();
+	void setVelMaxX(const float aVelMaxX);
+	const float getVelMaxY();
+	void setVelMaxY(const float aVelMaxY);
 
 	const int getID();
 	virtual void draw() = 0;
+	virtual void atualizar();
 };
 

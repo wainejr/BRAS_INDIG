@@ -12,6 +12,11 @@ Espadachim::~Espadachim()
 }
 
 
+void Espadachim::builderEspadachim()
+{
+}
+
+
 void Espadachim::mover()
 {
 }
@@ -27,6 +32,4 @@ void Espadachim::atualizar()
 }
 
 
-void Espadachim::builderEspadachim()
-{
-}
+

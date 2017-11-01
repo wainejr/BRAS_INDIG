@@ -3,13 +3,13 @@
 class Arco :
 	public ArmaDeAlcance
 {
-public:
-	Arco();
-	~Arco();
 private:
 	float forca;
 public:
+	Arco();
+	~Arco();
 	void setForca(const float aForca);
 	const float getForca();
+	void atacar();
 };
 

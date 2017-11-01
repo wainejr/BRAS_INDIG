@@ -123,6 +123,7 @@
     <ClInclude Include="Armadilha.h" />
     <ClInclude Include="ChefaoCapitao.h" />
     <ClInclude Include="Corda.h" />
+    <ClInclude Include="definesMacros.h" />
     <ClInclude Include="Entidade.h" />
     <ClInclude Include="Espada.h" />
     <ClInclude Include="Espadachim.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Projetil.h" />
     <ClInclude Include="Rede.h" />
+    <ClInclude Include="EntConcreteClasses.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arco.cpp" />

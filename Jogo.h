@@ -1,10 +1,7 @@
 #pragma once
 #include "fase.h"
+#include "definesMacros.h"
 
-#define ALT 480
-#define LARG 640
-#define GRAV 10
-#define FPS 60
 enum ESTADOS{FASE, MENUPRINCIPAL, MENUPAUSE};
 
 class Jogo

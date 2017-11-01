@@ -1,9 +1,7 @@
 #pragma once
-#include "Jogador.h"
-#include "Mosqueteiro.h"
-#include "Espada.h"
-#include "Corda.h"
+#include "EntConcreteClasses.h"
 #include <vector>
+
 using namespace std;
 
 /*	mudar implementação para um template mais específico	*/
@@ -16,5 +14,10 @@ public:
 	~ListaEntidades();
 	void addEntidade(Entidade* pEntidade);
 	void desenhaAtivos();
+
+	// retorna entidade na posição i
+	Entidade* const entidadeI(const int i);
+	// retorna o numero de entidades
+	const int numEntidades();
 };
 

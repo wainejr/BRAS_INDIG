@@ -15,3 +15,8 @@ Lanca::~Lanca()
 void Lanca::builderLanca()
 {
 }
+
+
+void Lanca::atacar()
+{
+}

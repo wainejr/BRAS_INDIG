@@ -7,5 +7,6 @@ public:
 	Mosquete();
 	~Mosquete();
 	void builderMosquete();
+	void atacar();
 };
 

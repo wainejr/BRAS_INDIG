@@ -8,5 +8,6 @@ public:
 	~Espada();
 	void draw();
 	void builderEspada();
+	void atacar();
 };
 
