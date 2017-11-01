@@ -6,6 +6,6 @@ class Espinho :
 public:
 	Espinho();
 	~Espinho();
-	void builderEspinho();
+	void builderEspinho(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano);
 };
 

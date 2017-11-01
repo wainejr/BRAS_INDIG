@@ -9,9 +9,12 @@ public:
 	~Rede();
 private:
 	Corda* linha;
+	bool ativada;
 public:
 	Corda* const getCorda();
 	void setCorda(Corda* const pCorda);
-	void builderCorda();
+	void builderRede(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano);
+	void ativar();
+	const bool getAtivada();
 };
 

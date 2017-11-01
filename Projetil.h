@@ -10,7 +10,7 @@ public:
 	~Projetil();
 	void builderProjetil(const int ax, const int ay, const int aLimX, const int aLimY, const int aVelx, const int aVelY, const bool aAtivo);
 	void atualizar();
-	void setArmaProj(Arma* const pArma);
+	void setArmaProj(ArmaDeAlcance* const pArma);
 	ArmaDeAlcance* const getArmaProj();
 };
 

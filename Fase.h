@@ -51,4 +51,6 @@ public:
 	void desenhaInimigos();
 	void desenhaPlataformas();
 	void desenhaProjeteis();
+	const bool personagemPodeAndarDireita(Personagem* const pPers);
+	const bool personagemPodeAndarEsquerda(Personagem* const pPers);
 };

@@ -6,6 +6,6 @@ class Armadilha :
 public:
 	Armadilha();
 	~Armadilha();
-	void builderArmadilha();
+	void builderArmadilha(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano);
 };
 

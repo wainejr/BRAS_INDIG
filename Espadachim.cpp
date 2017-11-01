@@ -12,8 +12,16 @@ Espadachim::~Espadachim()
 }
 
 
-void Espadachim::builderEspadachim()
+void Espadachim::builderEspadachim(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma)
 {
+	posX = ax;
+	posY = ay;
+	limX = aLimX;
+	limY = aLimy;
+	ativo = aAtivo;
+	vida = aVida;
+	arma = pArma;
+	
 }
 
 

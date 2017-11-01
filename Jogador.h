@@ -24,7 +24,7 @@ public:
 	// para não tomar dano seguidamente
 	const bool getInvuneravel();
 	void setInvuneravel(const bool aInv);
-	void builderJogador();
+	void builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma, const int aChances);
 	void atualizar();
 	
 };

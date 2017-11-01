@@ -30,8 +30,14 @@ void Plataforma::draw()
 }
 
 
-void Plataforma::builderPlataforma()
+void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo)
 {
+	posX = ax;
+	posY = ay;
+	limX = aLimX;
+	limY = aLimy;
+	ativo = aAtivo;
+
 }
 
 

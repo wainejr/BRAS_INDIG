@@ -228,3 +228,14 @@ void Fase::setLimY(const int aLimY)
 {
 	limY = aLimY;
 }
+
+const bool Fase::personagemPodeAndarDireita(Personagem* const pPers)
+{
+	return false;
+}
+
+
+const bool Fase::personagemPodeAndarEsquerda(Personagem* const pPers)
+{
+	return false;
+}
