@@ -119,7 +119,6 @@
   <ItemGroup>
     <ClInclude Include="Arco.h" />
     <ClInclude Include="Arma.h" />
-    <ClInclude Include="ArmaDeAlcance.h" />
     <ClInclude Include="Armadilha.h" />
     <ClInclude Include="ChefaoCapitao.h" />
     <ClInclude Include="Corda.h" />
@@ -152,7 +151,6 @@
   <ItemGroup>
     <ClCompile Include="Arco.cpp" />
     <ClCompile Include="Arma.cpp" />
-    <ClCompile Include="ArmaDeAlcance.cpp" />
     <ClCompile Include="Armadilha.cpp" />
     <ClCompile Include="ChefaoCapitao.cpp" />
     <ClCompile Include="Corda.cpp" />

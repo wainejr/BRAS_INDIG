@@ -60,12 +60,12 @@ template <class T>
 void Lista<T>::deleteObj(T aObj)
 {
 	T aux;
-	for(int i = 0; i < (int)listObjs.size(); i++)
+	for (int i = 0; i < (int)listObjs.size(); i++)
 		if (listObjs[i] == aObj)
 		{
 			aux = listObjs[i];
-			listObjs.erase(listObjs.begin()+i);
+			listObjs.erase(listObjs.begin() + i);
 			delete(aux);
 		}
-		
+
 }

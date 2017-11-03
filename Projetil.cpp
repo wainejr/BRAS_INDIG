@@ -32,13 +32,13 @@ void Projetil::atualizar()
 }
 
 
-void Projetil::setArmaProj(ArmaDeAlcance* const pArma)
+void Projetil::setArmaProj(Arma* const pArma)
 {
 	armaProjetil = pArma;
 }
 
 
-ArmaDeAlcance* const Projetil::getArmaProj()
+Arma* const Projetil::getArmaProj()
 {
 	return armaProjetil;
 }

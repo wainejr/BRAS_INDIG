@@ -1,7 +1,7 @@
 #pragma once
-#include "ArmaDeAlcance.h"
+#include "Arma.h"
 class Arco :
-	public ArmaDeAlcance
+	public Arma
 {
 private:
 	float forca;

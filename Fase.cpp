@@ -90,6 +90,7 @@ bool Fase::colisaoPlayerInimigo(Jogador* const pPlayer, Inimigo* const pInimigo)
 void Fase::atualizaFase()
 {
 	atualizaObjs();
+	atualizaPosFase();
 	ataqueInimigos();
 	gerenciaColisoes();
 	
@@ -261,7 +262,14 @@ void Fase::ataqueInimigos()
 		Mosqueteiro* pMosq = mosqueteiros.objI(i);
 		if (pMosq->getAtivo())
 		{
-			projeteis.addObj(pMosq->atirar(pMosq->getAlvo()->getX(), pMosq->getAlvo()->getY()));
+			projeteis.addObj(pMosq->atirar());
 		}
 	}
+}
+
+
+void Fase::atualizaPosFase()
+{
+	//	FAZER COM QUE A FASE SE MOVA COM RELAÇÃO AO PLAYER E 
+	//	ATUALIZAR OS OUTROS OBJETOS DA FASE COM RELAÇÃO A ISSO TMB
 }

@@ -75,9 +75,6 @@
     <ClInclude Include="ChefaoCapitao.h">
       <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
     </ClInclude>
-    <ClInclude Include="ArmaDeAlcance.h">
-      <Filter>Header Files\Entidades\Armas</Filter>
-    </ClInclude>
     <ClInclude Include="Corda.h">
       <Filter>Header Files\Entidades\Plataformas</Filter>
     </ClInclude>
@@ -183,9 +180,6 @@
       <Filter>Source Files\Entidades\Armas</Filter>
     </ClCompile>
     <ClCompile Include="Arma.cpp">
-      <Filter>Source Files\Entidades\Armas</Filter>
-    </ClCompile>
-    <ClCompile Include="ArmaDeAlcance.cpp">
       <Filter>Source Files\Entidades\Armas</Filter>
     </ClCompile>
     <ClCompile Include="Espada.cpp">

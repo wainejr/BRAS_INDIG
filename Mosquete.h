@@ -1,7 +1,7 @@
 #pragma once
-#include "ArmaDeAlcance.h"
+#include "Arma.h"
 class Mosquete :
-	public ArmaDeAlcance
+	public Arma
 {
 public:
 	Mosquete();

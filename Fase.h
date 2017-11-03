@@ -65,4 +65,5 @@ public:
 	virtual void initFase() = 0;
 	virtual void execFase() = 0;
 	void ataqueInimigos();
+	void atualizaPosFase();
 };

@@ -1,5 +1,7 @@
 #pragma once
 #include "Entidade.h"
+#include "Projetil.h"
+
 class Personagem;
 
 class Arma :
