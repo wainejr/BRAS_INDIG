@@ -14,7 +14,7 @@ public:
 	virtual void mover();
 	virtual void atacar();
 	virtual void atualizar();
-	virtual void draw() = 0;
+	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;
 	void setAlvo(Jogador* const pJog);
 	Jogador* const getAlvo();
 };

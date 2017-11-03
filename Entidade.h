@@ -69,7 +69,7 @@ public:
 	void setVelMaxY(const float aVelMaxY);
 
 	const int getID();
-	virtual void draw() = 0;
+	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;
 	void setVelX(const float aVelX);
 	const int getVelX();
 	void setVelY(const float aVelY);

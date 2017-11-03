@@ -44,3 +44,8 @@ void Arco::builderArco(const int ax, const int ay, const int aLimX, const int aL
 	dano = aDano;
 	donoArma = pDonoArma;
 }
+
+void Arco::draw(const int aPosFaseX, const int aPosFaseY)
+{
+
+}

@@ -19,7 +19,7 @@ public:
 	void setChances(const int aChances);
 	// para cordas
 	void subir();
-	void draw();
+	void draw(const int aPosFaseX, const int aPosFaseY);
 
 	// para não tomar dano seguidamente
 	const bool getInvuneravel();

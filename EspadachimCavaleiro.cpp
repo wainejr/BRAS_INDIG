@@ -55,3 +55,8 @@ void EspadachimCavaleiro::setCavalo(const bool aCavalo)
 {
 	cavalo = aCavalo;
 }
+
+void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
+{
+
+}

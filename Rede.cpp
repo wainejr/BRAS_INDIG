@@ -46,3 +46,8 @@ const bool Rede::getAtivada()
 {
 	return ativada;
 }
+
+
+void Rede::draw(const int aPosFaseX, const int aPosFaseY)
+{
+}

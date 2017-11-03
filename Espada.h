@@ -6,7 +6,7 @@ class Espada :
 public:
 	Espada();
 	~Espada();
-	void draw();
+	void draw(const int aPosFaseX, const int aPosFaseY);
 	void builderEspada(const int ax, const int ay, const int aLimX, const int aLimY, const bool aFisica, const bool aAtivo, const int aDano, Personagem* const pDonoArma);
 	void atacar();
 };

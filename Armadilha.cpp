@@ -22,3 +22,8 @@ void Armadilha::builderArmadilha(const int ax, const int ay, const int aLimX, co
 	ativo = aAtivo;
 	dano = aDano;
 }
+
+
+void Armadilha::draw(const int aPosFaseX, const int aPosFaseY)
+{
+}

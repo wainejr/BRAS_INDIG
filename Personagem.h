@@ -22,7 +22,7 @@ public:
 	virtual void atacar();
 	virtual void atualizar() = 0;
 	void atualizaArma();
-	virtual void draw() = 0;
+	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;
 
 	void setArma(Arma* const pArma);
 	void setDir(bool const aDir);

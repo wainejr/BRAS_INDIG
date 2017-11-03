@@ -14,6 +14,6 @@ public:
 	void atualizar();
 	void setArmaProj(Arma* const pArma);
 	Arma* const getArmaProj();
-	void draw();
+	void draw(const int aPosFaseX, const int aPosFaseY);
 };
 

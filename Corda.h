@@ -11,7 +11,7 @@ public:
 private:
 	bool escalavel;
 public:
-	void draw();
+	void draw(const int aPosFaseX, const int aPosFaseY);
 	void builderCorda(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const bool aEscalavel);
 };
 

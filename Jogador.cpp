@@ -83,9 +83,9 @@ void Jogador::atualizar()
 }
 
 
-void Jogador::draw()
+void Jogador::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX, posY, posX + limX, posY - limY, al_map_rgb(0, 255, 0));
+	al_draw_filled_rectangle(posX- aPosFaseX, posY - aPosFaseY, posX + limX- aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0));
 }
 
 

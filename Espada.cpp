@@ -31,7 +31,7 @@ void Espada::atacar()
 }
 
 
-void Espada::draw()
+void Espada::draw(const int aPosFaseX, const int aPosFaseY)
 {
 
 }

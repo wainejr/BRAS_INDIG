@@ -27,6 +27,7 @@ protected:
 	int limX;
 	int limY;
 	int posRelX;
+	int posRelY;
 
 	void gerenciaColisoes(); //tiros, ataques e afins
 	void desenhaObjs();
@@ -66,4 +67,5 @@ public:
 	virtual void execFase() = 0;
 	void ataqueInimigos();
 	void atualizaPosFase();
+	void atualizaPosEntidades();
 };

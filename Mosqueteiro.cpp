@@ -48,17 +48,17 @@ void Mosqueteiro::atualizar()
 }
 
 
-void Mosqueteiro::draw()
+void Mosqueteiro::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX, posY, posX + limX, posY - limY, al_map_rgb(255, 0, 255));
+	al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX + limX-aPosFaseX, posY - limY-aPosFaseY, al_map_rgb(255, 0, 255));
 }
 
 Projetil* const Mosqueteiro::atirar()
 {
 	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
 	Projetil* pProj = new Projetil();
-	float cadj = alvo->getX() - arma->getX();
-	float coposto = -(alvo->getY() - arma->getY());
+	float cadj = alvo->getX()+alvo->getLimX()/2 - arma->getX();
+	float coposto = -(alvo->getY()-alvo->getLimY()/2 - arma->getY());
 	float hip = sqrt(cadj*cadj + coposto*coposto);
 	pProj->builderProjetil(arma->getX(), arma->getY(), 1, 1, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
 	pProj->setArmaProj(arma);

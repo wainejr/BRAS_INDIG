@@ -5,6 +5,7 @@ Fase::Fase()
 	limX = 0;
 	limY = 0;
 	posRelX = 0;
+	posRelY = 0;
 	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer, 3);
 }
 
@@ -27,16 +28,20 @@ void Fase::gerenciaColisoes()
 }
 
 
-bool Fase::colisaoChao(Personagem* const pEnt)
+bool Fase::colisaoChao(Personagem* const pPers)
 {
 	Plataforma* pPlat;
-	if (pEnt->getAtivo()) {
+	if (pPers->getAtivo()) 
+	{
 		for (int i = 0; i < plataformas.numObjs(); i++)
 		{
 			pPlat = plataformas.objI(i);
 			if (pPlat->getAtivo())
-				if (colisaoPersChao(pEnt, pPlat))
+			{	if (colisaoPersChao(pPers, pPlat))
+				{
 					return true;
+				}
+			}
 		}
 	}
 	return false;
@@ -61,22 +66,23 @@ bool Fase::colisaoInimigo(Jogador* const pJog)
 
 bool Fase::colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma)
 {
-	//	checa apenas o pe do personagem se bateu no chão 
+	//	checa apenas se o pe do personagem se bateu no chão 
 	if ((pPers->getY()) >= (pPlataforma->getY() - pPlataforma->getLimY()) &&
 		pPers->getX() < (pPlataforma->getX() + pPlataforma->getLimX()) &&
 		(pPers->getX() + pPers->getLimX()) > pPlataforma->getX())
 	{
 		//	se a diferença da entre a plataforma e a o ponto mais alto do 
-		//	personagem for pelo menos de um player - VEL_PULO-1 (valor 
-		//	para garantir que o player não passará reto da plataforma)
-		//	de altura e se o personagem estiver caindo...
-		if (pPers->getVelY() < 0 && (pPers->getY() - pPers->getLimY() -
-			(pPlataforma->getY() - pPlataforma->getLimY())) < -pPers->getLimY() + VEL_PULO+1)
+		//	personagem for pelo menos da altura do player - VEL_PULO - 1 
+		//	(valor para garantir que o personagem não passará reto da 
+		//	plataforma) de altura e se o personagem estiver caindo...
+		if (pPers->getVelY() <= 0 && (pPers->getY() -
+			(pPlataforma->getY() - pPlataforma->getLimY())) < VEL_PULO+1)
 		{
 			pPers->setY(pPlataforma->getY() - pPlataforma->getLimY());
 			pPers->setVelY(0);
+			return true;
 		}
-		return true;
+		return false;
 	}
 	return false;
 }
@@ -97,10 +103,9 @@ bool Fase::colisaoPlayerInimigo(Jogador* const pPlayer, Inimigo* const pInimigo)
 void Fase::atualizaFase()
 {
 	atualizaObjs();
-	atualizaPosFase();
 	ataqueInimigos();
 	gerenciaColisoes();
-	
+	atualizaPosFase();
 }
 
 
@@ -112,8 +117,9 @@ void Fase::atualizaObjs()
 	{
 		if (jogadores.objI(i)->getAtivo())
 		{
-			if (jogadores.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(jogadores.objI(i))))
-				jogadores.objI(i)->cair(((float)GRAV/FPS));
+			if (jogadores.objI(i)->getFisica())
+				if (!personagemPodePular(static_cast<Personagem*>(jogadores.objI(i))))
+					jogadores.objI(i)->cair(((float)GRAV / FPS));
 			jogadores.objI(i)->atualizar();
 		}
 	}
@@ -167,7 +173,7 @@ void Fase::desenhaJogadores()
 	for (int i = 0; i < jogadores.numObjs(); i++)
 	{
 		if (jogadores.objI(i)->getAtivo())
-			jogadores.objI(i)->draw();
+			jogadores.objI(i)->draw(posRelX, posRelY);
 	}
 }
 
@@ -177,13 +183,13 @@ void Fase::desenhaInimigos()
 	for (int i = 0; i < inimigos.numObjs(); i++)
 	{
 		if (inimigos.objI(i)->getAtivo())
-			inimigos.objI(i)->draw();
+			inimigos.objI(i)->draw(posRelX, posRelY);
 	}
 	for (int i = 0; i < mosqueteiros.numObjs(); i++)
 	{
 		if (mosqueteiros.objI(i)->getAtivo())
 		{
-			mosqueteiros.objI(i)->draw();
+			mosqueteiros.objI(i)->draw(posRelX, posRelY);
 		}
 	}
 }
@@ -194,7 +200,7 @@ void Fase::desenhaPlataformas()
 	for (int i = 0; i < plataformas.numObjs(); i++)
 	{
 		if (plataformas.objI(i)->getAtivo())
-			plataformas.objI(i)->draw();
+			plataformas.objI(i)->draw(posRelX, posRelY);
 	}
 }
 
@@ -204,7 +210,7 @@ void Fase::desenhaProjeteis()
 	for (int i = 0; i < projeteis.numObjs(); i++)
 	{
 		if (projeteis.objI(i)->getAtivo())
-			projeteis.objI(i)->draw();
+			projeteis.objI(i)->draw(posRelX, posRelY);
 	}
 }
 
@@ -280,4 +286,24 @@ void Fase::atualizaPosFase()
 {
 	//	FAZER COM QUE A FASE SE MOVA COM RELAÇÃO AO PLAYER E 
 	//	ATUALIZAR OS OUTROS OBJETOS DA FASE COM RELAÇÃO A ISSO TMB
+	if (posRelX >= 0)
+	{
+		//MUDAR ESSA CONODIÇÃO DEPOIS PARA QUANDO FOREM 2 PLAYERS
+		if (jogadores.objI(0)->getX() > (posRelX+LARG/2))
+		{
+			posRelX = jogadores.objI(0)->getX() - LARG / 2;
+		}
+		else if (jogadores.objI(0)->getX() < (posRelX+LARG / 10))
+		{
+			posRelX = jogadores.objI(0)->getX() - LARG / 10;
+		}
+	}
+	if (posRelX < 0)
+		posRelX = 0;
+}
+
+
+void Fase::atualizaPosEntidades()
+{
+
 }

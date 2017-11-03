@@ -29,3 +29,8 @@ void Lanca::builderLanca(const int ax, const int ay, const int aLimX, const int 
 void Lanca::atacar()
 {
 }
+
+void Lanca::draw(const int aPosFaseX, const int aPosFaseY)
+{
+
+}

@@ -69,8 +69,8 @@ void Espadachim::atualizar()
 
 
 
-void Espadachim::draw()
+void Espadachim::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX, posY, posX + limX, posY - limY, al_map_rgb(255, 0, 0));
+	al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX + limX-aPosFaseX, posY - limY-aPosFaseY, al_map_rgb(255, 0, 0));
 }
 

@@ -31,6 +31,6 @@ void Mosquete::atacar()
 }
 
 
-void Mosquete::draw()
+void Mosquete::draw(const int aPosFaseX, const int aPosFaseY)
 {
 }
