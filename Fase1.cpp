@@ -41,12 +41,15 @@ void Fase1::initFase()
 	chao.setX(0);
 	chao.setY(ALT);
 
+	plat1.builderPlataforma(200, ALT - 70, 100, 10, true);
+
 	player1.setX(20);
 	player1.setY(50);
 
 	addInimigo(&inimigo1);
 	addMosqueteiro(&inimigoMosq1);
 	addPlataforma(&chao);
+	addPlataforma(&plat1);
 	addPlayer(&player1);
 
 	// -------------   INICIALIZAÇÕES	--------------

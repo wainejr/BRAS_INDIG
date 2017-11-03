@@ -64,10 +64,7 @@ void Jogador::moverEsq()
 
 void Jogador::pular()
 {
-	if (velY == 0) 
-	{
-		velY = VEL_PULO;
-	}
+	velY = VEL_PULO;
 }
 
 

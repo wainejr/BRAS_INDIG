@@ -61,14 +61,21 @@ bool Fase::colisaoInimigo(Jogador* const pJog)
 
 bool Fase::colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma)
 {
-	//	checa apenas o pe do personagem se bateu no chao, caso 
-	//	afirmativo coloca o pé do player na altura da plataforma
-	if (pPers->getY() > (pPlataforma->getY() - pPlataforma->getLimY()) &&
+	//	checa apenas o pe do personagem se bateu no chão 
+	if ((pPers->getY()) >= (pPlataforma->getY() - pPlataforma->getLimY()) &&
 		pPers->getX() < (pPlataforma->getX() + pPlataforma->getLimX()) &&
 		(pPers->getX() + pPers->getLimX()) > pPlataforma->getX())
 	{
-		pPers->setY(pPlataforma->getY() - pPlataforma->getLimY());
-		pPers->setVelY(0);
+		//	se a diferença da entre a plataforma e a o ponto mais alto do 
+		//	personagem for pelo menos de um player - VEL_PULO-1 (valor 
+		//	para garantir que o player não passará reto da plataforma)
+		//	de altura e se o personagem estiver caindo...
+		if (pPers->getVelY() < 0 && (pPers->getY() - pPers->getLimY() -
+			(pPlataforma->getY() - pPlataforma->getLimY())) < -pPers->getLimY() + VEL_PULO+1)
+		{
+			pPers->setY(pPlataforma->getY() - pPlataforma->getLimY());
+			pPers->setVelY(0);
+		}
 		return true;
 	}
 	return false;
@@ -212,6 +219,7 @@ void Fase::addInimigo(Inimigo* const pInimigo)
 {
 	inimigos.addObj(pInimigo);
 }
+
 
 void Fase::addMosqueteiro(Mosqueteiro* const pMosq)
 {

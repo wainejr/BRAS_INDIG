@@ -8,6 +8,7 @@ class Fase1 :
 private:
 	Espadachim inimigo1;
 	Plataforma chao;
+	Plataforma plat1;
 	Espada armaInimigo;
 	Mosqueteiro inimigoMosq1;
 	Mosquete armaMosq1;

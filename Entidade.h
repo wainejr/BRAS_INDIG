@@ -8,7 +8,7 @@
 
 //MUDAR OS BUILDERS AO FINAL DO PROJETO PARA MAIOR FACILIDADE DE DESENVOLVIMENTO
 
-#define VEL_PULO 7
+#define VEL_PULO 5
 //	10 vezes a aceleração real em x
 #define ACEL10_X_PERS 5
 #define VEL_MAX_X_PERS 3
