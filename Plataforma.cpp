@@ -4,6 +4,7 @@
 
 Plataforma::Plataforma()
 {
+	ID = PLATAFORMA;
 }
 
 

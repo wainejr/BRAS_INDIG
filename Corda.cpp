@@ -4,6 +4,7 @@
 
 Corda::Corda()
 {
+	ID = CORDA;
 }
 
 

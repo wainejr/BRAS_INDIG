@@ -5,6 +5,7 @@
 Arco::Arco()
 {
 	forca = 0.0f;
+	ID = ARCO;
 }
 
 

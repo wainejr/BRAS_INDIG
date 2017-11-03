@@ -1,5 +1,5 @@
 #pragma once
-#include "Fase.h"
+#include "Fase1.h"
 
 enum ESTADOS{FASE, MENUPRINCIPAL, MENUPAUSE};
 
@@ -13,12 +13,9 @@ private:
 	ALLEGRO_FONT* arial18 = NULL;
 
 	//OBJETOS
-	Fase fasePrototipo;
+	Fase1 fasePrototipo;
 	Jogador player;
-	Espadachim inimigo1;
-	Plataforma chao;
-	Espada armaPlayer;
-	Espada armaInimigo;
+	
 
 	void exec();
 public:

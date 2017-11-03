@@ -4,6 +4,8 @@
 
 Espadachim::Espadachim()
 {
+	ID = ESPADACHIM;
+	fisica = true;
 }
 
 

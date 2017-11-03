@@ -2,13 +2,25 @@
 #include "definesMacros.h"
 #include "EntConcreteClasses.h"
 #include "Lista.h"
+#include <allegro5\allegro.h>
+#include <allegro5\allegro_primitives.h>
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 
 class Fase
 {	
 protected:
-	//	DECIDIR SE AS LISTAS DE ENTIDADES SERÃO TEMPLATES OU SÓ RECEBERÃO 
-	//	ENTIDADES OU FAZER LISTAS DERIVADAS DE LISTA ENTIDADE
+	//VARIAVEIS ALLEGRO
+	ALLEGRO_DISPLAY* display = NULL;
+	ALLEGRO_TIMER* timer = NULL;
+	ALLEGRO_EVENT_QUEUE* queue = NULL;
+	ALLEGRO_FONT* arial18 = NULL;
+
+	Jogador player1;
+	Mosquete armaPlayer;
+
 	Lista <Plataforma*> plataformas;
+	Lista <Mosqueteiro*> mosqueteiros;
 	Lista <Inimigo*> inimigos;
 	Lista <Jogador*> jogadores;
 	Lista <Projetil*> projeteis;
@@ -32,14 +44,13 @@ public:
 	void addInimigo(Inimigo* const pInimigo);
 	void addPlayer(Jogador* const pPlayer);
 	void addProjetil(Projetil* const pProj);
+	void addMosqueteiro(Mosqueteiro* const pMosq);
 
 	bool personagemPodePular(Personagem* const pPers);
 	void atualizaFase();
 	void atualizaPlayer();
 	void atualizaInimigos();
 	void atualizaProjeteis();
-
-	void desenhaFase();
 
 	const int getLimX();
 	void setLimX(const int aLimX);
@@ -51,6 +62,7 @@ public:
 	void desenhaInimigos();
 	void desenhaPlataformas();
 	void desenhaProjeteis();
-	const bool personagemPodeAndarDireita(Personagem* const pPers);
-	const bool personagemPodeAndarEsquerda(Personagem* const pPers);
+	virtual void initFase() = 0;
+	virtual void execFase() = 0;
+	void ataqueInimigos();
 };

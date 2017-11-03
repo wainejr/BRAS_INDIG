@@ -4,6 +4,7 @@
 
 Espinho::Espinho()
 {
+	ID = ESPINHO;
 }
 
 

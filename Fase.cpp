@@ -5,6 +5,7 @@ Fase::Fase()
 	limX = 0;
 	limY = 0;
 	posRelX = 0;
+	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer, 3);
 }
 
 
@@ -89,7 +90,9 @@ bool Fase::colisaoPlayerInimigo(Jogador* const pPlayer, Inimigo* const pInimigo)
 void Fase::atualizaFase()
 {
 	atualizaObjs();
+	ataqueInimigos();
 	gerenciaColisoes();
+	
 }
 
 
@@ -118,11 +121,25 @@ void Fase::atualizaObjs()
 		}
 	}
 
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		if (mosqueteiros.objI(i)->getAtivo())
+		{
+			if (mosqueteiros.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(mosqueteiros.objI(i))))
+				mosqueteiros.objI(i)->cair(((float)GRAV / FPS));
+			mosqueteiros.objI(i)->atualizar();
+		}
+	}
+
 	//atualizaProjeteis();
 	for (i = 0; i < projeteis.numObjs(); i++)
 	{
-		if (projeteis.objI(i)->getAtivo())
-			projeteis.objI(i)->atualizar();
+		Projetil* pProj = projeteis.objI(i);
+		if (pProj->getX() > LARG || pProj->getX() < 0 ||
+			pProj->getY() > ALT || pProj->getY() < 0 )
+			projeteis.deleteObj(pProj);
+		else if (pProj->getAtivo())
+			pProj->atualizar();
 	}
 
 }
@@ -136,11 +153,6 @@ void Fase::desenhaObjs()
 	desenhaJogadores();
 }
 
-
-void Fase::desenhaFase()
-{
-	desenhaObjs();
-}
 
 void Fase::desenhaJogadores()
 {
@@ -158,6 +170,13 @@ void Fase::desenhaInimigos()
 	{
 		if (inimigos.objI(i)->getAtivo())
 			inimigos.objI(i)->draw();
+	}
+	for (int i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		if (mosqueteiros.objI(i)->getAtivo())
+		{
+			mosqueteiros.objI(i)->draw();
+		}
 	}
 }
 
@@ -191,6 +210,11 @@ void Fase::addPlataforma(Plataforma* const pPlataforma)
 void Fase::addInimigo(Inimigo* const pInimigo)
 {
 	inimigos.addObj(pInimigo);
+}
+
+void Fase::addMosqueteiro(Mosqueteiro* const pMosq)
+{
+	mosqueteiros.addObj(pMosq);
 }
 
 
@@ -229,13 +253,15 @@ void Fase::setLimY(const int aLimY)
 	limY = aLimY;
 }
 
-const bool Fase::personagemPodeAndarDireita(Personagem* const pPers)
-{
-	return false;
-}
 
-
-const bool Fase::personagemPodeAndarEsquerda(Personagem* const pPers)
+void Fase::ataqueInimigos()
 {
-	return false;
+	for (int i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		Mosqueteiro* pMosq = mosqueteiros.objI(i);
+		if (pMosq->getAtivo())
+		{
+			projeteis.addObj(pMosq->atirar(pMosq->getAlvo()->getX(), pMosq->getAlvo()->getY()));
+		}
+	}
 }

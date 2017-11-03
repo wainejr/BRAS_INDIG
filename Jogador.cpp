@@ -8,7 +8,12 @@ Jogador::Jogador()
 	velMaxX = VEL_MAX_X_JOG;
 	velMaxY = VEL_PULO;
 	num_jogs++;
-	chances = 0;
+	chances = 3;
+	fisica = true;
+	if (num_jogs == 1)
+		ID = JOGADOR1;
+	else if (num_jogs == 2)
+		ID = JOGADOR2;
 }
 
 

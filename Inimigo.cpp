@@ -4,6 +4,7 @@ Inimigo::Inimigo()
 {
 	velMaxX = VEL_MAX_X_PERS;
 	velMaxY = VEL_PULO;
+	fisica = true;
 }
 
 

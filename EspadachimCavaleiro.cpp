@@ -4,6 +4,8 @@
 
 EspadachimCavaleiro::EspadachimCavaleiro()
 {
+	ID = ESP_CAVALEIRO;
+	fisica = true;
 }
 
 

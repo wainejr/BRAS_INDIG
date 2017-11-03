@@ -4,7 +4,8 @@
 
 Personagem::Personagem()
 {
-	vida = 0;
+	fisica = true;
+	vida = 10;
 	dir = true;
 }
 

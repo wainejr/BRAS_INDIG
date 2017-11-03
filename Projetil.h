@@ -1,5 +1,7 @@
 #pragma once
-#include "ArmaDeAlcance.h"
+#include "Entidade.h"
+class ArmaDeAlcance;
+
 class Projetil :
 	public Entidade
 {
@@ -12,5 +14,6 @@ public:
 	void atualizar();
 	void setArmaProj(ArmaDeAlcance* const pArma);
 	ArmaDeAlcance* const getArmaProj();
+	void draw();
 };
 

@@ -4,6 +4,7 @@
 
 Lanca::Lanca()
 {
+	ID = LANCA;
 }
 
 

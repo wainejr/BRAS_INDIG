@@ -4,6 +4,7 @@
 
 Rede::Rede()
 {
+	ID = REDE;
 }
 
 

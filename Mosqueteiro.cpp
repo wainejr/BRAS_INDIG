@@ -4,6 +4,8 @@
 
 Mosqueteiro::Mosqueteiro()
 {
+	ID = MOSQUETEIRO;
+	fisica = true;
 }
 
 
@@ -44,8 +46,14 @@ void Mosqueteiro::atualizar()
 
 void Mosqueteiro::draw()
 {
-	al_draw_filled_rectangle(posX, posY, posX + limX, posY - limY, al_map_rgb(255, 0, 0));
+	al_draw_filled_rectangle(posX, posY, posX + limX, posY - limY, al_map_rgb(255, 0, 255));
 }
 
-
-
+Projetil* const Mosqueteiro::atirar(const int ax, const int ay)
+{
+	//	NAO ESQUECER DE DAR DELETE DEPOIS DE MUDAR 
+	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
+	Projetil* pProj = new Projetil();
+	pProj->builderProjetil(posX, posY, 1, 1, VEL_MAX_PROJ*(ax-posX) / sqrt((ax- posX)*(ax- posX) + (ay-posY)*(ay-posY)), VEL_MAX_PROJ*(-(ay - posY)) / sqrt((ax - posX)*(ax - posX) + (ay - posY)*(ay - posY)), true);
+	return pProj;
+}

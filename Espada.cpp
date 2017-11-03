@@ -4,6 +4,7 @@
 
 Espada::Espada()
 {
+	ID = ESPADA;
 }
 
 

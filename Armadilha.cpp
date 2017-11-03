@@ -4,6 +4,7 @@
 
 Armadilha::Armadilha()
 {
+	ID = ARMADILHA;
 }
 
 

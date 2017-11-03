@@ -4,6 +4,7 @@
 
 Mosquete::Mosquete()
 {
+	ID = MOSQUETE;
 }
 
 
@@ -26,5 +27,10 @@ void Mosquete::builderMosquete(const int ax, const int ay, const int aLimX, cons
 
 
 void Mosquete::atacar()
+{
+}
+
+
+void Mosquete::draw()
 {
 }

@@ -4,6 +4,8 @@
 
 ChefaoCapitao::ChefaoCapitao()
 {
+	ID = CHEFAO_CAP;
+	fisica = true;
 }
 
 
