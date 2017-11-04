@@ -35,14 +35,14 @@ void Espadachim::mover()
 		if (posX - DIFF_PIXELS_PARAR_X > (alvo->getX() + alvo->getLimX()))
 		{
 			if (velX > -velMaxX)
-				velX-= (float) ACEL10_X_PERS / 10;
+				velX-= (float)ACEL_X_PERS;
 			else
 				velX = -velMaxX;
 		}
 		else if ((posX + limX) < (alvo->getX() - DIFF_PIXELS_PARAR_X))
 		{
 			if (velX < velMaxX)
-				velX+= (float)ACEL10_X_PERS / 10;
+				velX+= (float) ACEL_X_PERS;
 			else
 				velX = velMaxX;
 		}

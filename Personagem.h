@@ -28,5 +28,10 @@ public:
 	void setDir(bool const aDir);
 	const bool getDir();
 	void cair(const float acAt);
+protected:
+	bool ataque;
+public:
+	void setAtaque(const bool aAt);
+	const bool getAtaque();
 };
 

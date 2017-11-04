@@ -87,9 +87,20 @@ void Personagem::parar()
 		}
 		else if (velX > 0)
 		{
-			velX -= (float)ACEL10_X_PERS / 10;
+			velX -= (float)ACEL_X_PERS;
 		}
 		else
-			velX += (float)ACEL10_X_PERS / 10;
+			velX += (float)ACEL_X_PERS;
 	}
+}
+
+void Personagem::setAtaque(const bool aAt)
+{
+	ataque = aAt;
+}
+
+
+const bool Personagem::getAtaque()
+{
+	return ataque;
 }

@@ -28,6 +28,7 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const int aLimX
 
 void Mosqueteiro::mover()
 {
+
 }
 
 
@@ -57,6 +58,7 @@ Projetil* const Mosqueteiro::atirar()
 {
 	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
 	Projetil* pProj = new Projetil();
+	pProj->setID(PROJETIL_INI);
 	float cadj = alvo->getX()+alvo->getLimX()/2 - arma->getX();
 	float coposto = -(alvo->getY()-alvo->getLimY()/2 - arma->getY());
 	float hip = sqrt(cadj*cadj + coposto*coposto);

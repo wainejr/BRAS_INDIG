@@ -4,7 +4,6 @@
 
 Projetil::Projetil()
 {
-	ID = PROJETIL;
 }
 
 

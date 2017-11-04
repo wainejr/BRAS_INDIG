@@ -24,7 +24,35 @@ bool Fase::personagemPodePular(Personagem* const pPers)
 
 void Fase::gerenciaColisoes()
 {
-
+	int i;
+	for (i = 0; i < jogadores.numObjs(); i++)
+	{
+		if (jogadores.objI(i)->getAtivo() && !jogadores.objI(i)->getInvuneravel())
+		{
+			colisaoProjeteis(static_cast<Personagem*>(jogadores.objI(i)));
+		}
+	}
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		if (mosqueteiros.objI(i)->getAtivo())
+		{
+			colisaoProjeteis(static_cast<Personagem*>(mosqueteiros.objI(i)));
+		}
+	}
+	for (i = 0; i < espadachins.numObjs(); i++)
+	{
+		if (espadachins.objI(i)->getAtivo())
+		{
+			colisaoProjeteis(static_cast<Personagem*>(espadachins.objI(i)));
+		}
+	}
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		if (cavaleiros.objI(i)->getAtivo())
+		{
+			colisaoProjeteis(static_cast<Personagem*>(cavaleiros.objI(i)));
+		}
+	}
 }
 
 
@@ -52,9 +80,23 @@ bool Fase::colisaoInimigo(Jogador* const pJog)
 {
 	Inimigo* pIni;
 	if (pJog->getAtivo()) {
-		for (int i = 0; i < inimigos.numObjs(); i++)
+		for (int i = 0; i < espadachins.numObjs(); i++)
 		{
-			pIni = inimigos.objI(i);
+			pIni = static_cast<Inimigo*>(espadachins.objI(i));
+			if (pIni->getAtivo())
+				if (colisaoPlayerInimigo(pJog, pIni))
+					return true;
+		}
+		for (int i = 0; i < mosqueteiros.numObjs(); i++)
+		{
+			pIni = static_cast<Inimigo*>(mosqueteiros.objI(i));
+			if (pIni->getAtivo())
+				if (colisaoPlayerInimigo(pJog, pIni))
+					return true;
+		}
+		for (int i = 0; i < cavaleiros.numObjs(); i++)
+		{
+			pIni = static_cast<Inimigo*>(cavaleiros.objI(i));
 			if (pIni->getAtivo())
 				if (colisaoPlayerInimigo(pJog, pIni))
 					return true;
@@ -125,13 +167,13 @@ void Fase::atualizaObjs()
 	}
 
 	//atualizaInimigos();
-	for (i = 0; i < inimigos.numObjs(); i++)
+	for (i = 0; i < espadachins.numObjs(); i++)
 	{
-		if (inimigos.objI(i)->getAtivo())
+		if (espadachins.objI(i)->getAtivo())
 		{
-			if (inimigos.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(inimigos.objI(i))))
-				inimigos.objI(i)->cair(((float)GRAV /FPS));
-			inimigos.objI(i)->atualizar();
+			if (espadachins.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(espadachins.objI(i))))
+				espadachins.objI(i)->cair(((float)GRAV /FPS));
+			espadachins.objI(i)->atualizar();
 		}
 	}
 
@@ -145,12 +187,24 @@ void Fase::atualizaObjs()
 		}
 	}
 
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		if (cavaleiros.objI(i)->getAtivo())
+		{
+			if (cavaleiros.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(cavaleiros.objI(i))))
+				cavaleiros.objI(i)->cair(((float)GRAV / FPS));
+			cavaleiros.objI(i)->atualizar();
+		}
+	}
+
+
 	//atualizaProjeteis();
 	for (i = 0; i < projeteis.numObjs(); i++)
 	{
 		Projetil* pProj = projeteis.objI(i);
-		if (pProj->getX() > LARG || pProj->getX() < 0 ||
-			pProj->getY() > ALT || pProj->getY() < 0 )
+		// se estiver fora da tela, com uma tolerância de 20 pixels, exclui o projetil
+		if (pProj->getX() > (LARG+posRelX+20) || pProj->getX() < (posRelX-20) ||
+			pProj->getY() > (ALT-posRelY-20) || pProj->getY() < (-posRelY+20) )
 			projeteis.deleteObj(pProj);
 		else if (pProj->getAtivo())
 			pProj->atualizar();
@@ -180,17 +234,20 @@ void Fase::desenhaJogadores()
 
 void Fase::desenhaInimigos()
 {
-	for (int i = 0; i < inimigos.numObjs(); i++)
+	for (int i = 0; i < espadachins.numObjs(); i++)
 	{
-		if (inimigos.objI(i)->getAtivo())
-			inimigos.objI(i)->draw(posRelX, posRelY);
+		if (espadachins.objI(i)->getAtivo())
+			espadachins.objI(i)->draw(posRelX, posRelY);
 	}
 	for (int i = 0; i < mosqueteiros.numObjs(); i++)
 	{
 		if (mosqueteiros.objI(i)->getAtivo())
-		{
 			mosqueteiros.objI(i)->draw(posRelX, posRelY);
-		}
+	}
+	for (int i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		if (cavaleiros.objI(i)->getAtivo())
+			cavaleiros.objI(i)->draw(posRelX, posRelY);
 	}
 }
 
@@ -221,9 +278,9 @@ void Fase::addPlataforma(Plataforma* const pPlataforma)
 }
 
 
-void Fase::addInimigo(Inimigo* const pInimigo)
+void Fase::addEspadachim(Espadachim* const pEsp)
 {
-	inimigos.addObj(pInimigo);
+	espadachins.addObj(pEsp);
 }
 
 
@@ -276,7 +333,11 @@ void Fase::ataqueInimigos()
 		Mosqueteiro* pMosq = mosqueteiros.objI(i);
 		if (pMosq->getAtivo())
 		{
-			projeteis.addObj(pMosq->atirar());
+			if (al_get_timer_count(timer_mosq1) > 0)
+			{
+				projeteis.addObj(pMosq->atirar());
+				al_set_timer_count(timer_mosq1, 0);
+			}	
 		}
 	}
 }
@@ -284,8 +345,6 @@ void Fase::ataqueInimigos()
 
 void Fase::atualizaPosFase()
 {
-	//	FAZER COM QUE A FASE SE MOVA COM RELAÇÃO AO PLAYER E 
-	//	ATUALIZAR OS OUTROS OBJETOS DA FASE COM RELAÇÃO A ISSO TMB
 	if (posRelX >= 0)
 	{
 		//MUDAR ESSA CONODIÇÃO DEPOIS PARA QUANDO FOREM 2 PLAYERS
@@ -303,7 +362,67 @@ void Fase::atualizaPosFase()
 }
 
 
-void Fase::atualizaPosEntidades()
+void Fase::addCavaleiro(EspadachimCavaleiro* const pCav)
 {
+	cavaleiros.addObj(pCav);
+}
 
+
+void Fase::colisaoProjeteis(Personagem* const pPers)
+{
+	Projetil* pProj;
+	for (int i = 0; i < projeteis.numObjs(); i++)
+	{
+		pProj = projeteis.objI(i);
+		if (pProj->getAtivo())
+		{
+			//	se o projetil for do inimigo e o alvo jogador ou se o projetil
+			//	for do jogador e o alvo inimigo...
+			if (((	pPers->getID() == JOGADOR1 || pPers->getID() == JOGADOR2) &&
+					pProj->getID() == PROJETIL_INI) || ((pPers->getID() == ESP_CAVALEIRO ||
+					pPers->getID() == ESPADACHIM || pPers->getID() == MOSQUETEIRO ||
+					pPers->getID() == CHEFAO_CAP) && pProj->getID() == PROJETIL_JOG))
+			{
+				if (colisaoPersProj(pPers, pProj))
+				{
+					pPers->setVida(pPers->getVida() - pProj->getArmaProj()->getDano());
+					projeteis.deleteObj(pProj);
+				}
+			}
+		}
+	}
+}
+
+
+bool Fase::colisaoPersProj(Personagem* const pPers, Projetil* const pProj)
+{
+	// checa se o projetil "encostou" no personagem
+	if ((pPers->getY()) >= (pProj->getY() - pProj->getLimY()) &&
+		(pPers->getY()-pPers->getLimY()) <= pProj->getY() &&
+		pPers->getX() <= (pProj->getX() + pProj->getLimX()) &&
+		(pPers->getX() + pPers->getLimX()) >= pProj->getX())
+	{
+		return true;
+	}
+	return false;
+}
+
+
+void Fase::resetAllObjs()
+{
+	int i;
+	
+	for (i = 0; i < jogadores.numObjs(); i++)
+		jogadores.retirarObj(jogadores.objI(i));
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+		mosqueteiros.retirarObj(mosqueteiros.objI(i));
+	for (i = 0; i < espadachins.numObjs(); i++)
+		espadachins.retirarObj(espadachins.objI(i));
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+		cavaleiros.retirarObj(cavaleiros.objI(i));
+	//	os projeteis devem ser excluidos de trás para frente par não 
+	//	interferência do tamanho do vetor e a posição desse durante
+	//	as exlusões
+	for (i = projeteis.numObjs()-1; i >= 0; i--)
+		projeteis.deleteObj(projeteis.objI(i));
 }

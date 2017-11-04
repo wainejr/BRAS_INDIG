@@ -7,7 +7,7 @@ private:
 	static int num_jogs;
 	bool invuneravel;
 	int chances;
-	const int getChances();
+	
 
 public:
 	Jogador();
@@ -17,6 +17,7 @@ public:
 	void moverEsq();
 	void pular();
 	void setChances(const int aChances);
+	const int getChances();
 	// para cordas
 	void subir();
 	void draw(const int aPosFaseX, const int aPosFaseY);

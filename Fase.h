@@ -17,13 +17,17 @@ protected:
 	ALLEGRO_FONT* arial18 = NULL;
 
 	Jogador player1;
-	Mosquete armaPlayer;
+	Espada armaPlayer;
+
+	ALLEGRO_TIMER* timer_mosq1 = NULL;
 
 	Lista <Plataforma*> plataformas;
 	Lista <Mosqueteiro*> mosqueteiros;
-	Lista <Inimigo*> inimigos;
+	Lista <Espadachim*> espadachins;
+	Lista <EspadachimCavaleiro*> cavaleiros;
 	Lista <Jogador*> jogadores;
 	Lista <Projetil*> projeteis;
+
 	int limX;
 	int limY;
 	int posRelX;
@@ -42,7 +46,7 @@ public:
 	~Fase();
 	
 	void addPlataforma(Plataforma* const pPlataforma);
-	void addInimigo(Inimigo* const pInimigo);
+	void addEspadachim(Espadachim* const pEsp);
 	void addPlayer(Jogador* const pPlayer);
 	void addProjetil(Projetil* const pProj);
 	void addMosqueteiro(Mosqueteiro* const pMosq);
@@ -58,7 +62,6 @@ public:
 	const int getLimY();
 	void setLimY(const int aLimY);
 	
-	
 	void desenhaJogadores();
 	void desenhaInimigos();
 	void desenhaPlataformas();
@@ -67,5 +70,9 @@ public:
 	virtual void execFase() = 0;
 	void ataqueInimigos();
 	void atualizaPosFase();
-	void atualizaPosEntidades();
+	void addCavaleiro(EspadachimCavaleiro* const pCav);
+	void colisaoProjeteis(Personagem* const pPers);
+	bool colisaoPersProj(Personagem* const pPers, Projetil* const pProj);
+	virtual void restart() = 0;
+	void resetAllObjs();
 };

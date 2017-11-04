@@ -21,6 +21,7 @@ public:
 
 	void deleteObj(T aObj);
 	
+	void retirarObj(T aObj);
 };
 
 template <class T>
@@ -67,5 +68,12 @@ void Lista<T>::deleteObj(T aObj)
 			listObjs.erase(listObjs.begin() + i);
 			delete(aux);
 		}
+}
 
+template <class T>
+void Lista<T>::retirarObj(T aObj)
+{
+	for (int i = 0; i < (int)listObjs.size(); i++)
+		if (listObjs[i] == aObj)
+			listObjs.erase(listObjs.begin() + i);
 }

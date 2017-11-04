@@ -135,3 +135,9 @@ const int Entidade::getVelY()
 {
 	return velY;
 }
+
+
+void Entidade::setID(const int aID)
+{
+	ID = aID;
+}
