@@ -10,14 +10,14 @@ Fase1::Fase1()
 
 Fase1::~Fase1()
 {
-	al_destroy_timer(timer_mosq1);
+	
 }
 
 
 void Fase1::initFase()
 {
-	initObjs();
 	initAllegroObjs();
+	initObjs();
 	execFase();
 }
 
@@ -35,8 +35,8 @@ void Fase1::execFase()
 	bool keys[9] = { false, false, false, false, false, false, false, false, false };
 
 	// ----------- LOOP PRINCIPAL ---------------------
-	al_start_timer(timer_mosq1);
-	al_start_timer(timer);
+	criarTimers();
+	initTimers();
 	while (!done)
 	{
 		if (resetar)
@@ -167,7 +167,13 @@ void Fase1::initObjs()
 	chao.setY(ALT);
 
 	plat1.builderPlataforma(200, ALT - 70, 100, 10, true);
-
+	plat2.builderPlataforma(500, ALT - 70, 100, 10, true);
+	plat3.builderPlataforma(700, ALT - 70, 10, 10, true);
+	plat4.builderPlataforma(650, ALT - 10, 10, 80, true);
+	plat2.setColisaoBaixo(true);
+	plat3.setColisaoBaixo(true);
+	plat4.setColisaoBaixo(true);
+	
 	player1.setX(20);
 	player1.setY(50);
 
@@ -176,6 +182,9 @@ void Fase1::initObjs()
 	addCavaleiro(&cav1);
 	addPlataforma(&chao);
 	addPlataforma(&plat1);
+	addPlataforma(&plat2);
+	addPlataforma(&plat3);
+	addPlataforma(&plat4);
 	addPlayer(&player1);
 }
 
@@ -195,7 +204,6 @@ void Fase1::initAllegroObjs()
 	display = al_create_display(LARG, ALT);
 	queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / FPS);
-	timer_mosq1 = al_create_timer(PER_TIRO);
 
 	//----------	ADD FONTES À FILA DE EVENTOS		-------------
 	///setQueue();

@@ -56,4 +56,9 @@ void ChefaoCapitao::mandaCapangas2()
 {
 }
 
+void ChefaoCapitao::createTimers()
+{
+
+}
+
 

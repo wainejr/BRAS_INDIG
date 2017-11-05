@@ -78,3 +78,8 @@ void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 {
 	al_draw_filled_rounded_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, -5, -5, al_map_rgb(155, 100, 55));
 }
+
+void EspadachimCavaleiro::createTimers()
+{
+	timer_ataque = al_create_timer(PER_ATAQ_ESP);
+}

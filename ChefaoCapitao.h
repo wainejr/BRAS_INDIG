@@ -21,4 +21,5 @@ public:
 	void mandaCapangas1();
 	void mandaCapangas2();
 	void builderChefaoCapitao();
+	void createTimers();
 };

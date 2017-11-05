@@ -79,6 +79,14 @@ void Jogador::atualizar()
 {
 	posY -= velY;
 	posX += velX;
+	if (invuneravel)
+	{
+		if (al_get_timer_count(timer_invuneravel) >= 1)
+		{
+			invuneravel = false;
+			al_stop_timer(timer_invuneravel);
+		}
+	}
 	atualizaArma();
 	// continuar
 }
@@ -86,9 +94,11 @@ void Jogador::atualizar()
 
 void Jogador::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX- aPosFaseX, posY - aPosFaseY, posX + limX- aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0));
-	if (ataque)
-		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX() - aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(200, 255, 80));
+	if(invuneravel)
+		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 0, 255));
+	else
+		al_draw_filled_rectangle(posX- aPosFaseX, posY - aPosFaseY, posX + limX- aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0));
+	
 
 }
 
@@ -116,4 +126,32 @@ void Jogador::setInvuneravel(const bool aInv)
 	invuneravel = aInv;
 }
 
+void Jogador::initTimerInv()
+{
+	al_start_timer(timer_invuneravel);
+	//para o jogador não começar invunerável
+	al_set_timer_count(timer_invuneravel, 1);
+}
 
+
+void Jogador::tomaDano(const int aDano)
+{
+	vida -= aDano;
+	invuneravel = true;
+	//reseta o contador do timer
+	al_set_timer_count(timer_invuneravel, 0);
+	al_resume_timer(timer_invuneravel);
+}
+
+
+void Jogador::destroyTimerInv()
+{
+	al_destroy_timer(timer_invuneravel);
+}
+
+
+void Jogador::createTimers()
+{
+	timer_ataque = al_create_timer(PER_ATAQ_JOG);
+	timer_invuneravel = al_create_timer(TEMP_INVUN);
+}

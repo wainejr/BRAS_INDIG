@@ -7,6 +7,9 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 
+
+///FAZER UMA FUNÇÃO DO TIPO "PODE ANDAR PRA ESQUERDA/DIREITA"
+
 class Fase
 {	
 protected:
@@ -18,8 +21,6 @@ protected:
 
 	Jogador player1;
 	Espada armaPlayer;
-
-	ALLEGRO_TIMER* timer_mosq1 = NULL;
 
 	Lista <Plataforma*> plataformas;
 	Lista <Mosqueteiro*> mosqueteiros;
@@ -75,4 +76,9 @@ public:
 	bool colisaoPersProj(Personagem* const pPers, Projetil* const pProj);
 	virtual void restart() = 0;
 	void resetAllObjs();
+	void initTimers();
+	const bool colisaoEntEnt(Entidade* const pEnt1, Entidade* const pEnt2);
+	void criarTimers();
+	const bool colisaoPlat(Entidade* const pEnt);
+	const bool colisaoProjPlat(Projetil* const pProj);
 };

@@ -10,6 +10,9 @@ private:
 	EspadachimCavaleiro cav1;
 	Plataforma chao;
 	Plataforma plat1;
+	Plataforma plat2;
+	Plataforma plat3;
+	Plataforma plat4;
 	Espada armaInimigo;
 	Mosqueteiro inimigoMosq1;
 	Mosquete armaMosq1;

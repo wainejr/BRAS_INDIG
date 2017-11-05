@@ -21,8 +21,16 @@
 #define VEL_MAX_X_CAV 7
 #define VEL_MAX_PROJ 7
 #define VEL_SUBIDA 3
-#define PER_TIRO 1.2
 
+//Período de tempo entre ataques de cada Personagem
+#define PER_ATAQ_MOSQ 1.2
+#define PER_ATAQ_ESP 0.8
+#define PER_ATAQ_JOG 0.5
+
+
+//FAZER UM TIMER PARA QUANTO TEMPO O PERSONAGEM FICA NO ESTADO ATAQUE
+
+#define TEMP_INVUN 2
 #define VIDA_MAX_JOG 100
 #define DIFF_PIXELS_PARAR_X 10
 #define DIFF_PIXELS_SEGUIR_Y 40

@@ -104,3 +104,35 @@ const bool Personagem::getAtaque()
 {
 	return ataque;
 }
+
+
+void Personagem::initTimer()
+{
+	al_start_timer(timer_ataque);
+}
+
+
+void Personagem::destruirTimer()
+{
+	al_destroy_timer(timer_ataque);
+}
+
+
+const bool Personagem::persPodeAtacar()
+{
+	if (al_get_timer_count(timer_ataque) >= 1)
+		return true;
+
+	return false;
+}
+
+
+void Personagem::resetTimer()
+{
+	al_set_timer_count(timer_ataque, 0);
+}
+
+
+void Personagem::tomaDano(const int aDano)
+{
+}

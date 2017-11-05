@@ -59,10 +59,16 @@ Projetil* const Mosqueteiro::atirar()
 	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
 	Projetil* pProj = new Projetil();
 	pProj->setID(PROJETIL_INI);
-	float cadj = alvo->getX()+alvo->getLimX()/2 - arma->getX();
-	float coposto = -(alvo->getY()-alvo->getLimY()/2 - arma->getY());
+	float cadj = alvo->getX() + alvo->getLimX() / 2 - arma->getX();
+	float coposto = -(alvo->getY() - alvo->getLimY() / 2 - arma->getY());
 	float hip = sqrt(cadj*cadj + coposto*coposto);
 	pProj->builderProjetil(arma->getX(), arma->getY(), 1, 1, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
 	pProj->setArmaProj(arma);
+	al_set_timer_count(timer_ataque, 0);
 	return pProj;
+}
+
+void Mosqueteiro::createTimers()
+{
+	timer_ataque = al_create_timer(PER_ATAQ_MOSQ);
 }

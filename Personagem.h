@@ -33,5 +33,14 @@ protected:
 public:
 	void setAtaque(const bool aAt);
 	const bool getAtaque();
+protected:
+	ALLEGRO_TIMER*  timer_ataque;
+public:
+	void initTimer();
+	void destruirTimer();
+	const bool persPodeAtacar();
+	void resetTimer();
+	virtual void tomaDano(const int aDano);
+	virtual void createTimers() = 0;
 };
 
