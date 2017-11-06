@@ -38,7 +38,7 @@ void Personagem::atualizaArma()
 	else
 		arma->setX(posX - arma->getLimX());
 
-	arma->setY(posY-limY/2);
+	arma->setY(posY-limY/2+arma->getLimY()/2);
 }
 
 
@@ -136,20 +136,16 @@ const bool Personagem::persPodeAtacar()
 	return false;
 }
 
-
-void Personagem::resetTimer() //ver pra que serve isso
-{
-	al_set_timer_count(timer_ataque, 0);
-}
-
-
 void Personagem::tomaDano(const int aDano)
 {
-	vida -= aDano;
-	invuneravel = true;
-	//reseta o contador do timer
-	al_set_timer_count(timer_invuneravel, 0);
-	al_resume_timer(timer_invuneravel);
+	if (aDano > 0)
+	{
+		vida -= aDano;
+		invuneravel = true;
+		//reseta o contador do timer
+		al_set_timer_count(timer_invuneravel, 0);
+		al_resume_timer(timer_invuneravel);
+	}
 }
 
 const bool Personagem::getInvuneravel()
@@ -184,8 +180,15 @@ void Personagem::atualizaAtacando()
 		{
 			atacando = false;
 			al_stop_timer(timer_atacando);
-			al_resume_timer(timer_ataque);
-			al_set_timer_count(timer_ataque, 0);
 		}
+	}
+}
+
+
+void Personagem::atualizaAtaque()
+{
+	if (al_get_timer_count(timer_ataque) >= 1)
+	{
+		al_stop_timer(timer_ataque);
 	}
 }

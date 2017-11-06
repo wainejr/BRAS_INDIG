@@ -24,15 +24,14 @@
 
 //	Período de tempo entre ataques de cada Personagem 
 //	(sem contar o tempo que o pers fica em estado ataque)
-#define PER_ATAQ_MOSQ 1.2
-#define PER_ATAQ_ESP 0.8
-#define PER_ATAQ_JOG 0.5
+#define PER_ATAQ_MOSQ 2.5
+#define PER_ATAQ_ESP 2.0
+#define PER_ATAQ_JOG 1.0
 
 //Tempo que o jogador "fica" atacando, ou seja, que a arma fica esticada
 #define TEMP_ATAQ_JOG 0.2
 #define TEMP_ATAQ_ESP 0.3
 #define TEMP_ATAQ_MOSQ 0.1
-
 
 #define TEMP_INVUN_JOG 2.0
 #define TEMP_INVUN_MOSQ 0.5
@@ -59,6 +58,9 @@ protected:
 	//	A posição x e y correspondem a posição do canto esquerdo
 	//	inferior do objeto. A posição x+limX e y+limY correspondem
 	//	ao canto direito superior do objeto
+	//					---------------
+	//	A velocidade em y positiva corresponde ao personagem subir
+	//	na tela, negativa, descer.
 
 	float posX;
 	float posY;

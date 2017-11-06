@@ -47,7 +47,7 @@ void Mosqueteiro::atualizar()
 		dir = true;
 	else
 		dir = false;
-
+	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
 	atualizaArma();
@@ -56,7 +56,9 @@ void Mosqueteiro::atualizar()
 
 void Mosqueteiro::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX + limX-aPosFaseX, posY - limY-aPosFaseY, al_map_rgb(255, 0, 255));
+	al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 0, 255));
+	
+
 }
 
 Projetil* const Mosqueteiro::atirar()
@@ -70,8 +72,9 @@ Projetil* const Mosqueteiro::atirar()
 	pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
 	pProj->setArmaProj(arma);
 	atacando = true;
-	al_stop_timer(timer_ataque);
+	al_resume_timer(timer_ataque);
 	al_resume_timer(timer_atacando);
+	al_set_timer_count(timer_ataque, 0);
 	al_set_timer_count(timer_atacando, 0);
 	return pProj;
 }

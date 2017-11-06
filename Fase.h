@@ -37,10 +37,9 @@ protected:
 	void gerenciaColisoes(); //tiros, ataques e afins
 	void desenhaObjs();
 	void atualizaObjs();
-	bool colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma);
-	bool colisaoPlayerInimigo(Jogador* const pPlayer, Inimigo* const pInimigo);
-	bool colisaoChao(Personagem* const pEnt);
-	bool colisaoInimigo(Jogador* const pJog);
+	const bool colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma);
+	const bool colisaoChao(Personagem* const pEnt);
+	const bool colisaoInimigo(Jogador* const pJog);
 	
 public:
 	Fase();
@@ -52,7 +51,7 @@ public:
 	void addProjetil(Projetil* const pProj);
 	void addMosqueteiro(Mosqueteiro* const pMosq);
 
-	bool personagemPodePular(Personagem* const pPers);
+	const bool personagemPodePular(Personagem* const pPers);
 	void atualizaFase();
 	void atualizaPlayer();
 	void atualizaInimigos();
@@ -73,7 +72,6 @@ public:
 	void atualizaPosFase();
 	void addCavaleiro(EspadachimCavaleiro* const pCav);
 	void colisaoProjeteis(Personagem* const pPers);
-	bool colisaoPersProj(Personagem* const pPers, Projetil* const pProj);
 	virtual void restart() = 0;
 	void resetAllObjs();
 	void initTimers();

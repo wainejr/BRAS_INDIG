@@ -68,7 +68,8 @@ void Fase1::execFase()
 				keys[LEFT] = true;
 				break;
 			case ALLEGRO_KEY_SPACE:
-				keys[SPACE] = true;
+				if(!keys[SPACE]) //evitar segurar o botão para atacar continuamente
+					keys[SPACE] = true;
 				break;
 			}
 		}
@@ -103,22 +104,30 @@ void Fase1::execFase()
 					player1.moverDir();
 				if (keys[UP] && personagemPodePular(static_cast<Personagem*>(&player1)))
 					player1.pular();
-				if (keys[SPACE])
+				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && personagemPodeAtacar(static_cast<Personagem*>(&player1)))
+				{
 					player1.atacar();
+					keys[SPACE] = false; //evitar ataques contínuos
+				}
 				if (!keys[LEFT] && !keys[RIGHT])
 					player1.parar();
 				if (player1.getVida() <= 0)
 				{
 					player1.setChances(player1.getChances() - 1);
 					player1.setVida(VIDA_MAX_JOG);
-					restart();
-					resetar = true;
+					if (player1.getChances() > 0)
+					{
+						restart();
+						resetar = true;
+					}
+					else 
+						done = true;
 				}
 				atualizaFase();
 			}
 		}
 
-		if (redraw && al_is_event_queue_empty(queue) && !resetar)
+		if (redraw && al_is_event_queue_empty(queue) && !resetar && !done)
 		{
 			desenhaObjs();
 			redraw = false;
@@ -127,12 +136,9 @@ void Fase1::execFase()
 		}
 	}
 	//
-	if (done)
-	{
-		///destroyAllegroObjs();
-		al_destroy_display(display);
-		al_destroy_event_queue(queue);
-	}
+	///destroyAllegroObjs();
+	al_destroy_display(display);
+	al_destroy_event_queue(queue);
 	return;
 }
 
@@ -148,6 +154,7 @@ void Fase1::initObjs()
 	inimigo1.setArma(&armaInimigo);
 	inimigo1.setVida(100);
 	inimigo1.setAlvo(&player1);
+	armaInimigo.builderEspada(0, 0, 10, 5, false, true, 10, &inimigo1);
 
 	inimigoMosq1.builderMosqueteiro(300, 90, 10, 20, true, 20, &armaMosq1);
 	inimigoMosq1.setAlvo(&player1);
@@ -157,7 +164,7 @@ void Fase1::initObjs()
 
 	cav1.builderEspadachimCav(400, ALT - 50, 40, 20, true, 40, &lanc1);
 	cav1.setAlvo(&player1);
-	lanc1.builderLanca(0, 0, 10, 2, false, true, 20, &cav1);
+	lanc1.builderLanca(0, 0, 10, 10, false, true, 20, &cav1);
 
 	chao.setFisica(false);
 	chao.setAtivo(true);

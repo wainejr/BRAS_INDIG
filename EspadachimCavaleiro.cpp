@@ -25,22 +25,39 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 	arma = pArma;
 }
 
-
+//	o cavaleiro passa do alvo, só começando a parar um tempo depois
 void EspadachimCavaleiro::mover()
 {
-	//o cavalo passa do alvo, só começando a parar um tempo depois
-	if ((posY) > (alvo->getY() - alvo->getLimY() - DIFF_PIXELS_SEGUIR_Y) && (posY - limY) < (alvo->getY() + DIFF_PIXELS_SEGUIR_Y))
+	//	o cavaleiro tem que estar no máximo há DIFF_PIXELS_SEGUIR_Y de distância
+	//	do alvo para começar a segui-lo
+	if ((posY-limY-alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY()-alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
 	{
-		if ((alvo->getX() + alvo->getLimX() - DIFF_PIXELS_CAV_PARAR) < posX && velX <= 0 && velX > -VEL_MAX_X_CAV)
-			velX -= (float)ACEL_X_CAV;
-		else if (velX < -VEL_MAX_X_CAV)
-			velX = -VEL_MAX_X_CAV;
-		else if ((alvo->getX() + DIFF_PIXELS_CAV_PARAR) > (posX + limX) && velX >= 0 && velX < VEL_MAX_X_CAV)
-			velX += (float)ACEL_X_CAV;
-		else if (velX > VEL_MAX_X_CAV)
-			velX = VEL_MAX_X_CAV;
-		else
-			parar();
+		//	se o cavaleiro estiver parado, vai na direção do alvo
+		if(velX == 0)
+		{ 
+			if (alvo->getX() >= posX)
+				velX += ACEL_X_CAV;
+			else
+				velX -= ACEL_X_CAV;
+		}
+		else 
+		{
+			//	se o cavaleiro estiver a menos de DIFF_PIXELS_CAV_PARAR a esquerda do alvo e
+			//	estiver com velocidade em x negativa, ele continua acelerando para esquerda
+			if ((alvo->getX() - posX - limX) < DIFF_PIXELS_CAV_PARAR && velX < 0 && velX > -VEL_MAX_X_CAV)
+				velX -= (float)ACEL_X_CAV;
+			else if (velX < -VEL_MAX_X_CAV)
+				velX = -VEL_MAX_X_CAV;
+			//	se o cavaleiro estiver a menos de DIFF_PIXELS_CAV_PARAR a direita do alvo e
+			//	estiver com velocidade em x positiva, ele continua acelerando para direita
+			else if ((posX - alvo->getLimX() - alvo->getX()) < DIFF_PIXELS_CAV_PARAR && velX > 0 && velX < VEL_MAX_X_CAV)
+				velX += (float)ACEL_X_CAV;
+			else if (velX > VEL_MAX_X_CAV)
+				velX = VEL_MAX_X_CAV;
+			//	se o cavaleiro já passou do limite de distância do alvo, começa a parar
+			else
+				parar();
+		}
 	}
 	else
 		parar();
@@ -56,10 +73,12 @@ void EspadachimCavaleiro::atacar()
 void EspadachimCavaleiro::atualizar()
 {
 	mover();
-
 	posX += velX;
 	posY -= velY;
-	
+	if (alvo->getX() > posX)
+		dir = true;
+	else
+		dir = false;
 	atualizaInvuneravel();
 	atualizaAtacando();
 	atualizaArma();
@@ -78,10 +97,12 @@ void EspadachimCavaleiro::setCavalo(const bool aCavalo)
 	cavalo = aCavalo;
 }
 
+
 void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 {
 	al_draw_filled_rounded_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, -5, -5, al_map_rgb(155, 100, 55));
 }
+
 
 void EspadachimCavaleiro::createTimers()
 {
