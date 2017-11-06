@@ -24,7 +24,6 @@ public:
 	void builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma, const int aChances);
 	void atualizar();
 	
-	void initTimerInv();
 	void destroyTimerInv();
 	void createTimers();
 };

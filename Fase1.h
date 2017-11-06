@@ -8,6 +8,7 @@ class Fase1 :
 private:
 	Espadachim inimigo1;
 	EspadachimCavaleiro cav1;
+	EspadachimCavaleiro cav2;
 	Plataforma chao;
 	Plataforma plat1;
 	Plataforma plat2;
@@ -31,5 +32,8 @@ public:
 	void initInimigos();
 	void initPlataformas();
 	void restart();
+
+	//FUNÇÃO PARA TESTES RETIRAR DEPOIS
+	void imprimeVida();
 };
 

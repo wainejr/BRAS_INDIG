@@ -18,7 +18,7 @@
 #define ACEL_X_CAV 0.2
 #define VEL_MAX_X_PERS 3
 #define VEL_MAX_X_JOG 5
-#define VEL_MAX_X_CAV 7
+#define VEL_MAX_X_CAV 5
 #define VEL_MAX_PROJ 7
 #define VEL_SUBIDA 3
 
@@ -36,7 +36,7 @@
 #define TEMP_INVUN_JOG 2.0
 #define TEMP_INVUN_MOSQ 0.5
 #define TEMP_INVUN_ESP 0.5
-#define TEMP_INVUN_CAV 0.5
+#define TEMP_INVUN_CAV 1.0
 
 #define VIDA_MAX_JOG 100
 #define DIFF_PIXELS_PARAR_X 10

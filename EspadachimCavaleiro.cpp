@@ -100,7 +100,10 @@ void EspadachimCavaleiro::setCavalo(const bool aCavalo)
 
 void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rounded_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, -5, -5, al_map_rgb(155, 100, 55));
+	if(!invuneravel)
+		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(155, 100, 55));
+	else
+		al_draw_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(155, 100, 55), 2);
 }
 
 

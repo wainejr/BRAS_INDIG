@@ -84,7 +84,10 @@ void Espadachim::atualizar()
 
 void Espadachim::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX + limX-aPosFaseX, posY - limY-aPosFaseY, al_map_rgb(255, 0, 0));
+	if (!invuneravel)
+		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 0, 0));
+	else
+		al_draw_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 0, 0), 2);
 	if (atacando)
 		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX() - aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(255, 150, 0));
 }

@@ -37,7 +37,6 @@ protected:
 	void gerenciaColisoes(); //tiros, ataques e afins
 	void desenhaObjs();
 	void atualizaObjs();
-	const bool colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma);
 	const bool colisaoChao(Personagem* const pEnt);
 	const bool colisaoInimigo(Jogador* const pJog);
 	
@@ -72,6 +71,7 @@ public:
 	void atualizaPosFase();
 	void addCavaleiro(EspadachimCavaleiro* const pCav);
 	void colisaoProjeteis(Personagem* const pPers);
+	const bool colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma);
 	virtual void restart() = 0;
 	void resetAllObjs();
 	void initTimers();
@@ -80,4 +80,5 @@ public:
 	const bool colisaoPlat(Entidade* const pEnt);
 	const bool colisaoProjPlat(Projetil* const pProj);
 	const bool personagemPodeAtacar(Personagem* const pPers);
+	void atualizaAtivos();
 };

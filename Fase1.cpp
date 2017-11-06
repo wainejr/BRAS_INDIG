@@ -28,13 +28,13 @@ void Fase1::execFase()
 	bool done = false;
 	bool redraw = false;
 	bool resetar = false;
-	
-	
 	//
+
 	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D };
 	bool keys[9] = { false, false, false, false, false, false, false, false, false };
 
 	// ----------- LOOP PRINCIPAL ---------------------
+	
 	criarTimers();
 	initTimers();
 	while (!done)
@@ -130,6 +130,8 @@ void Fase1::execFase()
 		if (redraw && al_is_event_queue_empty(queue) && !resetar && !done)
 		{
 			desenhaObjs();
+			//FUNÇAO DE TESTE
+			imprimeVida();
 			redraw = false;
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -164,6 +166,8 @@ void Fase1::initObjs()
 
 	cav1.builderEspadachimCav(400, ALT - 50, 40, 20, true, 40, &lanc1);
 	cav1.setAlvo(&player1);
+	cav2.builderEspadachimCav(500, ALT - 50, 40, 20, true, 40, &lanc1);
+	cav2.setAlvo(&player1);
 	lanc1.builderLanca(0, 0, 10, 10, false, true, 20, &cav1);
 
 	chao.setFisica(false);
@@ -192,6 +196,7 @@ void Fase1::initObjs()
 	addPlataforma(&plat2);
 	addPlataforma(&plat3);
 	addPlataforma(&plat4);
+	addCavaleiro(&cav2);
 	addPlayer(&player1);
 }
 
@@ -236,4 +241,12 @@ void Fase1::restart()
 	resetAllObjs();
 	initObjs();
 	//adicionar código aqui pra clicar pra reiniciar e tals
+}
+
+//FUNÇÃO PARA TESTES RETIRAR DEPOIS
+void Fase1::imprimeVida()
+{
+	al_draw_textf(arial18, al_map_rgb(255, 255, 255), 10, 20, ALLEGRO_ALIGN_LEFT,
+		"VIDA:      Player: %i  Esp: %i  Cav: %i  Mosq: %i cav2: %i",
+		player1.getVida(), inimigo1.getVida(), cav1.getVida(), inimigoMosq1.getVida(), cav2.getVida());
 }

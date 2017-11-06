@@ -110,13 +110,19 @@ const bool Personagem::getAtacando()
 void Personagem::initTimer()
 {
 	al_start_timer(timer_ataque);
+	al_stop_timer(timer_ataque);
+	al_set_timer_count(timer_ataque, 1);
+	//	o timer só será resumido quando a função "atacar" for acionada 
+	//	e tem valor inicial 1 para permitir o primeiro ataque
+	
 	al_start_timer(timer_atacando);
-	al_start_timer(timer_invuneravel);
-	//	o timer só será resumido quando a função "atacar" for acionada
 	al_stop_timer(timer_atacando);
-	//	o timer só será resumido quando a função "tomaDano" for acionada
+	//	o timer só será resumido quando a função "atacar" for acionada
+	
+	al_start_timer(timer_invuneravel);
 	al_stop_timer(timer_invuneravel);
-
+	al_set_timer_count(timer_invuneravel, 0);
+	//	o timer só será resumido quando a função "tomaDano" for acionada
 }
 
 
@@ -138,7 +144,7 @@ const bool Personagem::persPodeAtacar()
 
 void Personagem::tomaDano(const int aDano)
 {
-	if (aDano > 0)
+	if (!invuneravel && aDano > 0)
 	{
 		vida -= aDano;
 		invuneravel = true;

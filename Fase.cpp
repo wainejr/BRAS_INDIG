@@ -8,7 +8,7 @@ Fase::Fase()
 	posRelX = 0;
 	posRelY = 0;
 	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer, 3);
-	armaPlayer.builderEspada(0, 0, 5, 4, false, true, 20, &player1);
+	armaPlayer.builderEspada(0, 0, 5, 4, false, true, 1, &player1);
 }
 
 
@@ -78,20 +78,50 @@ void Fase::gerenciaColisoes()
 				projeteis.deleteObj(projeteis.objI(i));
 		}
 	}
+
 	//colisão com ataques
-	
 	for (i = 0; i < jogadores.numObjs(); i++)
 	{
 		Jogador* pJog = jogadores.objI(i);
 		if (pJog->getAtacando() && pJog->getAtivo())
 		{
 			Arma* pArma = pJog->getArma();
-			for (int u = 0; u < espadachins.numObjs(); u++)
+			int u;
+			for (u = 0; u < espadachins.numObjs(); u++)
 			{
-				Espadachim* pEsp = espadachins.objI(i);
-				if (pEsp->getAtivo() && pEsp->getInvuneravel() && colisaoEntEnt
+				Espadachim* pEsp = espadachins.objI(u);
+				if (pEsp->getAtivo() && !pEsp->getInvuneravel() && colisaoEntEnt
 					(static_cast<Entidade*>(pEsp), static_cast<Entidade*>(pArma)))
 					pEsp->tomaDano(pArma->getDano());
+			}
+			for (u = 0; u < mosqueteiros.numObjs(); u++)
+			{
+				Mosqueteiro* pMosq = mosqueteiros.objI(u);
+				if (pMosq->getAtivo() && !pMosq->getInvuneravel() && colisaoEntEnt
+				(static_cast<Entidade*>(pMosq), static_cast<Entidade*>(pArma)))
+					pMosq->tomaDano(pArma->getDano());
+			}
+			for (u = 0; u < cavaleiros.numObjs(); u++)
+			{
+				EspadachimCavaleiro* pCav = cavaleiros.objI(u);
+				if (pCav->getAtivo() && !pCav->getInvuneravel() && colisaoEntEnt
+				(static_cast<Entidade*>(pCav), static_cast<Entidade*>(pArma)))
+					pCav->tomaDano(pArma->getDano());
+			}
+		}
+	}
+
+	for (i = 0; i < espadachins.numObjs(); i++)
+	{
+		Espadachim* pEsp = espadachins.objI(i);
+		if (pEsp->getAtivo() && pEsp->getAtacando())
+		{
+			for (int u = 0; u < jogadores.numObjs(); u++)
+			{
+				Jogador* pJog = jogadores.objI(u);
+				if (pJog->getAtivo() && !pJog->getInvuneravel() && colisaoEntEnt
+				(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pEsp->getArma())))
+					pJog->tomaDano(pEsp->getArma()->getDano());
 			}
 		}
 	}
@@ -116,6 +146,29 @@ const bool Fase::colisaoChao(Personagem* const pPers)
 	return false;
 }
 
+const bool Fase::colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma)
+{
+	//	checa apenas se o pe do personagem se bateu no chão 
+	if ((pPers->getY()) >= (pPlataforma->getY() - pPlataforma->getLimY()) &&
+		pPers->getX() < (pPlataforma->getX() + pPlataforma->getLimX()) &&
+		(pPers->getX() + pPers->getLimX()) > pPlataforma->getX())
+	{
+		//	se a diferença da entre a plataforma e a o ponto mais alto do 
+		//	personagem for pelo menos da altura do player + velY
+		//	(valor para garantir que o personagem não passará reto da 
+		//	plataforma) de altura e se o personagem estiver caindo...
+		if (pPers->getVelY() <= 0 && (pPers->getY() -
+			(pPlataforma->getY() - pPlataforma->getLimY())) <= (-pPers->getVelY()))
+		{
+			pPers->setY(pPlataforma->getY() - pPlataforma->getLimY());
+			pPers->setVelY(0);
+			return true;
+		}
+		return false;
+	}
+	return false;
+}
+
 
 const bool Fase::colisaoInimigo(Jogador* const pJog)
 {
@@ -123,6 +176,13 @@ const bool Fase::colisaoInimigo(Jogador* const pJog)
 	int aDano = 0;
 	if (pJog->getAtivo()) 
 	{
+		for (int i = 0; i < cavaleiros.numObjs(); i++)
+		{
+			pIni = static_cast<Inimigo*>(cavaleiros.objI(i));
+			if (pIni->getAtivo())
+				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
+					return true;
+		}
 		for (int i = 0; i < espadachins.numObjs(); i++)
 		{
 			pIni = static_cast<Inimigo*>(espadachins.objI(i));
@@ -138,13 +198,6 @@ const bool Fase::colisaoInimigo(Jogador* const pJog)
 				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
 					return true;
 		}
-		for (int i = 0; i < cavaleiros.numObjs(); i++)
-		{
-			pIni = static_cast<Inimigo*>(cavaleiros.objI(i));
-			if (pIni->getAtivo())
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
-					return true;
-		}
 	}
 	return false;
 }
@@ -155,6 +208,7 @@ void Fase::atualizaFase()
 	atualizaObjs();
 	ataqueInimigos();
 	gerenciaColisoes();
+	atualizaAtivos();
 	atualizaPosFase();
 }
 
@@ -466,6 +520,10 @@ void Fase::criarTimers()
 	{
 		espadachins.objI(i)->createTimers();
 	}
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		cavaleiros.objI(i)->createTimers();
+	}
 }
 
 
@@ -559,4 +617,29 @@ const bool Fase::colisaoProjPlat(Projetil* const pProj)
 const bool Fase::personagemPodeAtacar(Personagem* const pPers)
 {
 	return pPers->persPodeAtacar();
+}
+
+
+void Fase::atualizaAtivos()
+{
+	//FAZER A PARTE DO FORA DA TELA E DENTRO AINDA
+	int i;
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		Mosqueteiro* pMosq = mosqueteiros.objI(i);
+		if (pMosq->getAtivo() && pMosq->getVida() <= 0)
+			pMosq->setAtivo(false);
+	}
+	for (i = 0; i < espadachins.numObjs(); i++)
+	{
+		Espadachim* pEsp = espadachins.objI(i);
+		if (pEsp->getAtivo() && pEsp->getVida() <= 0)
+			pEsp->setAtivo(false);
+	}
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		EspadachimCavaleiro* pCav = cavaleiros.objI(i);
+		if (pCav->getAtivo() && pCav->getVida() <= 0)
+			pCav->setAtivo(false);
+	}
 }
