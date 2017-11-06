@@ -45,5 +45,5 @@ Arma* const Projetil::getArmaProj()
 
 void Projetil::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	 al_draw_circle(posX + limX / 2 - aPosFaseX, posY + limY / 2 - aPosFaseY, 10, al_map_rgb(0, 0, 255),1);
+	 al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX+limX-aPosFaseX, posY-limY-aPosFaseY, al_map_rgb(0, 0, 255));
 }

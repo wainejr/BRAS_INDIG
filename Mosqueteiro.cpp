@@ -67,7 +67,7 @@ Projetil* const Mosqueteiro::atirar()
 	float cadj = alvo->getX() + alvo->getLimX() / 2 - arma->getX();
 	float coposto = -(alvo->getY() - alvo->getLimY() / 2 - arma->getY());
 	float hip = sqrt(cadj*cadj + coposto*coposto);
-	pProj->builderProjetil(arma->getX(), arma->getY(), 1, 1, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
+	pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
 	pProj->setArmaProj(arma);
 	atacando = true;
 	al_stop_timer(timer_ataque);

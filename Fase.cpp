@@ -397,9 +397,9 @@ void Fase::atualizaPosFase()
 		{
 			posRelX = jogadores.objI(0)->getX() - LARG / 2;
 		}
-		else if (jogadores.objI(0)->getX() < (posRelX+LARG / 10))
+		else if (jogadores.objI(0)->getX() < (posRelX+LARG / 2))
 		{
-			posRelX = jogadores.objI(0)->getX() - LARG / 10;
+			posRelX = jogadores.objI(0)->getX() - LARG / 2;
 		}
 	}
 	if (posRelX < 0)
@@ -576,6 +576,7 @@ const bool Fase::colisaoPlat(Entidade* const pEnt)
 					pEnt->setX(pPlat->getX() - pEnt->getLimX());
 					pEnt->setVelX(0);
 				}
+
 				//	se a entidade estiver andando para esquerda, bateu na 
 				//	parte direita da plataforma e a diferença entre a 
 				//	esquerda da entidade e a direita da plataforma for no 

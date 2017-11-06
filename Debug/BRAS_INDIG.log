@@ -1,22 +1,2 @@
-﻿  Personagem.cpp
-  Mosqueteiro.cpp
-  Jogador.cpp
-  EspadachimCavaleiro.cpp
-  Espadachim.cpp
-  Generating Code...
-  Compiling...
-  ChefaoCapitao.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Lanca.cpp
-  Espada.cpp
-  Arma.cpp
-  Source.cpp
-  ListaFases.cpp
-  Jogo.cpp
-  Inimigo.cpp
-  FaseFinal.cpp
-  Fase2.cpp
-  Fase1.cpp
-  Fase.cpp
+﻿  Fase.cpp
   BRAS_INDIG.vcxproj -> F:\Projects\BRAS_INDIG\Debug\BRAS_INDIG.exe
