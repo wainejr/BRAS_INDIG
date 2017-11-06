@@ -22,15 +22,23 @@
 #define VEL_MAX_PROJ 7
 #define VEL_SUBIDA 3
 
-//Período de tempo entre ataques de cada Personagem
+//	Período de tempo entre ataques de cada Personagem 
+//	(sem contar o tempo que o pers fica em estado ataque)
 #define PER_ATAQ_MOSQ 1.2
 #define PER_ATAQ_ESP 0.8
 #define PER_ATAQ_JOG 0.5
 
+//Tempo que o jogador "fica" atacando, ou seja, que a arma fica esticada
+#define TEMP_ATAQ_JOG 0.2
+#define TEMP_ATAQ_ESP 0.3
+#define TEMP_ATAQ_MOSQ 0.1
 
-//FAZER UM TIMER PARA QUANTO TEMPO O PERSONAGEM FICA NO ESTADO ATAQUE
 
-#define TEMP_INVUN 2
+#define TEMP_INVUN_JOG 2.0
+#define TEMP_INVUN_MOSQ 0.5
+#define TEMP_INVUN_ESP 0.5
+#define TEMP_INVUN_CAV 0.5
+
 #define VIDA_MAX_JOG 100
 #define DIFF_PIXELS_PARAR_X 10
 #define DIFF_PIXELS_SEGUIR_Y 40

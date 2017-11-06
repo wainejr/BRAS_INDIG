@@ -23,6 +23,7 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const int aLimX
 	ativo = aAtivo;
 	vida = aVida;
 	arma = pArma;
+	
 }
 
 
@@ -34,6 +35,7 @@ void Mosqueteiro::mover()
 
 void Mosqueteiro::atacar()
 {
+
 }
 
 
@@ -42,9 +44,12 @@ void Mosqueteiro::atualizar()
 	posX += velX;
 	posY -= velY;
 	if (alvo->getX() > posX)
-		dir = false;
-	else
 		dir = true;
+	else
+		dir = false;
+
+	atualizaInvuneravel();
+	atualizaAtacando();
 	atualizaArma();
 }
 
@@ -64,11 +69,16 @@ Projetil* const Mosqueteiro::atirar()
 	float hip = sqrt(cadj*cadj + coposto*coposto);
 	pProj->builderProjetil(arma->getX(), arma->getY(), 1, 1, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
 	pProj->setArmaProj(arma);
-	al_set_timer_count(timer_ataque, 0);
+	atacando = true;
+	al_stop_timer(timer_ataque);
+	al_resume_timer(timer_atacando);
+	al_set_timer_count(timer_atacando, 0);
 	return pProj;
 }
 
 void Mosqueteiro::createTimers()
 {
 	timer_ataque = al_create_timer(PER_ATAQ_MOSQ);
+	timer_atacando = al_create_timer(TEMP_ATAQ_MOSQ);
+	timer_invuneravel = al_create_timer(TEMP_INVUN_MOSQ);
 }

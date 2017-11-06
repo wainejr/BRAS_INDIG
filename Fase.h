@@ -81,4 +81,5 @@ public:
 	void criarTimers();
 	const bool colisaoPlat(Entidade* const pEnt);
 	const bool colisaoProjPlat(Projetil* const pProj);
+	const bool personagemPodeAtacar(Personagem* const pPers);
 };

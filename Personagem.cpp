@@ -7,6 +7,7 @@ Personagem::Personagem()
 	fisica = true;
 	vida = 10;
 	dir = true;
+	atacando = false;
 }
 
 
@@ -35,7 +36,7 @@ void Personagem::atualizaArma()
 		arma->setX(posX + limX);
 	}
 	else
-		arma->setX(posX);
+		arma->setX(posX - arma->getLimX());
 
 	arma->setY(posY-limY/2);
 }
@@ -94,40 +95,49 @@ void Personagem::parar()
 	}
 }
 
-void Personagem::setAtaque(const bool aAt)
+void Personagem::setAtacando(const bool aAt)
 {
-	ataque = aAt;
+	atacando = aAt;
 }
 
 
-const bool Personagem::getAtaque()
+const bool Personagem::getAtacando()
 {
-	return ataque;
+	return atacando;
 }
 
 
 void Personagem::initTimer()
 {
 	al_start_timer(timer_ataque);
+	al_start_timer(timer_atacando);
+	al_start_timer(timer_invuneravel);
+	//	o timer só será resumido quando a função "atacar" for acionada
+	al_stop_timer(timer_atacando);
+	//	o timer só será resumido quando a função "tomaDano" for acionada
+	al_stop_timer(timer_invuneravel);
+
 }
 
 
 void Personagem::destruirTimer()
 {
 	al_destroy_timer(timer_ataque);
+	al_destroy_timer(timer_atacando);
+	al_destroy_timer(timer_invuneravel);
 }
 
 
 const bool Personagem::persPodeAtacar()
 {
-	if (al_get_timer_count(timer_ataque) >= 1)
+	if (al_get_timer_count(timer_ataque) >= 1 && !atacando)
 		return true;
 
 	return false;
 }
 
 
-void Personagem::resetTimer()
+void Personagem::resetTimer() //ver pra que serve isso
 {
 	al_set_timer_count(timer_ataque, 0);
 }
@@ -135,4 +145,47 @@ void Personagem::resetTimer()
 
 void Personagem::tomaDano(const int aDano)
 {
+	vida -= aDano;
+	invuneravel = true;
+	//reseta o contador do timer
+	al_set_timer_count(timer_invuneravel, 0);
+	al_resume_timer(timer_invuneravel);
+}
+
+const bool Personagem::getInvuneravel()
+{
+	return invuneravel;
+}
+
+
+void Personagem::setInvuneravel(const bool aInv)
+{
+	invuneravel = aInv;
+}
+
+void Personagem::atualizaInvuneravel()
+{
+	if (invuneravel)
+	{
+		if (al_get_timer_count(timer_invuneravel) >= 1)
+		{
+			invuneravel = false;
+			al_stop_timer(timer_invuneravel);
+		}
+	}
+}
+
+
+void Personagem::atualizaAtacando()
+{
+	if (atacando)
+	{
+		if (al_get_timer_count(timer_atacando) >= 1)
+		{
+			atacando = false;
+			al_stop_timer(timer_atacando);
+			al_resume_timer(timer_ataque);
+			al_set_timer_count(timer_ataque, 0);
+		}
+	}
 }

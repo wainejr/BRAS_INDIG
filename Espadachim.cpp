@@ -56,10 +56,7 @@ void Espadachim::mover()
 
 void Espadachim::atacar()
 {
-	if (persPodeAtacar())
-	{
-
-	}
+	
 }
 
 
@@ -68,6 +65,8 @@ void Espadachim::atualizar()
 	mover();
 	posX += velX;
 	posY -= velY;
+	atualizaInvuneravel();
+	atualizaAtacando();
 	atualizaArma();
 }
 
@@ -81,4 +80,6 @@ void Espadachim::draw(const int aPosFaseX, const int aPosFaseY)
 void Espadachim::createTimers()
 {
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
+	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
+	timer_invuneravel = al_create_timer(TEMP_INVUN_ESP);
 }

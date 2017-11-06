@@ -5,9 +5,7 @@ class Jogador :
 {
 private:
 	static int num_jogs;
-	bool invuneravel;
 	int chances;
-	
 
 public:
 	Jogador();
@@ -23,16 +21,10 @@ public:
 	void draw(const int aPosFaseX, const int aPosFaseY);
 
 	// para não tomar dano seguidamente
-	const bool getInvuneravel();
-	void setInvuneravel(const bool aInv);
 	void builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma, const int aChances);
 	void atualizar();
 	
 	void initTimerInv();
-private:
-	ALLEGRO_TIMER* timer_invuneravel;
-public:
-	void tomaDano(const int aDano);
 	void destroyTimerInv();
 	void createTimers();
 };

@@ -29,7 +29,7 @@ void Fase::gerenciaColisoes()
 	//colisões com projeteis
 	for (i = 0; i < jogadores.numObjs(); i++)
 	{
-		if (jogadores.objI(i)->getAtivo() && !jogadores.objI(i)->getInvuneravel())
+		if (jogadores.objI(i)->getAtivo() && !(jogadores.objI(i)->getInvuneravel()))
 		{
 			colisaoProjeteis(static_cast<Personagem*>(jogadores.objI(i)));
 		}
@@ -377,6 +377,14 @@ void Fase::ataqueInimigos()
 			projeteis.addObj(pMosq->atirar());
 		}
 	}
+	for (int i = 0; i < espadachins.numObjs(); i++)
+	{
+		Espadachim* pEsp = espadachins.objI(i);
+		if (pEsp->getAtivo() && pEsp->persPodeAtacar())
+		{
+			pEsp->atacar();
+		}
+	}
 }
 
 
@@ -472,7 +480,6 @@ void Fase::initTimers()
 	for (i = 0; i < jogadores.numObjs(); i++)
 	{
 		jogadores.objI(i)->initTimer();
-		jogadores.objI(i)->initTimerInv();
 	}
 	for (i = 0; i < mosqueteiros.numObjs(); i++)
 	{
@@ -599,4 +606,10 @@ const bool Fase::colisaoProjPlat(Projetil* const pProj)
 			return true;
 	}
 	return false;
+}
+
+
+const bool Fase::personagemPodeAtacar(Personagem* const pPers)
+{
+	return pPers->persPodeAtacar();
 }
