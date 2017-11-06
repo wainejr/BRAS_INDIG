@@ -11,7 +11,7 @@ private:
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE* queue = NULL;
 	ALLEGRO_FONT* arial18 = NULL;
-
+	//aaaaaaaaaaaaaaaaaaaaaaaaaaa
 	//OBJETOS
 	Fase1 fasePrototipo;
 	Jogador player;
