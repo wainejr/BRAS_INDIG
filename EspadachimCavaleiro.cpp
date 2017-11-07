@@ -110,6 +110,6 @@ void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 void EspadachimCavaleiro::createTimers()
 {
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
-	timer_atacando = al_create_timer(0);
+	timer_atacando = al_create_timer(1.0); // não será utilizado
 	timer_invuneravel = al_create_timer(TEMP_INVUN_CAV);
 }

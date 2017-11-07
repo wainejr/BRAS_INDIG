@@ -76,7 +76,8 @@ void Jogador::pular()
 // para cordas
 void Jogador::subir()
 {
-
+	velY = VEL_SUBIDA;
+	subiu = true;
 }
 
 void Jogador::atualizar()
@@ -84,6 +85,11 @@ void Jogador::atualizar()
 	posY -= velY;
 	posX += velX;
 	
+	if (subiu)
+		subindo = true;
+	else
+		subindo = false;
+	subiu = false;
 	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
@@ -120,4 +126,16 @@ void Jogador::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_JOG);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_JOG);
 	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
+}
+
+
+const bool Jogador::getSubindo()
+{
+	return subindo;
+}
+
+
+void Jogador::setSubindo(const bool aSubindo)
+{
+	subindo = aSubindo;
 }

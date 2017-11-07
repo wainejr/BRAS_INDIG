@@ -6,6 +6,8 @@ class Jogador :
 private:
 	static int num_jogs;
 	int chances;
+	bool subindo;
+	bool subiu; // gerenciamento interno apenas
 
 public:
 	Jogador();
@@ -26,5 +28,7 @@ public:
 	
 	void destroyTimerInv();
 	void createTimers();
+	const bool getSubindo();
+	void setSubindo(const bool aSubindo);
 };
 

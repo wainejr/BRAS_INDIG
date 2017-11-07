@@ -36,5 +36,5 @@ void Corda::builderCorda(const int ax, const int ay, const int aLimX, const int 
 
 void Corda::draw(const int posRelX, const int posRelY)
 {
-
+	al_draw_filled_rectangle(posX - posRelX, posY - posRelY, posX + limX - posRelX, posY - limY - posRelY, al_map_rgb(84, 255, 84));
 }

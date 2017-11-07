@@ -11,6 +11,8 @@
 
 //	MUDAR OS BUILDERS AO FINAL DO PROJETO PARA MAIOR FACILIDADE DE DESENVOLVIMENTO
 
+///	FAZER VARIÁVEIS STATIC PARA VELOCIDADES MÁXIMAS EM X E Y
+
 #define VEL_PULO 5
 
 #define ACEL_X_PERS 0.5
@@ -20,7 +22,7 @@
 #define VEL_MAX_X_JOG 5
 #define VEL_MAX_X_CAV 5
 #define VEL_MAX_PROJ 7
-#define VEL_SUBIDA 3
+#define VEL_SUBIDA 1
 
 //	Período de tempo entre ataques de cada Personagem 
 //	(sem contar o tempo que o pers fica em estado ataque)

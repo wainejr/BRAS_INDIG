@@ -102,8 +102,13 @@ void Fase1::execFase()
 					player1.moverEsq();
 				if (keys[RIGHT])
 					player1.moverDir();
-				if (keys[UP] && personagemPodePular(static_cast<Personagem*>(&player1)))
-					player1.pular();
+				if (keys[UP])
+				{
+					if(personagemPodePular(static_cast<Personagem*>(&player1)))
+						player1.pular();
+					else if (jogadorPodeSubir(&player1))
+						player1.subir();
+				}
 				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && personagemPodeAtacar(static_cast<Personagem*>(&player1)))
 				{
 					player1.atacar();
@@ -158,6 +163,9 @@ void Fase1::initObjs()
 	inimigo1.setAlvo(&player1);
 	armaInimigo.builderEspada(0, 0, 10, 5, false, true, 10, &inimigo1);
 
+	corda1.builderCorda(30, ALT - 10, 5, 50, true, true);
+	corda1.setColisaoBaixo(false);
+
 	inimigoMosq1.builderMosqueteiro(300, 90, 10, 20, true, 20, &armaMosq1);
 	inimigoMosq1.setAlvo(&player1);
 	inimigoMosq1.setFisica(true);
@@ -166,8 +174,6 @@ void Fase1::initObjs()
 
 	cav1.builderEspadachimCav(400, ALT - 50, 40, 20, true, 40, &lanc1);
 	cav1.setAlvo(&player1);
-	cav2.builderEspadachimCav(500, ALT - 50, 40, 20, true, 40, &lanc1);
-	cav2.setAlvo(&player1);
 	lanc1.builderLanca(0, 0, 10, 10, false, true, 20, &cav1);
 
 	chao.setFisica(false);
@@ -187,17 +193,18 @@ void Fase1::initObjs()
 	
 	player1.setX(20);
 	player1.setY(50);
-
-	addEspadachim(&inimigo1);
-	addMosqueteiro(&inimigoMosq1);
-	addCavaleiro(&cav1);
+	
+	//addEspadachim(&inimigo1);
+	//addMosqueteiro(&inimigoMosq1);
+	//addCavaleiro(&cav1);
 	addPlataforma(&chao);
-	addPlataforma(&plat1);
-	addPlataforma(&plat2);
-	addPlataforma(&plat3);
-	addPlataforma(&plat4);
-	addCavaleiro(&cav2);
+	//addPlataforma(&plat1);
+	//addPlataforma(&plat2);
+	//addPlataforma(&plat3);
+	//addPlataforma(&plat4);
 	addPlayer(&player1);
+	
+	addCorda(&corda1);
 }
 
 
@@ -247,6 +254,6 @@ void Fase1::restart()
 void Fase1::imprimeVida()
 {
 	al_draw_textf(arial18, al_map_rgb(255, 255, 255), 10, 20, ALLEGRO_ALIGN_LEFT,
-		"VIDA:      Player: %i  Esp: %i  Cav: %i  Mosq: %i cav2: %i",
-		player1.getVida(), inimigo1.getVida(), cav1.getVida(), inimigoMosq1.getVida(), cav2.getVida());
+		"VIDA:      Player: %i  Esp: %i  Cav: %i  Mosq: %i",
+		player1.getVida(), inimigo1.getVida(), cav1.getVida(), inimigoMosq1.getVida());
 }

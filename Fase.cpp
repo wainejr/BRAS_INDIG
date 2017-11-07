@@ -31,51 +31,57 @@ void Fase::gerenciaColisoes()
 	//colisoes com projeteis, plataformas 
 	for (i = 0; i < jogadores.numObjs(); i++)
 	{
-		if (jogadores.objI(i)->getAtivo())
+		Jogador* pJog = jogadores.objI(i);
+		if (pJog->getAtivo())
 		{
-			colisaoProjeteis(static_cast<Personagem*>(jogadores.objI(i)));
-			if (!personagemPodePular(static_cast<Personagem*>(jogadores.objI(i))))
-				jogadores.objI(i)->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(jogadores.objI(i)));
+			colisaoProjeteis(static_cast<Personagem*>(pJog));
+			if (pJog->getFisica() && !personagemPodePular(static_cast<Personagem*>(pJog)) 
+				&& !pJog->getSubindo())
+				pJog->cair(((float)GRAV / FPS));
+			colisaoPlat(static_cast<Entidade*>(pJog));
 
 		}
 	}
 	for (i = 0; i < mosqueteiros.numObjs(); i++)
 	{
-		if (mosqueteiros.objI(i)->getAtivo())
+		Mosqueteiro* pMosq = mosqueteiros.objI(i);
+		if (pMosq->getAtivo())
 		{
-			colisaoProjeteis(static_cast<Personagem*>(mosqueteiros.objI(i)));
-			if (mosqueteiros.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(mosqueteiros.objI(i))))
-				mosqueteiros.objI(i)->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(mosqueteiros.objI(i)));
+			colisaoProjeteis(static_cast<Personagem*>(pMosq));
+			if (pMosq->getFisica() && !personagemPodePular(static_cast<Personagem*>(pMosq)))
+				pMosq->cair(((float)GRAV / FPS));
+			colisaoPlat(static_cast<Entidade*>(pMosq));
 		}
 	}
 	for (i = 0; i < espadachins.numObjs(); i++)
 	{
-		if (espadachins.objI(i)->getAtivo())
+		Espadachim* pEsp = espadachins.objI(i);
+		if (pEsp->getAtivo())
 		{
-			colisaoProjeteis(static_cast<Personagem*>(espadachins.objI(i)));
-			if (espadachins.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(espadachins.objI(i))))
-				espadachins.objI(i)->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(espadachins.objI(i)));
+			colisaoProjeteis(static_cast<Personagem*>(pEsp));
+			if (pEsp->getFisica() && !personagemPodePular(static_cast<Personagem*>(pEsp)))
+				pEsp->cair(((float)GRAV / FPS));
+			colisaoPlat(static_cast<Entidade*>(pEsp));
 		}
 	}
 	for (i = 0; i < cavaleiros.numObjs(); i++)
 	{
-		if (cavaleiros.objI(i)->getAtivo())
+		EspadachimCavaleiro* pCav = cavaleiros.objI(i);
+		if (pCav->getAtivo())
 		{
-			colisaoProjeteis(static_cast<Personagem*>(cavaleiros.objI(i)));
-			if (cavaleiros.objI(i)->getFisica() && !personagemPodePular(static_cast<Personagem*>(cavaleiros.objI(i))))
-				cavaleiros.objI(i)->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(cavaleiros.objI(i)));
+			colisaoProjeteis(static_cast<Personagem*>(pCav));
+			if (pCav->getFisica() && !personagemPodePular(static_cast<Personagem*>(pCav)))
+				pCav->cair(((float)GRAV / FPS));
+			colisaoPlat(static_cast<Entidade*>(pCav));
 		}
 	}
 	for (i = 0; i < projeteis.numObjs(); i++)
 	{
-		if (projeteis.objI(i)->getAtivo())
+		Projetil* pProj = projeteis.objI(i);
+		if (pProj->getAtivo())
 		{
-			if(colisaoProjPlat(projeteis.objI(i)))
-				projeteis.deleteObj(projeteis.objI(i));
+			if(colisaoProjPlat(pProj))
+				projeteis.deleteObj(pProj);
 		}
 	}
 
@@ -154,11 +160,11 @@ const bool Fase::colisaoPersChao(Personagem* const pPers, Plataforma* const pPla
 		(pPers->getX() + pPers->getLimX()) > pPlataforma->getX())
 	{
 		//	se a diferença da entre a plataforma e a o ponto mais alto do 
-		//	personagem for pelo menos da altura do player + velY
+		//	personagem for pelo menos da altura do player + velY + 1
 		//	(valor para garantir que o personagem não passará reto da 
 		//	plataforma) de altura e se o personagem estiver caindo...
 		if (pPers->getVelY() <= 0 && (pPers->getY() -
-			(pPlataforma->getY() - pPlataforma->getLimY())) <= (-pPers->getVelY()))
+			(pPlataforma->getY() - pPlataforma->getLimY())) <= (-pPers->getVelY()+1))
 		{
 			pPers->setY(pPlataforma->getY() - pPlataforma->getLimY());
 			pPers->setVelY(0);
@@ -270,10 +276,10 @@ void Fase::atualizaObjs()
 void Fase::desenhaObjs()
 {
 	desenhaProjeteis();
+	desenhaCordas();
 	desenhaPlataformas();
 	desenhaInimigos();
 	desenhaJogadores();
-
 }
 
 
@@ -628,18 +634,101 @@ void Fase::atualizaAtivos()
 	{
 		Mosqueteiro* pMosq = mosqueteiros.objI(i);
 		if (pMosq->getAtivo() && pMosq->getVida() <= 0)
+		{
 			pMosq->setAtivo(false);
+			mosqueteiros.retirarObj(pMosq);
+		}
 	}
 	for (i = 0; i < espadachins.numObjs(); i++)
 	{
 		Espadachim* pEsp = espadachins.objI(i);
 		if (pEsp->getAtivo() && pEsp->getVida() <= 0)
+		{
 			pEsp->setAtivo(false);
+			espadachins.retirarObj(pEsp);
+		}
 	}
 	for (i = 0; i < cavaleiros.numObjs(); i++)
 	{
 		EspadachimCavaleiro* pCav = cavaleiros.objI(i);
 		if (pCav->getAtivo() && pCav->getVida() <= 0)
+		{
 			pCav->setAtivo(false);
+			cavaleiros.retirarObj(pCav);
+		}
+	}
+
+	//	Depois de o inimimigo ser "ultrapassado", ele é retirado da lista de inimigos
+	//	já caso o inimigo seja "alcançado", ele é ativado.
+	///TALVEZ COLOCAR UMA TOLERÂNCIA AQUI
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		Mosqueteiro* pMosq = mosqueteiros.objI(i);
+		//	Depois que o inim
+		if (pMosq->getAtivo() && (pMosq->getX() + pMosq->getLimX()) < posRelX)
+		{
+			pMosq->setAtivo(false);
+			mosqueteiros.retirarObj(pMosq);
+		}
+		else if (!pMosq->getAtivo() && (pMosq->getX() - (posRelX + LARG)) < 0)
+			pMosq->setAtivo(true);
+	}
+	for (i = 0; i < espadachins.numObjs(); i++)
+	{
+		Espadachim* pEsp = espadachins.objI(i);
+		if (pEsp->getAtivo() && (pEsp->getX() + pEsp->getLimX()) < posRelX)
+		{
+			pEsp->setAtivo(false);
+			espadachins.retirarObj(pEsp);
+		}
+		else if (!pEsp->getAtivo() && (pEsp->getX() - (posRelX + LARG)) < 0)
+			pEsp->setAtivo(true);
+	}
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		EspadachimCavaleiro* pCav = cavaleiros.objI(i);
+		if (pCav->getAtivo() && (pCav->getX() + pCav->getLimX()) < posRelX)
+		{
+			pCav->setAtivo(false);
+			cavaleiros.retirarObj(pCav);
+		}
+		else if (!pCav->getAtivo() && (pCav->getX() - (posRelX + LARG)) < 0)
+			pCav->setAtivo(true);
+	}
+}
+
+
+const bool Fase::jogadorPodeSubir(Jogador* const pJog)
+{
+	if (pJog->getAtivo())
+	{
+		for (int i = 0; i < cordas.numObjs(); i++)
+		{
+			Corda* pCorda = cordas.objI(i);
+			if (pCorda->getAtivo() && pCorda->getEscalavel())
+			{
+				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
+					return true;
+			}
+		}
+		return false;
+	}
+	return false;
+}
+
+
+void Fase::addCorda(Corda* const pCorda)
+{
+	cordas.addObj(pCorda);
+}
+
+
+void Fase::desenhaCordas()
+{
+	for (int i = 0; i < cordas.numObjs(); i++)
+	{
+		Corda* pCorda = cordas.objI(i);
+		if (pCorda->getAtivo())
+			pCorda->draw(posRelX, posRelY);
 	}
 }

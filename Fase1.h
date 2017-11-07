@@ -8,7 +8,6 @@ class Fase1 :
 private:
 	Espadachim inimigo1;
 	EspadachimCavaleiro cav1;
-	EspadachimCavaleiro cav2;
 	Plataforma chao;
 	Plataforma plat1;
 	Plataforma plat2;
@@ -18,6 +17,7 @@ private:
 	Mosqueteiro inimigoMosq1;
 	Mosquete armaMosq1;
 	Lanca lanc1;
+	Corda corda1;
 
 	
 

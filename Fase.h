@@ -8,7 +8,8 @@
 #include <allegro5\allegro_ttf.h>
 
 
-///FAZER UMA FUNÇÃO DO TIPO "PODE ANDAR PRA ESQUERDA/DIREITA"
+/// FAZER UMA FUNÇÃO QUE TIRA E RETIRA OS ELEMENTOS DAS LISTAS, PARA NÃO FICAR COMPARANDO COM TODOS
+///	UMA ESPÉCIE DE "TODASPLATAFORMAS", "TODOSMOSQUETEIROS" E AFINS
 
 class Fase
 {	
@@ -28,6 +29,7 @@ protected:
 	Lista <EspadachimCavaleiro*> cavaleiros;
 	Lista <Jogador*> jogadores;
 	Lista <Projetil*> projeteis;
+	Lista <Corda*> cordas;
 
 	int limX;
 	int limY;
@@ -81,4 +83,7 @@ public:
 	const bool colisaoProjPlat(Projetil* const pProj);
 	const bool personagemPodeAtacar(Personagem* const pPers);
 	void atualizaAtivos();
+	const bool jogadorPodeSubir(Jogador* const  pJog);
+	void addCorda(Corda* const pCorda);
+	void desenhaCordas();
 };
