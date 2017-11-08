@@ -3,6 +3,9 @@
 class Armadilha :
 	public Obstaculo
 {
+private:
+	bool acionada;
+	ALLEGRO_TIMER* timer_acionada;
 public:
 	Armadilha();
 	~Armadilha();
@@ -10,10 +13,9 @@ public:
 	void draw(const int aPosFaseX, const int aPosFaseY);
 	void atualizar();
 	void acionar();
-private:
-	bool acionada;
-public:
 	const bool getAcionada();
-	const bool setAcionada(const bool aAcionada);
+	void setAcionada(const bool aAcionada);
+	void initTimer();
+	void createTimer();
 };
 

@@ -168,7 +168,7 @@ void Fase1::initObjs()
 	inimigo1.setAlvo(&player1);
 	armaInimigo.builderEspada(0, 0, 10, 5, false, true, 10, &inimigo1);
 
-	corda1.builderCorda(30, ALT - 10, 5, 50, true, true);
+	corda1.builderCorda(100, ALT - 10, 5, 50, true, true);
 	corda1.setColisaoBaixo(false);
 
 	inimigoMosq1.builderMosqueteiro(300, 90, 10, 20, true, 20, &armaMosq1);
@@ -197,14 +197,20 @@ void Fase1::initObjs()
 	plat3.setColisaoBaixo(true);
 	plat4.setColisaoBaixo(true);
 	
+	rede1.builderRede(100, ALT - 200, 30, 3, true, 50);
+	rede1cord.builderCorda(50, ALT - 15, 5, 5, true, false);
+	rede1.setCorda(&rede1cord);
+
 	player1.setX(20);
 	player1.setY(50);
+
+	armd1.builderArmadilha(300, ALT - 10, 5, 2, true, 20);
 	
 	espinho1.builderEspinho(570, ALT - 10, 50, 5, true, 10);
 
-	addEspadachim(&inimigo1);
-	addMosqueteiro(&inimigoMosq1);
-	addCavaleiro(&cav1);
+	//addEspadachim(&inimigo1);
+	//addMosqueteiro(&inimigoMosq1);
+	//addCavaleiro(&cav1);
 	addPlataforma(&chao);
 	addPlataforma(&plat1);
 	addPlataforma(&plat2);
@@ -212,8 +218,10 @@ void Fase1::initObjs()
 	addPlataforma(&plat4);
 	addPlayer(&player1);
 	addEspinho(&espinho1);
+	addArmadilha(&armd1);
 	
-	addCorda(&corda1);
+	//addCorda(&corda1);
+	addRede(&rede1);
 }
 
 

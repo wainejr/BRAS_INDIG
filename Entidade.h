@@ -14,12 +14,13 @@
 #define VEL_PULO 5
 
 #define ACEL_X_PERS 0.4
-
+#define ACEL_REDE 0.6
 #define ACEL_X_CAV 0.12
 #define VEL_MAX_X_PERS 3
 #define VEL_MAX_X_JOG 5
 #define VEL_MAX_X_CAV 5
 #define VEL_MAX_PROJ 7
+#define VEL_MAX_REDE 3
 #define VEL_SUBIDA 1
 #define VEL_X_KB 4.5
 #define VEL_Y_KB 1.6
@@ -40,6 +41,7 @@
 #define TEMP_INVUN_MOSQ 0.5
 #define TEMP_INVUN_ESP 0.5
 #define TEMP_INVUN_CAV 1.0
+#define TEMP_ACION_ARMD 1.5
 
 #define TEMP_IMOVEL 1.0
 

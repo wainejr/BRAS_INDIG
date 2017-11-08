@@ -15,6 +15,7 @@ Jogador::Jogador()
 		ID = JOGADOR1;
 	else if (num_jogs == 2)
 		ID = JOGADOR2;
+	imovel = false;
 }
 
 
@@ -83,15 +84,20 @@ void Jogador::pular()
 // para cordas
 void Jogador::subir()
 {
-	velY = VEL_SUBIDA;
-	subiu = true;
+	if (!imovel)
+	{
+		velY = VEL_SUBIDA;
+		subiu = true;
+	}
 }
 
 void Jogador::atualizar()
 {
-	posY -= velY;
-	posX += velX;
-	
+	if (!imovel)
+	{
+		posY -= velY;
+		posX += velX;
+	}
 	if (subiu)
 		subindo = true;
 	else
@@ -100,6 +106,7 @@ void Jogador::atualizar()
 	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
+	atualizaParado();
 	atualizaArma();
 }
 
@@ -155,4 +162,95 @@ void Jogador::descer()
 	{  
 		velY = -VEL_SUBIDA;
 	}
+}
+
+//	para KB = 1, o jogador recebe um knock back para direita
+//	para KB = -1, o jogador recebe um knock back para esquerda
+//	para KB = 0, o jogador não recebe knock back
+//	para KB = 2, o jogador fica parado por um tempo
+//	para KB = 3, o jogador toma o efeito de quando é capturado por uma rede
+void Jogador::tomaDano(const int aDano, const int KB)
+{
+	if (!invuneravel && aDano > 0)
+	{
+		vida -= aDano;
+		invuneravel = true;
+		if (KB == 1)
+		{
+			velX = VEL_X_KB;
+			velY = VEL_Y_KB;
+		}
+		else if (KB == -1)
+		{
+			velX = -VEL_X_KB;
+			velY = VEL_Y_KB;
+		}
+		else if (KB == 2)
+		{
+			velX = 0;
+			velY = 0;
+			imovel = true;
+			al_set_timer_count(timer_imovel, 0);
+			al_resume_timer(timer_imovel);
+		}
+		else if (KB == 3)
+		{
+			velX = 0;
+			velY = 0;
+			imovel = true;
+			al_set_timer_count(timer_imovel, -2);
+			al_resume_timer(timer_imovel);
+		}
+
+		//reseta o contador do timer
+		al_set_timer_count(timer_invuneravel, 0);
+		al_resume_timer(timer_invuneravel);
+	}
+}
+
+const bool Jogador::persPodeAtacar()
+{
+	if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
+		return true;
+
+	return false;
+}
+
+void Jogador::atualizaParado()
+{
+	if (imovel)
+	{
+		if (al_get_timer_count(timer_imovel) >= 1)
+		{
+			al_stop_timer(timer_imovel);
+			imovel = false;
+		}
+	}
+}
+
+void Jogador::destruirTimer()
+{
+	al_destroy_timer(timer_ataque);
+	al_destroy_timer(timer_atacando);
+	al_destroy_timer(timer_invuneravel);
+	al_destroy_timer(timer_imovel);
+}
+
+void Jogador::initTimer()
+{
+	al_start_timer(timer_ataque);
+	
+	al_start_timer(timer_imovel);
+	al_stop_timer(timer_imovel);
+	//	o timer só será resumido quando a função "atacar" for acionada 
+	//	e tem valor inicial 1 para permitir o primeiro ataque
+
+	al_start_timer(timer_atacando);
+	al_stop_timer(timer_atacando);
+	//	o timer só será resumido quando a função "atacar" for acionada
+
+	al_start_timer(timer_invuneravel);
+	al_stop_timer(timer_invuneravel);
+	al_set_timer_count(timer_invuneravel, 0);
+	//	o timer só será resumido quando a função "tomaDano" for acionada
 }

@@ -1,15 +1,6 @@
-﻿  Personagem.cpp
-  Generating Code...
-  Compiling...
-  Source.cpp
-  Rede.cpp
-  Projetil.cpp
-  Plataforma.cpp
-  Obstaculo.cpp
+﻿  Source.cpp
   Mosqueteiro.cpp
-  Mosquete.cpp
   ListaFases.cpp
-  Lanca.cpp
   Jogo.cpp
   Jogador.cpp
   Inimigo.cpp
@@ -17,17 +8,8 @@
   Fase2.cpp
   Fase1.cpp
   Fase.cpp
-  Espinho.cpp
   EspadachimCavaleiro.cpp
   Espadachim.cpp
-  Espada.cpp
-  Generating Code...
-  Compiling...
-  Entidade.cpp
-  Corda.cpp
   ChefaoCapitao.cpp
-  Armadilha.cpp
-  Arma.cpp
-  Arco.cpp
   Generating Code...
   BRAS_INDIG.vcxproj -> F:\Projects\BRAS_INDIG\Debug\BRAS_INDIG.exe

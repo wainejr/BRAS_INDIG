@@ -97,7 +97,6 @@ void Espadachim::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
 	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_ESP);
-	timer_imovel = al_create_timer(TEMP_IMOVEL);
 }
 
 const bool Espadachim::persPodeAtacar()

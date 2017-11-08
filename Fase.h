@@ -82,8 +82,8 @@ public:
 	void initTimers();
 	const bool colisaoEntEnt(Entidade* const pEnt1, Entidade* const pEnt2);
 	void criarTimers();
-	const bool colisaoPlat(Entidade* const pEnt);
-	const bool colisaoProjPlat(Projetil* const pProj);
+	const bool colisaoPlat(Entidade* const pEnt);	//gere a colisão
+	const bool colisaoEntPlat(Entidade* const pEnt);	//apenas vê se a colisão ocorreu
 	const bool personagemPodeAtacar(Personagem* const pPers);
 	void atualizaAtivos();
 	const bool jogadorPodeSubir(Jogador* const  pJog);
@@ -98,5 +98,7 @@ public:
 	void desenhaArmadilhas();
 	void colisaoEspinhos(Personagem* const pPers);
 	void gereColisao(Entidade* const pMovel, Entidade* const pParado);
-	void colisaoArmadilhas(Personagem* const pPers);
+	void colisaoArmadilhas(Jogador* const pJog);
+	void colisaoLinhaRede(Jogador* const pJog);
+	void colisaoRede(Jogador* const pJog);
 };

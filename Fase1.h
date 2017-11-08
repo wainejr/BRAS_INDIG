@@ -19,6 +19,9 @@ private:
 	Lanca lanc1;
 	Corda corda1;
 	Espinho espinho1;
+	Armadilha armd1;
+	Rede rede1;
+	Corda rede1cord;
 
 	
 

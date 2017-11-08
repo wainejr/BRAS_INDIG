@@ -8,6 +8,8 @@ private:
 	int chances;
 	bool subindo;
 	bool subiu; // gerenciamento interno apenas
+	bool imovel; // gerenciamento interno apenas
+	ALLEGRO_TIMER*	timer_imovel;
 
 public:
 	Jogador();
@@ -23,13 +25,18 @@ public:
 	void draw(const int aPosFaseX, const int aPosFaseY);
 
 	// para não tomar dano seguidamente
-	void builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma, const int aChances);
+	void builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, 
+		const bool aAtivo, const int aVida, Arma* const pArma, const int aChances);
 	void atualizar();
 	
-	void destroyTimerInv();
 	void createTimers();
 	const bool getSubindo();
 	void setSubindo(const bool aSubindo);
 	void descer();
+	void atualizaParado();
+	void tomaDano(const int aDano, const int KB);
+	void destruirTimer();
+	void initTimer();
+	const bool persPodeAtacar();
 };
 
