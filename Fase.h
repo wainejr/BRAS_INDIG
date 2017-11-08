@@ -30,6 +30,9 @@ protected:
 	Lista <Jogador*> jogadores;
 	Lista <Projetil*> projeteis;
 	Lista <Corda*> cordas;
+	Lista <Armadilha*> armadilhas;
+	Lista <Espinho*> espinhos;
+	Lista <Rede*> redes;
 
 	int limX;
 	int limY;
@@ -86,4 +89,14 @@ public:
 	const bool jogadorPodeSubir(Jogador* const  pJog);
 	void addCorda(Corda* const pCorda);
 	void desenhaCordas();
+	const bool jogadorEstaNumaCorda(Jogador* const pJog);
+	void addArmadilha(Armadilha* const pArmd);
+	void addEspinho(Espinho* const pEspinho);
+	void addRede(Rede* const pRede);
+	void desenhaEspinhos();
+	void desenhaRedes();
+	void desenhaArmadilhas();
+	void colisaoEspinhos(Personagem* const pPers);
+	void gereColisao(Entidade* const pMovel, Entidade* const pParado);
+	void colisaoArmadilhas(Personagem* const pPers);
 };

@@ -5,6 +5,7 @@
 Armadilha::Armadilha()
 {
 	ID = ARMADILHA;
+	acionada = false;
 }
 
 
@@ -26,4 +27,27 @@ void Armadilha::builderArmadilha(const int ax, const int ay, const int aLimX, co
 
 void Armadilha::draw(const int aPosFaseX, const int aPosFaseY)
 {
+}
+
+
+void Armadilha::atualizar()
+{
+}
+
+
+void Armadilha::acionar()
+{
+	acionada = true;
+}
+
+
+const bool Armadilha::getAcionada()
+{
+	return false;
+}
+
+
+const bool Armadilha::setAcionada(const bool aAcionada)
+{
+	return false;
 }

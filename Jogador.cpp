@@ -49,27 +49,34 @@ void Jogador::atacar()
 
 void Jogador::moverDir()
 {
-	if (velX < velMaxX)
-		velX += (float)ACEL_X_PERS;
-	if(velX > velMaxX)
-		velX = velMaxX;
-	dir = true;
+	if (!imovel) 
+	{
+		if (velX < velMaxX)
+			velX += (float)ACEL_X_PERS;
+		if (velX > velMaxX)
+			velX = velMaxX;
+		dir = true;
+	}
 }
 
 
 void Jogador::moverEsq()
 {
-	if (velX > -velMaxX)
-		velX -= (float)ACEL_X_PERS;
-	if(velX < -velMaxX)
-		velX = -velMaxX;
-	dir = false;
+	if (!imovel) 
+	{
+		if (velX > -velMaxX)
+			velX -= (float)ACEL_X_PERS;
+		if (velX < -velMaxX)
+			velX = -velMaxX;
+		dir = false;
+	}
 }
 
 
 void Jogador::pular()
 {
-	velY = VEL_PULO;
+	if(!imovel)
+		velY = VEL_PULO;
 }
 
 
@@ -126,6 +133,7 @@ void Jogador::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_JOG);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_JOG);
 	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
+	timer_imovel = al_create_timer(TEMP_IMOVEL);
 }
 
 
@@ -138,4 +146,13 @@ const bool Jogador::getSubindo()
 void Jogador::setSubindo(const bool aSubindo)
 {
 	subindo = aSubindo;
+}
+
+
+void Jogador::descer()
+{
+	if (!imovel)
+	{  
+		velY = -VEL_SUBIDA;
+	}
 }

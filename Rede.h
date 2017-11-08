@@ -17,5 +17,6 @@ public:
 	void ativar();
 	const bool getAtivada();
 	void draw(const int aPosFaseX, const int aPosFaseY);
+	void atualizar();
 };
 

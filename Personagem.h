@@ -14,9 +14,12 @@ protected:
 	bool podeAtacar;
 	bool atacando;
 	bool invuneravel;
+	bool imovel;
+
 	ALLEGRO_TIMER*  timer_ataque;
 	ALLEGRO_TIMER*  timer_atacando;
 	ALLEGRO_TIMER*  timer_invuneravel;
+	ALLEGRO_TIMER*	timer_imovel;
 public:
 	Personagem();
 	~Personagem();
@@ -28,7 +31,7 @@ public:
 	virtual void atualizar() = 0;
 	void atualizaArma();
 	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;
-	void tomaDano(const int aDano);
+	void tomaDano(const int aDano, const int KB);
 
 	void setArma(Arma* const pArma);
 	void setDir(bool const aDir);
@@ -45,5 +48,6 @@ public:
 	void atualizaInvuneravel();
 	void atualizaAtacando();
 	void atualizaAtaque();
+	void atualizaParado();
 };
 

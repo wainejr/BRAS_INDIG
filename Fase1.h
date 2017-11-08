@@ -18,6 +18,7 @@ private:
 	Mosquete armaMosq1;
 	Lanca lanc1;
 	Corda corda1;
+	Espinho espinho1;
 
 	
 

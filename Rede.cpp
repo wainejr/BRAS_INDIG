@@ -51,3 +51,8 @@ const bool Rede::getAtivada()
 void Rede::draw(const int aPosFaseX, const int aPosFaseY)
 {
 }
+
+
+void Rede::atualizar()
+{
+}

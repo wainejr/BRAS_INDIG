@@ -8,6 +8,7 @@ Personagem::Personagem()
 	vida = 10;
 	dir = true;
 	atacando = false;
+	imovel = false;
 }
 
 
@@ -82,7 +83,7 @@ void Personagem::setVida(const int aVida)
 void Personagem::parar()
 {
 	if (velX != 0) {
-		if (!(int)velX)
+		if (velX < ACEL_X_PERS && velX > 0 || velX > -ACEL_X_PERS && velX < 0)
 		{
 			velX = 0;
 		}
@@ -110,8 +111,7 @@ const bool Personagem::getAtacando()
 void Personagem::initTimer()
 {
 	al_start_timer(timer_ataque);
-	al_stop_timer(timer_ataque);
-	al_set_timer_count(timer_ataque, 1);
+
 	//	o timer só será resumido quando a função "atacar" for acionada 
 	//	e tem valor inicial 1 para permitir o primeiro ataque
 	
@@ -131,23 +131,36 @@ void Personagem::destruirTimer()
 	al_destroy_timer(timer_ataque);
 	al_destroy_timer(timer_atacando);
 	al_destroy_timer(timer_invuneravel);
+	al_destroy_timer(timer_imovel);
 }
 
 
 const bool Personagem::persPodeAtacar()
 {
-	if (al_get_timer_count(timer_ataque) >= 1 && !atacando)
+	if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
 		return true;
 
 	return false;
 }
 
-void Personagem::tomaDano(const int aDano)
+//	para KB = 1, o personagem recebe um knock back para direita
+//	para KB = -1, o personagem recebe um knock back para esquerda
+//	para KB = 0, o personagem não recebe knock back
+//	para KB = 2, o personagem fica parado por um tempo
+void Personagem::tomaDano(const int aDano, const int KB)
 {
 	if (!invuneravel && aDano > 0)
 	{
 		vida -= aDano;
 		invuneravel = true;
+		if (KB != 0 && KB != 2)
+		{
+			if (KB == 1)
+				velX = VEL_X_KB;
+			else if (KB == -1)
+				velX = -VEL_X_KB;
+			velY = VEL_Y_KB;
+		}
 		//reseta o contador do timer
 		al_set_timer_count(timer_invuneravel, 0);
 		al_resume_timer(timer_invuneravel);
@@ -197,4 +210,9 @@ void Personagem::atualizaAtaque()
 	{
 		al_stop_timer(timer_ataque);
 	}
+}
+
+
+void Personagem::atualizaParado()
+{
 }

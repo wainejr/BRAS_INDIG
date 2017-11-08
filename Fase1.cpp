@@ -104,10 +104,10 @@ void Fase1::execFase()
 					player1.moverDir();
 				if (keys[UP])
 				{
-					if(personagemPodePular(static_cast<Personagem*>(&player1)))
-						player1.pular();
-					else if (jogadorPodeSubir(&player1))
+					if (jogadorPodeSubir(&player1))
 						player1.subir();
+					else if (personagemPodePular(static_cast<Personagem*>(&player1)))
+						player1.pular();
 				}
 				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && personagemPodeAtacar(static_cast<Personagem*>(&player1)))
 				{
@@ -116,6 +116,11 @@ void Fase1::execFase()
 				}
 				if (!keys[LEFT] && !keys[RIGHT])
 					player1.parar();
+				if (keys[DOWN])
+				{
+					if (jogadorEstaNumaCorda(&player1) && !personagemPodePular(static_cast<Personagem*>(&player1)))
+						player1.descer();
+				}
 				if (player1.getVida() <= 0)
 				{
 					player1.setChances(player1.getChances() - 1);
@@ -178,7 +183,8 @@ void Fase1::initObjs()
 
 	chao.setFisica(false);
 	chao.setAtivo(true);
-	chao.setLimX(LARG * 2);
+	chao.setColisaoBaixo(true);
+	chao.setLimX(LARG * 5);
 	chao.setLimY(10);
 	chao.setX(0);
 	chao.setY(ALT);
@@ -194,15 +200,18 @@ void Fase1::initObjs()
 	player1.setX(20);
 	player1.setY(50);
 	
-	//addEspadachim(&inimigo1);
-	//addMosqueteiro(&inimigoMosq1);
-	//addCavaleiro(&cav1);
+	espinho1.builderEspinho(570, ALT - 10, 50, 5, true, 10);
+
+	addEspadachim(&inimigo1);
+	addMosqueteiro(&inimigoMosq1);
+	addCavaleiro(&cav1);
 	addPlataforma(&chao);
-	//addPlataforma(&plat1);
-	//addPlataforma(&plat2);
-	//addPlataforma(&plat3);
-	//addPlataforma(&plat4);
+	addPlataforma(&plat1);
+	addPlataforma(&plat2);
+	addPlataforma(&plat3);
+	addPlataforma(&plat4);
 	addPlayer(&player1);
+	addEspinho(&espinho1);
 	
 	addCorda(&corda1);
 }

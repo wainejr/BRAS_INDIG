@@ -47,7 +47,7 @@ void Espadachim::mover()
 				velX = velMaxX;
 		}
 		else
-			velX = 0;	// para facilitar e o personagem não ficar parado numa distância sem atacar
+			parar();	// para facilitar e o personagem não ficar parado numa distância sem atacar
 			//	parar();
 	}
 	else
@@ -97,16 +97,20 @@ void Espadachim::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
 	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_ESP);
+	timer_imovel = al_create_timer(TEMP_IMOVEL);
 }
 
 const bool Espadachim::persPodeAtacar()
 {
 	if (al_get_timer_count(timer_ataque) >= 1 && !atacando)
 	{
-		if (posX - (alvo->getX() + alvo->getLimX()) >= 0 && posX - (alvo->getX() + alvo->getLimX()) <= arma->getLimX())
-			return true;
-		else if (alvo->getX() - (posX + limX) >= 0 && alvo->getX() - (posX + limX) <= arma->getLimX())
-			return true;
+		if ((arma->getY() - arma->getLimY()) < alvo->getY() && arma->getY() > (alvo->getY() - alvo->getLimY()))
+		{
+			if (posX - (alvo->getX() + alvo->getLimX()) >= 0 && posX - (alvo->getX() + alvo->getLimX()) <= arma->getLimX())
+				return true;
+			else if (alvo->getX() - (posX + limX) >= 0 && alvo->getX() - (posX + limX) <= arma->getLimX())
+				return true;
+		}
 	}
 	return false;
 }

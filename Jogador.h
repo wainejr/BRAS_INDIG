@@ -30,5 +30,6 @@ public:
 	void createTimers();
 	const bool getSubindo();
 	void setSubindo(const bool aSubindo);
+	void descer();
 };
 

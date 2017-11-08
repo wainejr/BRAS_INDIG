@@ -41,6 +41,7 @@ void Mosqueteiro::atacar()
 
 void Mosqueteiro::atualizar()
 {
+	parar();
 	posX += velX;
 	posY -= velY;
 	if (alvo->getX() > posX)
@@ -85,4 +86,5 @@ void Mosqueteiro::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_MOSQ);
 	timer_atacando = al_create_timer(TEMP_ATAQ_MOSQ);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_MOSQ);
+	timer_imovel = al_create_timer(TEMP_IMOVEL);
 }
