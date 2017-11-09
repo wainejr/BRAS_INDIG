@@ -35,6 +35,7 @@ void Rede::builderRede(const int ax, const int ay, const int aLimX, const int aL
 	limY = aLimY;
 	ativo = aAtivo;
 	dano = aDano;
+	ativada = false;
 }
 
 

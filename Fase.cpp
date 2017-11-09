@@ -8,7 +8,7 @@ Fase::Fase()
 	posRelX = 0;
 	posRelY = 0;
 	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer, 3);
-	armaPlayer.builderEspada(0, 0, 5, 4, false, true, 1, &player1);
+	armaPlayer.builderArco(10, ALT - 10, 1, 1, false, true, 10, &player1);
 }
 
 
@@ -564,21 +564,29 @@ void Fase::colisaoProjeteis(Personagem* const pPers)
 void Fase::resetAllObjs()
 {
 	//RESETAR OS TIMERS TAMBÉM
-	int i;
-	
-	for (i = 0; i < jogadores.numObjs(); i++)
-		jogadores.retirarObj(jogadores.objI(i));
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
-		mosqueteiros.retirarObj(mosqueteiros.objI(i));
-	for (i = 0; i < espadachins.numObjs(); i++)
-		espadachins.retirarObj(espadachins.objI(i));
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-		cavaleiros.retirarObj(cavaleiros.objI(i));
+	while(jogadores.numObjs() > 0)
+		jogadores.retirarObj(jogadores.objI(0));
+	while (mosqueteiros.numObjs() > 0)
+		mosqueteiros.retirarObj(mosqueteiros.objI(0));
+	while (espadachins.numObjs() > 0)
+		espadachins.retirarObj(espadachins.objI(0));
+	while (cavaleiros.numObjs() > 0)
+		cavaleiros.retirarObj(cavaleiros.objI(0));
 	//	os projeteis devem ser excluidos de trás para frente par não 
 	//	interferência do tamanho do vetor e a posição desse durante
 	//	as exlusões
-	for (i = projeteis.numObjs()-1; i >= 0; i--)
-		projeteis.deleteObj(projeteis.objI(i));
+	while (projeteis.numObjs() > 0)
+		projeteis.deleteObj(projeteis.objI(0));
+	while (cordas.numObjs() > 0)
+		cordas.retirarObj(cordas.objI(0));
+	while (plataformas.numObjs() > 0)
+		plataformas.retirarObj(plataformas.objI(0));
+	while (armadilhas.numObjs() > 0)
+		armadilhas.retirarObj(armadilhas.objI(0));
+	while (espinhos.numObjs() > 0)
+		espinhos.retirarObj(espinhos.objI(0));
+	while (redes.numObjs() > 0)
+		redes.retirarObj(redes.objI(0));
 }
 
 
@@ -1016,5 +1024,33 @@ void Fase::colisaoRede(Jogador* const pJog)
 				pRede->setAtivo(false);
 			}
 		}
+	}
+}
+
+
+const bool Fase::persPodeDescerPlat(Personagem* const pPers)
+{
+	Plataforma* pPlat;
+	if (pPers->getAtivo())
+	{
+		for (int i = 0; i < plataformas.numObjs(); i++)
+		{
+			pPlat = plataformas.objI(i);
+			if (pPlat->getAtivo() && !pPlat->getColisaoBaixo())
+			{
+				if (colisaoPersChao(pPers, pPlat))
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+
+void Fase::perDescePlat(Personagem* const pPers)
+{
+	if (pPers->getAtivo() && persPodeDescerPlat(pPers))
+	{
+		pPers->setY(pPers->getY() + 3);
 	}
 }

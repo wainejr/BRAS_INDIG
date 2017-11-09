@@ -26,6 +26,7 @@ void Personagem::cair(const float acAt)
 
 void Personagem::atualizaArma()
 {
+
 	if (dir)
 	{
 		arma->setX(posX + limX);

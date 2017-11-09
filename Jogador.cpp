@@ -40,11 +40,14 @@ void Jogador::builderJogador(const int ax, const int ay, const int aLimX, const 
 
 void Jogador::atacar()
 {
-	atacando = true;
-	al_resume_timer(timer_atacando);
-	al_resume_timer(timer_ataque);
-	al_set_timer_count(timer_atacando, 0);
-	al_set_timer_count(timer_ataque, 0);
+	if (arma->getID() == ESPADA)
+	{
+		atacando = true;
+		al_resume_timer(timer_atacando);
+		al_resume_timer(timer_ataque);
+		al_set_timer_count(timer_atacando, 0);
+		al_set_timer_count(timer_ataque, 0);
+	}
 }
 
 
@@ -56,7 +59,8 @@ void Jogador::moverDir()
 			velX += (float)ACEL_X_PERS;
 		if (velX > velMaxX)
 			velX = velMaxX;
-		dir = true;
+		if(!atacando)
+			dir = true;
 	}
 }
 
@@ -69,7 +73,8 @@ void Jogador::moverEsq()
 			velX -= (float)ACEL_X_PERS;
 		if (velX < -velMaxX)
 			velX = -velMaxX;
-		dir = false;
+		if(!atacando)
+			dir = false;
 	}
 }
 
@@ -93,11 +98,9 @@ void Jogador::subir()
 
 void Jogador::atualizar()
 {
-	if (!imovel)
-	{
-		posY -= velY;
-		posX += velX;
-	}
+	posY -= velY;
+	posX += velX;
+	
 	if (subiu)
 		subindo = true;
 	else
@@ -106,7 +109,7 @@ void Jogador::atualizar()
 	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
-	atualizaParado();
+	atualizaParado();	
 	atualizaArma();
 }
 
@@ -118,9 +121,8 @@ void Jogador::draw(const int aPosFaseX, const int aPosFaseY)
 	else
 		al_draw_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0), 2);
 	if (atacando)
-		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX() - aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(255, 150, 0));
-	
-
+		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX() 
+			- aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(255, 150, 0));
 }
 
 
@@ -187,16 +189,18 @@ void Jogador::tomaDano(const int aDano, const int KB)
 		}
 		else if (KB == 2)
 		{
+			if (velY > 0)
+				velY = 0;
 			velX = 0;
-			velY = 0;
 			imovel = true;
 			al_set_timer_count(timer_imovel, 0);
 			al_resume_timer(timer_imovel);
 		}
 		else if (KB == 3)
 		{
+			if (velY > 0)
+				velY = 0;
 			velX = 0;
-			velY = 0;
 			imovel = true;
 			al_set_timer_count(timer_imovel, -2);
 			al_resume_timer(timer_imovel);
@@ -210,9 +214,16 @@ void Jogador::tomaDano(const int aDano, const int KB)
 
 const bool Jogador::persPodeAtacar()
 {
-	if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
-		return true;
-
+	if (arma->getID() == ESPADA)
+	{
+		if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
+			return true;
+	}
+	else if (arma->getID() == ARCO)
+	{
+		if (al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
+			return true;
+	}
 	return false;
 }
 
@@ -253,4 +264,25 @@ void Jogador::initTimer()
 	al_stop_timer(timer_invuneravel);
 	al_set_timer_count(timer_invuneravel, 0);
 	//	o timer só será resumido quando a função "tomaDano" for acionada
+}
+
+Projetil* const Jogador::atirar(const int ax, const int ay)
+{
+	if (arma->getID() == ARCO)
+	{
+		Projetil* pProj = new Projetil();
+		pProj->setID(PROJETIL_JOG);
+		float cadj = ax - arma->getX();
+		float coposto = -(ay - arma->getY());
+		float hip = sqrt(cadj*cadj + coposto*coposto);
+		pProj->builderProjetil(arma->getX(), arma->getY(), 10, 3, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
+		pProj->setArmaProj(arma);
+		atacando = true;
+		al_resume_timer(timer_atacando);
+		al_resume_timer(timer_ataque);
+		al_set_timer_count(timer_atacando, 0);
+		al_set_timer_count(timer_ataque, -1);	//jogador demora o dobro de tempo para atacar com o arco
+		return pProj;
+	}
+	return NULL;
 }

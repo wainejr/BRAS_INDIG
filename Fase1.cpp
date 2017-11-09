@@ -28,13 +28,16 @@ void Fase1::execFase()
 	bool done = false;
 	bool redraw = false;
 	bool resetar = false;
-	//
+	int x = 0;
+	int y = 0;
 
-	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D };
-	bool keys[9] = { false, false, false, false, false, false, false, false, false };
+	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D, MOUSE_ESQ};
+	bool keys[10] = { false, false, false, false, false, false, false, false, false, false };
+
+	//	VARIAVEIS ALLEGRO DO LOOP
+	ALLEGRO_EVENT ev;
 
 	// ----------- LOOP PRINCIPAL ---------------------
-	
 	criarTimers();
 	initTimers();
 	while (!done)
@@ -44,7 +47,6 @@ void Fase1::execFase()
 			restart();
 			resetar = false;
 		}
-		ALLEGRO_EVENT ev;
 		al_wait_for_event(queue, &ev);
 
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -94,6 +96,25 @@ void Fase1::execFase()
 				break;
 			}
 		}
+		else if (!keys[MOUSE_ESQ] && ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			if (ev.mouse.button & 1)
+			{
+				keys[MOUSE_ESQ] = true;
+			}
+		}
+		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+		{
+			if (ev.mouse.button & 1)
+			{
+				keys[MOUSE_ESQ] = false;
+			}
+		}
+		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+		{
+			x = ev.mouse.x;
+			y = ev.mouse.y;
+		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
@@ -109,7 +130,14 @@ void Fase1::execFase()
 					else if (personagemPodePular(static_cast<Personagem*>(&player1)))
 						player1.pular();
 				}
-				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && personagemPodeAtacar(static_cast<Personagem*>(&player1)))
+				if (keys[MOUSE_ESQ] && player1.getArma()->getID() == ARCO &&
+					personagemPodeAtacar(static_cast<Personagem*>(&player1)) && x != 0 && y != 0)
+				{
+					projeteis.addObj(player1.atirar(x, y));
+					keys[MOUSE_ESQ] = false; //evitar ataques contínuos
+				}
+				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && 
+					personagemPodeAtacar(static_cast<Personagem*>(&player1)))
 				{
 					player1.atacar();
 					keys[SPACE] = false; //evitar ataques contínuos
@@ -120,6 +148,8 @@ void Fase1::execFase()
 				{
 					if (jogadorEstaNumaCorda(&player1) && !personagemPodePular(static_cast<Personagem*>(&player1)))
 						player1.descer();
+					else if (persPodeDescerPlat(static_cast<Personagem*>(&player1)))
+						perDescePlat(static_cast<Personagem*>(&player1));
 				}
 				if (player1.getVida() <= 0)
 				{

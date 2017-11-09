@@ -44,14 +44,20 @@ void Mosqueteiro::atualizar()
 	parar();
 	posX += velX;
 	posY -= velY;
-	if (alvo->getX() > posX)
-		dir = true;
-	else
-		dir = false;
+	if (!atacando)
+	{
+		if (alvo->getX() > posX)
+			dir = true;
+		else
+			dir = false;
+	}
 	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
-	atualizaArma();
+	if (!atacando)
+		atualizaArma();
+
+		
 }
 
 

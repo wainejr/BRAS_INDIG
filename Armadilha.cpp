@@ -22,6 +22,7 @@ void Armadilha::builderArmadilha(const int ax, const int ay, const int aLimX, co
 	limY = aLimY;
 	ativo = aAtivo;
 	dano = aDano;
+	acionada = false;
 }
 
 

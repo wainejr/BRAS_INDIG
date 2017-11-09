@@ -70,10 +70,13 @@ void Espadachim::atualizar()
 	mover();
 	posX += velX;
 	posY -= velY;
-	if (alvo->getX() > posX)
-		dir = true;
-	else
-		dir = false;
+	if (!atacando)
+	{
+		if (alvo->getX() > posX)
+			dir = true;
+		else
+			dir = false;
+	}
 	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
