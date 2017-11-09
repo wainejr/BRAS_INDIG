@@ -74,10 +74,10 @@ Projetil* const Mosqueteiro::atirar()
 	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
 	Projetil* pProj = new Projetil();
 	pProj->setID(PROJETIL_INI);
-	float cadj = alvo->getX() + alvo->getLimX() / 2 - arma->getX();
-	float coposto = -(alvo->getY() - alvo->getLimY() / 2 - arma->getY());
-	float hip = sqrt(cadj*cadj + coposto*coposto);
-	pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
+	if(dir) 
+		pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, VEL_MAX_PROJ, 0 , true);
+	else
+		pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, -VEL_MAX_PROJ, 0, true);
 	pProj->setArmaProj(arma);
 	atacando = true;
 	al_resume_timer(timer_ataque);
@@ -92,4 +92,15 @@ void Mosqueteiro::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_MOSQ);
 	timer_atacando = al_create_timer(TEMP_ATAQ_MOSQ);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_MOSQ);
+}
+
+const bool Mosqueteiro::persPodeAtacar()
+{
+
+	if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando)
+	{
+		if (alvo->getY() > posY - limY && alvo->getY() - alvo->getLimY() < posY)
+			return true;
+	}
+	return false;
 }

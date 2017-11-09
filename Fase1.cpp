@@ -96,24 +96,17 @@ void Fase1::execFase()
 				break;
 			}
 		}
-		else if (!keys[MOUSE_ESQ] && ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			if (ev.mouse.button & 1)
-			{
+			if (!keys[MOUSE_ESQ] && ev.mouse.button & 1)
 				keys[MOUSE_ESQ] = true;
-			}
+
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
 			if (ev.mouse.button & 1)
-			{
 				keys[MOUSE_ESQ] = false;
-			}
-		}
-		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES)
-		{
-			x = ev.mouse.x;
-			y = ev.mouse.y;
+
 		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
@@ -131,9 +124,9 @@ void Fase1::execFase()
 						player1.pular();
 				}
 				if (keys[MOUSE_ESQ] && player1.getArma()->getID() == ARCO &&
-					personagemPodeAtacar(static_cast<Personagem*>(&player1)) && x != 0 && y != 0)
+					personagemPodeAtacar(static_cast<Personagem*>(&player1)))
 				{
-					projeteis.addObj(player1.atirar(x, y));
+					projeteis.addObj(player1.atirar());
 					keys[MOUSE_ESQ] = false; //evitar ataques contínuos
 				}
 				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && 
@@ -239,8 +232,8 @@ void Fase1::initObjs()
 	espinho1.builderEspinho(570, ALT - 10, 50, 5, true, 10);
 
 	//addEspadachim(&inimigo1);
-	//addMosqueteiro(&inimigoMosq1);
-	//addCavaleiro(&cav1);
+	addMosqueteiro(&inimigoMosq1);
+	addCavaleiro(&cav1);
 	addPlataforma(&chao);
 	addPlataforma(&plat1);
 	addPlataforma(&plat2);
@@ -250,7 +243,7 @@ void Fase1::initObjs()
 	addEspinho(&espinho1);
 	addArmadilha(&armd1);
 	
-	//addCorda(&corda1);
+	addCorda(&corda1);
 	addRede(&rede1);
 }
 

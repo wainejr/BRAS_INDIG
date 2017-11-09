@@ -39,7 +39,7 @@ void Armadilha::atualizar()
 {
 	if (acionada)
 	{
-		if (al_get_timer_count(timer_acionada) >= 2)
+		if (al_get_timer_count(timer_acionada) >= 1)
 		{
 			ativo = false;
 		}

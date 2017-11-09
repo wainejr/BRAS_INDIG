@@ -8,7 +8,8 @@ Fase::Fase()
 	posRelX = 0;
 	posRelY = 0;
 	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer, 3);
-	armaPlayer.builderArco(10, ALT - 10, 1, 1, false, true, 10, &player1);
+	//armaPlayer.builderArco(10, ALT - 10, 1, 1, false, true, 10, &player1);
+	armaPlayer.builderEspada(50, 50, 20, 5, false, true, 20, &player1);
 }
 
 
@@ -549,10 +550,15 @@ void Fase::colisaoProjeteis(Personagem* const pPers)
 			{
 				if (colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pProj)))
 				{
-					if (pProj->getVelX() > 0)
-						pPers->tomaDano(pProj->getArmaProj()->getDano(), true);
+					if (pPers->getID() != ESP_CAVALEIRO)
+					{
+						if (pProj->getVelX() > 0)
+							pPers->tomaDano(pProj->getArmaProj()->getDano(), 1);
+						else
+							pPers->tomaDano(pProj->getArmaProj()->getDano(), -1);
+					}
 					else
-						pPers->tomaDano(pProj->getArmaProj()->getDano(), false);
+						pPers->tomaDano(pProj->getArmaProj()->getDano(), 0);
 					projeteis.deleteObj(pProj);
 				}
 			}
@@ -605,7 +611,14 @@ void Fase::initTimers()
 	{
 		espadachins.objI(i)->initTimer();
 	}
-
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		cavaleiros.objI(i)->initTimer();
+	}
+	for (i = 0; i < armadilhas.numObjs(); i++)
+	{
+		armadilhas.objI(i)->initTimer();
+	}
 	al_start_timer(timer);
 }
 

@@ -38,6 +38,6 @@ public:
 	void destruirTimer();
 	void initTimer();
 	const bool persPodeAtacar();
-	Projetil* const atirar(const int ax, const int ay);
+	Projetil* const atirar();
 };
 

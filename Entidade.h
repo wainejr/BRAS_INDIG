@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 #include <string>
 #include <allegro5\allegro.h>
@@ -43,7 +43,7 @@
 #define TEMP_INVUN_CAV 1.0
 #define TEMP_ACION_ARMD 1.5
 
-#define TEMP_IMOVEL 1.0
+#define TEMP_IMOVEL 1.5
 
 #define VIDA_MAX_JOG 100
 #define DIFF_PIXELS_PARAR_X 10

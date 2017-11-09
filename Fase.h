@@ -22,7 +22,8 @@ protected:
 
 	///JOGADOR TESTE
 	Jogador player1;
-	Arco armaPlayer;
+	//Arco armaPlayer;
+	Espada armaPlayer;
 
 	//	LISTA DE ENTIDADES QUE ESTARÃO PRESENTES NA FASE
 	//	(com exceção da fase final que não terá obstáculos)

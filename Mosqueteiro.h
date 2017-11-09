@@ -15,5 +15,6 @@ public:
 	void builderMosqueteiro(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma);
 	Projetil* const atirar();
 	void createTimers();
+	const bool persPodeAtacar();
 };
 

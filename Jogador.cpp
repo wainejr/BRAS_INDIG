@@ -266,16 +266,17 @@ void Jogador::initTimer()
 	//	o timer só será resumido quando a função "tomaDano" for acionada
 }
 
-Projetil* const Jogador::atirar(const int ax, const int ay)
+Projetil* const Jogador::atirar()
 {
 	if (arma->getID() == ARCO)
 	{
 		Projetil* pProj = new Projetil();
 		pProj->setID(PROJETIL_JOG);
-		float cadj = ax - arma->getX();
-		float coposto = -(ay - arma->getY());
-		float hip = sqrt(cadj*cadj + coposto*coposto);
-		pProj->builderProjetil(arma->getX(), arma->getY(), 10, 3, VEL_MAX_PROJ*cadj / hip, VEL_MAX_PROJ*coposto / hip, true);
+		if(dir)
+			pProj->builderProjetil(arma->getX(), arma->getY(), 10, 3, VEL_MAX_PROJ, 0, true);
+		else	
+			pProj->builderProjetil(arma->getX(), arma->getY(), 10, 3, -VEL_MAX_PROJ, 0, true);
+
 		pProj->setArmaProj(arma);
 		atacando = true;
 		al_resume_timer(timer_atacando);
