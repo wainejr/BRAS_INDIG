@@ -22,14 +22,14 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const int aLimX
 	limY = aLimy;
 	ativo = aAtivo;
 	vida = aVida;
-	arma = pArma;
-	
+	if(pArma != NULL)
+		arma = pArma;
 }
 
 
 void Mosqueteiro::mover()
 {
-
+	parar();
 }
 
 
@@ -41,7 +41,7 @@ void Mosqueteiro::atacar()
 
 void Mosqueteiro::atualizar()
 {
-	parar();
+	mover();
 	posX += velX;
 	posY -= velY;
 	if (!atacando)

@@ -12,12 +12,6 @@ ListaFases::~ListaFases()
 }
 
 
-void ListaFases::addFase(Fase* pFase)
-{
-	listFases.push_back(pFase);
-}
-
-
 void ListaFases::carregaFaseN(const int aN)
 {
 	/*a fazer*/
@@ -27,4 +21,15 @@ void ListaFases::carregaFaseN(const int aN)
 void ListaFases::listaFases()
 {
 	/*a fazer*/
+}
+
+bool ListaFases::defineNumJogadores(const int aNumJogs)
+{
+	if (aNumJogs == 2 || aNumJogs == 1)
+	{
+		numJogs = aNumJogs;
+		return true;
+	}
+	else
+		return false;
 }

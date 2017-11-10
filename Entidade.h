@@ -30,7 +30,7 @@
 //	(contando o tempo que o pers fica em estado ataque)
 #define PER_ATAQ_MOSQ 2.5
 #define PER_ATAQ_ESP 2.0
-#define PER_ATAQ_JOG 1.0
+#define PER_ATAQ_JOG 0.5
 
 //Tempo que o jogador "fica" atacando, ou seja, que a arma fica esticada
 #define TEMP_ATAQ_JOG 0.2

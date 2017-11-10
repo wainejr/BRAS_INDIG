@@ -42,7 +42,8 @@ void Arco::builderArco(const int ax, const int ay, const int aLimX, const int aL
 	fisica = aFisica;
 	ativo = aAtivo;
 	dano = aDano;
-	donoArma = pDonoArma;
+	if(pDonoArma != NULL)
+		donoArma = pDonoArma;
 }
 
 void Arco::draw(const int aPosFaseX, const int aPosFaseY)

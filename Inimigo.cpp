@@ -5,6 +5,7 @@ Inimigo::Inimigo()
 	velMaxX = VEL_MAX_X_PERS;
 	velMaxY = VEL_PULO;
 	fisica = true;
+	alvo = NULL;
 }
 
 
@@ -34,7 +35,8 @@ void Inimigo::atualizar()
 
 void Inimigo::setAlvo(Jogador* const pJog)
 {
-	alvo = pJog;
+	if(pJog != NULL)
+		alvo = pJog;
 }
 
 

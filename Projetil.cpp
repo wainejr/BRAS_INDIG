@@ -4,6 +4,7 @@
 
 Projetil::Projetil()
 {
+	armaProjetil = NULL;
 }
 
 
@@ -33,7 +34,8 @@ void Projetil::atualizar()
 
 void Projetil::setArmaProj(Arma* const pArma)
 {
-	armaProjetil = pArma;
+	if(pArma != NULL)
+		armaProjetil = pArma;
 }
 
 

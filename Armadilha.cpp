@@ -6,6 +6,7 @@ Armadilha::Armadilha()
 {
 	ID = ARMADILHA;
 	acionada = false;
+	timer_acionada = NULL;
 }
 
 

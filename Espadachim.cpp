@@ -22,7 +22,8 @@ void Espadachim::builderEspadachim(const int ax, const int ay, const int aLimX, 
 	limY = aLimy;
 	ativo = aAtivo;
 	vida = aVida;
-	arma = pArma;
+	if(pArma != NULL)
+		arma = pArma;
 	
 }
 

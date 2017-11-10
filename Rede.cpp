@@ -7,6 +7,7 @@ Rede::Rede()
 	ID = REDE;
 	velMaxY = VEL_MAX_REDE;
 	ativada = false;
+	linha = NULL;
 }
 
 
@@ -23,7 +24,8 @@ Corda* const Rede::getCorda()
 
 void Rede::setCorda(Corda* const pCorda)
 {
-	linha = pCorda;
+	if(pCorda != NULL)
+		linha = pCorda;
 }
 
 

@@ -22,7 +22,8 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 	limY = aLimy;
 	ativo = aAtivo;
 	vida = aVida;
-	arma = pArma;
+	if(pArma != NULL)
+		arma = pArma;
 }
 
 //	o cavaleiro passa do alvo, só começando a parar um tempo depois

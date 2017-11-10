@@ -8,6 +8,10 @@ Personagem::Personagem()
 	vida = 10;
 	dir = true;
 	atacando = false;
+	arma = NULL;
+	timer_ataque = NULL;
+	timer_atacando = NULL;
+	timer_invuneravel = NULL;
 }
 
 
@@ -26,7 +30,6 @@ void Personagem::cair(const float acAt)
 
 void Personagem::atualizaArma()
 {
-
 	if (dir)
 	{
 		arma->setX(posX + limX);
@@ -58,8 +61,11 @@ Arma* const Personagem::getArma()
 
 void Personagem::setArma(Arma* const pArma)
 {
-	arma = pArma;
-	pArma->setDonoArma(this);
+	if (pArma != NULL)
+	{
+		arma = pArma;
+		pArma->setDonoArma(this);
+	}
 }
 
 

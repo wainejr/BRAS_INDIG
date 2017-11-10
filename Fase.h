@@ -14,16 +14,17 @@
 class Fase
 {	
 protected:
-	//VARIAVEIS ALLEGRO
+	//	VARIAVEIS ALLEGRO
 	ALLEGRO_DISPLAY* display = NULL;
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE* queue = NULL;
 	ALLEGRO_FONT* arial18 = NULL;
 
-	///JOGADOR TESTE
+	///	JOGADOR TESTE
 	Jogador player1;
-	//Arco armaPlayer;
-	Espada armaPlayer;
+	Jogador player2;
+	Arco armaPlayer1;
+	Espada armaPlayer2;
 
 	//	LISTA DE ENTIDADES QUE ESTARÃO PRESENTES NA FASE
 	//	(com exceção da fase final que não terá obstáculos)
@@ -58,9 +59,6 @@ protected:
 
 	//	CHAMA O ATUALIZAR DAS ENTIDADES
 	void atualizaObjs();
-	void atualizaPlayer();
-	void atualizaInimigos();
-	void atualizaProjeteis();
 
 	//	ATUALIZA QUAIS ENTIDADES ESTÃO ATIVAS
 	void atualizaAtivos();
@@ -68,11 +66,11 @@ protected:
 	//	GERENCIA COLISÕES E DANO ENTRE PERSONAGENS
 	void gerenciaColisoes();
 	
-	void perDescePlat(Personagem* const pPers);			//desce o personagem da plataforma caso possível
+	void perDescePlat(Personagem* const pPers);			//	desce o personagem da plataforma caso possível
 	const bool colisaoChao(Personagem* const pEnt);
 	const bool colisaoInimigo(Jogador* const pJog);
-	const bool colisaoPlat(Entidade* const pEnt);		//gere a colisão
-	const bool colisaoEntPlat(Entidade* const pEnt);	//apenas vê se a colisão ocorreu
+	const bool colisaoPlat(Entidade* const pEnt);		//	gere a colisão
+	const bool colisaoEntPlat(Entidade* const pEnt);	//	apenas vê se a colisão ocorreu
 	
 	void colisaoProjeteis(Personagem* const pPers);
 	void colisaoEspinhos(Personagem* const pPers);
@@ -84,6 +82,8 @@ protected:
 	const bool colisaoEntEnt(Entidade* const pEnt1, Entidade* const pEnt2);
 	void gereColisao(Entidade* const pMovel, Entidade* const pParado);
 	
+	//	GERENCIA OS ATAQUES DOS INIMGOS
+	void ataqueInimigos();
 
 	//	GERENCIA PERMISSÕES DO PERSONAGEM
 	const bool personagemPodeAtacar(Personagem* const pPers);
@@ -110,29 +110,22 @@ protected:
 	void setLimX(const int aLimX);
 	const int getLimY();
 	void setLimY(const int aLimY);
-	
-	//	GERENCIA OS ATAQUES DOS INIMGOS
-	void ataqueInimigos();
-	
-	
-	
+
 public:
 	Fase();
 	~Fase();
+
 	virtual void initFase() = 0;
-
 	void addPlayer(Jogador* const pPlayer);
-
 	void addPlataforma(Plataforma* const pPlataforma);
 	void addCorda(Corda* const pCorda);
-
 	void addMosqueteiro(Mosqueteiro* const pMosq);
 	void addEspadachim(Espadachim* const pEsp);
 	void addCavaleiro(EspadachimCavaleiro* const pCav);
-	
 	void addProjetil(Projetil* const pProj);
-	
 	void addArmadilha(Armadilha* const pArmd);
 	void addEspinho(Espinho* const pEspinho);
 	void addRede(Rede* const pRede);
+	void gerenciaColisaoAtaques();
+	void gerenciaColisaoPlatObstProj();
 };

@@ -16,6 +16,7 @@ Jogador::Jogador()
 	else if (num_jogs == 2)
 		ID = JOGADOR2;
 	imovel = false;
+	timer_imovel = NULL;
 }
 
 
@@ -33,7 +34,8 @@ void Jogador::builderJogador(const int ax, const int ay, const int aLimX, const 
 	limY = aLimy;
 	ativo = aAtivo;
 	vida = aVida;
-	arma = pArma;
+	if(pArma != NULL)
+		arma = pArma;
 	chances = aChances;
 }
 

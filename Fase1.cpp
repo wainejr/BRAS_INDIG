@@ -1,10 +1,71 @@
 #include "Fase1.h"
+#include <iostream>
 
-
+using namespace std;
 
 Fase1::Fase1()
 {
+	/// LER UM ARQUIVO TXT E ALOCAR AS ENTIDADES NO NÚMERO CORRETO
+	int num_mosq = 1, num_esps = 1 , num_cavs = 1, num_plats = 1;
+	int num_cordas = 1, num_armds =1, num_espinhos = 1, num_redes = 1;
+	int num_espadas = 1, num_lancas = 1, num_mosquetes = 1;
+	int i;
+	
+	mosqs = new Mosqueteiro*[num_mosq];
+	mosquetes = new Mosquete*[num_mosq];
+	for (i = 0; i < num_mosq; i++)
+	{
+		mosqs[i] = new Mosqueteiro;
+		mosquetes[i] = new Mosquete;
+	}
 
+	esps = new Espadachim*[num_esps];
+	espadas = new Espada*[num_esps];
+	for (i = 0; i < num_esps; i++)
+	{
+		esps[i] = new Espadachim;
+		espadas[i] = new Espada;
+	}
+
+	cavs = new EspadachimCavaleiro*[num_cavs];
+	lancas = new Lanca*[num_cavs];
+	for (i = 0; i < num_cavs; i++)
+	{
+		cavs[i] = new EspadachimCavaleiro;
+		lancas[i] = new Lanca;
+	}
+
+	plats = new Plataforma*[num_plats];
+	for (i = 0; i < num_plats; i++)
+	{
+		plats[i] = new Plataforma;
+	}
+
+	cords = new Corda*[num_cordas];
+	for (i = 0; i < num_cordas; i++)
+	{
+		cords[i] = new Corda;
+	}
+
+	armds = new Armadilha*[num_armds];
+	for (i = 0; i < num_armds; i++)
+	{
+		armds[i] = new Armadilha;
+	}
+
+	espins = new Espinho*[num_espinhos];
+	for (i = 0; i < num_espinhos; i++)
+	{
+		espins[i] = new Espinho;
+	}
+
+	reds = new Rede*[num_redes];
+	for (i = 0; i < num_redes; i++)
+	{
+		reds[i] = new Rede;
+	}
+	
+	//
 }
 
 
@@ -31,7 +92,7 @@ void Fase1::execFase()
 	int x = 0;
 	int y = 0;
 
-	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D, MOUSE_ESQ};
+	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D, CTRL};
 	bool keys[10] = { false, false, false, false, false, false, false, false, false, false };
 
 	//	VARIAVEIS ALLEGRO DO LOOP
@@ -73,6 +134,22 @@ void Fase1::execFase()
 				if(!keys[SPACE]) //evitar segurar o botão para atacar continuamente
 					keys[SPACE] = true;
 				break;
+			case ALLEGRO_KEY_W:
+				keys[W] = true;
+				break;
+			case ALLEGRO_KEY_S:
+				keys[S] = true;
+				break;
+			case ALLEGRO_KEY_D:
+				keys[D] = true;
+				break;
+			case ALLEGRO_KEY_A:
+				keys[A] = true;
+				break;
+			case ALLEGRO_KEY_RCTRL:
+				if(!keys[CTRL])
+					keys[CTRL] = true;
+				break;
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_KEY_UP)
@@ -94,19 +171,22 @@ void Fase1::execFase()
 			case ALLEGRO_KEY_SPACE:
 				keys[SPACE] = false;
 				break;
+			case ALLEGRO_KEY_W:
+				keys[W] = false;
+				break;
+			case ALLEGRO_KEY_S:
+				keys[S] = false;
+				break;
+			case ALLEGRO_KEY_D:
+				keys[D] = false;
+				break;
+			case ALLEGRO_KEY_A:
+				keys[A] = false;
+				break;
+			case ALLEGRO_KEY_RCTRL:
+				keys[CTRL] = false;
+				break;
 			}
-		}
-		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-		{
-			if (!keys[MOUSE_ESQ] && ev.mouse.button & 1)
-				keys[MOUSE_ESQ] = true;
-
-		}
-		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
-		{
-			if (ev.mouse.button & 1)
-				keys[MOUSE_ESQ] = false;
-
 		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
@@ -123,17 +203,13 @@ void Fase1::execFase()
 					else if (personagemPodePular(static_cast<Personagem*>(&player1)))
 						player1.pular();
 				}
-				if (keys[MOUSE_ESQ] && player1.getArma()->getID() == ARCO &&
-					personagemPodeAtacar(static_cast<Personagem*>(&player1)))
+				if (keys[CTRL] && personagemPodeAtacar(static_cast<Personagem*>(&player1)))
 				{
-					projeteis.addObj(player1.atirar());
-					keys[MOUSE_ESQ] = false; //evitar ataques contínuos
-				}
-				if (keys[SPACE] && player1.getArma()->getID() == ESPADA && 
-					personagemPodeAtacar(static_cast<Personagem*>(&player1)))
-				{
-					player1.atacar();
-					keys[SPACE] = false; //evitar ataques contínuos
+					if (player1.getArma()->getID() == ARCO)
+						projeteis.addObj(player1.atirar());
+					else if (player1.getArma()->getID() == ESPADA)
+						player1.atacar();
+					keys[CTRL] = false; //evitar ataques contínuos
 				}
 				if (!keys[LEFT] && !keys[RIGHT])
 					player1.parar();
@@ -144,11 +220,39 @@ void Fase1::execFase()
 					else if (persPodeDescerPlat(static_cast<Personagem*>(&player1)))
 						perDescePlat(static_cast<Personagem*>(&player1));
 				}
-				if (player1.getVida() <= 0)
+				if (keys[A])
+					player2.moverEsq();
+				if (keys[D])
+					player2.moverDir();
+				if (keys[W])
 				{
-					player1.setChances(player1.getChances() - 1);
-					player1.setVida(VIDA_MAX_JOG);
-					if (player1.getChances() > 0)
+					if (jogadorPodeSubir(&player2))
+						player2.subir();
+					else if (personagemPodePular(static_cast<Personagem*>(&player2)))
+						player2.pular();
+				}
+				if (keys[SPACE] && personagemPodeAtacar(static_cast<Personagem*>(&player2)))
+				{
+					if (player2.getArma()->getID() == ARCO)
+						projeteis.addObj(player1.atirar());
+					else if (player2.getArma()->getID() == ESPADA)
+						player2.atacar();
+					keys[SPACE] = false; //evitar ataques contínuos
+				}
+				if (!keys[A] && !keys[D])
+					player2.parar();
+				if (keys[S])
+				{
+					if (jogadorEstaNumaCorda(&player1) && !personagemPodePular(static_cast<Personagem*>(&player2)))
+						player2.descer();
+					else if (persPodeDescerPlat(static_cast<Personagem*>(&player2)))
+						perDescePlat(static_cast<Personagem*>(&player2));
+				}
+				if (player2.getVida() <= 0)
+				{
+					player2.setChances(player2.getChances() - 1);
+					player2.setVida(VIDA_MAX_JOG);
+					if (player2.getChances() > 0)
 					{
 						restart();
 						resetar = true;
@@ -232,14 +336,15 @@ void Fase1::initObjs()
 	espinho1.builderEspinho(570, ALT - 10, 50, 5, true, 10);
 
 	//addEspadachim(&inimigo1);
-	addMosqueteiro(&inimigoMosq1);
-	addCavaleiro(&cav1);
+	//addMosqueteiro(&inimigoMosq1);
+	//addCavaleiro(&cav1);
 	addPlataforma(&chao);
 	addPlataforma(&plat1);
 	addPlataforma(&plat2);
 	addPlataforma(&plat3);
 	addPlataforma(&plat4);
 	addPlayer(&player1);
+	addPlayer(&player2);
 	addEspinho(&espinho1);
 	addArmadilha(&armd1);
 	

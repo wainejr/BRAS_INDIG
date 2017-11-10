@@ -1,14 +1,21 @@
 #pragma once
-#include "Fase.h"
+#include "Fase1.h"
+#include "Fase2.h"
+#include "FaseFinal.h"
 
 class ListaFases
 {
 private:
-	vector<Fase*> listFases;
+	int numJogs;
+	
+	Fase1 fase1;
+	//Fase2 fase2;
+	//FaseFinal faseFinal;
+
 public:
 	ListaFases();
 	~ListaFases();
-	void addFase(Fase* pFase);
+	bool defineNumJogadores(const int aNumJogs);
 	void carregaFaseN(const int aN);
 	void listaFases();
 };
