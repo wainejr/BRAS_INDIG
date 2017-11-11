@@ -9,6 +9,7 @@ private:
 	bool subindo;
 	bool subiu; // gerenciamento interno apenas
 	bool imovel; // gerenciamento interno apenas
+	int pers;
 	ALLEGRO_TIMER*	timer_imovel;
 
 public:
@@ -39,5 +40,8 @@ public:
 	void initTimer();
 	const bool persPodeAtacar();
 	Projetil* const atirar();
+	const int getPers();
+	void setPers(const int aPers);
+	Arma* const constroiArma();
 };
 

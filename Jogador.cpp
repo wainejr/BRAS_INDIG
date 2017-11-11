@@ -15,6 +15,7 @@ Jogador::Jogador()
 		ID = JOGADOR1;
 	else if (num_jogs == 2)
 		ID = JOGADOR2;
+	pers = 0;
 	imovel = false;
 	timer_imovel = NULL;
 }
@@ -37,6 +38,7 @@ void Jogador::builderJogador(const int ax, const int ay, const int aLimX, const 
 	if(pArma != NULL)
 		arma = pArma;
 	chances = aChances;
+	//this->setArma(constroiArma());
 }
 
 
@@ -98,6 +100,7 @@ void Jogador::subir()
 	}
 }
 
+
 void Jogador::atualizar()
 {
 	posY -= velY;
@@ -138,6 +141,7 @@ void Jogador::setChances(const int aChances)
 {
 	chances = aChances;
 }
+
 
 void Jogador::createTimers()
 {
@@ -218,7 +222,7 @@ const bool Jogador::persPodeAtacar()
 {
 	if (arma->getID() == ESPADA)
 	{
-		if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
+		if (al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
 			return true;
 	}
 	else if (arma->getID() == ARCO)
@@ -228,6 +232,7 @@ const bool Jogador::persPodeAtacar()
 	}
 	return false;
 }
+
 
 void Jogador::atualizaParado()
 {
@@ -241,6 +246,7 @@ void Jogador::atualizaParado()
 	}
 }
 
+
 void Jogador::destruirTimer()
 {
 	al_destroy_timer(timer_ataque);
@@ -248,6 +254,7 @@ void Jogador::destruirTimer()
 	al_destroy_timer(timer_invuneravel);
 	al_destroy_timer(timer_imovel);
 }
+
 
 void Jogador::initTimer()
 {
@@ -268,6 +275,7 @@ void Jogador::initTimer()
 	//	o timer só será resumido quando a função "tomaDano" for acionada
 }
 
+
 Projetil* const Jogador::atirar()
 {
 	if (arma->getID() == ARCO)
@@ -286,6 +294,39 @@ Projetil* const Jogador::atirar()
 		al_set_timer_count(timer_atacando, 0);
 		al_set_timer_count(timer_ataque, -1);	//jogador demora o dobro de tempo para atacar com o arco
 		return pProj;
+	}
+	return NULL;
+}
+
+
+const int Jogador::getPers()
+{
+	return pers;
+}
+
+
+void Jogador::setPers(const int aPers)
+{
+	if (aPers == RAONI || aPers == TECA)
+	{
+		pers = aPers;
+	}
+}
+
+
+Arma* const Jogador::constroiArma()
+{
+	if (pers == RAONI)
+	{
+		Espada* pEspada = new Espada;
+		pEspada->builderEspada(0, 0, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, false, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
+		return pEspada;
+	}
+	else if (pers == TECA)
+	{
+		Arco* pArco = new Arco;
+		pArco->builderArco(0, 0, 1, 1, false, true, DANO_ARCO, static_cast<Personagem*>(this));
+		return pArco;
 	}
 	return NULL;
 }

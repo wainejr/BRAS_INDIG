@@ -214,4 +214,26 @@ void Personagem::atualizaAtaque()
 }
 
 
-
+Arma* const Personagem::constroiArma()
+{
+	if (ID == MOSQUETEIRO)
+	{
+		Mosquete* pMosquete = new Mosquete;
+		pMosquete->builderMosquete(0, 0, 1, 1, false, true, DANO_MOSQUETE, NULL);
+		return pMosquete;
+		
+	}
+	else if (ID == ESPADACHIM)
+	{
+		Espada* pEspada = new Espada;
+		pEspada->builderEspada(0, 0, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, false, true, DANO_ESPADA_ESP, this);
+		return pEspada;
+	}
+	else if (ID == ESP_CAVALEIRO)
+	{
+		Lanca* pLanca = new Lanca;
+		pLanca->builderLanca(0, 0, 1, 1, false, true, DANO_LANCA, this);
+		return pLanca;
+	}
+	return NULL;
+}

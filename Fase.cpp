@@ -7,6 +7,7 @@ Fase::Fase()
 	limY = 0;
 	posRelX = 0;
 	posRelY = 0;
+	num_jogs = 2;
 	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer1, 3);
 	player2.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer2, 3);
 	armaPlayer1.builderArco(10, ALT - 10, 1, 1, false, true, 10, &player1);
@@ -18,6 +19,11 @@ Fase::~Fase()
 {
 
 }
+
+bool Fase::campanha = false;
+
+
+int Fase::num_jogs = 0;
 
 
 void Fase::initTimers()
@@ -112,6 +118,8 @@ void Fase::resetAllObjs()
 void Fase::atualizaFase()
 {
 	atualizaObjs();
+	if (num_jogs == 2)
+		atualizaAlvos();
 	ataqueInimigos();
 	gerenciaColisoes();
 	atualizaAtivos();
@@ -266,6 +274,79 @@ void Fase::atualizaAtivos()
 		if (pProj->getAtivo() && (pProj->getX() >(LARG + posRelX + 20) || pProj->getX() < (posRelX - 20) ||
 			pProj->getY() > (ALT - posRelY - 20) || pProj->getY() < (-posRelY + 20)))
 			projeteis.deleteObj(pProj);
+	}
+}
+
+
+void Fase::atualizaAlvos()
+{
+	Mosqueteiro* pMosq;
+	Espadachim* pEsp;
+	EspadachimCavaleiro* pCav;
+	for (int i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		pMosq = mosqueteiros.objI(i);
+		if (pMosq->getAtivo())
+		{
+			alvoInimigo(static_cast<Inimigo*>(pMosq));
+		}
+	}
+	for (int i = 0; i < espadachins.numObjs(); i++)
+	{
+		pEsp = espadachins.objI(i);
+		if (pEsp->getAtivo())
+		{
+			alvoInimigo(static_cast<Inimigo*>(pEsp));
+		}
+	}
+	for (int i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		pCav = cavaleiros.objI(i);
+		if (pCav->getAtivo())
+		{
+			alvoInimigo(static_cast<Inimigo*>(pCav));
+		}
+	}
+}
+
+
+void Fase::alvoInimigo(Inimigo* const pIni)
+{
+	Jogador* pJog1 = jogadores.objI(0);
+	Jogador* pJog2 = jogadores.objI(1);
+	//	se ambos os jogadores estão na mesma altura do inimigo...
+	if (pJog1->getY() > pIni->getY() - pIni->getLimY() && pJog1->getY() - pJog1->getLimY() < pIni->getY() &&
+		pJog2->getY() > pIni->getY() - pIni->getLimY() && pJog2->getY() - pJog2->getLimY() < pIni->getY())
+	{
+		int distIniJog1 = pJog1->getX() + pJog1->getLimX() / 2 - (pIni->getX() + pIni->getLimX() / 2);
+		int distIniJog2 = pJog2->getX() + pJog2->getLimX() / 2 - (pIni->getX() + pIni->getLimX() / 2);
+		if (distIniJog1 < 0)
+		{
+			distIniJog1 *= -1;
+		}
+		if (distIniJog2 < 0)
+		{
+			distIniJog2 *= -1;
+		}
+
+		if (distIniJog1 < distIniJog2)
+		{
+			pIni->setAlvo(pJog1);
+		}
+		else
+		{
+			pIni->setAlvo(pJog2);
+		}
+	}
+	//	se só o jogador 1 está na altura do inimigo...
+	else if (pJog1->getY() > pIni->getY() - pIni->getLimY() && pJog1->getY() - pJog1->getLimY() < pIni->getY())
+	{
+		pIni->setAlvo(pJog1);
+	}
+	//	se só o jogador 2 está na altura do inimigo...
+	else if (pJog2->getY() > pIni->getY() - pIni->getLimY() && pJog2->getY() - pJog2->getLimY() < pIni->getY())
+	{
+		pIni->setAlvo(pJog2);
 	}
 }
 
@@ -635,7 +716,7 @@ void Fase::colisaoArmadilhas(Jogador* const pJog)
 	for (int i = 0; i < armadilhas.numObjs(); i++)
 	{
 		pArmd = armadilhas.objI(i);
-		if (pArmd->getAtivo() && colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pArmd)))
+		if (pArmd->getAtivo() && !pArmd->getAcionada() && colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pArmd)))
 		{
 			pJog->tomaDano(pArmd->getDano(), 2);
 			pArmd->acionar();
@@ -660,13 +741,6 @@ void Fase::colisaoLinhaRede(Jogador* const pJog)
 				{
 					if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
 						pRede->ativar();
-				}
-			}
-			else
-			{
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pRede)))
-				{
-					pJog->tomaDano(pRede->getDano(), 3);
 				}
 			}
 		}
@@ -1001,14 +1075,66 @@ void Fase::atualizaPosFase()
 {
 	if (posRelX >= 0)
 	{
-		//MUDAR ESSA CONODIÇÃO DEPOIS PARA QUANDO FOREM 2 PLAYERS
-		if (jogadores.objI(0)->getX() > (posRelX + LARG / 2))
+		if (jogadores.numObjs() == 1)
 		{
-			posRelX = jogadores.objI(0)->getX() - LARG / 2;
+			Jogador* pJog1 = jogadores.objI(0);
+			//MUDAR ESSA CONODIÇÃO DEPOIS PARA QUANDO FOREM 2 PLAYERS
+			if (pJog1->getX() > (posRelX + LARG / 2))
+			{
+				posRelX = pJog1->getX() - LARG / 2;
+			}
+			else if (pJog1->getX() < (posRelX + LARG / 3))
+			{
+				posRelX = pJog1->getX() - LARG / 3;
+			}
 		}
-		else if (jogadores.objI(0)->getX() < (posRelX + LARG / 2))
+		else if (jogadores.numObjs() == 2)
 		{
-			posRelX = jogadores.objI(0)->getX() - LARG / 2;
+			Jogador* pJog1 = jogadores.objI(0);
+			Jogador* pJog2 = jogadores.objI(1);
+
+			//	se a média da posição dos jogadores não está dentro dos limites
+			//	definidos da fase...
+			if ((pJog1->getX() + pJog2->getX()) / 2 > (posRelX + LARG / 2))
+			{
+				posRelX = (jogadores.objI(0)->getX() + pJog2->getX()) / 2 - LARG / 2;
+			}
+			else if ((pJog1->getX() + pJog2->getX()) / 2 < (posRelX + LARG / 3))
+			{
+				posRelX = (pJog1->getX() + pJog2->getX()) / 2 - LARG / 3;
+			}
+
+			//	se o jogador 1 está "para trás" da fase...
+			if (pJog1->getX() < posRelX)
+			{
+				//	coloca-o na posição relativa da fase e zera sua velocidade em x
+				pJog1->setX(posRelX);
+				pJog1->setVelX(0);
+			}
+			//	se o jogador 1 está "para frente" da fase...
+			else if (pJog1->getX() + pJog1->getLimX() > posRelX + LARG)
+			{
+				//	coloca-o no "fim da tela" e zera sua velocidade em x
+				pJog1->setX(posRelX+LARG- pJog1->getLimX());
+				pJog1->setVelX(0);
+			}
+
+			//	se o jogador 2 está "para trás" da fase...
+			if (pJog2->getX() < posRelX)
+			{
+				//	coloca-o na posição relativa da fase e zera sua velocidade em x
+				pJog2->setX(posRelX);
+				pJog2->setVelX(0);
+			}
+			//	se o jogador 2 está "para frente" da fase...
+			else if (pJog2->getX() + pJog2->getLimX() > posRelX + LARG)
+			{
+				//	coloca-o no "fim da tela" e zera sua velocidade em x
+				pJog2->setX(posRelX + LARG - pJog2->getLimX());
+				pJog2->setVelX(0);
+			}
+
+
 		}
 	}
 	if (posRelX < 0)
@@ -1097,4 +1223,34 @@ void Fase::addEspinho(Espinho* const pEspinho)
 void Fase::addRede(Rede* const pRede)
 {
 	redes.addObj(pRede);
+}
+
+
+void Fase::umJogador()
+{
+	num_jogs = 1;
+}
+
+
+void Fase::doisJogadores()
+{
+	num_jogs = 2;
+}
+
+
+void Fase::setCampanha(const bool aCamp)
+{
+	campanha = aCamp;
+}
+
+
+const int Fase::getNumJogs()
+{
+	return num_jogs;
+}
+
+
+void Fase::setNumJogs(const int aNumJogs)
+{
+	num_jogs = aNumJogs;
 }

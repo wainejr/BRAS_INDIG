@@ -6,38 +6,39 @@ class Fase1 :
 	public Fase
 {
 private:
-	Jogador** jogs;		///	SER� ALOCADO NA FASE
-	
-	///	PARA ALOCAMENTO E INICIALIZA플O DO JOGO
+	Jogador* jog1;		///	SER� ALOCADO NA FASE.H
+	Jogador* jog2;
+
+	///	PARA ALOCAMENTO E INICIALIZA플O DA FASE
+	///	TALVEZ FAZER AS ARMAS SEREM CRIADAS NO BUILDER DOS INIMIGOS E JOGADORES
 	Mosqueteiro** mosqs;
+	Mosquete** mosquetes;
+	int num_mosq;
+	
 	Espadachim** esps;
+	Espada** espadas;
+	int num_esps;
+
 	EspadachimCavaleiro** cavs;
+	Lanca** lancas;
+	int num_cavs;
 
 	Plataforma** plats;
+	int num_plats;
+
 	Corda** cords;
+	int num_cordas;
 
 	Armadilha** armds;
+	int num_armds;
+
 	Espinho** espins;
-	Rede** reds;
-
-	Espada** espadas;
-	Lanca** lancas;
-	Mosquete** mosquetes;
-
-	int num_mosq;
-	int num_esps;
-	int num_cavs;
-	int num_plats;
-	int num_cordas;
-	int num_armds; 
 	int num_espinhos;
+
+	Rede** reds;
 	int num_redes;
-	int num_espadas;
-	int num_lancas;
-	int num_mosquetes;
 
-
-	///	TESTE
+	//	TESTE
 	Espadachim inimigo1;
 	EspadachimCavaleiro cav1;
 	Plataforma chao;
@@ -54,20 +55,26 @@ private:
 	Armadilha armd1;
 	Rede rede1;
 	Corda rede1cord;
+	//
 
-public:
-	Fase1();
-	~Fase1();
 
-	void initFase();
 	void execFase();
 	void initObjs();
 	void initAllegroObjs();
-	void initInimigos();
-	void initPlataformas();
 	void restart();
+
+	void numEntidades();
+	void alocaEntidades();
+	void deletaEntidades();
+	void buildEntidades();
+	void addEntidades();
 
 	//FUN플O PARA TESTES RETIRAR DEPOIS
 	void imprimeVida();
+	
+public:
+	Fase1();
+	~Fase1();
+	void initFase();
 };
 

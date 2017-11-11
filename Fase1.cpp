@@ -5,73 +5,14 @@ using namespace std;
 
 Fase1::Fase1()
 {
-	/// LER UM ARQUIVO TXT E ALOCAR AS ENTIDADES NO NÚMERO CORRETO
-	int num_mosq = 1, num_esps = 1 , num_cavs = 1, num_plats = 1;
-	int num_cordas = 1, num_armds =1, num_espinhos = 1, num_redes = 1;
-	int num_espadas = 1, num_lancas = 1, num_mosquetes = 1;
-	int i;
-	
-	mosqs = new Mosqueteiro*[num_mosq];
-	mosquetes = new Mosquete*[num_mosq];
-	for (i = 0; i < num_mosq; i++)
-	{
-		mosqs[i] = new Mosqueteiro;
-		mosquetes[i] = new Mosquete;
-	}
-
-	esps = new Espadachim*[num_esps];
-	espadas = new Espada*[num_esps];
-	for (i = 0; i < num_esps; i++)
-	{
-		esps[i] = new Espadachim;
-		espadas[i] = new Espada;
-	}
-
-	cavs = new EspadachimCavaleiro*[num_cavs];
-	lancas = new Lanca*[num_cavs];
-	for (i = 0; i < num_cavs; i++)
-	{
-		cavs[i] = new EspadachimCavaleiro;
-		lancas[i] = new Lanca;
-	}
-
-	plats = new Plataforma*[num_plats];
-	for (i = 0; i < num_plats; i++)
-	{
-		plats[i] = new Plataforma;
-	}
-
-	cords = new Corda*[num_cordas];
-	for (i = 0; i < num_cordas; i++)
-	{
-		cords[i] = new Corda;
-	}
-
-	armds = new Armadilha*[num_armds];
-	for (i = 0; i < num_armds; i++)
-	{
-		armds[i] = new Armadilha;
-	}
-
-	espins = new Espinho*[num_espinhos];
-	for (i = 0; i < num_espinhos; i++)
-	{
-		espins[i] = new Espinho;
-	}
-
-	reds = new Rede*[num_redes];
-	for (i = 0; i < num_redes; i++)
-	{
-		reds[i] = new Rede;
-	}
-	
-	//
+	numEntidades();
+	alocaEntidades();
 }
 
 
 Fase1::~Fase1()
 {
-	
+	deletaEntidades();
 }
 
 
@@ -79,6 +20,8 @@ void Fase1::initFase()
 {
 	initAllegroObjs();
 	initObjs();
+	//buildEntidades();
+	//addEntidades();
 	execFase();
 }
 
@@ -131,7 +74,7 @@ void Fase1::execFase()
 				keys[LEFT] = true;
 				break;
 			case ALLEGRO_KEY_SPACE:
-				if(!keys[SPACE]) //evitar segurar o botão para atacar continuamente
+				if(!keys[SPACE])	//evitar segurar o botão para atacar continuamente
 					keys[SPACE] = true;
 				break;
 			case ALLEGRO_KEY_W:
@@ -147,7 +90,7 @@ void Fase1::execFase()
 				keys[A] = true;
 				break;
 			case ALLEGRO_KEY_RCTRL:
-				if(!keys[CTRL])
+				if(!keys[CTRL])		//evitar segurar o botão para atacar continuamente
 					keys[CTRL] = true;
 				break;
 			}
@@ -243,7 +186,7 @@ void Fase1::execFase()
 					player2.parar();
 				if (keys[S])
 				{
-					if (jogadorEstaNumaCorda(&player1) && !personagemPodePular(static_cast<Personagem*>(&player2)))
+					if (jogadorEstaNumaCorda(&player2) && !personagemPodePular(static_cast<Personagem*>(&player2)))
 						player2.descer();
 					else if (persPodeDescerPlat(static_cast<Personagem*>(&player2)))
 						perDescePlat(static_cast<Personagem*>(&player2));
@@ -252,7 +195,7 @@ void Fase1::execFase()
 				{
 					player2.setChances(player2.getChances() - 1);
 					player2.setVida(VIDA_MAX_JOG);
-					if (player2.getChances() > 0)
+					if (player2.getVida() > 0)
 					{
 						restart();
 						resetar = true;
@@ -302,11 +245,8 @@ void Fase1::initObjs()
 	inimigoMosq1.setAlvo(&player1);
 	inimigoMosq1.setFisica(true);
 
-	armaMosq1.builderMosquete(0, 0, 1, 1, false, true, 10, &inimigoMosq1);
-
 	cav1.builderEspadachimCav(400, ALT - 50, 40, 20, true, 40, &lanc1);
 	cav1.setAlvo(&player1);
-	lanc1.builderLanca(0, 0, 10, 10, false, true, 20, &cav1);
 
 	chao.setFisica(false);
 	chao.setAtivo(true);
@@ -336,8 +276,8 @@ void Fase1::initObjs()
 	espinho1.builderEspinho(570, ALT - 10, 50, 5, true, 10);
 
 	//addEspadachim(&inimigo1);
-	//addMosqueteiro(&inimigoMosq1);
-	//addCavaleiro(&cav1);
+	addMosqueteiro(&inimigoMosq1);
+	addCavaleiro(&cav1);
 	addPlataforma(&chao);
 	addPlataforma(&plat1);
 	addPlataforma(&plat2);
@@ -356,7 +296,6 @@ void Fase1::initObjs()
 void Fase1::initAllegroObjs()
 {
 	// -------------   INICIALIZAÇÕES	--------------
-	///initAllegroObjs();
 	if (!al_init())
 		return;
 	al_init_primitives_addon();
@@ -369,8 +308,7 @@ void Fase1::initAllegroObjs()
 	queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / FPS);
 
-	//----------	ADD FONTES À FILA DE EVENTOS		-------------
-	///setQueue();
+	//	----------	ADD FONTES À FILA DE EVENTOS   -------------
 	al_register_event_source(queue, al_get_keyboard_event_source());
 	al_register_event_source(queue, al_get_mouse_event_source());
 	al_register_event_source(queue, al_get_timer_event_source(timer));
@@ -378,20 +316,12 @@ void Fase1::initAllegroObjs()
 }
 
 
-void Fase1::initInimigos()
-{
-}
-
-
-void Fase1::initPlataformas()
-{
-}
-
-
 void Fase1::restart()
 {
 	resetAllObjs();
 	initObjs();
+	//buildEntidades();
+	//addEntidades();
 	//adicionar código aqui pra clicar pra reiniciar e tals
 }
 
@@ -401,4 +331,189 @@ void Fase1::imprimeVida()
 	al_draw_textf(arial18, al_map_rgb(255, 255, 255), 10, 20, ALLEGRO_ALIGN_LEFT,
 		"VIDA:      Player: %i  Esp: %i  Cav: %i  Mosq: %i",
 		player1.getVida(), inimigo1.getVida(), cav1.getVida(), inimigoMosq1.getVida());
+}
+
+
+void Fase1::alocaEntidades()
+{
+	/// LER UM ARQUIVO TXT E ALOCAR AS ENTIDADES NO NÚMERO CORRETO
+	int i;
+
+	mosqs = new Mosqueteiro*[num_mosq];
+	mosquetes = new Mosquete*[num_mosq];
+	for (i = 0; i < num_mosq; i++)
+	{
+		mosqs[i] = new Mosqueteiro;
+		mosquetes[i] = new Mosquete;
+	}
+
+	esps = new Espadachim*[num_esps];
+	espadas = new Espada*[num_esps];
+	for (i = 0; i < num_esps; i++)
+	{
+		esps[i] = new Espadachim;
+		espadas[i] = new Espada;
+	}
+
+	cavs = new EspadachimCavaleiro*[num_cavs];
+	lancas = new Lanca*[num_cavs];
+	for (i = 0; i < num_cavs; i++)
+	{
+		cavs[i] = new EspadachimCavaleiro;
+		lancas[i] = new Lanca;
+	}
+
+	plats = new Plataforma*[num_plats];
+	for (i = 0; i < num_plats; i++)
+	{
+		plats[i] = new Plataforma;
+	}
+
+	cords = new Corda*[num_cordas];
+	for (i = 0; i < num_cordas; i++)
+	{
+		cords[i] = new Corda;
+	}
+
+	armds = new Armadilha*[num_armds];
+	for (i = 0; i < num_armds; i++)
+	{
+		armds[i] = new Armadilha;
+	}
+
+	espins = new Espinho*[num_espinhos];
+	for (i = 0; i < num_espinhos; i++)
+	{
+		espins[i] = new Espinho;
+	}
+
+	reds = new Rede*[num_redes];
+	for (i = 0; i < num_redes; i++)
+	{
+		reds[i] = new Rede;
+	}
+}
+
+
+void Fase1::deletaEntidades()
+{
+	int i;
+	for (i = 0; i < num_mosq; i++)
+	{
+		delete (mosqs[i]);
+		delete (mosquetes[i]);
+	}
+	delete(mosqs);
+	delete(mosquetes);
+	
+	for (i = 0; i < num_esps; i++)
+	{
+		delete (esps[i]);
+		delete (espadas[i]);
+	}
+	delete(esps);
+	delete(espadas);
+
+	for (i = 0; i < num_cavs; i++)
+	{
+		delete (cavs[i]);
+		delete (lancas[i]);
+	}
+	delete(cavs);
+	delete(lancas);
+
+	for (i = 0; i < num_plats; i++)
+	{
+		delete (plats[i]);
+	}
+	delete(plats);
+
+	for (i = 0; i < num_cordas; i++)
+	{
+		delete (cords[i]);
+	}
+	delete(cords);
+
+	for (i = 0; i < num_armds; i++)
+	{
+		delete (armds[i]);
+	}
+	delete(armds);
+
+	for (i = 0; i < num_espinhos; i++)
+	{
+		delete (espins[i]);
+	}
+	delete(espins);
+
+	for (i = 0; i < num_redes; i++)
+	{
+		delete (reds[i]);
+	}
+	delete(reds);
+}
+
+
+void Fase1::buildEntidades()
+{
+	///	SETAR A POSIÇÃO DOS JOGADORES EM X E Y TAMBÉM
+}
+
+
+void Fase1::numEntidades()
+{
+	//	 LER DO TXT O NÚMERO DE ENTIDADES E TALS
+	num_armds = 0;
+	num_cavs = 0;
+	num_cordas = 0;
+	num_espinhos = 0;
+	num_esps = 0;
+	num_mosq = 0;
+	num_plats = 0;
+	num_redes = 0;
+}
+
+
+void Fase1::addEntidades()
+{
+	int i;
+	for (i = 0; i < num_mosq; i++)
+	{
+		addMosqueteiro(mosqs[i]);
+	}
+
+	for (i = 0; i < num_esps; i++)
+	{
+		addEspadachim(esps[i]);
+	}
+
+	for (i = 0; i < num_cavs; i++)
+	{
+		addCavaleiro(cavs[i]);
+	}
+
+	for (i = 0; i < num_plats; i++)
+	{
+		addPlataforma(plats[i]);
+	}
+
+	for (i = 0; i < num_cordas; i++)
+	{
+		addCorda(cords[i]);
+	}
+
+	for (i = 0; i < num_armds; i++)
+	{
+		addArmadilha(armds[i]);
+	}
+
+	for (i = 0; i < num_espinhos; i++)
+	{
+		addEspinho(espins[i]);
+	}
+
+	for (i = 0; i < num_redes; i++)
+	{
+		addRede(reds[i]);
+	}
 }

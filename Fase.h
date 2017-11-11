@@ -26,26 +26,32 @@ protected:
 	Arco armaPlayer1;
 	Espada armaPlayer2;
 
+	Jogador* jog1;
+	Jogador* jog2;
+	static int num_jogs;
+	
+	static bool campanha;
+
 	//	LISTA DE ENTIDADES QUE ESTARÃO PRESENTES NA FASE
 	//	(com exceção da fase final que não terá obstáculos)
+	Lista <Jogador*> jogadores;
 	Lista <Plataforma*> plataformas;
 	Lista <Mosqueteiro*> mosqueteiros;
 	Lista <Espadachim*> espadachins;
 	Lista <EspadachimCavaleiro*> cavaleiros;
-	Lista <Jogador*> jogadores;
 	Lista <Projetil*> projeteis;
 	Lista <Corda*> cordas;
 	Lista <Armadilha*> armadilhas;
 	Lista <Espinho*> espinhos;
 	Lista <Rede*> redes;
-
+	
 	//	PROPRIEDADES DE POSIÇÃO DA FASE
 	int limX;
 	int limY;
 	int posRelX;
 	int posRelY;
 
-	//	GERENCIADORES DA INICIALIZAÇÃO E MANUTENÇÃO DA FASE
+	//	GERENCIADORES DA INICIALIZAÇÃO E REINICIALIZAÇÃO DA FASE
 	void initTimers();
 	void criarTimers();
 	virtual void restart() = 0;
@@ -63,9 +69,16 @@ protected:
 	//	ATUALIZA QUAIS ENTIDADES ESTÃO ATIVAS
 	void atualizaAtivos();
 
+	//	ATUALIZA QUAIS OS ALVOS DOS INIMIGOS
+	void atualizaAlvos();
+	void alvoInimigo(Inimigo* const pIni);
+
 	//	GERENCIA COLISÕES E DANO ENTRE PERSONAGENS
 	void gerenciaColisoes();
 	
+	void gerenciaColisaoAtaques();
+	void gerenciaColisaoPlatObstProj();
+
 	void perDescePlat(Personagem* const pPers);			//	desce o personagem da plataforma caso possível
 	const bool colisaoChao(Personagem* const pEnt);
 	const bool colisaoInimigo(Jogador* const pJog);
@@ -111,11 +124,7 @@ protected:
 	const int getLimY();
 	void setLimY(const int aLimY);
 
-public:
-	Fase();
-	~Fase();
-
-	virtual void initFase() = 0;
+	
 	void addPlayer(Jogador* const pPlayer);
 	void addPlataforma(Plataforma* const pPlataforma);
 	void addCorda(Corda* const pCorda);
@@ -126,6 +135,16 @@ public:
 	void addArmadilha(Armadilha* const pArmd);
 	void addEspinho(Espinho* const pEspinho);
 	void addRede(Rede* const pRede);
-	void gerenciaColisaoAtaques();
-	void gerenciaColisaoPlatObstProj();
+
+public:
+	Fase();
+	~Fase();
+
+	virtual void initFase() = 0;
+	void umJogador();
+	void doisJogadores();
+	void setCampanha(const bool aCamp);
+	const int getNumJogs();
+	void setNumJogs(const int aNumJogs);
+	
 };

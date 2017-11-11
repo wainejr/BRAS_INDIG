@@ -1,6 +1,9 @@
 #pragma once
 #include "Entidade.h"
-#include "Arma.h"
+#include "Arco.h"
+#include "Mosquete.h"
+#include "Lanca.h"
+#include "Espada.h"
 
 class Personagem :
 	public Entidade
@@ -48,5 +51,6 @@ public:
 	void atualizaInvuneravel();
 	void atualizaAtacando();
 	void atualizaAtaque();
+	virtual Arma* const constroiArma();
 };
 

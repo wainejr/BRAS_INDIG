@@ -6,17 +6,18 @@
 class ListaFases
 {
 private:
-	int numJogs;
-	
 	Fase1 fase1;
-	//Fase2 fase2;
-	//FaseFinal faseFinal;
+	Fase2 fase2;
+	FaseFinal faseFinal;
 
 public:
+	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
+	//	CLICAR PARA INICIAR O JOGO
 	ListaFases();
 	~ListaFases();
 	bool defineNumJogadores(const int aNumJogs);
 	void carregaFaseN(const int aN);
-	void listaFases();
+	void campanha();
+	void defineJog(string const aNome, const int aNum);
 };
 

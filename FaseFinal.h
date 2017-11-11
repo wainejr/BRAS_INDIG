@@ -6,5 +6,8 @@ class FaseFinal :
 public:
 	FaseFinal();
 	~FaseFinal();
+	void restart();
+	void execFase();
+	void initFase();
 };
 
