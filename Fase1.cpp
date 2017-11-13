@@ -5,6 +5,13 @@ using namespace std;
 
 Fase1::Fase1()
 {
+	num_jogs = 1;
+
+	//	mudar para fase.cpp
+	jog1 = new Jogador;
+	jog1->builderJogador(20, ALT - 20, true);
+	//
+
 	numEntidades();
 	alocaEntidades();
 }
@@ -19,9 +26,8 @@ Fase1::~Fase1()
 void Fase1::initFase()
 {
 	initAllegroObjs();
-	initObjs();
-	//buildEntidades();
-	//addEntidades();
+	buildEntidades();
+	addEntidades();
 	execFase();
 }
 
@@ -36,7 +42,16 @@ void Fase1::execFase()
 	int y = 0;
 
 	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D, CTRL};
-	bool keys[10] = { false, false, false, false, false, false, false, false, false, false };
+	bool keys[10] = { false, false, false, false, false, false, false, false, false, false};
+
+	//	VARIAVEIS AUXILIARES
+	Jogador* jog1;
+	Jogador* jog2;
+
+	if (num_jogs >= 1)
+		jog1 = jogadores.objI(0);
+	if (num_jogs == 2)
+		jog2 = jogadores.objI(1);
 
 	//	VARIAVEIS ALLEGRO DO LOOP
 	ALLEGRO_EVENT ev;
@@ -135,75 +150,115 @@ void Fase1::execFase()
 		{
 			redraw = true;
 			{
-				if (keys[LEFT])
-					player1.moverEsq();
-				if (keys[RIGHT])
-					player1.moverDir();
-				if (keys[UP])
+				if (num_jogs >= 1 && jog1->getAtivo())
 				{
-					if (jogadorPodeSubir(&player1))
-						player1.subir();
-					else if (personagemPodePular(static_cast<Personagem*>(&player1)))
-						player1.pular();
-				}
-				if (keys[CTRL] && personagemPodeAtacar(static_cast<Personagem*>(&player1)))
-				{
-					if (player1.getArma()->getID() == ARCO)
-						projeteis.addObj(player1.atirar());
-					else if (player1.getArma()->getID() == ESPADA)
-						player1.atacar();
-					keys[CTRL] = false; //evitar ataques contínuos
-				}
-				if (!keys[LEFT] && !keys[RIGHT])
-					player1.parar();
-				if (keys[DOWN])
-				{
-					if (jogadorEstaNumaCorda(&player1) && !personagemPodePular(static_cast<Personagem*>(&player1)))
-						player1.descer();
-					else if (persPodeDescerPlat(static_cast<Personagem*>(&player1)))
-						perDescePlat(static_cast<Personagem*>(&player1));
-				}
-				if (keys[A])
-					player2.moverEsq();
-				if (keys[D])
-					player2.moverDir();
-				if (keys[W])
-				{
-					if (jogadorPodeSubir(&player2))
-						player2.subir();
-					else if (personagemPodePular(static_cast<Personagem*>(&player2)))
-						player2.pular();
-				}
-				if (keys[SPACE] && personagemPodeAtacar(static_cast<Personagem*>(&player2)))
-				{
-					if (player2.getArma()->getID() == ARCO)
-						projeteis.addObj(player1.atirar());
-					else if (player2.getArma()->getID() == ESPADA)
-						player2.atacar();
-					keys[SPACE] = false; //evitar ataques contínuos
-				}
-				if (!keys[A] && !keys[D])
-					player2.parar();
-				if (keys[S])
-				{
-					if (jogadorEstaNumaCorda(&player2) && !personagemPodePular(static_cast<Personagem*>(&player2)))
-						player2.descer();
-					else if (persPodeDescerPlat(static_cast<Personagem*>(&player2)))
-						perDescePlat(static_cast<Personagem*>(&player2));
-				}
-				if (player2.getVida() <= 0)
-				{
-					player2.setChances(player2.getChances() - 1);
-					player2.setVida(VIDA_MAX_JOG);
-					if (player2.getVida() > 0)
+					if (jog1->getVida() <= 0)
 					{
-						restart();
-						resetar = true;
+						jog1->setChances(jog1->getChances() - 1);
+						jog1->setVida(VIDA_MAX_JOG);
+						jog1->setAtivo(false);
+						jogadores.retirarObj(jog1);
+						if (jog1->getChances() <= 0)
+							num_jogs--;
 					}
 					else 
-						done = true;
+					{
+						if (keys[LEFT])
+						{
+							jog1->moverEsq();
+						}
+						if (keys[RIGHT])
+						{
+							jog1->moverDir();
+						}
+						if (keys[UP])
+						{
+							if (jogadorPodeSubir(jog1))
+								jog1->subir();
+							else if (personagemPodePular(static_cast<Personagem*>(jog1)))
+								jog1->pular();
+						}
+						if (keys[CTRL] && personagemPodeAtacar(static_cast<Personagem*>(jog1)))
+						{
+							if (jog1->getArma()->getID() == ARCO)
+								projeteis.addObj(jog1->atirar());
+							else if (jog1->getArma()->getID() == ESPADA)
+								jog1->atacar();
+							keys[CTRL] = false; //evitar ataques contínuos
+						}
+						if (!keys[LEFT] && !keys[RIGHT])
+						{
+							jog1->parar();
+						}
+						if (keys[DOWN])
+						{
+							if (jogadorEstaNumaCorda(jog1) && !personagemPodePular(static_cast<Personagem*>(jog1)))
+								jog1->descer();
+							else if (persPodeDescerPlat(static_cast<Personagem*>(jog1)))
+								perDescePlat(static_cast<Personagem*>(jog1));
+						}
+					}
 				}
-				atualizaFase();
+				if (num_jogs == 2 && jog2->getAtivo())
+				{
+					if (jog2->getVida() <= 0)
+					{
+						jog2->setChances(jog2->getChances() - 1);
+						jog2->setVida(VIDA_MAX_JOG);
+						jog2->setAtivo(false);
+						jogadores.retirarObj(jog2);
+						if (jog2->getChances() <= 0)
+							num_jogs--;
+					}
+					else {
+						if (keys[A])
+						{
+							jog2->moverEsq();
+						}
+						if (keys[D])
+						{
+							jog2->moverDir();
+						}
+						if (keys[W])
+						{
+							if (jogadorPodeSubir(jog2))
+								jog2->subir();
+							else if (personagemPodePular(static_cast<Personagem*>(jog2)))
+								jog2->pular();
+						}
+						if (keys[SPACE] && personagemPodeAtacar(static_cast<Personagem*>(jog2)))
+						{
+							if (jog2->getArma()->getID() == ARCO)
+								projeteis.addObj(jog2->atirar());
+							else if (jog2->getArma()->getID() == ESPADA)
+								jog2->atacar();
+							keys[SPACE] = false; //evitar ataques contínuos
+						}
+						if (!keys[A] && !keys[D])
+						{
+							jog2->parar();
+						}
+						if (keys[S])
+						{
+							if (jogadorEstaNumaCorda(jog2) && !personagemPodePular(static_cast<Personagem*>(jog2)))
+								jog2->descer();
+							else if (persPodeDescerPlat(static_cast<Personagem*>(jog2)))
+								perDescePlat(static_cast<Personagem*>(jog2));
+						}
+					}
+				}
+				if (num_jogs == 1 && !jog1->getAtivo())
+				{
+					restart();
+					resetar = true;
+				}
+				else if (num_jogs == 2 && !jog1->getAtivo() && !jog2->getAtivo())
+				{
+					restart();
+					resetar = true;
+				}
+				if(!resetar)
+					atualizaFase();
 			}
 		}
 
@@ -222,74 +277,6 @@ void Fase1::execFase()
 	al_destroy_display(display);
 	al_destroy_event_queue(queue);
 	return;
-}
-
-
-void Fase1::initObjs()
-{
-	inimigo1.setFisica(true);
-	inimigo1.setAtivo(true);
-	inimigo1.setLimX(10);
-	inimigo1.setLimY(20);
-	inimigo1.setX(LARG - 100);
-	inimigo1.setY(50);
-	inimigo1.setArma(&armaInimigo);
-	inimigo1.setVida(100);
-	inimigo1.setAlvo(&player1);
-	armaInimigo.builderEspada(0, 0, 10, 5, false, true, 10, &inimigo1);
-
-	corda1.builderCorda(100, ALT - 10, 5, 50, true, true);
-	corda1.setColisaoBaixo(false);
-
-	inimigoMosq1.builderMosqueteiro(300, 90, 10, 20, true, 20, &armaMosq1);
-	inimigoMosq1.setAlvo(&player1);
-	inimigoMosq1.setFisica(true);
-
-	cav1.builderEspadachimCav(400, ALT - 50, 40, 20, true, 40, &lanc1);
-	cav1.setAlvo(&player1);
-
-	chao.setFisica(false);
-	chao.setAtivo(true);
-	chao.setColisaoBaixo(true);
-	chao.setLimX(LARG * 5);
-	chao.setLimY(10);
-	chao.setX(0);
-	chao.setY(ALT);
-
-	plat1.builderPlataforma(200, ALT - 70, 100, 10, true);
-	plat2.builderPlataforma(500, ALT - 70, 100, 10, true);
-	plat3.builderPlataforma(700, ALT - 70, 10, 10, true);
-	plat4.builderPlataforma(650, ALT - 10, 10, 80, true);
-	plat2.setColisaoBaixo(true);
-	plat3.setColisaoBaixo(true);
-	plat4.setColisaoBaixo(true);
-	
-	rede1.builderRede(100, ALT - 200, 30, 3, true, 50);
-	rede1cord.builderCorda(50, ALT - 15, 5, 5, true, false);
-	rede1.setCorda(&rede1cord);
-
-	player1.setX(20);
-	player1.setY(50);
-
-	armd1.builderArmadilha(300, ALT - 10, 5, 2, true, 20);
-	
-	espinho1.builderEspinho(570, ALT - 10, 50, 5, true, 10);
-
-	//addEspadachim(&inimigo1);
-	addMosqueteiro(&inimigoMosq1);
-	addCavaleiro(&cav1);
-	addPlataforma(&chao);
-	addPlataforma(&plat1);
-	addPlataforma(&plat2);
-	addPlataforma(&plat3);
-	addPlataforma(&plat4);
-	addPlayer(&player1);
-	addPlayer(&player2);
-	addEspinho(&espinho1);
-	addArmadilha(&armd1);
-	
-	addCorda(&corda1);
-	addRede(&rede1);
 }
 
 
@@ -319,9 +306,8 @@ void Fase1::initAllegroObjs()
 void Fase1::restart()
 {
 	resetAllObjs();
-	initObjs();
-	//buildEntidades();
-	//addEntidades();
+	buildEntidades();
+	addEntidades();
 	//adicionar código aqui pra clicar pra reiniciar e tals
 }
 
@@ -329,8 +315,7 @@ void Fase1::restart()
 void Fase1::imprimeVida()
 {
 	al_draw_textf(arial18, al_map_rgb(255, 255, 255), 10, 20, ALLEGRO_ALIGN_LEFT,
-		"VIDA:      Player: %i  Esp: %i  Cav: %i  Mosq: %i",
-		player1.getVida(), inimigo1.getVida(), cav1.getVida(), inimigoMosq1.getVida());
+		"VIDA: %i", jog1->getVida());
 }
 
 
@@ -340,27 +325,21 @@ void Fase1::alocaEntidades()
 	int i;
 
 	mosqs = new Mosqueteiro*[num_mosq];
-	mosquetes = new Mosquete*[num_mosq];
 	for (i = 0; i < num_mosq; i++)
 	{
 		mosqs[i] = new Mosqueteiro;
-		mosquetes[i] = new Mosquete;
 	}
 
 	esps = new Espadachim*[num_esps];
-	espadas = new Espada*[num_esps];
 	for (i = 0; i < num_esps; i++)
 	{
 		esps[i] = new Espadachim;
-		espadas[i] = new Espada;
 	}
 
 	cavs = new EspadachimCavaleiro*[num_cavs];
-	lancas = new Lanca*[num_cavs];
 	for (i = 0; i < num_cavs; i++)
 	{
 		cavs[i] = new EspadachimCavaleiro;
-		lancas[i] = new Lanca;
 	}
 
 	plats = new Plataforma*[num_plats];
@@ -401,26 +380,20 @@ void Fase1::deletaEntidades()
 	for (i = 0; i < num_mosq; i++)
 	{
 		delete (mosqs[i]);
-		delete (mosquetes[i]);
 	}
 	delete(mosqs);
-	delete(mosquetes);
 	
 	for (i = 0; i < num_esps; i++)
 	{
 		delete (esps[i]);
-		delete (espadas[i]);
 	}
 	delete(esps);
-	delete(espadas);
 
 	for (i = 0; i < num_cavs; i++)
 	{
 		delete (cavs[i]);
-		delete (lancas[i]);
 	}
 	delete(cavs);
-	delete(lancas);
 
 	for (i = 0; i < num_plats; i++)
 	{
@@ -457,27 +430,77 @@ void Fase1::deletaEntidades()
 void Fase1::buildEntidades()
 {
 	///	SETAR A POSIÇÃO DOS JOGADORES EM X E Y TAMBÉM
+	if (num_jogs >= 1)
+	{
+		jog1->setY(ALT - 50);
+		jog1->setX(10);
+		jog1->setAtivo(true);
+	}
+	if (num_jogs == 2)
+	{
+		jog2->setY(ALT - 50);
+		jog1->setX(40);
+		jog2->setAtivo(true);
+	}
+
+	plats[0]->builderPlataforma(0, ALT, LARG * 4, 10, true);
+	plats[0]->setColisaoBaixo(true);
+	plats[1]->builderPlataforma(50, ALT - 70, 100, 10, true);
+	plats[1]->setColisaoBaixo(false);
+	plats[2]->builderPlataforma(300, ALT-70, 50, 10, true);
+	plats[2]->setColisaoBaixo(true);
+	plats[3]->builderPlataforma(350, ALT-120, 75, 10, true);
+	plats[3]->setColisaoBaixo(false);
+	
+	cords[0]->builderCorda(430, ALT - 10, 10, 130, true, true);
+
+	armds[0]->builderArmadilha(100, ALT - 10, 5, 5, true, 20);
+
+	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true, 10);
+
+	reds[0]->builderRede(800, ALT - 200, 20, 5, true, 50);
+	reds[0]->getCorda()->builderCorda(800, ALT - 15, 5, 5, true, false);
+
+	cavs[0]->builderEspadachimCav(900, ALT - 10, 50, 25, true, 50, NULL);
+	cavs[0]->setAlvo(jog1);
+
+	esps[0]->builderEspadachim(300, ALT - 10, 10, 20, true, 40, NULL);
+	esps[0]->setAlvo(jog1);
+
+	mosqs[0]->builderMosqueteiro(350, ALT - 10, 10, 20, true, 25, NULL);
+	mosqs[0]->setAlvo(jog1);
 }
 
 
 void Fase1::numEntidades()
 {
-	//	 LER DO TXT O NÚMERO DE ENTIDADES E TALS
-	num_armds = 0;
-	num_cavs = 0;
-	num_cordas = 0;
-	num_espinhos = 0;
-	num_esps = 0;
-	num_mosq = 0;
-	num_plats = 0;
-	num_redes = 0;
+	num_plats = 4;
+	num_cordas = 1;
+	
+	num_armds = 1;
+	num_espinhos = 1;
+	num_redes = 1;
+
+	num_cavs = 1;
+	num_esps = 1;
+	num_mosq = 1;	
 }
 
 
 void Fase1::addEntidades()
 {
 	int i;
-	for (i = 0; i < num_mosq; i++)
+	
+	if (num_jogs >= 1)
+	{
+		addPlayer(jog1);
+	}
+	if (num_jogs == 2)
+	{
+		addPlayer(jog2);
+	}
+
+	for (i = 0; i < num_esps; i++)
 	{
 		addMosqueteiro(mosqs[i]);
 	}

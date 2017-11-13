@@ -4,6 +4,11 @@
 
 ListaFases::ListaFases()
 {
+	raoni = new Jogador;
+	teca = new Jogador;
+
+	raoni->builderJogador(0, 0, false, RAONI);
+	teca->builderJogador(0, 0, false, TECA);
 }
 
 
@@ -46,6 +51,7 @@ bool ListaFases::defineNumJogadores(const int aNumJogs)
 		return false;
 }
 
+
 void ListaFases::campanha()
 {
 	fase1.setCampanha(true);
@@ -67,20 +73,22 @@ void ListaFases::campanha()
 	// créditos
 }
 
+
 //	MUDAR O STRING PARA ALGUM ID OU COISA ASSIM
-void ListaFases::defineJog(string const aNome, const int aNum)
+void ListaFases::defineJog(const int aID, const int aNum)
 {
 	if (fase1.getNumJogs() == 1)
 	{
 		if (aNum == 1)
 		{
-			if (aNome == "TECA")
+			if (aID == TECA)
 			{
-				//	DEFINE O JOGADOR 1 UM COMO SENDO A TEÇA
+				fase1.setJog1(teca);
+				
 			}
-			else if (aNome == "RAONI")
+			else if (aID == RAONI)
 			{
-				//	DEFINE O JOGADOR 1 UM COMO SENDO O RAONI
+				fase1.setJog1(teca);
 			}
 		}
 	}
@@ -88,24 +96,24 @@ void ListaFases::defineJog(string const aNome, const int aNum)
 	{
 		if (aNum == 1)
 		{
-			if (aNome == "TECA")
+			if (aID == TECA)
 			{
-				//	DEFINE O JOGADOR 1 UM COMO SENDO A TEÇA
+				fase1.setJog1(teca);
 			}
-			else if (aNome == "RAONI")
+			else if (aID == RAONI)
 			{
-				//	DEFINE O JOGADOR 1 UM COMO SENDO O RAONI
+				fase1.setJog1(raoni);
 			}
 		}
 		else if (aNum == 2)
 		{
-			if (aNome == "TECA")
+			if (aID == TECA)
 			{
-				//	DEFINE O JOGADOR 2 UM COMO SENDO A TEÇA
+				fase1.setJog2(teca);
 			}
-			else if (aNome == "RAONI")
+			else if (aID == RAONI)
 			{
-				//	DEFINE O JOGADOR 2 UM COMO SENDO O RAONI
+				fase1.setJog2(teca);
 			}
 		}
 	}

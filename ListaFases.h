@@ -10,6 +10,9 @@ private:
 	Fase2 fase2;
 	FaseFinal faseFinal;
 
+	Jogador* raoni;
+	Jogador* teca;
+	
 public:
 	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
 	//	CLICAR PARA INICIAR O JOGO
@@ -18,6 +21,6 @@ public:
 	bool defineNumJogadores(const int aNumJogs);
 	void carregaFaseN(const int aN);
 	void campanha();
-	void defineJog(string const aNome, const int aNum);
+	void defineJog(const int aID, const int aNum);
 };
 

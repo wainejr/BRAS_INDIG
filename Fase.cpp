@@ -7,11 +7,7 @@ Fase::Fase()
 	limY = 0;
 	posRelX = 0;
 	posRelY = 0;
-	num_jogs = 2;
-	player1.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer1, 3);
-	player2.builderJogador(10, ALT - 10, 20, 30, true, 100, &armaPlayer2, 3);
-	armaPlayer1.builderArco(10, ALT - 10, 1, 1, false, true, 10, &player1);
-	armaPlayer2.builderEspada(50, 50, 20, 5, false, true, 20, &player2);
+	num_jogs = 1;
 }
 
 
@@ -25,6 +21,9 @@ bool Fase::campanha = false;
 
 int Fase::num_jogs = 0;
 
+
+Jogador* Fase::jog1 = NULL;
+Jogador* Fase::jog2 = NULL;
 
 void Fase::initTimers()
 {
@@ -94,7 +93,7 @@ void Fase::resetAllObjs()
 	while (cavaleiros.numObjs() > 0)
 		cavaleiros.retirarObj(cavaleiros.objI(0));
 
-	//	projeteis são deletados por serem criados no meio da execução
+	//	projeteis são deletados por serem criados durante a execução da fase
 	while (projeteis.numObjs() > 0)
 		projeteis.deleteObj(projeteis.objI(0));
 
@@ -118,7 +117,7 @@ void Fase::resetAllObjs()
 void Fase::atualizaFase()
 {
 	atualizaObjs();
-	if (num_jogs == 2)
+	if (jogadores.numObjs() == 2)
 		atualizaAlvos();
 	ataqueInimigos();
 	gerenciaColisoes();
@@ -199,7 +198,6 @@ void Fase::atualizaObjs()
 
 void Fase::atualizaAtivos()
 {
-	//FAZER A PARTE DO FORA DA TELA E DENTRO AINDA
 	int i;
 	Mosqueteiro* pMosq;
 	Espadachim* pEsp;
@@ -208,7 +206,8 @@ void Fase::atualizaAtivos()
 
 	//	Depois de o inimimigo ser "ultrapassado", ele é retirado da lista de inimigos
 	//	já caso o inimigo seja "alcançado", ele é ativado.
-	///TALVEZ COLOCAR UMA TOLERÂNCIA AQUI
+	///	TALVEZ COLOCAR UMA TOLERÂNCIA AQUI
+	///	FAZER O MESMO PARA REDES, ESPINHOS E ARMADILHAS
 	for (i = 0; i < mosqueteiros.numObjs(); i++)
 	{
 		pMosq = mosqueteiros.objI(i);
@@ -267,7 +266,25 @@ void Fase::atualizaAtivos()
 		else if (!pCav->getAtivo() && (pCav->getX() - (posRelX + LARG)) < 0)
 			pCav->setAtivo(true);
 	}
-
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		pMosq = mosqueteiros.objI(i);
+		if (pMosq->getAtivo())
+		{
+			if (pMosq->getVida() <= 0)
+			{
+				pMosq->setAtivo(false);
+				mosqueteiros.retirarObj(pMosq);
+			}
+			else if ((pMosq->getX() + pMosq->getLimX()) < posRelX)
+			{
+				pMosq->setAtivo(false);
+				mosqueteiros.retirarObj(pMosq);
+			}
+		}
+		else if (!pMosq->getAtivo() && (pMosq->getX() - (posRelX + LARG)) < 0)
+			pMosq->setAtivo(true);
+	}
 	for (i = 0; i < projeteis.numObjs(); i++)
 	{
 		pProj = projeteis.objI(i);
@@ -665,7 +682,7 @@ void Fase::colisaoProjeteis(Personagem* const pPers)
 		{
 			//	se o projetil for do inimigo e o alvo jogador ou se o projetil
 			//	for do jogador e o alvo inimigo...
-			if (((pPers->getID() == JOGADOR1 || pPers->getID() == JOGADOR2) &&
+			if (((pPers->getID() == RAONI || pPers->getID() == TECA) &&
 				pProj->getID() == PROJETIL_INI) || ((pPers->getID() == ESP_CAVALEIRO ||
 					pPers->getID() == ESPADACHIM || pPers->getID() == MOSQUETEIRO ||
 					pPers->getID() == CHEFAO_CAP) && pProj->getID() == PROJETIL_JOG))
@@ -1253,4 +1270,30 @@ const int Fase::getNumJogs()
 void Fase::setNumJogs(const int aNumJogs)
 {
 	num_jogs = aNumJogs;
+}
+
+
+Jogador* const Fase::getJog1()
+{
+	return jog1;
+}
+
+
+Jogador* const Fase::getJog2()
+{
+	return jog2;
+}
+
+
+void Fase::setJog1(Jogador* const pJog1)
+{
+	if (pJog1 != NULL)
+		jog1 = pJog1;
+}
+
+
+void Fase::setJog2(Jogador* const pJog2)
+{
+	if (pJog2 != NULL)
+		jog2 = pJog2;
 }

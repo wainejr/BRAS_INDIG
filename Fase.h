@@ -20,14 +20,8 @@ protected:
 	ALLEGRO_EVENT_QUEUE* queue = NULL;
 	ALLEGRO_FONT* arial18 = NULL;
 
-	///	JOGADOR TESTE
-	Jogador player1;
-	Jogador player2;
-	Arco armaPlayer1;
-	Espada armaPlayer2;
-
-	Jogador* jog1;
-	Jogador* jog2;
+	static Jogador* jog1;
+	static Jogador* jog2;
 	static int num_jogs;
 	
 	static bool campanha;
@@ -147,4 +141,8 @@ public:
 	const int getNumJogs();
 	void setNumJogs(const int aNumJogs);
 	
+	Jogador* const getJog1();
+	Jogador* const getJog2();
+	void setJog1(Jogador* const pJog1);
+	void setJog2(Jogador* const pJog2);
 };

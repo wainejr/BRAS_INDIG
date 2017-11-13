@@ -1,5 +1,5 @@
 #pragma once
-#include "Fase1.h"
+#include "ListaFases.h"
 
 enum ESTADOS{FASE, MENUPRINCIPAL, MENUPAUSE};
 
@@ -11,6 +11,7 @@ private:
 	ALLEGRO_TIMER* timer = NULL;
 	ALLEGRO_EVENT_QUEUE* queue = NULL;
 	ALLEGRO_FONT* arial18 = NULL;
+	
 	//OBJETOS
 	Fase1 fasePrototipo;
 	Jogador player;

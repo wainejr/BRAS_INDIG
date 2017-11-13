@@ -22,8 +22,6 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const int aLimX
 	limY = aLimy;
 	ativo = aAtivo;
 	vida = aVida;
-	/*if(pArma != NULL)
-		arma = pArma;*/
 	this->setArma(constroiArma());
 }
 

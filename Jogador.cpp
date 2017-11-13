@@ -11,11 +11,7 @@ Jogador::Jogador()
 	num_jogs++;
 	chances = 3;
 	fisica = true;
-	if (num_jogs == 1)
-		ID = JOGADOR1;
-	else if (num_jogs == 2)
-		ID = JOGADOR2;
-	pers = 0;
+	ID = -1;
 	imovel = false;
 	timer_imovel = NULL;
 }
@@ -23,22 +19,26 @@ Jogador::Jogador()
 
 Jogador::~Jogador()
 {
-
+	num_jogs--;
 }
 
 
-void Jogador::builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma, const int aChances)
+void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, const int aID, const int aChances)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimy;
+	limX = LIM_X_JOG;
+	limY = LIM_Y_JOG;
 	ativo = aAtivo;
-	vida = aVida;
-	if(pArma != NULL)
-		arma = pArma;
-	chances = aChances;
-	//this->setArma(constroiArma());
+	fisica = true;
+	velMaxX = VEL_MAX_X_JOG;
+	velMaxY = VEL_PULO;
+	vida = VIDA_MAX_JOG;
+	if(aID != -1)
+		ID = aID;
+	if(aChances != -1)
+		chances = aChances;
+	this->setArma(constroiArma());
 }
 
 
@@ -172,6 +172,7 @@ void Jogador::descer()
 	}
 }
 
+
 //	para KB = 1, o jogador recebe um knock back para direita
 //	para KB = -1, o jogador recebe um knock back para esquerda
 //	para KB = 0, o jogador não recebe knock back
@@ -182,41 +183,45 @@ void Jogador::tomaDano(const int aDano, const int KB)
 	if (!invuneravel && aDano > 0)
 	{
 		vida -= aDano;
-		invuneravel = true;
-		if (KB == 1)
+		if (vida >= 0)
 		{
-			velX = VEL_X_KB;
-			velY = VEL_Y_KB;
-		}
-		else if (KB == -1)
-		{
-			velX = -VEL_X_KB;
-			velY = VEL_Y_KB;
-		}
-		else if (KB == 2)
-		{
-			if (velY > 0)
-				velY = 0;
-			velX = 0;
-			imovel = true;
-			al_set_timer_count(timer_imovel, 0);
-			al_resume_timer(timer_imovel);
-		}
-		else if (KB == 3)
-		{
-			if (velY > 0)
-				velY = 0;
-			velX = 0;
-			imovel = true;
-			al_set_timer_count(timer_imovel, -2);
-			al_resume_timer(timer_imovel);
-		}
+			invuneravel = true;
+			if (KB == 1)
+			{
+				velX = VEL_X_KB;
+				velY = VEL_Y_KB;
+			}
+			else if (KB == -1)
+			{
+				velX = -VEL_X_KB;
+				velY = VEL_Y_KB;
+			}
+			else if (KB == 2)
+			{
+				if (velY > 0)
+					velY = 0;
+				velX = 0;
+				imovel = true;
+				al_set_timer_count(timer_imovel, 0);
+				al_resume_timer(timer_imovel);
+			}
+			else if (KB == 3)
+			{
+				if (velY > 0)
+					velY = 0;
+				velX = 0;
+				imovel = true;
+				al_set_timer_count(timer_imovel, -2);
+				al_resume_timer(timer_imovel);
+			}
 
-		//reseta o contador do timer
-		al_set_timer_count(timer_invuneravel, 0);
-		al_resume_timer(timer_invuneravel);
+			//reseta o contador do timer
+			al_set_timer_count(timer_invuneravel, 0);
+			al_resume_timer(timer_invuneravel);
+		}
 	}
 }
+
 
 const bool Jogador::persPodeAtacar()
 {
@@ -294,39 +299,6 @@ Projetil* const Jogador::atirar()
 		al_set_timer_count(timer_atacando, 0);
 		al_set_timer_count(timer_ataque, -1);	//jogador demora o dobro de tempo para atacar com o arco
 		return pProj;
-	}
-	return NULL;
-}
-
-
-const int Jogador::getPers()
-{
-	return pers;
-}
-
-
-void Jogador::setPers(const int aPers)
-{
-	if (aPers == RAONI || aPers == TECA)
-	{
-		pers = aPers;
-	}
-}
-
-
-Arma* const Jogador::constroiArma()
-{
-	if (pers == RAONI)
-	{
-		Espada* pEspada = new Espada;
-		pEspada->builderEspada(0, 0, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, false, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
-		return pEspada;
-	}
-	else if (pers == TECA)
-	{
-		Arco* pArco = new Arco;
-		pArco->builderArco(0, 0, 1, 1, false, true, DANO_ARCO, static_cast<Personagem*>(this));
-		return pArco;
 	}
 	return NULL;
 }

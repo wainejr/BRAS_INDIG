@@ -9,7 +9,6 @@ private:
 	bool subindo;
 	bool subiu; // gerenciamento interno apenas
 	bool imovel; // gerenciamento interno apenas
-	int pers;
 	ALLEGRO_TIMER*	timer_imovel;
 
 public:
@@ -25,9 +24,7 @@ public:
 	void subir();
 	void draw(const int aPosFaseX, const int aPosFaseY);
 
-	// para não tomar dano seguidamente
-	void builderJogador(const int ax, const int ay, const int aLimX, const int aLimy, 
-		const bool aAtivo, const int aVida, Arma* const pArma, const int aChances);
+	void builderJogador(const int ax, const int ay, const bool aAtivo, const int aID = -1, const int aChances = -1);
 	void atualizar();
 	
 	void createTimers();
@@ -42,6 +39,5 @@ public:
 	Projetil* const atirar();
 	const int getPers();
 	void setPers(const int aPers);
-	Arma* const constroiArma();
 };
 

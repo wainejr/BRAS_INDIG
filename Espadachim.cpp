@@ -22,8 +22,6 @@ void Espadachim::builderEspadachim(const int ax, const int ay, const int aLimX, 
 	limY = aLimy;
 	ativo = aAtivo;
 	vida = aVida;
-	/*if(pArma != NULL)
-		arma = pArma;*/
 	this->setArma(constroiArma());
 }
 
@@ -48,8 +46,7 @@ void Espadachim::mover()
 				velX = velMaxX;
 		}
 		else
-			parar();	// para facilitar e o personagem não ficar parado numa distância sem atacar
-			//	parar();
+			parar();
 	}
 	else
 		parar();

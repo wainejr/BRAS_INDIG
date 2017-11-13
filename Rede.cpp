@@ -13,6 +13,7 @@ Rede::Rede()
 
 Rede::~Rede()
 {
+	linha = NULL;
 }
 
 
@@ -38,6 +39,12 @@ void Rede::builderRede(const int ax, const int ay, const int aLimX, const int aL
 	ativo = aAtivo;
 	dano = aDano;
 	ativada = false;
+	if (linha == NULL)
+	{
+		Corda* pLinha = new Corda;
+		linha = pLinha;
+		linha->setEscalavel(false);
+	}
 }
 
 

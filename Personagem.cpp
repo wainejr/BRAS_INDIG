@@ -150,21 +150,24 @@ void Personagem::tomaDano(const int aDano, const int KB)
 	if (!invuneravel && aDano > 0)
 	{
 		vida -= aDano;
-		invuneravel = true;
-		if (KB == 1)
+		if (vida >= 0)
 		{
-			velX = VEL_X_KB;
-			velY = VEL_Y_KB;
-		}
-		else if (KB == -1)
-		{
-			velX = -VEL_X_KB;
-			velY = VEL_Y_KB;
-		}
+			invuneravel = true;
+			if (KB == 1)
+			{
+				velX = VEL_X_KB;
+				velY = VEL_Y_KB;
+			}
+			else if (KB == -1)
+			{
+				velX = -VEL_X_KB;
+				velY = VEL_Y_KB;
+			}
 
-		//reseta o contador do timer
-		al_set_timer_count(timer_invuneravel, 0);
-		al_resume_timer(timer_invuneravel);
+			//reseta o contador do timer
+			al_set_timer_count(timer_invuneravel, 0);
+			al_resume_timer(timer_invuneravel);
+		}
 	}
 }
 
@@ -216,23 +219,35 @@ void Personagem::atualizaAtaque()
 
 Arma* const Personagem::constroiArma()
 {
-	if (ID == MOSQUETEIRO)
+	if (ID == RAONI)
+	{
+		Espada* pEspada = new Espada;
+		pEspada->builderEspada(0, 0, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, false, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
+		return pEspada;
+	}
+	else if (ID == TECA)
+	{
+		Arco* pArco = new Arco;
+		pArco->builderArco(0, 0, 1, 1, false, true, DANO_ARCO, static_cast<Personagem*>(this));
+		return pArco;
+	}
+	else if (ID == MOSQUETEIRO)
 	{
 		Mosquete* pMosquete = new Mosquete;
-		pMosquete->builderMosquete(0, 0, 1, 1, false, true, DANO_MOSQUETE, NULL);
+		pMosquete->builderMosquete(0, 0, 1, 1, false, true, DANO_MOSQUETE, static_cast<Personagem*>(this));
 		return pMosquete;
 		
 	}
 	else if (ID == ESPADACHIM)
 	{
 		Espada* pEspada = new Espada;
-		pEspada->builderEspada(0, 0, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, false, true, DANO_ESPADA_ESP, this);
+		pEspada->builderEspada(0, 0, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, false, true, DANO_ESPADA_ESP, static_cast<Personagem*>(this));
 		return pEspada;
 	}
 	else if (ID == ESP_CAVALEIRO)
 	{
 		Lanca* pLanca = new Lanca;
-		pLanca->builderLanca(0, 0, 1, 1, false, true, DANO_LANCA, this);
+		pLanca->builderLanca(0, 0, 1, 1, false, true, DANO_LANCA, static_cast<Personagem*>(this));
 		return pLanca;
 	}
 	return NULL;
