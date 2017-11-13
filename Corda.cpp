@@ -4,7 +4,22 @@
 
 Corda::Corda()
 {
+
+	posX = 0;
+	posY = 0;
+	limX = 0;
+	limY = 0;
+	velX = 0;
+	velY = 0;
+	fisica = false;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
 	ID = CORDA;
+
+	colisaoBaixo = false;
+
+	escalavel = false;
 }
 
 
@@ -31,6 +46,7 @@ void Corda::builderCorda(const int ax, const int ay, const int aLimX, const int 
 	limX = aLimX;
 	limY = aLimy;
 	ativo = aAtivo;
+
 	escalavel = aEscalavel;
 }
 

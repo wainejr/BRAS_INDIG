@@ -4,7 +4,20 @@
 
 Armadilha::Armadilha()
 {
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_ARMD;
+	limY = LIM_Y_ARMD;
+	velX = 0;
+	velY = 0;
+	fisica = true;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
 	ID = ARMADILHA;
+
+	dano = DANO_ARMD;
+
 	acionada = false;
 	timer_acionada = NULL;
 }
@@ -15,14 +28,14 @@ Armadilha::~Armadilha()
 }
 
 
-void Armadilha::builderArmadilha(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano)
+void Armadilha::builderArmadilha(const int ax, const int ay, const bool aAtivo)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimY;
+	velX = 0;
+	velY = 0;
 	ativo = aAtivo;
-	dano = aDano;
+
 	acionada = false;
 }
 
@@ -80,4 +93,16 @@ void Armadilha::initTimer()
 void Armadilha::createTimer()
 {
 	timer_acionada = al_create_timer(TEMP_ACION_ARMD);
+}
+
+
+void Armadilha::reset(const int ax, const int ay, const bool aAtivo)
+{
+	posX = ax;
+	posY = ay;
+	velX = 0;
+	velY = 0;
+	ativo = aAtivo;
+
+	acionada = false;
 }

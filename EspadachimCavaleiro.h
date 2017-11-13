@@ -14,7 +14,7 @@ public:
 	const bool getCavalo();
 	void setCavalo(const bool aCavalo);
 	virtual void atualizar();
-	void builderEspadachimCav(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma);
+	void builderEspadachimCav(int ax, const int ay, const bool aAtivo, Jogador* const pAlvo);
 	virtual void draw(const int aPosFaseX, const int aPosFaseY);
 	void createTimers();
 };

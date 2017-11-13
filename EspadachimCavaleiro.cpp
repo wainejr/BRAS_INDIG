@@ -4,8 +4,29 @@
 
 EspadachimCavaleiro::EspadachimCavaleiro()
 {
-	ID = ESP_CAVALEIRO;
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_CAV;
+	limY = LIM_Y_CAV;
+	velX = 0;
+	velY = 0;
 	fisica = true;
+	ativo = false;
+	velMaxX = VEL_MAX_X_CAV;
+	velMaxY = VEL_PULO;
+	ID = ESP_CAVALEIRO;
+
+	vida = VIDA_MAX_CAV;
+	arma = NULL;
+	dir = true;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	timer_ataque = NULL;
+	timer_atacando = NULL;
+	timer_invuneravel = NULL;
+
+	alvo = NULL;
 }
 
 
@@ -14,15 +35,29 @@ EspadachimCavaleiro::~EspadachimCavaleiro()
 }
 
 
-void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma)
+void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimy;
+	velX = 0;
+	velY = 0;
 	ativo = aAtivo;
-	vida = aVida;
-	this->setArma(constroiArma());
+
+	vida = VIDA_MAX_MOSQ;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	if (arma == NULL)
+	{
+		Arma* pArma = constroiArma();
+		if (pArma != NULL)
+			arma = pArma;
+	}
+
+	if (pAlvo != NULL)
+	{
+		alvo = pAlvo;
+	}
 }
 
 //	o cavaleiro passa do alvo, só começando a parar um tempo depois
@@ -30,34 +65,39 @@ void EspadachimCavaleiro::mover()
 {
 	//	o cavaleiro tem que estar no máximo há DIFF_PIXELS_SEGUIR_Y de distância
 	//	do alvo para começar a segui-lo
-	if ((posY-limY-alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY()-alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
+	if (alvo != NULL)
 	{
-		//	se o cavaleiro estiver parado, vai na direção do alvo
-		if(velX == 0)
-		{ 
-			if (alvo->getX() >= posX)
-				velX += ACEL_X_CAV;
+		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY() - alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
+		{
+			//	se o cavaleiro estiver parado, vai na direção do alvo
+			if (velX == 0)
+			{
+				if (alvo->getX() >= posX)
+					velX += ACEL_X_CAV;
+				else
+					velX -= ACEL_X_CAV;
+			}
 			else
-				velX -= ACEL_X_CAV;
+			{
+				//	se o cavaleiro estiver a menos de DIFF_PIXELS_CAV_PARAR a esquerda do alvo e
+				//	estiver com velocidade em x negativa, ele continua acelerando para esquerda
+				if ((alvo->getX() - posX - limX) < DIFF_PIXELS_CAV_PARAR && velX < 0 && velX > -VEL_MAX_X_CAV)
+					velX -= (float)ACEL_X_CAV;
+				else if (velX < -VEL_MAX_X_CAV)
+					velX = -VEL_MAX_X_CAV;
+				//	se o cavaleiro estiver a menos de DIFF_PIXELS_CAV_PARAR a direita do alvo e
+				//	estiver com velocidade em x positiva, ele continua acelerando para direita
+				else if ((posX - alvo->getLimX() - alvo->getX()) < DIFF_PIXELS_CAV_PARAR && velX > 0 && velX < VEL_MAX_X_CAV)
+					velX += (float)ACEL_X_CAV;
+				else if (velX > VEL_MAX_X_CAV)
+					velX = VEL_MAX_X_CAV;
+				//	se o cavaleiro já passou do limite de distância do alvo, começa a parar
+				else
+					parar();
+			}
 		}
 		else 
-		{
-			//	se o cavaleiro estiver a menos de DIFF_PIXELS_CAV_PARAR a esquerda do alvo e
-			//	estiver com velocidade em x negativa, ele continua acelerando para esquerda
-			if ((alvo->getX() - posX - limX) < DIFF_PIXELS_CAV_PARAR && velX < 0 && velX > -VEL_MAX_X_CAV)
-				velX -= (float)ACEL_X_CAV;
-			else if (velX < -VEL_MAX_X_CAV)
-				velX = -VEL_MAX_X_CAV;
-			//	se o cavaleiro estiver a menos de DIFF_PIXELS_CAV_PARAR a direita do alvo e
-			//	estiver com velocidade em x positiva, ele continua acelerando para direita
-			else if ((posX - alvo->getLimX() - alvo->getX()) < DIFF_PIXELS_CAV_PARAR && velX > 0 && velX < VEL_MAX_X_CAV)
-				velX += (float)ACEL_X_CAV;
-			else if (velX > VEL_MAX_X_CAV)
-				velX = VEL_MAX_X_CAV;
-			//	se o cavaleiro já passou do limite de distância do alvo, começa a parar
-			else
-				parar();
-		}
+			parar();
 	}
 	else
 		parar();
@@ -75,10 +115,13 @@ void EspadachimCavaleiro::atualizar()
 	mover();
 	posX += velX;
 	posY -= velY;
-	if (alvo->getX() > posX)
-		dir = true;
-	else
-		dir = false;
+	if (alvo != NULL)
+	{
+		if (alvo->getX() > posX)
+			dir = true;
+		else
+			dir = false;
+	}
 	atualizaInvuneravel();
 	atualizaAtacando();
 	atualizaArma();

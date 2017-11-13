@@ -20,5 +20,6 @@ public:
 	void setDonoArma(Personagem* const pPers);
 	Personagem* const getDonoArma();
 	void atualizar();
+	//virtual void draw(const int aPosFaseX, const int aPosFaseY);
 };
 

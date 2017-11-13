@@ -141,3 +141,9 @@ void Entidade::setID(const int aID)
 {
 	ID = aID;
 }
+
+
+void Entidade::reset(const int ax, const int ay, const bool aAtivo)
+{
+
+}

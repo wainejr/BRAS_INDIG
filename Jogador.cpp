@@ -5,13 +5,32 @@ int Jogador::num_jogs = 0;
 Jogador::Jogador()
 {
 	//MUDAR PARA SINGLETON O ESQUEMA DE CONSTRUTOR
-	vida = VIDA_MAX_JOG;
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_JOG;
+	limY = LIM_Y_JOG;
+	velX = 0;
+	velY = 0;
+	fisica = true;
+	ativo = false;
 	velMaxX = VEL_MAX_X_JOG;
 	velMaxY = VEL_PULO;
-	num_jogs++;
-	chances = 3;
-	fisica = true;
 	ID = -1;
+
+	vida = VIDA_MAX_JOG;
+	arma = NULL;
+	dir = true;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	timer_ataque = NULL;
+	timer_atacando = NULL;
+	timer_invuneravel = NULL;
+	
+	num_jogs++;
+	chances = 3; //	3 chances é o padrão inicial
+	subindo = false;
+	subiu = false;
 	imovel = false;
 	timer_imovel = NULL;
 }
@@ -19,6 +38,12 @@ Jogador::Jogador()
 
 Jogador::~Jogador()
 {
+	delete (arma);
+	al_destroy_timer(timer_ataque);
+	al_destroy_timer(timer_atacando);
+	al_destroy_timer(timer_invuneravel);
+	
+	al_destroy_timer(timer_imovel);
 	num_jogs--;
 }
 
@@ -27,18 +52,28 @@ void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, cons
 {
 	posX = ax;
 	posY = ay;
-	limX = LIM_X_JOG;
-	limY = LIM_Y_JOG;
+	velX = 0;
+	velY = 0;
 	ativo = aAtivo;
-	fisica = true;
-	velMaxX = VEL_MAX_X_JOG;
-	velMaxY = VEL_PULO;
-	vida = VIDA_MAX_JOG;
 	if(aID != -1)
 		ID = aID;
+
+	vida = VIDA_MAX_JOG;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	if (arma == NULL)
+	{
+		Arma* pArma = constroiArma();
+		if (pArma != NULL)
+			arma = pArma;
+	}
+
 	if(aChances != -1)
 		chances = aChances;
-	this->setArma(constroiArma());
+	subindo = false;
+	subiu = false;
+	imovel = false;
 }
 
 
@@ -288,9 +323,9 @@ Projetil* const Jogador::atirar()
 		Projetil* pProj = new Projetil();
 		pProj->setID(PROJETIL_JOG);
 		if(dir)
-			pProj->builderProjetil(arma->getX(), arma->getY(), 10, 3, VEL_MAX_PROJ, 0, true);
+			pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_JOG, arma);
 		else	
-			pProj->builderProjetil(arma->getX(), arma->getY(), 10, 3, -VEL_MAX_PROJ, 0, true);
+			pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_JOG, arma);
 
 		pProj->setArmaProj(arma);
 		atacando = true;
@@ -301,4 +336,29 @@ Projetil* const Jogador::atirar()
 		return pProj;
 	}
 	return NULL;
+}
+
+
+void Jogador::reset(const int ax, const int ay, const bool aAtivo)
+{
+	posX = ax;
+	posY = ay;
+	velX = 0;
+	velY = 0;
+	ativo = aAtivo;
+
+	vida = VIDA_MAX_JOG;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+
+	subindo = false;
+	subiu = false;
+	imovel = false;
+}
+
+
+void Jogador::resetChances()
+{
+	chances = 3;
 }

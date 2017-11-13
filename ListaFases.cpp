@@ -7,13 +7,15 @@ ListaFases::ListaFases()
 	raoni = new Jogador;
 	teca = new Jogador;
 
-	raoni->builderJogador(0, 0, false, RAONI);
-	teca->builderJogador(0, 0, false, TECA);
+	raoni->builderJogador(0, 0, false, RAONI, 3);
+	teca->builderJogador(0, 0, false, TECA, 3);
 }
 
 
 ListaFases::~ListaFases()
 {
+	delete (raoni);
+	delete (teca);
 }
 
 
@@ -25,14 +27,17 @@ void ListaFases::carregaFaseN(const int aN)
 	case 1:
 		fase1.setCampanha(false);
 		fase1.initFase();
+		resetaJogs();
 		break;
 	case 2:
 		fase2.setCampanha(false);
 		fase2.initFase();
+		resetaJogs();
 		break;
 	case 3:
 		faseFinal.setCampanha(false);
 		faseFinal.initFase();
+		resetaJogs();
 		break;
 	default:
 		break;
@@ -69,12 +74,11 @@ void ListaFases::campanha()
 	//	condição para ter passado de fase...
 	//	se passou, mostra pontos, cutscene ou coisa assim e então inicia outra fase
 
-
+	resetaJogs();
 	// créditos
 }
 
 
-//	MUDAR O STRING PARA ALGUM ID OU COISA ASSIM
 void ListaFases::defineJog(const int aID, const int aNum)
 {
 	if (fase1.getNumJogs() == 1)
@@ -117,4 +121,10 @@ void ListaFases::defineJog(const int aID, const int aNum)
 			}
 		}
 	}
+}
+
+void ListaFases::resetaJogs()
+{
+	teca->builderJogador(0, 0, false, TECA, 3);
+	raoni->builderJogador(0, 0, false, RAONI, 3);
 }

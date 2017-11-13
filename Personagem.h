@@ -18,7 +18,6 @@ protected:
 	bool atacando;
 	bool invuneravel;
 	
-
 	ALLEGRO_TIMER*  timer_ataque;
 	ALLEGRO_TIMER*  timer_atacando;
 	ALLEGRO_TIMER*  timer_invuneravel;

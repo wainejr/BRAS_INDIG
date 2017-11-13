@@ -13,7 +13,7 @@ private:
 	ALLEGRO_FONT* arial18 = NULL;
 	
 	//OBJETOS
-	Fase1 fasePrototipo;
+	ListaFases listaFases;
 	Jogador player;
 	
 

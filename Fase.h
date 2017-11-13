@@ -15,10 +15,11 @@ class Fase
 {	
 protected:
 	//	VARIAVEIS ALLEGRO
-	ALLEGRO_DISPLAY* display = NULL;
-	ALLEGRO_TIMER* timer = NULL;
-	ALLEGRO_EVENT_QUEUE* queue = NULL;
-	ALLEGRO_FONT* arial18 = NULL;
+	ALLEGRO_DISPLAY* display;
+	ALLEGRO_TIMER* timer;
+	ALLEGRO_EVENT_QUEUE* queue;
+	ALLEGRO_FONT* arial18;
+	bool carregouAllegro;
 
 	static Jogador* jog1;
 	static Jogador* jog2;

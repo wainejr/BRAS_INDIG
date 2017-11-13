@@ -4,8 +4,20 @@
 
 Rede::Rede()
 {
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_REDE;
+	limY = LIM_Y_REDE;
+	velX = 0;
+	velY = 0;
+	fisica = true;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
 	ID = REDE;
-	velMaxY = VEL_MAX_REDE;
+
+	dano = DANO_REDE;
+
 	ativada = false;
 	linha = NULL;
 }
@@ -13,7 +25,7 @@ Rede::Rede()
 
 Rede::~Rede()
 {
-	linha = NULL;
+	delete(linha);
 }
 
 
@@ -30,21 +42,37 @@ void Rede::setCorda(Corda* const pCorda)
 }
 
 
-void Rede::builderRede(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano)
+void Rede::builderRede(const int ax, const int ay, const int aLinhaX, const int aLinhaY, const bool aAtivo)
 {
-	posX = ax;
-	posY = ay;
-	limX = aLimX;
-	limY = aLimY;
-	ativo = aAtivo;
-	dano = aDano;
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_REDE;
+	limY = LIM_Y_REDE;
+	velX = 0;
+	velY = 0;
+	fisica = true;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
+	ID = ARMADILHA;
+
+	dano = DANO_ARMD;
+
 	ativada = false;
 	if (linha == NULL)
 	{
 		Corda* pLinha = new Corda;
 		linha = pLinha;
 		linha->setEscalavel(false);
+		linha->setLimX(LIM_X_LINHA_REDE);
+		linha->setLimY(LIM_Y_LINHA_REDE);
 	}
+	linha->setEscalavel(false);
+	linha->setLimX(LIM_X_LINHA_REDE);
+	linha->setLimY(LIM_Y_LINHA_REDE);
+	linha->setX(aLinhaX);
+	linha->setY(aLinhaY);
+
 }
 
 
@@ -76,7 +104,6 @@ void Rede::atualizar()
 {
 	if (ativada)
 	{
-		// aceleração não incluída par
 		if (velY > -velMaxY)
 			velY -= ACEL_REDE;
 		else
@@ -84,4 +111,16 @@ void Rede::atualizar()
 
 		posY -= velY;
 	}
+}
+
+
+void Rede::reset(const int ax, const int ay, const bool aAtivo)
+{
+	posX = ax;
+	posY = ay;
+	velX = 0;
+	velY = 0;
+	ativo = aAtivo;
+
+	ativada = false;
 }

@@ -4,8 +4,22 @@
 
 Arco::Arco()
 {
-	forca = 0.0f;
+	posX = 0;
+	posY = 0;
+	limX = 0;
+	limY = 0;
+	velX = 0;
+	velY = 0;
+	fisica = false;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
 	ID = ARCO;
+
+	dano = DANO_ARCO;
+	donoArma = NULL;
+
+	forca = 0.0f;
 }
 
 
@@ -33,15 +47,12 @@ const float Arco::getForca()
 
 
 
-void Arco::builderArco(const int ax, const int ay, const int aLimX, const int aLimY, const bool aFisica, const bool aAtivo, const int aDano, Personagem* const pDonoArma)
+void Arco::builderArco(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimY;
-	fisica = aFisica;
+	
 	ativo = aAtivo;
-	dano = aDano;
 	if(pDonoArma != NULL)
 		donoArma = pDonoArma;
 }

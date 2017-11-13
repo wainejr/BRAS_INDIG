@@ -222,32 +222,32 @@ Arma* const Personagem::constroiArma()
 	if (ID == RAONI)
 	{
 		Espada* pEspada = new Espada;
-		pEspada->builderEspada(0, 0, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, false, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
+		pEspada->builderEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
 		return pEspada;
 	}
 	else if (ID == TECA)
 	{
 		Arco* pArco = new Arco;
-		pArco->builderArco(0, 0, 1, 1, false, true, DANO_ARCO, static_cast<Personagem*>(this));
+		pArco->builderArco(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pArco;
 	}
 	else if (ID == MOSQUETEIRO)
 	{
 		Mosquete* pMosquete = new Mosquete;
-		pMosquete->builderMosquete(0, 0, 1, 1, false, true, DANO_MOSQUETE, static_cast<Personagem*>(this));
+		pMosquete->builderMosquete(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pMosquete;
 		
 	}
 	else if (ID == ESPADACHIM)
 	{
 		Espada* pEspada = new Espada;
-		pEspada->builderEspada(0, 0, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, false, true, DANO_ESPADA_ESP, static_cast<Personagem*>(this));
+		pEspada->builderEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, true, DANO_ESPADA_ESP, static_cast<Personagem*>(this));
 		return pEspada;
 	}
 	else if (ID == ESP_CAVALEIRO)
 	{
 		Lanca* pLanca = new Lanca;
-		pLanca->builderLanca(0, 0, 1, 1, false, true, DANO_LANCA, static_cast<Personagem*>(this));
+		pLanca->builderLanca(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pLanca;
 	}
 	return NULL;

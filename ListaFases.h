@@ -22,5 +22,7 @@ public:
 	void carregaFaseN(const int aN);
 	void campanha();
 	void defineJog(const int aID, const int aNum);
+
+	void resetaJogs();
 };
 

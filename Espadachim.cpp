@@ -4,8 +4,29 @@
 
 Espadachim::Espadachim()
 {
-	ID = ESPADACHIM;
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_ESP;
+	limY = LIM_Y_ESP;
+	velX = 0;
+	velY = 0;
 	fisica = true;
+	ativo = false;
+	velMaxX = VEL_MAX_X_PERS;
+	velMaxY = VEL_PULO;
+	ID = MOSQUETEIRO;
+
+	vida = VIDA_MAX_ESP;
+	arma = NULL;
+	dir = true;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	timer_ataque = NULL;
+	timer_atacando = NULL;
+	timer_invuneravel = NULL;
+
+	alvo = NULL;
 }
 
 
@@ -14,38 +35,57 @@ Espadachim::~Espadachim()
 }
 
 
-void Espadachim::builderEspadachim(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma)
+void Espadachim::builderEspadachim(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimy;
+	velX = 0;
+	velY = 0;
 	ativo = aAtivo;
-	vida = aVida;
-	this->setArma(constroiArma());
+
+	vida = VIDA_MAX_ESP;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	if (arma == NULL)
+	{
+		Arma* pArma = constroiArma();
+		if (pArma != NULL)
+			arma = pArma;
+	}
+
+	if (pAlvo != NULL)
+	{
+		alvo = pAlvo;
+	}
 }
 
 
 void Espadachim::mover()
 {
 	//	valor da distância para parar definido pela arma empunhada
-	if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY() - alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
+	if (alvo != NULL)
 	{
-		if (posX - (alvo->getX() + alvo->getLimX()) > arma->getLimX() - 1)
+		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY() - alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
 		{
-			if (velX > -velMaxX)
-				velX -= (float)ACEL_X_PERS;
+			if (posX - (alvo->getX() + alvo->getLimX()) > arma->getLimX() - 1)
+			{
+				if (velX > -velMaxX)
+					velX -= (float)ACEL_X_PERS;
+				else
+					velX = -velMaxX;
+			}
+			else if (alvo->getX() - (posX + limX) > arma->getLimX() - 1)
+			{
+				if (velX < velMaxX)
+					velX += (float)ACEL_X_PERS;
+				else
+					velX = velMaxX;
+			}
 			else
-				velX = -velMaxX;
+				parar();
 		}
-		else if (alvo->getX() - (posX + limX) > arma->getLimX() - 1)
-		{
-			if (velX < velMaxX)
-				velX += (float)ACEL_X_PERS;
-			else
-				velX = velMaxX;
-		}
-		else
+		else 
 			parar();
 	}
 	else
@@ -68,7 +108,7 @@ void Espadachim::atualizar()
 	mover();
 	posX += velX;
 	posY -= velY;
-	if (!atacando)
+	if (!atacando && alvo != NULL)
 	{
 		if (alvo->getX() > posX)
 			dir = true;
@@ -113,4 +153,18 @@ const bool Espadachim::persPodeAtacar()
 		}
 	}
 	return false;
+}
+
+void Espadachim::reset(const int ax, const int ay, const bool aAtivo)
+{
+	posX = ax;
+	posY = ay;
+	velX = 0;
+	velY = 0;
+	ativo = aAtivo;
+
+	vida = VIDA_MAX_ESP;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
 }

@@ -9,7 +9,7 @@ private:
 public:
 	Armadilha();
 	~Armadilha();
-	void builderArmadilha(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano);
+	void builderArmadilha(const int ax, const int ay, const bool aAtivo);
 	void draw(const int aPosFaseX, const int aPosFaseY);
 	void atualizar();
 	void acionar();
@@ -17,5 +17,6 @@ public:
 	void setAcionada(const bool aAcionada);
 	void initTimer();
 	void createTimer();
+	void reset(const int ax, const int ay, const bool aAtivo);
 };
 

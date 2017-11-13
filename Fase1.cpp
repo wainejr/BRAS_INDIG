@@ -5,13 +5,6 @@ using namespace std;
 
 Fase1::Fase1()
 {
-	num_jogs = 1;
-
-	//	mudar para fase.cpp
-	jog1 = new Jogador;
-	jog1->builderJogador(20, ALT - 20, true);
-	//
-
 	numEntidades();
 	alocaEntidades();
 }
@@ -247,17 +240,25 @@ void Fase1::execFase()
 						}
 					}
 				}
-				if (num_jogs == 1 && !jog1->getAtivo())
+				
+				if (jog1->getChances() <= 0 && jog2->getChances() <= 0)
 				{
-					restart();
-					resetar = true;
+					done = true;
+					redraw = false;
+					resetar = false;
 				}
-				else if (num_jogs == 2 && !jog1->getAtivo() && !jog2->getAtivo())
+				else 
 				{
-					restart();
-					resetar = true;
+					if (num_jogs == 1 && !jog1->getAtivo())
+					{
+						resetar = true;
+					}
+					else if (num_jogs == 2 && !jog1->getAtivo() && !jog2->getAtivo())
+					{
+						resetar = true;
+					}
 				}
-				if(!resetar)
+				if(!resetar && !done)
 					atualizaFase();
 			}
 		}
@@ -272,34 +273,36 @@ void Fase1::execFase()
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
-	//
-	///destroyAllegroObjs();
-	al_destroy_display(display);
-	al_destroy_event_queue(queue);
+
+	al_stop_timer(timer);
 	return;
 }
 
 
 void Fase1::initAllegroObjs()
 {
-	// -------------   INICIALIZAÇÕES	--------------
-	if (!al_init())
-		return;
-	al_init_primitives_addon();
-	al_install_keyboard();
-	al_install_mouse();
-	al_init_ttf_addon();
+	if (!carregouAllegro)
+	{
+		// -------------   INICIALIZAÇÕES	--------------
+		if (!al_init())
+			return;
+		al_init_primitives_addon();
+		al_install_keyboard();
+		al_install_mouse();
+		al_init_ttf_addon();
 
-	arial18 = al_load_ttf_font("arial.ttf", 18, 0);
-	display = al_create_display(LARG, ALT);
-	queue = al_create_event_queue();
-	timer = al_create_timer(1.0 / FPS);
+		arial18 = al_load_ttf_font("arial.ttf", 18, 0);
+		display = al_create_display(LARG, ALT);
+		queue = al_create_event_queue();
+		timer = al_create_timer(1.0 / FPS);
 
-	//	----------	ADD FONTES À FILA DE EVENTOS   -------------
-	al_register_event_source(queue, al_get_keyboard_event_source());
-	al_register_event_source(queue, al_get_mouse_event_source());
-	al_register_event_source(queue, al_get_timer_event_source(timer));
-	al_register_event_source(queue, al_get_display_event_source(display));
+		//	----------	ADD FONTES À FILA DE EVENTOS   -------------
+		al_register_event_source(queue, al_get_keyboard_event_source());
+		al_register_event_source(queue, al_get_mouse_event_source());
+		al_register_event_source(queue, al_get_timer_event_source(timer));
+		al_register_event_source(queue, al_get_display_event_source(display));
+		carregouAllegro = true;
+	}
 }
 
 
@@ -321,7 +324,6 @@ void Fase1::imprimeVida()
 
 void Fase1::alocaEntidades()
 {
-	/// LER UM ARQUIVO TXT E ALOCAR AS ENTIDADES NO NÚMERO CORRETO
 	int i;
 
 	mosqs = new Mosqueteiro*[num_mosq];
@@ -439,36 +441,29 @@ void Fase1::buildEntidades()
 	if (num_jogs == 2)
 	{
 		jog2->setY(ALT - 50);
-		jog1->setX(40);
+		jog2->setX(40);
 		jog2->setAtivo(true);
 	}
 
-	plats[0]->builderPlataforma(0, ALT, LARG * 4, 10, true);
-	plats[0]->setColisaoBaixo(true);
-	plats[1]->builderPlataforma(50, ALT - 70, 100, 10, true);
-	plats[1]->setColisaoBaixo(false);
-	plats[2]->builderPlataforma(300, ALT-70, 50, 10, true);
-	plats[2]->setColisaoBaixo(true);
-	plats[3]->builderPlataforma(350, ALT-120, 75, 10, true);
-	plats[3]->setColisaoBaixo(false);
+	plats[0]->builderPlataforma(0, ALT, LARG * 4, 10, true, true);
+	plats[1]->builderPlataforma(50, ALT - 70, 100, 10, true, false);
+	plats[2]->builderPlataforma(300, ALT-70, 50, 10, true, false);
+	plats[3]->builderPlataforma(350, ALT-120, 75, 10, true, false);
 	
 	cords[0]->builderCorda(430, ALT - 10, 10, 130, true, true);
 
-	armds[0]->builderArmadilha(100, ALT - 10, 5, 5, true, 20);
+	armds[0]->builderArmadilha(100, ALT - 10, true);
 
-	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true, 10);
+	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true);
 
-	reds[0]->builderRede(800, ALT - 200, 20, 5, true, 50);
+	reds[0]->builderRede(800, ALT - 200, 700, ALT-15, true);
 	reds[0]->getCorda()->builderCorda(800, ALT - 15, 5, 5, true, false);
 
-	cavs[0]->builderEspadachimCav(900, ALT - 10, 50, 25, true, 50, NULL);
-	cavs[0]->setAlvo(jog1);
+	cavs[0]->builderEspadachimCav(1200, ALT-20, true, jog1);
 
-	esps[0]->builderEspadachim(300, ALT - 10, 10, 20, true, 40, NULL);
-	esps[0]->setAlvo(jog1);
+	esps[0]->builderEspadachim(700, ALT-20, true, jog1);
 
-	mosqs[0]->builderMosqueteiro(350, ALT - 10, 10, 20, true, 25, NULL);
-	mosqs[0]->setAlvo(jog1);
+	mosqs[0]->builderMosqueteiro(500, ALT-20, true, jog1);
 }
 
 

@@ -13,7 +13,7 @@ Fase::Fase()
 
 Fase::~Fase()
 {
-
+	
 }
 
 bool Fase::campanha = false;
@@ -24,6 +24,7 @@ int Fase::num_jogs = 0;
 
 Jogador* Fase::jog1 = NULL;
 Jogador* Fase::jog2 = NULL;
+
 
 void Fase::initTimers()
 {
@@ -713,7 +714,7 @@ void Fase::colisaoEspinhos(Personagem* const pPers)
 	for (i = 0; i < espinhos.numObjs(); i++)
 	{
 		pEspinho = espinhos.objI(i);
-		if (colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pEspinho)))
+		if (pEspinho->getAtivo() && colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pEspinho)))
 		{
 			//	caso o player esteja andando para direita ou parado
 			//	recebe dano e um knock back para esquerda, caso 

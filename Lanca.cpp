@@ -4,7 +4,20 @@
 
 Lanca::Lanca()
 {
-	ID = LANCA;
+	posX = 0;
+	posY = 0;
+	limX = 0;
+	limY = 0;
+	velX = 0;
+	velY = 0;
+	fisica = false;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
+	ID = ARCO;
+
+	dano = DANO_LANCA;
+	donoArma = NULL;
 }
 
 
@@ -13,16 +26,16 @@ Lanca::~Lanca()
 }
 
 
-void Lanca::builderLanca(const int ax, const int ay, const int aLimX, const int aLimY, const bool aFisica, const bool aAtivo, const int aDano, Personagem* const pDonoArma)
+void Lanca::builderLanca(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimY;
-	fisica = aFisica;
 	ativo = aAtivo;
-	dano = aDano;
-	donoArma = pDonoArma;
+
+	if (pDonoArma != NULL)
+	{
+		donoArma = pDonoArma;
+	}
 }
 
 

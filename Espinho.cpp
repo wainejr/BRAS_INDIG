@@ -4,7 +4,19 @@
 
 Espinho::Espinho()
 {
+	posX = 0;
+	posY = 0;
+	limX = 0;
+	limY = 0;
+	velX = 0;
+	velY = 0;
+	fisica = false;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
 	ID = ESPINHO;
+
+	dano = DANO_ESPINHO;
 }
 
 
@@ -13,14 +25,21 @@ Espinho::~Espinho()
 }
 
 
-void Espinho::builderEspinho(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo, const int aDano)
+void Espinho::builderEspinho(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo)
 {
 	posX = ax;
 	posY = ay;
 	limX = aLimX;
 	limY = aLimY;
+	velX = 0;
+	velY = 0;
 	ativo = aAtivo;
-	dano = aDano;
+	fisica = false;
+	velMaxX = 0;
+	velMaxY = 0;
+	ID = ESPINHO;
+
+	dano = DANO_ESPINHO;
 }
 
 

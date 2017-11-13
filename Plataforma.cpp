@@ -4,7 +4,19 @@
 
 Plataforma::Plataforma()
 {
+	posX = 0;
+	posY = 0;
+	limX = 0;
+	limY = 0;
+	velX = 0;
+	velY = 0;
+	fisica = false;
+	ativo = false;
+	velMaxX = 0;
+	velMaxY = 0;
 	ID = PLATAFORMA;
+
+	colisaoBaixo = false;
 }
 
 
@@ -34,7 +46,7 @@ void Plataforma::draw(const int aPosFaseX, const int aPosFaseY)
 }
 
 
-void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo)
+void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const bool aColisaoBaixo)
 {
 	posX = ax;
 	posY = ay;
@@ -42,6 +54,7 @@ void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, 
 	limY = aLimy;
 	ativo = aAtivo;
 
+	colisaoBaixo = aColisaoBaixo;
 }
 
 

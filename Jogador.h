@@ -7,8 +7,8 @@ private:
 	static int num_jogs;
 	int chances;
 	bool subindo;
-	bool subiu; // gerenciamento interno apenas
-	bool imovel; // gerenciamento interno apenas
+	bool subiu;		//	gerenciamento interno apenas
+	bool imovel;	//	gerenciamento interno apenas
 	ALLEGRO_TIMER*	timer_imovel;
 
 public:
@@ -37,7 +37,7 @@ public:
 	void initTimer();
 	const bool persPodeAtacar();
 	Projetil* const atirar();
-	const int getPers();
-	void setPers(const int aPers);
+	void reset(const int ax, const int ay, const bool aAtivo);
+	void resetChances();
 };
 

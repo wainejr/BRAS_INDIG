@@ -4,8 +4,29 @@
 
 Mosqueteiro::Mosqueteiro()
 {
-	ID = MOSQUETEIRO;
+	posX = 0;
+	posY = 0;
+	limX = LIM_X_MOSQ;
+	limY = LIM_Y_MOSQ;
+	velX = 0;
+	velY = 0;
 	fisica = true;
+	ativo = false;
+	velMaxX = VEL_MAX_X_PERS;
+	velMaxY = VEL_PULO;
+	ID = MOSQUETEIRO;
+
+	vida = VIDA_MAX_MOSQ;
+	arma = NULL;
+	dir = true;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	timer_ataque = NULL;
+	timer_atacando = NULL;
+	timer_invuneravel = NULL;
+
+	alvo = NULL;
 }
 
 
@@ -14,15 +35,29 @@ Mosqueteiro::~Mosqueteiro()
 }
 
 
-void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const int aVida, Arma* const pArma)
+void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
 {
 	posX = ax;
 	posY = ay;
-	limX = aLimX;
-	limY = aLimy;
+	velX = 0;
+	velY = 0;
 	ativo = aAtivo;
-	vida = aVida;
-	this->setArma(constroiArma());
+
+	vida = VIDA_MAX_MOSQ;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	if (arma == NULL)
+	{
+		Arma* pArma = constroiArma();
+		if (pArma != NULL)
+			arma = pArma;
+	}
+
+	if (pAlvo != NULL)
+	{
+		alvo = pAlvo;
+	}
 }
 
 
@@ -43,7 +78,7 @@ void Mosqueteiro::atualizar()
 	mover();
 	posX += velX;
 	posY -= velY;
-	if (!atacando)
+	if (!atacando && alvo != NULL)
 	{
 		if (alvo->getX() > posX)
 			dir = true;
@@ -74,9 +109,9 @@ Projetil* const Mosqueteiro::atirar()
 	Projetil* pProj = new Projetil();
 	pProj->setID(PROJETIL_INI);
 	if(dir) 
-		pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, VEL_MAX_PROJ, 0 , true);
+		pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_INI, arma);
 	else
-		pProj->builderProjetil(arma->getX(), arma->getY(), 3, 3, -VEL_MAX_PROJ, 0, true);
+		pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_INI, arma);
 	pProj->setArmaProj(arma);
 	atacando = true;
 	al_resume_timer(timer_ataque);
@@ -102,4 +137,19 @@ const bool Mosqueteiro::persPodeAtacar()
 			return true;
 	}
 	return false;
+}
+
+
+void Mosqueteiro::reset(const int ax, const int ay, const bool aAtivo)
+{
+	posX = ax;
+	posY = ay;
+	velX = 0;
+	velY = 0;
+	ativo = aAtivo;
+
+	vida = VIDA_MAX_MOSQ;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
 }
