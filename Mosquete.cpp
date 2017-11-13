@@ -37,11 +37,6 @@ void Mosquete::builderMosquete(const int ax, const int ay, const bool aAtivo, Pe
 }
 
 
-void Mosquete::atacar()
-{
-}
-
-
 void Mosquete::draw(const int aPosFaseX, const int aPosFaseY)
 {
 }

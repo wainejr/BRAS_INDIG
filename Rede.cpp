@@ -9,11 +9,10 @@ Rede::Rede()
 	limX = LIM_X_REDE;
 	limY = LIM_Y_REDE;
 	velX = 0;
-	velY = 0;
+	velMaxX = 0;
+	velMaxY = VEL_MAX_REDE;
 	fisica = true;
 	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
 	ID = REDE;
 
 	dano = DANO_REDE;
@@ -44,35 +43,27 @@ void Rede::setCorda(Corda* const pCorda)
 
 void Rede::builderRede(const int ax, const int ay, const int aLinhaX, const int aLinhaY, const bool aAtivo)
 {
-	posX = 0;
-	posY = 0;
+	posX = ax;
+	posY = ay;
 	limX = LIM_X_REDE;
 	limY = LIM_Y_REDE;
-	velX = 0;
 	velY = 0;
-	fisica = true;
-	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
-	ID = ARMADILHA;
+	ativo = aAtivo;
 
-	dano = DANO_ARMD;
+	dano = DANO_REDE;
 
 	ativada = false;
 	if (linha == NULL)
 	{
 		Corda* pLinha = new Corda;
 		linha = pLinha;
-		linha->setEscalavel(false);
-		linha->setLimX(LIM_X_LINHA_REDE);
-		linha->setLimY(LIM_Y_LINHA_REDE);
 	}
+	linha->setAtivo(true);
 	linha->setEscalavel(false);
 	linha->setLimX(LIM_X_LINHA_REDE);
 	linha->setLimY(LIM_Y_LINHA_REDE);
 	linha->setX(aLinhaX);
 	linha->setY(aLinhaY);
-
 }
 
 

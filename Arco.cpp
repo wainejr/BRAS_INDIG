@@ -28,11 +28,6 @@ Arco::~Arco()
 }
 
 
-void Arco::atacar()
-{
-}
-
-
 void Arco::setForca(const float aForca)
 {
 	forca = aForca;

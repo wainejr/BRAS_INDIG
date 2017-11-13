@@ -42,11 +42,6 @@ void Espada::builderEspada(const int ax, const int ay, const int aLimX, const in
 }
 
 
-void Espada::atacar()
-{
-}
-
-
 void Espada::draw(const int aPosFaseX, const int aPosFaseY)
 {
 

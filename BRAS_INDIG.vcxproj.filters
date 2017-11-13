@@ -153,6 +153,9 @@
     <ClInclude Include="Lista.h">
       <Filter>Header Files\Gerenciadores</Filter>
     </ClInclude>
+    <ClInclude Include="Mapa.h">
+      <Filter>Header Files\Elementos Jogo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="Inimigo.cpp">
       <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapa.cpp">
+      <Filter>Source Files\Elementos Jogo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

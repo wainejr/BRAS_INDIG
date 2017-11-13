@@ -7,8 +7,8 @@ ListaFases::ListaFases()
 	raoni = new Jogador;
 	teca = new Jogador;
 
-	raoni->builderJogador(0, 0, false, RAONI, 3);
-	teca->builderJogador(0, 0, false, TECA, 3);
+	raoni->builderJogador(0, 0, true, RAONI, 3);
+	teca->builderJogador(0, 0, true, TECA, 3);
 }
 
 
@@ -81,44 +81,27 @@ void ListaFases::campanha()
 
 void ListaFases::defineJog(const int aID, const int aNum)
 {
-	if (fase1.getNumJogs() == 1)
+	if (fase1.getNumJogs() >= 1 && aNum == 1)
 	{
-		if (aNum == 1)
+		if (aID == TECA)
 		{
-			if (aID == TECA)
-			{
-				fase1.setJog1(teca);
-				
-			}
-			else if (aID == RAONI)
-			{
-				fase1.setJog1(teca);
-			}
+			fase1.setJog1(teca);	
 		}
+		else if (aID == RAONI)
+		{
+			fase1.setJog1(raoni);
+		}
+		
 	}
-	else if (fase1.getNumJogs() == 2)
+	if (fase1.getNumJogs() == 2 && aNum == 2)
 	{
-		if (aNum == 1)
+		if (aID == TECA)
 		{
-			if (aID == TECA)
-			{
-				fase1.setJog1(teca);
-			}
-			else if (aID == RAONI)
-			{
-				fase1.setJog1(raoni);
-			}
+			fase1.setJog2(teca);
 		}
-		else if (aNum == 2)
+		else if (aID == RAONI)
 		{
-			if (aID == TECA)
-			{
-				fase1.setJog2(teca);
-			}
-			else if (aID == RAONI)
-			{
-				fase1.setJog2(teca);
-			}
+			fase1.setJog2(raoni);
 		}
 	}
 }

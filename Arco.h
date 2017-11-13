@@ -10,7 +10,6 @@ public:
 	~Arco();
 	void setForca(const float aForca);
 	const float getForca();
-	void atacar();
 	void builderArco(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma);
 	void draw(const int aPosFaseX, const int aPosFaseY);
 };

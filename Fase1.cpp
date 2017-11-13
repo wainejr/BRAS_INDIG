@@ -37,15 +37,6 @@ void Fase1::execFase()
 	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE, W, S, A, D, CTRL};
 	bool keys[10] = { false, false, false, false, false, false, false, false, false, false};
 
-	//	VARIAVEIS AUXILIARES
-	Jogador* jog1;
-	Jogador* jog2;
-
-	if (num_jogs >= 1)
-		jog1 = jogadores.objI(0);
-	if (num_jogs == 2)
-		jog2 = jogadores.objI(1);
-
 	//	VARIAVEIS ALLEGRO DO LOOP
 	ALLEGRO_EVENT ev;
 
@@ -150,7 +141,7 @@ void Fase1::execFase()
 						jog1->setChances(jog1->getChances() - 1);
 						jog1->setVida(VIDA_MAX_JOG);
 						jog1->setAtivo(false);
-						jogadores.retirarObj(jog1);
+						//jogadores.retirarObj(jog1);
 						if (jog1->getChances() <= 0)
 							num_jogs--;
 					}
@@ -166,15 +157,15 @@ void Fase1::execFase()
 						}
 						if (keys[UP])
 						{
-							if (jogadorPodeSubir(jog1))
+							if (mapaFase.jogadorPodeSubir(jog1))
 								jog1->subir();
-							else if (personagemPodePular(static_cast<Personagem*>(jog1)))
+							else if (mapaFase.personagemPodePular(static_cast<Personagem*>(jog1)))
 								jog1->pular();
 						}
-						if (keys[CTRL] && personagemPodeAtacar(static_cast<Personagem*>(jog1)))
+						if (keys[CTRL] && mapaFase.personagemPodeAtacar(static_cast<Personagem*>(jog1)))
 						{
 							if (jog1->getArma()->getID() == ARCO)
-								projeteis.addObj(jog1->atirar());
+								mapaFase.addProjetil(jog1->atirar());
 							else if (jog1->getArma()->getID() == ESPADA)
 								jog1->atacar();
 							keys[CTRL] = false; //evitar ataques contínuos
@@ -185,10 +176,10 @@ void Fase1::execFase()
 						}
 						if (keys[DOWN])
 						{
-							if (jogadorEstaNumaCorda(jog1) && !personagemPodePular(static_cast<Personagem*>(jog1)))
+							if (mapaFase.jogadorEstaNumaCorda(jog1) && !mapaFase.personagemPodePular(static_cast<Personagem*>(jog1)))
 								jog1->descer();
-							else if (persPodeDescerPlat(static_cast<Personagem*>(jog1)))
-								perDescePlat(static_cast<Personagem*>(jog1));
+							else if (mapaFase.persPodeDescerPlat(static_cast<Personagem*>(jog1)))
+								mapaFase.perDescePlat(static_cast<Personagem*>(jog1));
 						}
 					}
 				}
@@ -199,7 +190,8 @@ void Fase1::execFase()
 						jog2->setChances(jog2->getChances() - 1);
 						jog2->setVida(VIDA_MAX_JOG);
 						jog2->setAtivo(false);
-						jogadores.retirarObj(jog2);
+						//	VER COMO VAI FAZER
+						//jogadores.retirarObj(jog2);
 						if (jog2->getChances() <= 0)
 							num_jogs--;
 					}
@@ -214,15 +206,15 @@ void Fase1::execFase()
 						}
 						if (keys[W])
 						{
-							if (jogadorPodeSubir(jog2))
+							if (mapaFase.jogadorPodeSubir(jog2))
 								jog2->subir();
-							else if (personagemPodePular(static_cast<Personagem*>(jog2)))
+							else if (mapaFase.personagemPodePular(static_cast<Personagem*>(jog2)))
 								jog2->pular();
 						}
-						if (keys[SPACE] && personagemPodeAtacar(static_cast<Personagem*>(jog2)))
+						if (keys[SPACE] && mapaFase.personagemPodeAtacar(static_cast<Personagem*>(jog2)))
 						{
 							if (jog2->getArma()->getID() == ARCO)
-								projeteis.addObj(jog2->atirar());
+								mapaFase.addProjetil(jog2->atirar());
 							else if (jog2->getArma()->getID() == ESPADA)
 								jog2->atacar();
 							keys[SPACE] = false; //evitar ataques contínuos
@@ -233,10 +225,10 @@ void Fase1::execFase()
 						}
 						if (keys[S])
 						{
-							if (jogadorEstaNumaCorda(jog2) && !personagemPodePular(static_cast<Personagem*>(jog2)))
+							if (mapaFase.jogadorEstaNumaCorda(jog2) && !mapaFase.personagemPodePular(static_cast<Personagem*>(jog2)))
 								jog2->descer();
-							else if (persPodeDescerPlat(static_cast<Personagem*>(jog2)))
-								perDescePlat(static_cast<Personagem*>(jog2));
+							else if (mapaFase.persPodeDescerPlat(static_cast<Personagem*>(jog2)))
+								mapaFase.perDescePlat(static_cast<Personagem*>(jog2));
 						}
 					}
 				}
@@ -259,13 +251,13 @@ void Fase1::execFase()
 					}
 				}
 				if(!resetar && !done)
-					atualizaFase();
+					mapaFase.atualizaMapa();
 			}
 		}
 
 		if (redraw && al_is_event_queue_empty(queue) && !resetar && !done)
 		{
-			desenhaObjs();
+			mapaFase.desenhaObjs();
 			//FUNÇAO DE TESTE
 			imprimeVida();
 			redraw = false;
@@ -308,7 +300,7 @@ void Fase1::initAllegroObjs()
 
 void Fase1::restart()
 {
-	resetAllObjs();
+	mapaFase.retiraTodosObjs();
 	buildEntidades();
 	addEntidades();
 	//adicionar código aqui pra clicar pra reiniciar e tals
@@ -434,15 +426,11 @@ void Fase1::buildEntidades()
 	///	SETAR A POSIÇÃO DOS JOGADORES EM X E Y TAMBÉM
 	if (num_jogs >= 1)
 	{
-		jog1->setY(ALT - 50);
-		jog1->setX(10);
-		jog1->setAtivo(true);
+		jog1->builderJogador(25, ALT - 50, true);
 	}
 	if (num_jogs == 2)
 	{
-		jog2->setY(ALT - 50);
-		jog2->setX(40);
-		jog2->setAtivo(true);
+		jog2->builderJogador(50, ALT - 50, true);
 	}
 
 	plats[0]->builderPlataforma(0, ALT, LARG * 4, 10, true, true);
@@ -457,7 +445,6 @@ void Fase1::buildEntidades()
 	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true);
 
 	reds[0]->builderRede(800, ALT - 200, 700, ALT-15, true);
-	reds[0]->getCorda()->builderCorda(800, ALT - 15, 5, 5, true, false);
 
 	cavs[0]->builderEspadachimCav(1200, ALT-20, true, jog1);
 
@@ -488,50 +475,52 @@ void Fase1::addEntidades()
 	
 	if (num_jogs >= 1)
 	{
-		addPlayer(jog1);
+		mapaFase.addPlayer(jog1);
 	}
 	if (num_jogs == 2)
 	{
-		addPlayer(jog2);
+		mapaFase.addPlayer(jog2);
 	}
 
 	for (i = 0; i < num_esps; i++)
 	{
-		addMosqueteiro(mosqs[i]);
+		mapaFase.addMosqueteiro(mosqs[i]);
 	}
 
 	for (i = 0; i < num_esps; i++)
 	{
-		addEspadachim(esps[i]);
+		mapaFase.addEspadachim(esps[i]);
 	}
 
 	for (i = 0; i < num_cavs; i++)
 	{
-		addCavaleiro(cavs[i]);
+		mapaFase.addCavaleiro(cavs[i]);
 	}
 
 	for (i = 0; i < num_plats; i++)
 	{
-		addPlataforma(plats[i]);
+		mapaFase.addPlataforma(plats[i]);
 	}
 
 	for (i = 0; i < num_cordas; i++)
 	{
-		addCorda(cords[i]);
+		mapaFase.addCorda(cords[i]);
 	}
 
 	for (i = 0; i < num_armds; i++)
 	{
-		addArmadilha(armds[i]);
+		mapaFase.addArmadilha(armds[i]);
 	}
 
 	for (i = 0; i < num_espinhos; i++)
 	{
-		addEspinho(espins[i]);
+		mapaFase.addEspinho(espins[i]);
 	}
 
 	for (i = 0; i < num_redes; i++)
 	{
-		addRede(reds[i]);
+		mapaFase.addRede(reds[i]);
 	}
 }
+
+

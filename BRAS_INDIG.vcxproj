@@ -138,6 +138,7 @@
     <ClInclude Include="Lanca.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="ListaFases.h" />
+    <ClInclude Include="Mapa.h" />
     <ClInclude Include="Mosquete.h" />
     <ClInclude Include="Mosqueteiro.h" />
     <ClInclude Include="Obstaculo.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="Lanca.cpp" />
     <ClCompile Include="ListaFases.cpp" />
+    <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Mosquete.cpp" />
     <ClCompile Include="Mosqueteiro.cpp" />
     <ClCompile Include="Obstaculo.cpp" />
