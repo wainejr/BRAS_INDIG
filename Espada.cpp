@@ -17,7 +17,7 @@ Espada::Espada()
 	ID = ESPADA;
 
 	dano = 0;
-	donoArma = NULL;
+	donoArma = nullptr;
 }
 
 
@@ -34,7 +34,7 @@ void Espada::builderEspada(const int ax, const int ay, const int aLimX, const in
 	limY = aLimY;
 	ativo = aAtivo;
 
-	if (pDonoArma != NULL)
+	if (pDonoArma != nullptr)
 	{
 		donoArma = pDonoArma;
 	}

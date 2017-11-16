@@ -10,12 +10,12 @@ public:
 	EspadachimCavaleiro();
 	~EspadachimCavaleiro();
 	virtual void mover();
-	virtual void atacar();
 	const bool getCavalo();
 	void setCavalo(const bool aCavalo);
 	virtual void atualizar();
 	void builderEspadachimCav(int ax, const int ay, const bool aAtivo, Jogador* const pAlvo);
 	virtual void draw(const int aPosFaseX, const int aPosFaseY);
 	void createTimers();
+	void atualizaAtaque();
 };
 

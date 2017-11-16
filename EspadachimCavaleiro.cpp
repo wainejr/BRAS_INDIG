@@ -17,16 +17,16 @@ EspadachimCavaleiro::EspadachimCavaleiro()
 	ID = ESP_CAVALEIRO;
 
 	vida = VIDA_MAX_CAV;
-	arma = NULL;
+	arma = nullptr;
 	dir = true;
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
-	timer_ataque = NULL;
-	timer_atacando = NULL;
-	timer_invuneravel = NULL;
+	timer_ataque = nullptr;
+	timer_atacando = nullptr;
+	timer_invuneravel = nullptr;
 
-	alvo = NULL;
+	alvo = nullptr;
 }
 
 
@@ -47,14 +47,14 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
-	if (arma == NULL)
+	if (arma == nullptr)
 	{
 		Arma* pArma = constroiArma();
-		if (pArma != NULL)
+		if (pArma != nullptr)
 			arma = pArma;
 	}
 
-	if (pAlvo != NULL)
+	if (pAlvo != nullptr)
 	{
 		alvo = pAlvo;
 	}
@@ -65,7 +65,7 @@ void EspadachimCavaleiro::mover()
 {
 	//	o cavaleiro tem que estar no máximo há DIFF_PIXELS_SEGUIR_Y de distância
 	//	do alvo para começar a segui-lo
-	if (alvo != NULL)
+	if (alvo != nullptr)
 	{
 		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY() - alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
 		{
@@ -104,18 +104,12 @@ void EspadachimCavaleiro::mover()
 }
 
 
-void EspadachimCavaleiro::atacar()
-{
-
-}
-
-
 void EspadachimCavaleiro::atualizar()
 {
 	mover();
 	posX += velX;
 	posY -= velY;
-	if (alvo != NULL)
+	if (alvo != nullptr)
 	{
 		if (alvo->getX() > posX)
 			dir = true;
@@ -155,4 +149,10 @@ void EspadachimCavaleiro::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
 	timer_atacando = al_create_timer(1.0); // não será utilizado
 	timer_invuneravel = al_create_timer(TEMP_INVUN_CAV);
+}
+
+
+void EspadachimCavaleiro::atualizaAtaque() 
+{
+	podeAtacar = true;
 }

@@ -1,10 +1,10 @@
  #pragma once
 
-#include <string>
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#include "gerenciaAnim.h"
 
 //	O TAMANHO DOS INIMGOS/JOGADORES E A VELOCIDADE DAS BALAS DEVEM SER
 //	DIMENSIONADOS PARA QUE OS PROJETEIS NAO PASSEM DELES
@@ -91,10 +91,8 @@
 #define LIM_X_LINHA_REDE 5
 #define LIM_Y_LINHA_REDE 5
 
-using namespace std;
-
 enum IDS{RAONI, TECA, MOSQUETEIRO, ESPADACHIM, ESP_CAVALEIRO, CHEFAO_CAP, 
-	ESPADA, LANCA, MOSQUETE, ARCO, PROJETIL_INI, PROJETIL_JOG, PLATAFORMA, CORDA, 
+	ESPADA, LANCA, MOSQUETE, ARCO, PROJETIL_MOSQ, PROJETIL_ARCO, PLATAFORMA, CORDA, 
 	ARMADILHA, ESPINHO, REDE, CORDA_REDE};
 
 class Entidade
@@ -121,8 +119,10 @@ protected:
 	float velMaxX;
 	float velMaxY;
 	int ID;
-private:
-	//sprite
+
+	gerenciaAnim gerListaAnim;
+	ListaAnimacao* listaAnim;
+
 public:
 	Entidade();
 	virtual ~Entidade();

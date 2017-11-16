@@ -17,7 +17,7 @@ Lanca::Lanca()
 	ID = ARCO;
 
 	dano = DANO_LANCA;
-	donoArma = NULL;
+	donoArma = nullptr;
 }
 
 
@@ -32,7 +32,7 @@ void Lanca::builderLanca(const int ax, const int ay, const bool aAtivo, Personag
 	posY = ay;
 	ativo = aAtivo;
 
-	if (pDonoArma != NULL)
+	if (pDonoArma != nullptr)
 	{
 		donoArma = pDonoArma;
 	}

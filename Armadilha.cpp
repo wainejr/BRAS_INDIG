@@ -19,7 +19,7 @@ Armadilha::Armadilha()
 	dano = DANO_ARMD;
 
 	acionada = false;
-	timer_acionada = NULL;
+	timer_acionada = nullptr;
 }
 
 

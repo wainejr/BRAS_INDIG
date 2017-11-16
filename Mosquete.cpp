@@ -17,7 +17,7 @@ Mosquete::Mosquete()
 	ID = MOSQUETE;
 
 	dano = DANO_MOSQUETE;
-	donoArma = NULL;
+	donoArma = nullptr;
 }
 
 
@@ -32,7 +32,7 @@ void Mosquete::builderMosquete(const int ax, const int ay, const bool aAtivo, Pe
 	posY = ay;
 
 	ativo = aAtivo;
-	if (pDonoArma != NULL)
+	if (pDonoArma != nullptr)
 		donoArma = pDonoArma;
 }
 

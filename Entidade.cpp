@@ -9,6 +9,7 @@ Entidade::Entidade()
 
 Entidade::~Entidade()
 {
+
 }
 
 

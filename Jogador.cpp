@@ -1,7 +1,5 @@
 #include "Jogador.h"
 
-int Jogador::num_jogs = 0;
-
 Jogador::Jogador()
 {
 	//MUDAR PARA SINGLETON O ESQUEMA DE CONSTRUTOR
@@ -18,21 +16,20 @@ Jogador::Jogador()
 	ID = -1;
 
 	vida = VIDA_MAX_JOG;
-	arma = NULL;
+	arma = nullptr;
 	dir = true;
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
-	timer_ataque = NULL;
-	timer_atacando = NULL;
-	timer_invuneravel = NULL;
+	timer_ataque = nullptr;
+	timer_atacando = nullptr;
+	timer_invuneravel = nullptr;
 	
-	num_jogs++;
 	chances = 3; //	3 chances é o padrão inicial
 	subindo = false;
 	subiu = false;
 	imovel = false;
-	timer_imovel = NULL;
+	timer_imovel = nullptr;
 }
 
 
@@ -42,9 +39,8 @@ Jogador::~Jogador()
 	al_destroy_timer(timer_ataque);
 	al_destroy_timer(timer_atacando);
 	al_destroy_timer(timer_invuneravel);
-	
+
 	al_destroy_timer(timer_imovel);
-	num_jogs--;
 }
 
 
@@ -62,10 +58,10 @@ void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, cons
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
-	if (arma == NULL)
+	if (arma == nullptr)
 	{
 		Arma* pArma = constroiArma();
-		if (pArma != NULL)
+		if (pArma != nullptr)
 			arma = pArma;
 	}
 
@@ -82,6 +78,7 @@ void Jogador::atacar()
 	if (arma->getID() == ESPADA)
 	{
 		atacando = true;
+		podeAtacar = false;
 		al_resume_timer(timer_atacando);
 		al_resume_timer(timer_ataque);
 		al_set_timer_count(timer_atacando, 0);
@@ -246,6 +243,7 @@ void Jogador::tomaDano(const int aDano, const int KB)
 					velY = 0;
 				velX = 0;
 				imovel = true;
+				//	o jogador fica 3x mais tempo imovel ao ser capturado por uma rede
 				al_set_timer_count(timer_imovel, -2);
 				al_resume_timer(timer_imovel);
 			}
@@ -255,22 +253,6 @@ void Jogador::tomaDano(const int aDano, const int KB)
 			al_resume_timer(timer_invuneravel);
 		}
 	}
-}
-
-
-const bool Jogador::persPodeAtacar()
-{
-	if (arma->getID() == ESPADA)
-	{
-		if (al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
-			return true;
-	}
-	else if (arma->getID() == ARCO)
-	{
-		if (al_get_timer_count(timer_ataque) >= 1 && !atacando && !imovel)
-			return true;
-	}
-	return false;
 }
 
 
@@ -299,11 +281,11 @@ void Jogador::destruirTimer()
 void Jogador::initTimer()
 {
 	al_start_timer(timer_ataque);
-	
+	//	o timer só será resumido quando a função "atacar" for acionada 
+
 	al_start_timer(timer_imovel);
 	al_stop_timer(timer_imovel);
-	//	o timer só será resumido quando a função "atacar" for acionada 
-	//	e tem valor inicial 1 para permitir o primeiro ataque
+	//	o timer só será resumido quando o jogador ficar em estado imovel
 
 	al_start_timer(timer_atacando);
 	al_stop_timer(timer_atacando);
@@ -321,21 +303,22 @@ Projetil* const Jogador::atirar()
 	if (arma->getID() == ARCO)
 	{
 		Projetil* pProj = new Projetil();
-		pProj->setID(PROJETIL_JOG);
+		pProj->setID(PROJETIL_ARCO);
 		if(dir)
-			pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_JOG, arma);
+			pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 		else	
-			pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_JOG, arma);
+			pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 
 		pProj->setArmaProj(arma);
 		atacando = true;
+		podeAtacar = false;
 		al_resume_timer(timer_atacando);
 		al_resume_timer(timer_ataque);
 		al_set_timer_count(timer_atacando, 0);
 		al_set_timer_count(timer_ataque, -1);	//jogador demora o dobro de tempo para atacar com o arco
 		return pProj;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -361,4 +344,14 @@ void Jogador::reset(const int ax, const int ay, const bool aAtivo)
 void Jogador::resetChances()
 {
 	chances = 3;
+}
+
+
+void Jogador::atualizaAtaque()
+{
+	if (!podeAtacar && !atacando && !imovel && al_get_timer_count(timer_ataque) >= 1)
+	{
+		al_stop_timer(timer_ataque);
+		podeAtacar = true;
+	}
 }

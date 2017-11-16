@@ -131,6 +131,7 @@ void Mapa::atualizaObjs()
 void Mapa::atualizaAtivos()
 {
 	int i;
+	Jogador* pJog;
 	Mosqueteiro* pMosq;
 	Espadachim* pEsp;
 	EspadachimCavaleiro* pCav;
@@ -140,6 +141,15 @@ void Mapa::atualizaAtivos()
 	//	já caso o inimigo seja "alcançado", ele é ativado.
 	///	TALVEZ COLOCAR UMA TOLERÂNCIA AQUI
 	///	FAZER O MESMO PARA REDES, ESPINHOS E ARMADILHAS
+	for (i = 0; i < jogadores.numObjs(); i++)
+	{
+		pJog = jogadores.objI(i);
+		if (pJog->getAtivo() && pJog->getVida() <= 0)
+		{
+			pJog->setAtivo(false);
+			jogadores.retirarObj(pJog);
+		}
+	}
 	for (i = 0; i < mosqueteiros.numObjs(); i++)
 	{
 		pMosq = mosqueteiros.objI(i);
@@ -615,9 +625,9 @@ void Mapa::colisaoProjeteis(Personagem* const pPers)
 			//	se o projetil for do inimigo e o alvo jogador ou se o projetil
 			//	for do jogador e o alvo inimigo...
 			if (((pPers->getID() == RAONI || pPers->getID() == TECA) &&
-				pProj->getID() == PROJETIL_INI) || ((pPers->getID() == ESP_CAVALEIRO ||
+				pProj->getID() == PROJETIL_MOSQ) || ((pPers->getID() == ESP_CAVALEIRO ||
 					pPers->getID() == ESPADACHIM || pPers->getID() == MOSQUETEIRO ||
-					pPers->getID() == CHEFAO_CAP) && pProj->getID() == PROJETIL_JOG))
+					pPers->getID() == CHEFAO_CAP) && pProj->getID() == PROJETIL_ARCO))
 			{
 				if (colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pProj)))
 				{

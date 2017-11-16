@@ -17,7 +17,7 @@ Arco::Arco()
 	ID = ARCO;
 
 	dano = DANO_ARCO;
-	donoArma = NULL;
+	donoArma = nullptr;
 
 	forca = 0.0f;
 }
@@ -48,7 +48,7 @@ void Arco::builderArco(const int ax, const int ay, const bool aAtivo, Personagem
 	posY = ay;
 	
 	ativo = aAtivo;
-	if(pDonoArma != NULL)
+	if(pDonoArma != nullptr)
 		donoArma = pDonoArma;
 }
 

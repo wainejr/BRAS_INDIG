@@ -1,7 +1,7 @@
 #pragma once
-#include "EspadachimCavaleiro.h"
+#include "Inimigo.h"
 class Espadachim :
-	public EspadachimCavaleiro
+	public Inimigo
 {
 public:
 	Espadachim();
@@ -12,7 +12,7 @@ public:
 	void builderEspadachim(int ax, const int ay, const bool aAtivo, Jogador* const pAlvo);
 	void draw(const int aPosFaseX, const int aPosFaseY);
 	void createTimers();
-	const bool persPodeAtacar();
 	void reset(const int ax, const int ay, const bool aAtivo);
+	void atualizaAtaque();
 };
 

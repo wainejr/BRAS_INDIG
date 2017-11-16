@@ -8,10 +8,10 @@ Personagem::Personagem()
 	vida = 10;
 	dir = true;
 	atacando = false;
-	arma = NULL;
-	timer_ataque = NULL;
-	timer_atacando = NULL;
-	timer_invuneravel = NULL;
+	arma = nullptr;
+	timer_ataque = nullptr;
+	timer_atacando = nullptr;
+	timer_invuneravel = nullptr;
 }
 
 
@@ -61,7 +61,7 @@ Arma* const Personagem::getArma()
 
 void Personagem::setArma(Arma* const pArma)
 {
-	if (pArma != NULL)
+	if (pArma != nullptr)
 	{
 		arma = pArma;
 		pArma->setDonoArma(this);
@@ -83,7 +83,8 @@ void Personagem::setVida(const int aVida)
 
 void Personagem::parar()
 {
-	if (velX != 0) {
+	if (velX != 0) 
+	{
 		if (velX < ACEL_X_PERS && velX > 0 || velX > -ACEL_X_PERS && velX < 0)
 		{
 			velX = 0;
@@ -96,6 +97,7 @@ void Personagem::parar()
 			velX += (float)ACEL_X_PERS;
 	}
 }
+
 
 void Personagem::setAtacando(const bool aAt)
 {
@@ -112,9 +114,7 @@ const bool Personagem::getAtacando()
 void Personagem::initTimer()
 {
 	al_start_timer(timer_ataque);
-
 	//	o timer só será resumido quando a função "atacar" for acionada 
-	//	e tem valor inicial 1 para permitir o primeiro ataque
 	
 	al_start_timer(timer_atacando);
 	al_stop_timer(timer_atacando);
@@ -136,10 +136,7 @@ void Personagem::destruirTimer()
 
 const bool Personagem::persPodeAtacar()
 {
-	if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando)
-		return true;
-
-	return false;
+	return podeAtacar;
 }
 
 //	para KB = 1, o personagem recebe um knock back para direita
@@ -250,5 +247,5 @@ Arma* const Personagem::constroiArma()
 		pLanca->builderLanca(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pLanca;
 	}
-	return NULL;
+	return nullptr;
 }

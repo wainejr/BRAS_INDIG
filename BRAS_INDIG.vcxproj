@@ -117,9 +117,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animacao.h" />
     <ClInclude Include="Arco.h" />
     <ClInclude Include="Arma.h" />
     <ClInclude Include="Armadilha.h" />
+    <ClInclude Include="Botao.h" />
     <ClInclude Include="ChefaoCapitao.h" />
     <ClInclude Include="Corda.h" />
     <ClInclude Include="definesMacros.h" />
@@ -132,11 +134,13 @@
     <ClInclude Include="Fase1.h" />
     <ClInclude Include="Fase2.h" />
     <ClInclude Include="FaseFinal.h" />
+    <ClInclude Include="gerenciaAnim.h" />
     <ClInclude Include="Inimigo.h" />
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Lanca.h" />
     <ClInclude Include="Lista.h" />
+    <ClInclude Include="ListaAnimacao.h" />
     <ClInclude Include="ListaFases.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Mosquete.h" />
@@ -150,9 +154,11 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animacao.cpp" />
     <ClCompile Include="Arco.cpp" />
     <ClCompile Include="Arma.cpp" />
     <ClCompile Include="Armadilha.cpp" />
+    <ClCompile Include="Botao.cpp" />
     <ClCompile Include="ChefaoCapitao.cpp" />
     <ClCompile Include="Corda.cpp" />
     <ClCompile Include="Entidade.cpp" />
@@ -164,10 +170,12 @@
     <ClCompile Include="Fase1.cpp" />
     <ClCompile Include="Fase2.cpp" />
     <ClCompile Include="FaseFinal.cpp" />
+    <ClCompile Include="gerenciaAnim.cpp" />
     <ClCompile Include="Inimigo.cpp" />
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="Lanca.cpp" />
+    <ClCompile Include="ListaAnimacao.cpp" />
     <ClCompile Include="ListaFases.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Mosquete.cpp" />

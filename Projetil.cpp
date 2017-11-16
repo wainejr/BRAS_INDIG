@@ -16,7 +16,7 @@ Projetil::Projetil()
 	velMaxY = VEL_MAX_PROJ;
 	ID = -1;
 
-	armaProjetil = NULL;
+	armaProjetil = nullptr;
 }
 
 
@@ -33,20 +33,20 @@ void Projetil::builderProjetil(const int ax, const int ay, const int aVelX, cons
 	ativo = aAtivo;
 	ID = aID;
 
-	if (pArma != NULL)
+	if (pArma != nullptr)
 	{
 		armaProjetil = pArma;
 	}
 
-	if (aID == PROJETIL_INI)
+	if (aID == PROJETIL_MOSQ)
 	{
 		limX = LIM_X_PROJ_MOSQ;
 		limY = LIM_Y_PROJ_MOSQ;
 	}
-	else if (aID == PROJETIL_JOG)
+	else if (aID == PROJETIL_ARCO)
 	{
 		limX = LIM_X_PROJ_ARCO;
-		limY = LIM_X_PROJ_ARCO;
+		limY = LIM_Y_PROJ_ARCO;
 	}
 
 }
@@ -61,7 +61,7 @@ void Projetil::atualizar()
 
 void Projetil::setArmaProj(Arma* const pArma)
 {
-	if(pArma != NULL)
+	if(pArma != nullptr)
 		armaProjetil = pArma;
 }
 

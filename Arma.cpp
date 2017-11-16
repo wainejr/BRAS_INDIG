@@ -3,7 +3,7 @@
 Arma::Arma()
 {
 	dano = 0;
-	donoArma = NULL;
+	donoArma = nullptr;
 }
 
 
@@ -25,7 +25,7 @@ void Arma::setDano(const int aDano)
 
 void Arma::setDonoArma(Personagem* const pPers)
 {
-	if(pPers != NULL)
+	if(pPers != nullptr)
 		donoArma = pPers;
 }
 

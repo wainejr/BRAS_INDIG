@@ -17,16 +17,16 @@ Mosqueteiro::Mosqueteiro()
 	ID = MOSQUETEIRO;
 
 	vida = VIDA_MAX_MOSQ;
-	arma = NULL;
+	arma = nullptr;
 	dir = true;
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
-	timer_ataque = NULL;
-	timer_atacando = NULL;
-	timer_invuneravel = NULL;
+	timer_ataque = nullptr;
+	timer_atacando = nullptr;
+	timer_invuneravel = nullptr;
 
-	alvo = NULL;
+	alvo = nullptr;
 }
 
 
@@ -47,14 +47,14 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const bool aAti
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
-	if (arma == NULL)
+	if (arma == nullptr)
 	{
 		Arma* pArma = constroiArma();
-		if (pArma != NULL)
+		if (pArma != nullptr)
 			arma = pArma;
 	}
 
-	if (pAlvo != NULL)
+	if (pAlvo != nullptr)
 	{
 		alvo = pAlvo;
 	}
@@ -67,18 +67,12 @@ void Mosqueteiro::mover()
 }
 
 
-void Mosqueteiro::atacar()
-{
-
-}
-
-
 void Mosqueteiro::atualizar()
 {
 	mover();
 	posX += velX;
 	posY -= velY;
-	if (!atacando && alvo != NULL)
+	if (!atacando && alvo != nullptr)
 	{
 		if (alvo->getX() > posX)
 			dir = true;
@@ -90,8 +84,6 @@ void Mosqueteiro::atualizar()
 	atualizaAtacando();
 	if (!atacando)
 		atualizaArma();
-
-		
 }
 
 
@@ -107,13 +99,14 @@ Projetil* const Mosqueteiro::atirar()
 {
 	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
 	Projetil* pProj = new Projetil();
-	pProj->setID(PROJETIL_INI);
+	pProj->setID(PROJETIL_MOSQ);
 	if(dir) 
-		pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_INI, arma);
+		pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_MOSQ, arma);
 	else
-		pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_INI, arma);
+		pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_MOSQ, arma);
 	pProj->setArmaProj(arma);
 	atacando = true;
+	podeAtacar = false;
 	al_resume_timer(timer_ataque);
 	al_resume_timer(timer_atacando);
 	al_set_timer_count(timer_ataque, 0);
@@ -126,17 +119,6 @@ void Mosqueteiro::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_MOSQ);
 	timer_atacando = al_create_timer(TEMP_ATAQ_MOSQ);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_MOSQ);
-}
-
-const bool Mosqueteiro::persPodeAtacar()
-{
-
-	if (velY == 0 && al_get_timer_count(timer_ataque) >= 1 && !atacando)
-	{
-		if (alvo->getY() > posY - limY && alvo->getY() - alvo->getLimY() < posY)
-			return true;
-	}
-	return false;
 }
 
 
@@ -152,4 +134,17 @@ void Mosqueteiro::reset(const int ax, const int ay, const bool aAtivo)
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
+}
+
+
+void Mosqueteiro::atualizaAtaque()
+{
+	if (al_get_timer_count(timer_ataque) >= 1 && !podeAtacar && !atacando)
+	{
+		al_stop_timer(timer_ataque);
+		if (velY == 0 && alvo->getY() > posY - limY && alvo->getY() - alvo->getLimY() < posY)
+		{
+			podeAtacar = true;
+		}
+	}
 }

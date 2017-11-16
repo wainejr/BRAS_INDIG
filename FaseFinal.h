@@ -9,5 +9,8 @@ public:
 	void restart();
 	void execFase();
 	void initFase();
+
+	void numEntidades() {}
+	void buildEntidades() {}
 };
 

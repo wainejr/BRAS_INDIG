@@ -156,6 +156,18 @@
     <ClInclude Include="Mapa.h">
       <Filter>Header Files\Elementos Jogo</Filter>
     </ClInclude>
+    <ClInclude Include="ListaAnimacao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animacao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gerenciaAnim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Botao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -241,6 +253,18 @@
     </ClCompile>
     <ClCompile Include="Mapa.cpp">
       <Filter>Source Files\Elementos Jogo</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaAnimacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gerenciaAnim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Botao.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

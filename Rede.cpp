@@ -18,7 +18,7 @@ Rede::Rede()
 	dano = DANO_REDE;
 
 	ativada = false;
-	linha = NULL;
+	linha = nullptr;
 }
 
 
@@ -36,7 +36,7 @@ Corda* const Rede::getCorda()
 
 void Rede::setCorda(Corda* const pCorda)
 {
-	if(pCorda != NULL)
+	if(pCorda != nullptr)
 		linha = pCorda;
 }
 
@@ -45,15 +45,11 @@ void Rede::builderRede(const int ax, const int ay, const int aLinhaX, const int 
 {
 	posX = ax;
 	posY = ay;
-	limX = LIM_X_REDE;
-	limY = LIM_Y_REDE;
 	velY = 0;
 	ativo = aAtivo;
 
-	dano = DANO_REDE;
-
 	ativada = false;
-	if (linha == NULL)
+	if (linha == nullptr)
 	{
 		Corda* pLinha = new Corda;
 		linha = pLinha;

@@ -31,6 +31,7 @@ void Fase1::execFase()
 	bool done = false;
 	bool redraw = false;
 	bool resetar = false;
+	fase_completa = false;
 	int x = 0;
 	int y = 0;
 
@@ -139,11 +140,8 @@ void Fase1::execFase()
 					if (jog1->getVida() <= 0)
 					{
 						jog1->setChances(jog1->getChances() - 1);
-						jog1->setVida(VIDA_MAX_JOG);
-						jog1->setAtivo(false);
-						//jogadores.retirarObj(jog1);
-						if (jog1->getChances() <= 0)
-							num_jogs--;
+						//if (jog1->getChances() <= 0)
+							//num_jogs--;
 					}
 					else 
 					{
@@ -188,12 +186,8 @@ void Fase1::execFase()
 					if (jog2->getVida() <= 0)
 					{
 						jog2->setChances(jog2->getChances() - 1);
-						jog2->setVida(VIDA_MAX_JOG);
-						jog2->setAtivo(false);
-						//	VER COMO VAI FAZER
-						//jogadores.retirarObj(jog2);
-						if (jog2->getChances() <= 0)
-							num_jogs--;
+						//if (jog2->getChances() <= 0)
+							//num_jogs--;
 					}
 					else {
 						if (keys[A])
@@ -265,159 +259,15 @@ void Fase1::execFase()
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
-
 	al_stop_timer(timer);
-	return;
 }
 
-
-void Fase1::initAllegroObjs()
-{
-	if (!carregouAllegro)
-	{
-		// -------------   INICIALIZAÇÕES	--------------
-		if (!al_init())
-			return;
-		al_init_primitives_addon();
-		al_install_keyboard();
-		al_install_mouse();
-		al_init_ttf_addon();
-
-		arial18 = al_load_ttf_font("arial.ttf", 18, 0);
-		display = al_create_display(LARG, ALT);
-		queue = al_create_event_queue();
-		timer = al_create_timer(1.0 / FPS);
-
-		//	----------	ADD FONTES À FILA DE EVENTOS   -------------
-		al_register_event_source(queue, al_get_keyboard_event_source());
-		al_register_event_source(queue, al_get_mouse_event_source());
-		al_register_event_source(queue, al_get_timer_event_source(timer));
-		al_register_event_source(queue, al_get_display_event_source(display));
-		carregouAllegro = true;
-	}
-}
-
-
-void Fase1::restart()
-{
-	mapaFase.retiraTodosObjs();
-	buildEntidades();
-	addEntidades();
-	//adicionar código aqui pra clicar pra reiniciar e tals
-}
 
 //FUNÇÃO PARA TESTES RETIRAR DEPOIS
 void Fase1::imprimeVida()
 {
 	al_draw_textf(arial18, al_map_rgb(255, 255, 255), 10, 20, ALLEGRO_ALIGN_LEFT,
 		"VIDA: %i", jog1->getVida());
-}
-
-
-void Fase1::alocaEntidades()
-{
-	int i;
-
-	mosqs = new Mosqueteiro*[num_mosq];
-	for (i = 0; i < num_mosq; i++)
-	{
-		mosqs[i] = new Mosqueteiro;
-	}
-
-	esps = new Espadachim*[num_esps];
-	for (i = 0; i < num_esps; i++)
-	{
-		esps[i] = new Espadachim;
-	}
-
-	cavs = new EspadachimCavaleiro*[num_cavs];
-	for (i = 0; i < num_cavs; i++)
-	{
-		cavs[i] = new EspadachimCavaleiro;
-	}
-
-	plats = new Plataforma*[num_plats];
-	for (i = 0; i < num_plats; i++)
-	{
-		plats[i] = new Plataforma;
-	}
-
-	cords = new Corda*[num_cordas];
-	for (i = 0; i < num_cordas; i++)
-	{
-		cords[i] = new Corda;
-	}
-
-	armds = new Armadilha*[num_armds];
-	for (i = 0; i < num_armds; i++)
-	{
-		armds[i] = new Armadilha;
-	}
-
-	espins = new Espinho*[num_espinhos];
-	for (i = 0; i < num_espinhos; i++)
-	{
-		espins[i] = new Espinho;
-	}
-
-	reds = new Rede*[num_redes];
-	for (i = 0; i < num_redes; i++)
-	{
-		reds[i] = new Rede;
-	}
-}
-
-
-void Fase1::deletaEntidades()
-{
-	int i;
-	for (i = 0; i < num_mosq; i++)
-	{
-		delete (mosqs[i]);
-	}
-	delete(mosqs);
-	
-	for (i = 0; i < num_esps; i++)
-	{
-		delete (esps[i]);
-	}
-	delete(esps);
-
-	for (i = 0; i < num_cavs; i++)
-	{
-		delete (cavs[i]);
-	}
-	delete(cavs);
-
-	for (i = 0; i < num_plats; i++)
-	{
-		delete (plats[i]);
-	}
-	delete(plats);
-
-	for (i = 0; i < num_cordas; i++)
-	{
-		delete (cords[i]);
-	}
-	delete(cords);
-
-	for (i = 0; i < num_armds; i++)
-	{
-		delete (armds[i]);
-	}
-	delete(armds);
-
-	for (i = 0; i < num_espinhos; i++)
-	{
-		delete (espins[i]);
-	}
-	delete(espins);
-
-	for (i = 0; i < num_redes; i++)
-	{
-		delete (reds[i]);
-	}
-	delete(reds);
 }
 
 
@@ -442,7 +292,7 @@ void Fase1::buildEntidades()
 
 	armds[0]->builderArmadilha(100, ALT - 10, true);
 
-	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true);
+	//espins[0]->builderEspinho(500, ALT - 10, 50, 5, true);
 
 	reds[0]->builderRede(800, ALT - 200, 700, ALT-15, true);
 
@@ -458,69 +308,12 @@ void Fase1::numEntidades()
 {
 	num_plats = 4;
 	num_cordas = 1;
-	
+
 	num_armds = 1;
-	num_espinhos = 1;
+	num_espinhos = 0;
 	num_redes = 1;
 
 	num_cavs = 1;
 	num_esps = 1;
-	num_mosq = 1;	
+	num_mosq = 1;
 }
-
-
-void Fase1::addEntidades()
-{
-	int i;
-	
-	if (num_jogs >= 1)
-	{
-		mapaFase.addPlayer(jog1);
-	}
-	if (num_jogs == 2)
-	{
-		mapaFase.addPlayer(jog2);
-	}
-
-	for (i = 0; i < num_esps; i++)
-	{
-		mapaFase.addMosqueteiro(mosqs[i]);
-	}
-
-	for (i = 0; i < num_esps; i++)
-	{
-		mapaFase.addEspadachim(esps[i]);
-	}
-
-	for (i = 0; i < num_cavs; i++)
-	{
-		mapaFase.addCavaleiro(cavs[i]);
-	}
-
-	for (i = 0; i < num_plats; i++)
-	{
-		mapaFase.addPlataforma(plats[i]);
-	}
-
-	for (i = 0; i < num_cordas; i++)
-	{
-		mapaFase.addCorda(cords[i]);
-	}
-
-	for (i = 0; i < num_armds; i++)
-	{
-		mapaFase.addArmadilha(armds[i]);
-	}
-
-	for (i = 0; i < num_espinhos; i++)
-	{
-		mapaFase.addEspinho(espins[i]);
-	}
-
-	for (i = 0; i < num_redes; i++)
-	{
-		mapaFase.addRede(reds[i]);
-	}
-}
-
-

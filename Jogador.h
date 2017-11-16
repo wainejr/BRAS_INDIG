@@ -4,7 +4,6 @@ class Jogador :
 	public Personagem
 {
 private:
-	static int num_jogs;
 	int chances;
 	bool subindo;
 	bool subiu;		//	gerenciamento interno apenas
@@ -35,9 +34,9 @@ public:
 	void tomaDano(const int aDano, const int KB);
 	void destruirTimer();
 	void initTimer();
-	const bool persPodeAtacar();
 	Projetil* const atirar();
 	void reset(const int ax, const int ay, const bool aAtivo);
 	void resetChances();
+	void atualizaAtaque();
 };
 

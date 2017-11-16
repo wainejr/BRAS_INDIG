@@ -1,5 +1,6 @@
 #pragma once
 #include "Mapa.h"
+#include "Botao.h"
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
@@ -15,6 +16,7 @@ protected:
 	//	VARIAVEIS ALLEGRO
 	Mapa mapaFase;
 
+	//	PARA ALOCAÇÃO
 	Mosqueteiro** mosqs;
 	int num_mosq;
 
@@ -54,10 +56,21 @@ protected:
 	
 	void initTimers();
 	void criarTimers();
-	virtual void restart() = 0;
 	
 	//	EXECUÇÃO DA FASE
 	virtual void execFase() = 0;
+
+
+	void initAllegroObjs();
+	void destroyAllegroObjs();
+	void restart();
+
+	//	MOVER PARA FASE.H
+	virtual void numEntidades() = 0;
+	void alocaEntidades();
+	void deletaEntidades();
+	virtual void buildEntidades() = 0;
+	void addEntidades();
 
 public:
 	Fase();

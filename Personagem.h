@@ -29,7 +29,7 @@ public:
 	void setVida(const int aVida);
 	Arma* const getArma();
 	void parar();
-	virtual void atacar() = 0;
+	virtual void atacar() {}
 	virtual void atualizar() = 0;
 	void atualizaArma();
 	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;
@@ -43,13 +43,13 @@ public:
 	const bool getAtacando();
 	virtual void initTimer();
 	virtual void destruirTimer();
-	virtual const bool persPodeAtacar();
+	const bool persPodeAtacar();
 	virtual void createTimers() = 0;
 	void setInvuneravel(const bool aInv);
 	const bool getInvuneravel();
 	void atualizaInvuneravel();
 	void atualizaAtacando();
-	void atualizaAtaque();
+	virtual void atualizaAtaque();
 	virtual Arma* const constroiArma();
 };
 
