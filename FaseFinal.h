@@ -7,7 +7,6 @@ public:
 	FaseFinal();
 	~FaseFinal();
 	void restart();
-	void execFase();
 	void initFase();
 
 	void numEntidades() {}

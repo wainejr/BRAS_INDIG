@@ -2,6 +2,8 @@
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
 #include "allegro5\allegro_primitives.h" //	PARA TESTES
+#define LARG_BOTAO 120
+#define ALT_BOTAO 30
 
 class Botao
 {
@@ -29,5 +31,10 @@ public:
 	void setY(const int ay);
 	const int getX();
 	const int getY();
+private:
+	bool ativo;
+public:
+	void setAtivo(const bool aAtivo);
+	const bool getAtivo();
 };
 

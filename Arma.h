@@ -12,7 +12,7 @@ protected:
 	Personagem* donoArma;
 public:
 	Arma();
-	~Arma();
+	virtual ~Arma();
 	const int getDano();
 	void setDano(const int aDano);
 	void setDonoArma(Personagem* const pPers);

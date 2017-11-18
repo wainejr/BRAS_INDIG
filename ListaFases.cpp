@@ -111,3 +111,11 @@ void ListaFases::resetaJogs()
 	teca->builderJogador(0, 0, false, TECA, 3);
 	raoni->builderJogador(0, 0, false, RAONI, 3);
 }
+
+
+void ListaFases::setDisplays(ALLEGRO_DISPLAY* const pDisplay)
+{
+	fase1.setDisplay(pDisplay);
+	fase2.setDisplay(pDisplay);
+	faseFinal.setDisplay(pDisplay);
+}

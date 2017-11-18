@@ -249,3 +249,30 @@ Arma* const Personagem::constroiArma()
 	}
 	return nullptr;
 }
+
+
+void Personagem::resetaTimers()
+{
+	al_set_timer_count(timer_atacando, 0);
+	al_stop_timer(timer_atacando);
+	al_set_timer_count(timer_ataque, 0);
+	al_stop_timer(timer_ataque);
+	al_set_timer_count(timer_invuneravel, 0);
+	al_stop_timer(timer_invuneravel);
+}
+
+
+void Personagem::stopTimers()
+{
+	al_stop_timer(timer_atacando);
+	al_stop_timer(timer_ataque);
+	al_stop_timer(timer_invuneravel);
+}
+
+
+void Personagem::resumeTimers()
+{
+	al_resume_timer(timer_atacando);
+	al_resume_timer(timer_ataque);
+	al_resume_timer(timer_invuneravel);
+}

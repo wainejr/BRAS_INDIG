@@ -19,7 +19,7 @@ Mosqueteiro::Mosqueteiro()
 	vida = VIDA_MAX_MOSQ;
 	arma = nullptr;
 	dir = true;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	timer_ataque = nullptr;
@@ -44,7 +44,7 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const bool aAti
 	ativo = aAtivo;
 
 	vida = VIDA_MAX_MOSQ;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	if (arma == nullptr)

@@ -4,6 +4,7 @@
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#include <allegro5\allegro_image.h>
 #include "gerenciaAnim.h"
 
 //	O TAMANHO DOS INIMGOS/JOGADORES E A VELOCIDADE DAS BALAS DEVEM SER
@@ -65,12 +66,12 @@
 #define DANO_ESPINHO 10
 #define DANO_REDE 50
 
-#define LIM_X_JOG 10
-#define LIM_Y_JOG 20
-#define LIM_X_ESP 10
-#define LIM_Y_ESP 20
-#define LIM_X_MOSQ 10
-#define LIM_Y_MOSQ 20
+#define LIM_X_JOG 30
+#define LIM_Y_JOG 50
+#define LIM_X_ESP 30
+#define LIM_Y_ESP 50
+#define LIM_X_MOSQ 30
+#define LIM_Y_MOSQ 50
 #define LIM_X_CAV 50
 #define LIM_Y_CAV 25
 

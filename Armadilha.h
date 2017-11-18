@@ -18,5 +18,8 @@ public:
 	void initTimer();
 	void createTimer();
 	void reset(const int ax, const int ay, const bool aAtivo);
+	void resetaTimer();
+	void stopTimers();
+	void resumeTimers();
 };
 

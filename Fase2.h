@@ -7,7 +7,6 @@ public:
 	Fase2();
 	~Fase2();
 	void restart();
-	void execFase();
 	void initFase();
 
 	void numEntidades() {}

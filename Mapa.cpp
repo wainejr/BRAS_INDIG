@@ -14,20 +14,28 @@ Mapa::~Mapa()
 void Mapa::retiraTodosObjs()
 {
 	while (jogadores.numObjs() > 0)
+	{
+		jogadores.objI(0)->resetaTimers();
 		jogadores.retirarObj(jogadores.objI(0));
-
+	}
 	while (mosqueteiros.numObjs() > 0)
+	{
+		mosqueteiros.objI(0)->resetaTimers();
 		mosqueteiros.retirarObj(mosqueteiros.objI(0));
-
+	}
 	while (espadachins.numObjs() > 0)
+	{
+		espadachins.objI(0)->resetaTimers();
 		espadachins.retirarObj(espadachins.objI(0));
-
+	}
 	while (cavaleiros.numObjs() > 0)
+	{
+		cavaleiros.objI(0)->resetaTimers();
 		cavaleiros.retirarObj(cavaleiros.objI(0));
-
+	}
 	//	projeteis são deletados por serem criados durante a execução da Mapa
 	while (projeteis.numObjs() > 0)
-		projeteis.deleteObj(projeteis.objI(0));
+		delete(projeteis.retirarObj(projeteis.objI(0)));
 
 	while (cordas.numObjs() > 0)
 		cordas.retirarObj(cordas.objI(0));
@@ -36,8 +44,10 @@ void Mapa::retiraTodosObjs()
 		plataformas.retirarObj(plataformas.objI(0));
 
 	while (armadilhas.numObjs() > 0)
+	{
+		armadilhas.objI(0)->resetaTimer();
 		armadilhas.retirarObj(armadilhas.objI(0));
-
+	}
 	while (espinhos.numObjs() > 0)
 		espinhos.retirarObj(espinhos.objI(0));
 
@@ -232,7 +242,7 @@ void Mapa::atualizaAtivos()
 		pProj = projeteis.objI(i);
 		if (pProj->getAtivo() && (pProj->getX() >(LARG + posRelX + 20) || pProj->getX() < (posRelX - 20) ||
 			pProj->getY() > (ALT - posRelY - 20) || pProj->getY() < (-posRelY + 20)))
-			projeteis.deleteObj(pProj);
+			delete(projeteis.retirarObj(pProj));
 	}
 }
 
@@ -407,7 +417,7 @@ void Mapa::gerenciaColisaoPlatObstProj()
 		if (pProj->getAtivo())
 		{
 			if (colisaoEntPlat(static_cast<Entidade*>(pProj)))
-				projeteis.deleteObj(pProj);
+				delete(projeteis.retirarObj(pProj));
 		}
 	}
 	for (i = 0; i < redes.numObjs(); i++)
@@ -529,8 +539,6 @@ const bool Mapa::colisaoInimigo(Jogador* const pJog)
 {
 	Inimigo* pIni;
 	bool colid = false;
-	//	caso o jogador seja atingido pelo inimigo, toma o
-	//	dobro de dano da arma desse
 	if (pJog->getAtivo())
 	{
 		for (int i = 0; i < cavaleiros.numObjs(); i++)
@@ -640,7 +648,7 @@ void Mapa::colisaoProjeteis(Personagem* const pPers)
 					}
 					else
 						pPers->tomaDano(pProj->getArmaProj()->getDano(), 0);
-					projeteis.deleteObj(pProj);
+					delete(projeteis.retirarObj(pProj));
 				}
 			}
 		}
@@ -811,12 +819,6 @@ void Mapa::gereColisao(Entidade* const pMovel, Entidade* const pParado)
 		pMovel->setX(pParado->getX() + pParado->getLimX());
 		pMovel->setVelX(0);
 	}
-
-	//gambiarra final pra não dar erro na ponta da plataforma
-	if (pMovel->getX() + pMovel->getLimX() == pParado->getX() && pMovel->getY() == pParado->getY() - pParado->getLimY())
-		pMovel->setX(pMovel->getX() + 1);
-	if (pMovel->getX() == pParado->getX() + pParado->getLimX() && pMovel->getY() == pParado->getY() - pParado->getLimY())
-		pMovel->setX(pMovel->getX() - 1);
 }
 
 
@@ -1232,5 +1234,56 @@ void Mapa::initTimers()
 	for (i = 0; i < armadilhas.numObjs(); i++)
 	{
 		armadilhas.objI(i)->initTimer();
+	}
+}
+
+void Mapa::stopTimers()
+{
+	int i;
+	for (i = 0; i < jogadores.numObjs(); i++)
+	{
+		jogadores.objI(i)->stopTimers();
+	}
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		mosqueteiros.objI(i)->stopTimers();
+	}
+	for (i = 0; i < espadachins.numObjs(); i++)
+	{
+		espadachins.objI(i)->stopTimers();
+	}
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		cavaleiros.objI(i)->stopTimers();
+	}
+	for (i = 0; i < armadilhas.numObjs(); i++)
+	{
+		armadilhas.objI(i)->stopTimers();
+	}
+}
+
+
+void Mapa::resumeTimers()
+{
+	int i;
+	for (i = 0; i < jogadores.numObjs(); i++)
+	{
+		jogadores.objI(i)->resumeTimers();
+	}
+	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	{
+		mosqueteiros.objI(i)->resumeTimers();
+	}
+	for (i = 0; i < espadachins.numObjs(); i++)
+	{
+		espadachins.objI(i)->resumeTimers();
+	}
+	for (i = 0; i < cavaleiros.numObjs(); i++)
+	{
+		cavaleiros.objI(i)->resumeTimers();
+	}
+	for (i = 0; i < armadilhas.numObjs(); i++)
+	{
+		armadilhas.objI(i)->resumeTimers();
 	}
 }

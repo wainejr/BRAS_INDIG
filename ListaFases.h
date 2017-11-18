@@ -24,5 +24,6 @@ public:
 	void defineJog(const int aID, const int aNum);
 
 	void resetaJogs();
+	void setDisplays(ALLEGRO_DISPLAY* const pDisplay);
 };
 

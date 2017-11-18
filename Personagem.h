@@ -51,5 +51,8 @@ public:
 	void atualizaAtacando();
 	virtual void atualizaAtaque();
 	virtual Arma* const constroiArma();
+	virtual void resetaTimers();
+	virtual void stopTimers();
+	virtual void resumeTimers();
 };
 

@@ -135,6 +135,7 @@
     <ClInclude Include="Fase2.h" />
     <ClInclude Include="FaseFinal.h" />
     <ClInclude Include="gerenciaAnim.h" />
+    <ClInclude Include="gerenciadorBotoes.h" />
     <ClInclude Include="Inimigo.h" />
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
@@ -143,6 +144,9 @@
     <ClInclude Include="ListaAnimacao.h" />
     <ClInclude Include="ListaFases.h" />
     <ClInclude Include="Mapa.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuPause.h" />
+    <ClInclude Include="MenuPrincipal.h" />
     <ClInclude Include="Mosquete.h" />
     <ClInclude Include="Mosqueteiro.h" />
     <ClInclude Include="Obstaculo.h" />
@@ -171,6 +175,7 @@
     <ClCompile Include="Fase2.cpp" />
     <ClCompile Include="FaseFinal.cpp" />
     <ClCompile Include="gerenciaAnim.cpp" />
+    <ClCompile Include="gerenciadorBotoes.cpp" />
     <ClCompile Include="Inimigo.cpp" />
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
@@ -178,6 +183,9 @@
     <ClCompile Include="ListaAnimacao.cpp" />
     <ClCompile Include="ListaFases.cpp" />
     <ClCompile Include="Mapa.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuPause.cpp" />
+    <ClCompile Include="MenuPrincipal.cpp" />
     <ClCompile Include="Mosquete.cpp" />
     <ClCompile Include="Mosqueteiro.cpp" />
     <ClCompile Include="Obstaculo.cpp" />

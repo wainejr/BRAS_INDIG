@@ -19,10 +19,8 @@ public:
 
 	// retorna o numero de objetos
 	const int numObjs();
-
-	void deleteObj(T const aObj);
 	
-	void retirarObj(T const aObj);
+	T const retirarObj(T const aObj);
 };
 
 template <class T>
@@ -61,30 +59,17 @@ const int Lista<T>::numObjs()
 }
 
 template <class T>
-void Lista<T>::deleteObj(T const aObj)
-{
-	T aux;
-	for (int i = 0; i < (int)listObjs.size(); i++)
-	{
-		if (listObjs[i] == aObj)
-		{
-			aux = listObjs[i];
-			listObjs.erase(listObjs.begin() + i);
-			delete(aux);
-			tam--;
-		}
-	}
-}
-
-template <class T>
-void Lista<T>::retirarObj(T const aObj)
+T const Lista<T>::retirarObj(T const aObj)
 {
 	for (int i = 0; i < (int)listObjs.size(); i++)
 	{
 		if (listObjs[i] == aObj)
 		{
+			T aux = listObjs[i];
 			tam--;
 			listObjs.erase(listObjs.begin() + i);
+			return aux;
 		}
 	}
+	return nullptr;
 }

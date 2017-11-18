@@ -18,7 +18,7 @@ Jogador::Jogador()
 	vida = VIDA_MAX_JOG;
 	arma = nullptr;
 	dir = true;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	timer_ataque = nullptr;
@@ -55,7 +55,7 @@ void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, cons
 		ID = aID;
 
 	vida = VIDA_MAX_JOG;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	if (arma == nullptr)
@@ -331,7 +331,7 @@ void Jogador::reset(const int ax, const int ay, const bool aAtivo)
 	ativo = aAtivo;
 
 	vida = VIDA_MAX_JOG;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 
@@ -354,4 +354,34 @@ void Jogador::atualizaAtaque()
 		al_stop_timer(timer_ataque);
 		podeAtacar = true;
 	}
+}
+
+void Jogador::resetaTimers()
+{
+	al_set_timer_count(timer_atacando, 0);
+	al_stop_timer(timer_atacando);
+	al_set_timer_count(timer_ataque, 0);
+	al_stop_timer(timer_ataque);
+	al_set_timer_count(timer_imovel, 0);
+	al_stop_timer(timer_imovel);
+	al_set_timer_count(timer_invuneravel, 0);
+	al_stop_timer(timer_invuneravel);
+}
+
+
+void Jogador::stopTimers()
+{
+	al_stop_timer(timer_atacando);
+	al_stop_timer(timer_ataque);
+	al_stop_timer(timer_imovel);
+	al_stop_timer(timer_invuneravel);
+}
+
+
+void Jogador::resumeTimers()
+{
+	al_resume_timer(timer_atacando);
+	al_resume_timer(timer_ataque);
+	al_resume_timer(timer_imovel);
+	al_resume_timer(timer_invuneravel);
 }

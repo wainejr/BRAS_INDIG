@@ -106,3 +106,20 @@ void Armadilha::reset(const int ax, const int ay, const bool aAtivo)
 
 	acionada = false;
 }
+
+void Armadilha::resetaTimer()
+{
+	al_set_timer_count(timer_acionada, 0);
+	al_stop_timer(timer_acionada);
+}
+
+
+void Armadilha::stopTimers()
+{
+	al_stop_timer(timer_acionada);
+}
+
+void Armadilha::resumeTimers()
+{
+	al_resume_timer(timer_acionada);
+}

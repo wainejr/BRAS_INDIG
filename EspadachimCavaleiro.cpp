@@ -19,7 +19,7 @@ EspadachimCavaleiro::EspadachimCavaleiro()
 	vida = VIDA_MAX_CAV;
 	arma = nullptr;
 	dir = true;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	timer_ataque = nullptr;
@@ -44,7 +44,7 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 	ativo = aAtivo;
 
 	vida = VIDA_MAX_MOSQ;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	if (arma == nullptr)

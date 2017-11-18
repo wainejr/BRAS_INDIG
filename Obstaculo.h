@@ -3,12 +3,11 @@
 class Obstaculo :
 	public Entidade
 {
-public:
-	Obstaculo();
-	~Obstaculo();
 protected:
 	int dano;
 public:
+	Obstaculo();
+	virtual ~Obstaculo();
 	const int getDano();
 	void setDano(const int aDano);
 };

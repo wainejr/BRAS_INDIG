@@ -8,6 +8,7 @@ Botao::Botao()
 	alt = 0;
 	selec = false;
 	sprite = nullptr;
+	ativo = false;
 	posX = 0;
 	posY = 0;
 }
@@ -15,8 +16,10 @@ Botao::Botao()
 
 Botao::~Botao()
 {
-	if(sprite != nullptr)
+	if (sprite != nullptr) 
+	{
 		al_destroy_bitmap(sprite);
+	}
 }
 
 
@@ -88,4 +91,16 @@ const int Botao::getX()
 const int Botao::getY()
 {
 	return posY;
+}
+
+
+void Botao::setAtivo(const bool aAtivo)
+{
+	ativo = aAtivo;
+}
+
+
+const bool Botao::getAtivo()
+{
+	return ativo;
 }

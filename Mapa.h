@@ -107,5 +107,7 @@ public:
 
 	void criarTimers();
 	void initTimers();
+	void stopTimers();
+	void resumeTimers();
 };
 

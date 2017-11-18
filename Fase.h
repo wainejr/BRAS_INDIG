@@ -1,14 +1,10 @@
 #pragma once
 #include "Mapa.h"
-#include "Botao.h"
+#include "gerenciadorBotoes.h"
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
-
-
-/// FAZER UMA FUNÇÃO QUE TIRA E RETIRA OS ELEMENTOS DAS LISTAS, PARA NÃO FICAR COMPARANDO COM TODOS
-///	UMA ESPÉCIE DE "TODASPLATAFORMAS", "TODOSMOSQUETEIROS" E AFINS
 
 class Fase
 {	
@@ -40,41 +36,48 @@ protected:
 
 	Rede** reds;
 	int num_redes;
+	//
 
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_TIMER* timer;
 	ALLEGRO_EVENT_QUEUE* queue;
 	ALLEGRO_FONT* arial18;
 	bool carregouAllegro;
-
+	
+	//	OBJETOS COMUNS A TODAS FASES
 	static Jogador* jog1;
 	static Jogador* jog2;
 	static int num_jogs;
-	
+	gerenciadorBotoes gerBotoesFase;
+	Botao botao_continuar;	//MUDAR PARA PONTEIRO PARA BOTÃO DEPOIS
+	Botao botao_menu;
+	bool carregouBotoes;
+
+
 	static bool campanha;
 	bool fase_completa;
 	
 	void initTimers();
 	void criarTimers();
-	
+	void carregaBotoes();
+	void initBotoes();
+
 	//	EXECUÇÃO DA FASE
-	virtual void execFase() = 0;
-
-
+	void execFase();
+	
 	void initAllegroObjs();
 	void destroyAllegroObjs();
 	void restart();
 
-	//	MOVER PARA FASE.H
 	virtual void numEntidades() = 0;
 	void alocaEntidades();
 	void deletaEntidades();
 	virtual void buildEntidades() = 0;
 	void addEntidades();
-
+	
 public:
 	Fase();
-	~Fase();
+	virtual ~Fase();
 
 	virtual void initFase() = 0;
 	void setCampanha(const bool aCamp);
@@ -88,4 +91,6 @@ public:
 
 	void setFaseCompleta(const bool aCompleta);
 	const bool getFaseCompleta();
+	static void anulaJogs();
+	void setDisplay(ALLEGRO_DISPLAY* const pDisplay);
 };

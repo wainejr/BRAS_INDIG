@@ -6,7 +6,6 @@ class Fase1 :
 	public Fase
 {
 private:
-	void execFase();
 
 	void numEntidades();
 	void buildEntidades();

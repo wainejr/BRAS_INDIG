@@ -19,7 +19,7 @@ Espadachim::Espadachim()
 	vida = VIDA_MAX_ESP;
 	arma = nullptr;
 	dir = true;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	timer_ataque = nullptr;
@@ -44,7 +44,7 @@ void Espadachim::builderEspadachim(const int ax, const int ay, const bool aAtivo
 	ativo = aAtivo;
 
 	vida = VIDA_MAX_ESP;
-	podeAtacar = true;
+	podeAtacar = false;
 	atacando = false;
 	invuneravel = false;
 	if (arma == nullptr)

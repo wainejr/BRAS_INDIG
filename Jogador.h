@@ -38,5 +38,8 @@ public:
 	void reset(const int ax, const int ay, const bool aAtivo);
 	void resetChances();
 	void atualizaAtaque();
+	void resetaTimers();
+	void stopTimers();
+	void resumeTimers();
 };
 
