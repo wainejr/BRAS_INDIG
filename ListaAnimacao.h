@@ -5,6 +5,7 @@ class ListaAnimacao
 {
 private:
 	Lista <Animacao*> listaSprites;
+	bool temIDigual(Animacao* const pAnim);
 public:
 	ListaAnimacao();
 	~ListaAnimacao();
@@ -12,5 +13,7 @@ public:
 	void drawAnimacao(const int aID, const int aPosX, const int aPosY);
 	ListaAnimacao* const copiaListaAnim();
 	void resetaAnims();
+	void stopTimers();
+	void resumeTimers();
 };
 

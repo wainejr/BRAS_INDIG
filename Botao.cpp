@@ -7,7 +7,8 @@ Botao::Botao()
 	larg = 0;
 	alt = 0;
 	selec = false;
-	sprite = nullptr;
+	spriteBot = nullptr;
+	spriteBotSelec = nullptr;
 	ativo = false;
 	posX = 0;
 	posY = 0;
@@ -15,32 +16,32 @@ Botao::Botao()
 
 
 Botao::~Botao()
-{
-	if (sprite != nullptr) 
-	{
-		al_destroy_bitmap(sprite);
-	}
+{	
+	al_destroy_bitmap(spriteBot);
+	al_destroy_bitmap(spriteBotSelec);
 }
 
 
 void Botao::draw()
 {
 	if (!selec)
-	{
-		al_draw_bitmap(sprite, posX, posY, 0);
+	{	
+		al_draw_bitmap(spriteBot, posX, posY, 0);
 	}
 	else
 	{
-		al_draw_bitmap(sprite, posX, posY, 0);
-		al_draw_line(posX, posY + alt, posX + larg, posY, al_map_rgb(0, 255, 0), 2);
+		al_draw_bitmap(spriteBotSelec, posX, posY, 0);
 	}
 }
 
 
-void Botao::setSprite(ALLEGRO_BITMAP* const pSprite, const int aLarg, const int aAlt)
+void Botao::setSprite(ALLEGRO_BITMAP* const pSpriteBot, ALLEGRO_BITMAP* const 
+	pSpriteBotSelec, const int aLarg, const int aAlt)
 {
-	if (pSprite != nullptr)
-		sprite = pSprite;
+	if (pSpriteBot != nullptr)
+		spriteBot = pSpriteBot;
+	if (pSpriteBotSelec != nullptr)
+		spriteBotSelec = pSpriteBotSelec;
 	larg = aLarg;
 	alt = aAlt;
 }

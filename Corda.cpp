@@ -25,6 +25,7 @@ Corda::Corda()
 
 Corda::~Corda()
 {
+	delete(listaAnim);
 }
 
 

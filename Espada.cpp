@@ -15,6 +15,7 @@ Espada::Espada()
 	velMaxX = 0;
 	velMaxY = 0;
 	ID = ESPADA;
+	listaAnim = nullptr;
 
 	dano = 0;
 	donoArma = nullptr;
@@ -23,6 +24,9 @@ Espada::Espada()
 
 Espada::~Espada()
 {
+	delete(listaAnim);
+
+	donoArma = nullptr;
 }
 
 

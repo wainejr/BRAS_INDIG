@@ -124,6 +124,7 @@
     <ClInclude Include="Botao.h" />
     <ClInclude Include="ChefaoCapitao.h" />
     <ClInclude Include="Corda.h" />
+    <ClInclude Include="defineCarac.h" />
     <ClInclude Include="definesMacros.h" />
     <ClInclude Include="Entidade.h" />
     <ClInclude Include="Espada.h" />

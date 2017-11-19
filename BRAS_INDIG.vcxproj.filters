@@ -180,6 +180,9 @@
     <ClInclude Include="MenuPause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="defineCarac.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">

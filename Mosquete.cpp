@@ -15,6 +15,7 @@ Mosquete::Mosquete()
 	velMaxX = 0;
 	velMaxY = 0;
 	ID = MOSQUETE;
+	listaAnim = nullptr;
 
 	dano = DANO_MOSQUETE;
 	donoArma = nullptr;
@@ -23,6 +24,9 @@ Mosquete::Mosquete()
 
 Mosquete::~Mosquete()
 {
+	delete(listaAnim);
+
+	donoArma = nullptr;
 }
 
 

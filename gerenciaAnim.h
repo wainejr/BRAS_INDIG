@@ -36,6 +36,8 @@ private:
 	static bool carregouCorda;
 
 	//	ANIMACOES ARMADILHA
+	static Animacao* armd_desativada;
+	static Animacao* armd_ativada;
 	static bool carregouArmadilha;
 
 	//	ANIMACOES ESPINHO
@@ -43,22 +45,6 @@ private:
 
 	//	ANIMACOES REDE
 	static bool carregouRede;
-
-public:
-	gerenciaAnim();
-	~gerenciaAnim();
-	ListaAnimacao* const listaAnimRaoni();
-	ListaAnimacao* const listaAnimTeca();
-	ListaAnimacao* const listaAnimMosq();
-	ListaAnimacao* const listaAnimEsp();
-	ListaAnimacao* const listaAnimCav();
-	ListaAnimacao* const listaAnimChefaoCap();
-	ListaAnimacao* const listaAnimProj();
-	ListaAnimacao* const listaAnimPlat();
-	ListaAnimacao* const listaAnimCorda();
-	ListaAnimacao* const listaAnimArmadilha();
-	ListaAnimacao* const listaAnimEspinho();
-	ListaAnimacao* const listaAnimRede();
 
 	void carregaAnimRaoni();
 	void carregaAnimTeca();
@@ -73,6 +59,23 @@ public:
 	void carregaAnimEspinho();
 	void carregaAnimRede();
 
+	ListaAnimacao* const listaAnimRaoni();
+	ListaAnimacao* const listaAnimTeca();
+	ListaAnimacao* const listaAnimMosq();
+	ListaAnimacao* const listaAnimEsp();
+	ListaAnimacao* const listaAnimCav();
+	ListaAnimacao* const listaAnimChefaoCap();
+	ListaAnimacao* const listaAnimProj();
+	ListaAnimacao* const listaAnimPlat();
+	ListaAnimacao* const listaAnimCorda();
+	ListaAnimacao* const listaAnimArmadilha();
+	ListaAnimacao* const listaAnimEspinho();
+	ListaAnimacao* const listaAnimRede();
+
+public:
+	gerenciaAnim();
+	~gerenciaAnim();
+	
 	ListaAnimacao* const listaAnimEnt(const int aID);
 };
 

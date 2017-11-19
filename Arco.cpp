@@ -15,6 +15,7 @@ Arco::Arco()
 	velMaxX = 0;
 	velMaxY = 0;
 	ID = ARCO;
+	listaAnim = nullptr;
 
 	dano = DANO_ARCO;
 	donoArma = nullptr;
@@ -25,6 +26,9 @@ Arco::Arco()
 
 Arco::~Arco()
 {
+	delete(listaAnim);
+
+	donoArma = nullptr;
 }
 
 

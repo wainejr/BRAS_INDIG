@@ -9,10 +9,12 @@ ListaAnimacao::ListaAnimacao()
 
 ListaAnimacao::~ListaAnimacao()
 {
+	Animacao* pAnim;
 	while (listaSprites.numObjs() > 0)
 	{
-		listaSprites.objI(0)->~Animacao();
-		delete(listaSprites.objI(0));
+		pAnim = listaSprites.objI(0);
+		listaSprites.retirarObj(pAnim);
+		delete(pAnim);
 	}
 }
 
@@ -21,7 +23,8 @@ void ListaAnimacao::addAnimacao(Animacao* pAnim)
 {
 	if (pAnim != nullptr)
 	{
-		listaSprites.addObj(pAnim);
+		if (!temIDigual(pAnim))
+			listaSprites.addObj(pAnim);
 	}
 }
 
@@ -66,5 +69,40 @@ void ListaAnimacao::resetaAnims()
 	{
 		pAnim = listaSprites.objI(i);
 		pAnim->resetaAnim();
+	}
+}
+
+
+bool ListaAnimacao::temIDigual(Animacao* const pAnim)
+{
+	Animacao* pAux;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAux = listaSprites.objI(i);
+		if (pAnim->getID() == pAux->getID())
+			return true;
+	}
+	return false;
+}
+
+
+void ListaAnimacao::stopTimers()
+{
+	Animacao* pAnim;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAnim = listaSprites.objI(i);
+		pAnim->stopTimer();
+	}
+}
+
+
+void ListaAnimacao::resumeTimers()
+{
+	Animacao* pAnim;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAnim = listaSprites.objI(i);
+		pAnim->resumeTimer();
 	}
 }

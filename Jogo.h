@@ -13,6 +13,9 @@ private:
 	ALLEGRO_EVENT_QUEUE* queue;
 	ALLEGRO_FONT* arial18;
 	ALLEGRO_BITMAP* fundo;
+	ALLEGRO_BITMAP* tipo_brasilIndig;
+	ALLEGRO_BITMAP* tipo_1jogador;
+	ALLEGRO_BITMAP* tipo_2jogadores;
 	
 	//	OBJETOS
 	ListaFases listaFases;

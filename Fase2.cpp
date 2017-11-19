@@ -4,11 +4,15 @@
 
 Fase2::Fase2()
 {
+	numEntidades();
+	alocaEntidades();
 }
 
 
 Fase2::~Fase2()
 {
+	deletaEntidades();
+	anulaJogs();
 	if (carregouAllegro)
 	{
 		al_destroy_timer(timer);

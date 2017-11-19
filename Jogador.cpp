@@ -2,7 +2,6 @@
 
 Jogador::Jogador()
 {
-	//MUDAR PARA SINGLETON O ESQUEMA DE CONSTRUTOR
 	posX = 0;
 	posY = 0;
 	limX = LIM_X_JOG;
@@ -14,6 +13,7 @@ Jogador::Jogador()
 	velMaxX = VEL_MAX_X_JOG;
 	velMaxY = VEL_PULO;
 	ID = -1;
+	listaAnim = nullptr;
 
 	vida = VIDA_MAX_JOG;
 	arma = nullptr;
@@ -24,8 +24,8 @@ Jogador::Jogador()
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
-	
-	chances = 3; //	3 chances é o padrão inicial
+
+	chances = 0; //	3 chances é o padrão inicial
 	subindo = false;
 	subiu = false;
 	imovel = false;
@@ -35,6 +35,8 @@ Jogador::Jogador()
 
 Jogador::~Jogador()
 {
+	delete(listaAnim);
+
 	delete (arma);
 	al_destroy_timer(timer_ataque);
 	al_destroy_timer(timer_atacando);
@@ -51,7 +53,7 @@ void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, cons
 	velX = 0;
 	velY = 0;
 	ativo = aAtivo;
-	if(aID != -1)
+	if (aID != -1)
 		ID = aID;
 
 	vida = VIDA_MAX_JOG;
@@ -65,7 +67,7 @@ void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, cons
 			arma = pArma;
 	}
 
-	if(aChances != -1)
+	if (aChances != -1)
 		chances = aChances;
 	subindo = false;
 	subiu = false;
@@ -89,13 +91,13 @@ void Jogador::atacar()
 
 void Jogador::moverDir()
 {
-	if (!imovel) 
+	if (!imovel)
 	{
 		if (velX < velMaxX)
 			velX += (float)ACEL_X_PERS;
 		if (velX > velMaxX)
 			velX = velMaxX;
-		if(!atacando)
+		if (!atacando)
 			dir = true;
 	}
 }
@@ -103,13 +105,13 @@ void Jogador::moverDir()
 
 void Jogador::moverEsq()
 {
-	if (!imovel) 
+	if (!imovel)
 	{
 		if (velX > -velMaxX)
 			velX -= (float)ACEL_X_PERS;
 		if (velX < -velMaxX)
 			velX = -velMaxX;
-		if(!atacando)
+		if (!atacando)
 			dir = false;
 	}
 }
@@ -117,7 +119,7 @@ void Jogador::moverEsq()
 
 void Jogador::pular()
 {
-	if(!imovel)
+	if (!imovel)
 		velY = VEL_PULO;
 }
 
@@ -137,7 +139,7 @@ void Jogador::atualizar()
 {
 	posY -= velY;
 	posX += velX;
-	
+
 	if (subiu)
 		subindo = true;
 	else
@@ -146,19 +148,19 @@ void Jogador::atualizar()
 	atualizaAtaque();
 	atualizaInvuneravel();
 	atualizaAtacando();
-	atualizaParado();	
+	atualizaParado();
 	atualizaArma();
 }
 
 
 void Jogador::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	if(!invuneravel)
-		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255,0));
+	if (!invuneravel)
+		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0));
 	else
 		al_draw_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0), 2);
 	if (atacando)
-		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX() 
+		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX()
 			- aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(255, 150, 0));
 }
 
@@ -199,7 +201,7 @@ void Jogador::setSubindo(const bool aSubindo)
 void Jogador::descer()
 {
 	if (!imovel)
-	{  
+	{
 		velY = -VEL_SUBIDA;
 	}
 }
@@ -304,9 +306,9 @@ Projetil* const Jogador::atirar()
 	{
 		Projetil* pProj = new Projetil();
 		pProj->setID(PROJETIL_ARCO);
-		if(dir)
+		if (dir)
 			pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
-		else	
+		else
 			pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 
 		pProj->setArmaProj(arma);
@@ -371,17 +373,27 @@ void Jogador::resetaTimers()
 
 void Jogador::stopTimers()
 {
-	al_stop_timer(timer_atacando);
+	if (atacando)
+		al_stop_timer(timer_atacando);
 	al_stop_timer(timer_ataque);
-	al_stop_timer(timer_imovel);
-	al_stop_timer(timer_invuneravel);
+	if (imovel)
+		al_stop_timer(timer_imovel);
+	if (invuneravel)
+		al_stop_timer(timer_invuneravel);
+	if (listaAnim != nullptr)
+		listaAnim->stopTimers();
 }
 
 
 void Jogador::resumeTimers()
 {
-	al_resume_timer(timer_atacando);
+	if (atacando)
+		al_resume_timer(timer_atacando);
 	al_resume_timer(timer_ataque);
-	al_resume_timer(timer_imovel);
-	al_resume_timer(timer_invuneravel);
+	if (imovel)
+		al_resume_timer(timer_imovel);
+	if (invuneravel)
+		al_resume_timer(timer_invuneravel);
+	if (listaAnim != nullptr)
+		listaAnim->resumeTimers();
 }

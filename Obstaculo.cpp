@@ -4,7 +4,7 @@
 
 Obstaculo::Obstaculo()
 {
-	dano = 0;
+
 }
 
 

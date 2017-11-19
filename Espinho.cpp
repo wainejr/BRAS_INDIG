@@ -15,6 +15,7 @@ Espinho::Espinho()
 	velMaxX = 0;
 	velMaxY = 0;
 	ID = ESPINHO;
+	listaAnim = nullptr;
 
 	dano = DANO_ESPINHO;
 }
@@ -22,6 +23,7 @@ Espinho::Espinho()
 
 Espinho::~Espinho()
 {
+	delete(listaAnim);
 }
 
 

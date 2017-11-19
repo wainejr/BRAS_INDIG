@@ -15,6 +15,7 @@ Projetil::Projetil()
 	velMaxX = VEL_MAX_PROJ;
 	velMaxY = VEL_MAX_PROJ;
 	ID = -1;
+	listaAnim = nullptr;
 
 	armaProjetil = nullptr;
 }
@@ -22,6 +23,9 @@ Projetil::Projetil()
 
 Projetil::~Projetil()
 {
+	delete(listaAnim);
+	
+	armaProjetil = nullptr;
 }
 
 

@@ -267,6 +267,8 @@ void Personagem::stopTimers()
 	al_stop_timer(timer_atacando);
 	al_stop_timer(timer_ataque);
 	al_stop_timer(timer_invuneravel);
+	if (listaAnim != nullptr)
+		listaAnim->stopTimers();
 }
 
 
@@ -275,4 +277,6 @@ void Personagem::resumeTimers()
 	al_resume_timer(timer_atacando);
 	al_resume_timer(timer_ataque);
 	al_resume_timer(timer_invuneravel);
+	if (listaAnim != nullptr)
+		listaAnim->resumeTimers();
 }

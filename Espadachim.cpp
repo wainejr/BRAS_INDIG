@@ -32,6 +32,14 @@ Espadachim::Espadachim()
 
 Espadachim::~Espadachim()
 {
+	delete(listaAnim);
+
+	delete (arma);
+	al_destroy_timer(timer_ataque);
+	al_destroy_timer(timer_atacando);
+	al_destroy_timer(timer_invuneravel);
+
+	alvo = nullptr;
 }
 
 

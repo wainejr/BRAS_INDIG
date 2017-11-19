@@ -42,6 +42,9 @@ protected:
 	ALLEGRO_TIMER* timer;
 	ALLEGRO_EVENT_QUEUE* queue;
 	ALLEGRO_FONT* arial18;
+	ALLEGRO_BITMAP* fundo;
+	ALLEGRO_BITMAP* fundo_pause;
+	ALLEGRO_BITMAP* tipo_pause;
 	bool carregouAllegro;
 	
 	//	OBJETOS COMUNS A TODAS FASES
@@ -93,4 +96,5 @@ public:
 	const bool getFaseCompleta();
 	static void anulaJogs();
 	void setDisplay(ALLEGRO_DISPLAY* const pDisplay);
+	void drawPause();
 };

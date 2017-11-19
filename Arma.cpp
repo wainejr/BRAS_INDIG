@@ -2,6 +2,8 @@
 
 Arma::Arma()
 {
+	listaAnim = nullptr;
+
 	dano = 0;
 	donoArma = nullptr;
 }

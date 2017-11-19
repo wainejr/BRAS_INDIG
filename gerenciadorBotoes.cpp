@@ -74,3 +74,14 @@ void gerenciadorBotoes::desativaBotoes()
 		pBotao->setAtivo(false);
 	}
 }
+
+
+void gerenciadorBotoes::resetaSelecBotoes()
+{
+	Botao* pBotao;
+	for (int i = 0; i < listaBotoes.numObjs(); i++)
+	{
+		pBotao = listaBotoes.objI(i);
+		pBotao->botaoSelec(false);
+	}
+}

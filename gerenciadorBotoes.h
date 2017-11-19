@@ -15,5 +15,6 @@ public:
 	void desenhaBotoes();
 	const bool mouseEstaNoBotao(Botao* const pBotao, const int mouseX, const int mouseY);
 	void desativaBotoes();
+	void resetaSelecBotoes();
 };
 

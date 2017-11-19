@@ -7,8 +7,8 @@ ListaFases::ListaFases()
 	raoni = new Jogador;
 	teca = new Jogador;
 
-	raoni->builderJogador(0, 0, true, RAONI, 3);
-	teca->builderJogador(0, 0, true, TECA, 3);
+	raoni->builderJogador(0, 0, false, RAONI, 3);
+	teca->builderJogador(0, 0, false, TECA, 3);
 }
 
 

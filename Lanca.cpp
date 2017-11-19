@@ -14,7 +14,8 @@ Lanca::Lanca()
 	ativo = false;
 	velMaxX = 0;
 	velMaxY = 0;
-	ID = ARCO;
+	ID = LANCA;
+	listaAnim = nullptr;
 
 	dano = DANO_LANCA;
 	donoArma = nullptr;
@@ -23,6 +24,9 @@ Lanca::Lanca()
 
 Lanca::~Lanca()
 {
+	delete(listaAnim);
+
+	donoArma = nullptr;
 }
 
 

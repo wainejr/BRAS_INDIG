@@ -9,6 +9,7 @@ Mapa::Mapa()
 
 Mapa::~Mapa()
 {
+	retiraTodosObjs();
 }
 
 void Mapa::retiraTodosObjs()
@@ -157,6 +158,7 @@ void Mapa::atualizaAtivos()
 		if (pJog->getAtivo() && pJog->getVida() <= 0)
 		{
 			pJog->setAtivo(false);
+			pJog->resetaTimers();
 			jogadores.retirarObj(pJog);
 		}
 	}
@@ -168,11 +170,13 @@ void Mapa::atualizaAtivos()
 			if (pMosq->getVida() <= 0)
 			{
 				pMosq->setAtivo(false);
+				pMosq->resetaTimers();
 				mosqueteiros.retirarObj(pMosq);
 			}
 			else if ((pMosq->getX() + pMosq->getLimX()) < posRelX)
 			{
 				pMosq->setAtivo(false);
+				pMosq->resetaTimers();
 				mosqueteiros.retirarObj(pMosq);
 			}
 		}
@@ -187,11 +191,13 @@ void Mapa::atualizaAtivos()
 			if (pEsp->getVida() <= 0)
 			{
 				pEsp->setAtivo(false);
+				pEsp->resetaTimers();
 				espadachins.retirarObj(pEsp);
 			}
 			else if ((pEsp->getX() + pEsp->getLimX()) < posRelX)
 			{
 				pEsp->setAtivo(false);
+				pEsp->resetaTimers();
 				espadachins.retirarObj(pEsp);
 			}
 		}
@@ -206,11 +212,13 @@ void Mapa::atualizaAtivos()
 			if (pCav->getVida() <= 0)
 			{
 				pCav->setAtivo(false);
+				pCav->resetaTimers();
 				cavaleiros.retirarObj(pCav);
 			}
 			else if ((pCav->getX() + pCav->getLimX()) < posRelX)
 			{
 				pCav->setAtivo(false);
+				pCav->resetaTimers();
 				cavaleiros.retirarObj(pCav);
 			}
 
@@ -218,25 +226,7 @@ void Mapa::atualizaAtivos()
 		else if (!pCav->getAtivo() && (pCav->getX() - (posRelX + LARG)) < 0)
 			pCav->setAtivo(true);
 	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
-	{
-		pMosq = mosqueteiros.objI(i);
-		if (pMosq->getAtivo())
-		{
-			if (pMosq->getVida() <= 0)
-			{
-				pMosq->setAtivo(false);
-				mosqueteiros.retirarObj(pMosq);
-			}
-			else if ((pMosq->getX() + pMosq->getLimX()) < posRelX)
-			{
-				pMosq->setAtivo(false);
-				mosqueteiros.retirarObj(pMosq);
-			}
-		}
-		else if (!pMosq->getAtivo() && (pMosq->getX() - (posRelX + LARG)) < 0)
-			pMosq->setAtivo(true);
-	}
+	
 	for (i = 0; i < projeteis.numObjs(); i++)
 	{
 		pProj = projeteis.objI(i);
@@ -683,10 +673,18 @@ void Mapa::colisaoArmadilhas(Jogador* const pJog)
 	for (int i = 0; i < armadilhas.numObjs(); i++)
 	{
 		pArmd = armadilhas.objI(i);
-		if (pArmd->getAtivo() && !pArmd->getAcionada() && colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pArmd)))
+		if (pArmd->getAtivo() && !pArmd->getAcionada() && (pJog->getY()) >= (pArmd->getY() - pArmd->getLimY()) &&
+			(pJog->getY() - pJog->getLimY()) <= pArmd->getY())
 		{
-			pJog->tomaDano(pArmd->getDano(), 2);
-			pArmd->acionar();
+			int diffCent = pJog->getX() + pJog->getLimX()/2 - (pArmd->getX() + pArmd->getLimX()/2);
+			if (diffCent < 0)
+				diffCent = -diffCent;
+			if (diffCent < DIFFCENT_ARMD)
+			{
+				pJog->tomaDano(pArmd->getDano(), 2);
+				pArmd->setX(pJog->getX() + pJog->getLimX() / 2 - pArmd->getLimX() / 2);
+				pArmd->acionar();
+			}
 		}
 	}
 }
@@ -924,13 +922,14 @@ const bool Mapa::persPodeDescerPlat(Personagem* const pPers)
 void Mapa::desenhaObjs()
 {
 	desenhaProjeteis();
-	desenhaCordas();
 	desenhaPlataformas();
+	desenhaCordas();
 	desenhaEspinhos();
-	desenhaArmadilhas();
 	desenhaRedes();
 	desenhaInimigos();
-	desenhaJogadores();
+	desenhaJogadores();	
+
+	desenhaArmadilhas();
 }
 
 
@@ -1266,6 +1265,7 @@ void Mapa::stopTimers()
 void Mapa::resumeTimers()
 {
 	int i;
+
 	for (i = 0; i < jogadores.numObjs(); i++)
 	{
 		jogadores.objI(i)->resumeTimers();

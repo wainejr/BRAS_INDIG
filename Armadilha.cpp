@@ -15,6 +15,7 @@ Armadilha::Armadilha()
 	velMaxX = 0;
 	velMaxY = 0;
 	ID = ARMADILHA;
+	listaAnim = nullptr;
 
 	dano = DANO_ARMD;
 
@@ -25,6 +26,9 @@ Armadilha::Armadilha()
 
 Armadilha::~Armadilha()
 {
+	delete(listaAnim);
+
+	al_destroy_timer(timer_acionada);
 }
 
 
@@ -37,15 +41,23 @@ void Armadilha::builderArmadilha(const int ax, const int ay, const bool aAtivo)
 	ativo = aAtivo;
 
 	acionada = false;
+	if (listaAnim == nullptr)
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
 }
 
 
 void Armadilha::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	if(!acionada)
-		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX - aPosFaseX + limX, posY - aPosFaseY - limY, al_map_rgb(255, 255, 0));
+	if (!acionada)
+	{
+		listaAnim->drawAnimacao(0, posX - aPosFaseX	+ limX/2, posY - aPosFaseY);
+		//al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX - aPosFaseX + limX, posY - aPosFaseY - limY, al_map_rgb(255, 255, 0));
+	}
 	else
-		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY- 10, posX - aPosFaseX + limX, posY - aPosFaseY - limY, al_map_rgb(255, 0, 0));
+	{
+		listaAnim->drawAnimacao(1, posX - aPosFaseX + limX/2, posY - aPosFaseY);
+		//al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY - 10, posX - aPosFaseX + limX, posY - aPosFaseY - limY, al_map_rgb(255, 0, 0));
+	}
 }
 
 
@@ -56,6 +68,9 @@ void Armadilha::atualizar()
 		if (al_get_timer_count(timer_acionada) >= 1)
 		{
 			ativo = false;
+			acionada = false;
+			al_stop_timer(timer_acionada);
+			al_set_timer_count(timer_acionada, 0);
 		}
 	}
 }
@@ -121,5 +136,6 @@ void Armadilha::stopTimers()
 
 void Armadilha::resumeTimers()
 {
-	al_resume_timer(timer_acionada);
+	if(acionada)
+		al_resume_timer(timer_acionada);
 }

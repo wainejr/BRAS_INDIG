@@ -45,7 +45,7 @@ void Plataforma::draw(const int aPosFaseX, const int aPosFaseY)
 		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(150, 150, 150));
 	else
 		al_draw_filled_rectangle(posX- aPosFaseX, posY- aPosFaseY, posX + limX- aPosFaseX, posY - limY- aPosFaseY, al_map_rgb(255, 255, 255));
-	//listaAnim->drawAnimacao(0, posX-aPosFaseX, posY-aPosFaseY);
+	//	listaAnim->drawAnimacao(0, posX-aPosFaseX, posY-aPosFaseY);
 }
 
 
@@ -58,8 +58,8 @@ void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, 
 	ativo = aAtivo;
 
 	colisaoBaixo = aColisaoBaixo;
-	//if (listaAnim == nullptr)
-		//listaAnim = gerListaAnim.listaAnimEnt(ID);
+	if (listaAnim == nullptr)
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
 }
 
 

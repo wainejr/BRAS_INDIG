@@ -3,6 +3,7 @@
 Animacao::Animacao()
 {
 	sprite = nullptr;
+	periodo = nullptr;
 	ID = -1;
 	currFrame = 0;
 	largFrame = 0;
@@ -13,8 +14,8 @@ Animacao::Animacao()
 
 Animacao::~Animacao()
 {	
-	if(sprite != nullptr)
-		al_destroy_bitmap(sprite);
+	al_destroy_timer(periodo);
+	al_destroy_bitmap(sprite);
 }
 
 
@@ -32,7 +33,6 @@ void Animacao::setSprite(ALLEGRO_BITMAP* const pSprite, const int aID, const int
 		periodo = al_create_timer(aPeriodo);
 		al_start_timer(periodo);
 	}
-
 }
 
 
@@ -43,14 +43,15 @@ void Animacao::draw(const int aPosX, const int aPosY)
 		currFrame = 0;
 	}
 	
-	//al_draw_bitmap(sprite, aPosX, aPosY- al_get_bitmap_height(sprite), 0); //	MUDAR E ACERTAR ISSO
-	al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, aPosX, aPosY - altFrame, 0);
+	al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, aPosX-al_get_bitmap_width(sprite)/2, aPosY - altFrame, 0);
 
-	//al_draw_filled_rectangle(aPosX, aPosY, aPosX + largFrame, aPosY + largFrame, al_map_rgb(255, 255, 255));
-	if (al_get_timer_count(periodo) >= 1)
+	if (periodo != nullptr) 
 	{
-		al_set_timer_count(periodo, 0);
-		currFrame++;
+		if (al_get_timer_count(periodo) >= 1)
+		{
+			al_set_timer_count(periodo, 0);
+			currFrame++;
+		}
 	}
 }
 
@@ -64,7 +65,10 @@ const int Animacao::getID()
 Animacao* const Animacao::copiaAnimacao()
 {
 	Animacao* pAnim = new Animacao;
-	pAnim->setSprite(sprite, ID, largFrame, altFrame, numFrames, al_get_timer_speed(periodo));
+	if (periodo != nullptr)
+		pAnim->setSprite(sprite, ID, largFrame, altFrame, numFrames, al_get_timer_speed(periodo));
+	else
+		pAnim->setSprite(sprite, ID, largFrame, altFrame, numFrames);
 	return pAnim;
 }
 
@@ -72,4 +76,18 @@ Animacao* const Animacao::copiaAnimacao()
 void Animacao::resetaAnim()
 {
 	currFrame = 0;
+}
+
+
+void Animacao::stopTimer()
+{
+	if (periodo != nullptr)
+		al_stop_timer(periodo);
+}
+
+
+void Animacao::resumeTimer()
+{
+	if (periodo != nullptr)
+		al_resume_timer(periodo);
 }

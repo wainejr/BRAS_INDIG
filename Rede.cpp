@@ -14,6 +14,7 @@ Rede::Rede()
 	fisica = true;
 	ativo = false;
 	ID = REDE;
+	listaAnim = nullptr;
 
 	dano = DANO_REDE;
 
@@ -24,6 +25,8 @@ Rede::Rede()
 
 Rede::~Rede()
 {
+	delete(listaAnim);
+
 	delete(linha);
 }
 
@@ -31,13 +34,6 @@ Rede::~Rede()
 Corda* const Rede::getCorda()
 {
 	return linha;
-}
-
-
-void Rede::setCorda(Corda* const pCorda)
-{
-	if(pCorda != nullptr)
-		linha = pCorda;
 }
 
 

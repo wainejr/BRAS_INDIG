@@ -12,7 +12,6 @@ private:
 	bool ativada;
 public:
 	Corda* const getCorda();
-	void setCorda(Corda* const pCorda);
 	void builderRede(const int ax, const int ay, const int aLinhaX, const int aLinhaY, const bool aAtivo);
 	void ativar();
 	const bool getAtivada();

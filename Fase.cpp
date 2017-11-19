@@ -49,6 +49,7 @@ void Fase::execFase()
 		{
 			restart();
 			resetar = false;
+			al_flush_event_queue(queue);
 		}
 		al_wait_for_event(queue, &ev);
 
@@ -154,6 +155,7 @@ void Fase::execFase()
 				if (keys[P] && !pausado)
 				{
 					pausado = true;
+					al_flush_event_queue(queue);
 					mapaFase.stopTimers();
 				}
 				//	LOOP JOGO
@@ -279,6 +281,7 @@ void Fase::execFase()
 						pausado = false;
 						mapaFase.resumeTimers();
 						keys[P] = false;
+						al_flush_event_queue(queue);
 					}
 					else if (botao_menu.getSelec() && keys[MOUSE_ESQ])
 					{
@@ -291,9 +294,14 @@ void Fase::execFase()
 		if (redraw && al_is_event_queue_empty(queue) && !resetar && !done)
 		{
 			if (!pausado)
+			{
+				al_draw_bitmap(fundo, 0, 0, 0);
 				mapaFase.desenhaObjs();
+			}
 			else
-				gerBotoesFase.desenhaBotoes();
+			{
+				drawPause();
+			}
 			redraw = false;
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -301,7 +309,7 @@ void Fase::execFase()
 	}
 	al_flush_event_queue(queue);
 	mapaFase.retiraTodosObjs();
-	//	RESETA OS JOGADORES PARA NÃO HAVER CONFLITO NO PRÓXIMA JOGADA
+	//	ANULA OS JOGADORES PARA NÃO HAVER CONFLITO COM A PRÓXIMA ESCOLHA DE JOGADORES
 	anulaJogs();
 	al_stop_timer(timer);
 }
@@ -563,7 +571,10 @@ void Fase::initAllegroObjs()
 		arial18 = al_load_ttf_font("arial.ttf", 18, 0);
 		queue = al_create_event_queue();
 		timer = al_create_timer(1.0 / FPS);
-
+		fundo = al_load_bitmap("sprites/backgrounds/fundoFase.png");
+		tipo_pause = al_load_bitmap("sprites/tipos/tipo_pause.png");
+		fundo_pause = al_load_bitmap("sprites/backgrounds/Image11.png");
+		
 		//	----------	ADD FONTES À FILA DE EVENTOS   -------------
 		al_register_event_source(queue, al_get_keyboard_event_source());
 		al_register_event_source(queue, al_get_mouse_event_source());
@@ -605,27 +616,22 @@ void Fase::carregaBotoes()
 
 void Fase::initBotoes()
 {
-	ALLEGRO_FONT* arial;
-	arial = al_load_ttf_font("arial.ttf", 18, 0);
 	ALLEGRO_BITMAP* image_continuar;
-	image_continuar = al_create_bitmap(LARG_BOTAO, ALT_BOTAO);
-	al_set_target_bitmap(image_continuar);
-	al_draw_rounded_rectangle(0, 0, LARG_BOTAO, ALT_BOTAO, 5, 5, al_map_rgb(255, 0, 0), 2);
-	al_draw_text(arial, al_map_rgb(255, 0, 0), LARG_BOTAO / 2, ALT_BOTAO / 2 - al_get_font_line_height(arial) / 2, ALLEGRO_ALIGN_CENTER, "Continuar");
-	botao_continuar.setSprite(image_continuar, LARG_BOTAO, ALT_BOTAO);
+	ALLEGRO_BITMAP* imageSelec_continuar;
+	image_continuar = al_load_bitmap("sprites/botoes/botao_continuar.png");
+	imageSelec_continuar = al_load_bitmap("sprites/botoes/botao_continuarSelec.png");
+	botao_continuar.setSprite(image_continuar, imageSelec_continuar, LARG_BOTAO, ALT_BOTAO);
 	botao_continuar.setX(LARG / 2 - LARG_BOTAO / 2);
 	botao_continuar.setY(ALT / 2 - ALT_BOTAO/2-10);
 
 	ALLEGRO_BITMAP* image_menu;
-	image_menu = al_create_bitmap(LARG_BOTAO, ALT_BOTAO);
-	al_set_target_bitmap(image_menu);
-	al_draw_rounded_rectangle(0, 0, LARG_BOTAO, ALT_BOTAO, 5, 5, al_map_rgb(255, 0, 0), 2);
-	al_draw_text(arial, al_map_rgb(255, 0, 0), LARG_BOTAO / 2, ALT_BOTAO / 2 - al_get_font_line_height(arial) / 2, ALLEGRO_ALIGN_CENTER, "Voltar ao Menu");
-	botao_menu.setSprite(image_menu, LARG_BOTAO, ALT_BOTAO);
+	ALLEGRO_BITMAP* imageSelec_menu;
+	image_menu = al_load_bitmap("sprites/botoes/botao_menu.png");
+	imageSelec_menu = al_load_bitmap("sprites/botoes/botao_menuSelec.png");
+	botao_menu.setSprite(image_menu, imageSelec_menu, LARG_BOTAO, ALT_BOTAO);
 	botao_menu.setX(LARG/2-LARG_BOTAO/2);
 	botao_menu.setY(ALT / 2 + ALT_BOTAO / 2 + 10);
 
-	al_destroy_font(arial);
 }
 
 
@@ -634,4 +640,12 @@ void Fase::initBotoes()
 void Fase::setDisplay(ALLEGRO_DISPLAY* const pDisplay)
 {
 	display = pDisplay;
+}
+
+
+void Fase::drawPause()
+{
+	al_draw_bitmap(fundo_pause, 0, 0, 0);
+	al_draw_bitmap(tipo_pause, LARG / 2 - al_get_bitmap_width(tipo_pause) / 2, 100 - al_get_bitmap_height(tipo_pause) / 2, 0);
+	gerBotoesFase.desenhaBotoes();
 }

@@ -31,7 +31,8 @@ bool gerenciaAnim::carregouCorda = false;
 
 
 bool gerenciaAnim::carregouArmadilha = false;
-
+Animacao* gerenciaAnim::armd_desativada = nullptr;
+Animacao* gerenciaAnim::armd_ativada = nullptr;
 
 bool gerenciaAnim::carregouEspinho = false;
 
@@ -47,7 +48,9 @@ gerenciaAnim::gerenciaAnim()
 
 gerenciaAnim::~gerenciaAnim()
 {
-	delete (plataforma);
+	if(plataforma)
+		delete (plataforma);
+	//	DAR DELETE EM TODAS ANIMAÇÕES
 }
 
 ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
@@ -198,6 +201,7 @@ ListaAnimacao* const gerenciaAnim::listaAnimPlat()
 		carregaAnimPlat();
 
 	// ADICIONA AS ANIMAÇÕES A LISTA
+
 	pAnim = plataforma->copiaAnimacao();
 	pListaAnim->addAnimacao(pAnim);
 	
@@ -224,7 +228,14 @@ ListaAnimacao* const gerenciaAnim::listaAnimArmadilha()
 	Animacao* pAnim;
 	if (!carregouArmadilha)
 		carregaAnimArmadilha();
+	
+	pAnim = new Animacao;
+	pAnim = armd_desativada->copiaAnimacao();
+	pListaAnim->addAnimacao(pAnim);
 
+	pAnim = new Animacao;
+	pAnim = armd_ativada->copiaAnimacao();
+	pListaAnim->addAnimacao(pAnim);
 	// ADICIONA AS ANIMAÇÕES A LISTA
 
 	return pListaAnim;
@@ -321,6 +332,16 @@ void gerenciaAnim::carregaAnimCorda()
 
 void gerenciaAnim::carregaAnimArmadilha()
 {
+	ALLEGRO_BITMAP* img_armd_ativada;
+	ALLEGRO_BITMAP* img_armd_desativada;
+	armd_ativada = new Animacao;
+	armd_desativada = new Animacao;
+	img_armd_ativada = al_load_bitmap("sprites/obstaculos/armadilha_ativada.png");
+	img_armd_desativada = al_load_bitmap("sprites/obstaculos/armadilha_desativada.png");
+	armd_desativada->setSprite(img_armd_desativada, 0, al_get_bitmap_width(img_armd_desativada), al_get_bitmap_height(img_armd_desativada));
+	armd_ativada->setSprite(img_armd_ativada, 1, al_get_bitmap_width(img_armd_ativada), al_get_bitmap_height(img_armd_ativada));
+
+	carregouArmadilha = true;
 	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
 }
 
