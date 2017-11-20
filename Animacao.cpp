@@ -9,20 +9,16 @@ Animacao::Animacao()
 	largFrame = 0;
 	altFrame = 0;
 	numFrames = 0;
-	deletou = false;
 }
 
 
 
 Animacao::~Animacao()
 {
-	if (!deletou) 
-	{
-		al_destroy_timer(periodo);
-		al_destroy_bitmap(sprite);
-		deletou = true;
-	}
 
+	al_destroy_timer(periodo);
+	al_destroy_bitmap(sprite);
+		
 }
 
 

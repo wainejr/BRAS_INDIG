@@ -49,7 +49,7 @@ void Corda::builderCorda(const int ax, const int ay, const int aLimX, const int 
 	escalavel = aEscalavel;
 
 	if (listaAnim == nullptr)
-		listaAnim = gerListaAnim->listaAnimEnt(ID);
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
 }
 
 void Corda::draw(const int posRelX, const int posRelY)

@@ -14,7 +14,7 @@ private:
 	int largFrame;  
 	int altFrame;
 	int numFrames;
-	bool deletou;
+	
 public:
 	Animacao();
 	~Animacao();

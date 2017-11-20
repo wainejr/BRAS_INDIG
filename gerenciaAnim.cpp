@@ -49,6 +49,7 @@ gerenciaAnim::gerenciaAnim()
 
 gerenciaAnim::~gerenciaAnim()
 {
+	/*
 	if(plataforma)
 		delete (plataforma);
 	
@@ -61,6 +62,7 @@ gerenciaAnim::~gerenciaAnim()
 		delete(armd_desativada);
 	if(armd_desativada)
 		delete(armd_ativada);
+	*/
 }
 
 ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)

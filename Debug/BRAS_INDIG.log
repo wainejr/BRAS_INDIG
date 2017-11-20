@@ -1,2 +1,44 @@
-﻿  ListaAnimacao.cpp
+﻿  Animacao.cpp
+  Generating Code...
+  Compiling...
+  gerenciaAnim.cpp
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(120): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(133): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(146): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(174): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(187): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(200): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(263): warning C4101: 'pAnim': unreferenced local variable
+f:\projects\bras_indig\bras_indig\gerenciaanim.cpp(276): warning C4101: 'pAnim': unreferenced local variable
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Source.cpp
+  Rede.cpp
+  Projetil.cpp
+  Plataforma.cpp
+  Personagem.cpp
+  Obstaculo.cpp
+  Mosqueteiro.cpp
+  Mosquete.cpp
+  Mapa.cpp
+  ListaFases.cpp
+  ListaAnimacao.cpp
+  Lanca.cpp
+  Jogo.cpp
+  Jogador.cpp
+  Inimigo.cpp
+  FaseFinal.cpp
+  Fase2.cpp
+  Fase1.cpp
+  Fase.cpp
+  Espinho.cpp
+  EspadachimCavaleiro.cpp
+  Espadachim.cpp
+  Espada.cpp
+  Entidade.cpp
+  Corda.cpp
+  ChefaoCapitao.cpp
+  Armadilha.cpp
+  Arma.cpp
+  Arco.cpp
   BRAS_INDIG.vcxproj -> F:\Projects\BRAS_INDIG\Debug\BRAS_INDIG.exe

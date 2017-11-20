@@ -1,8 +1,5 @@
 #include "Entidade.h"
 
-gerenciaAnim* Entidade::gerListaAnim = new gerenciaAnim;
-
-bool Entidade::deletouAnim = false;
 
 Entidade::Entidade()
 {
@@ -13,11 +10,7 @@ Entidade::Entidade()
 
 Entidade::~Entidade()
 {
-	if (!deletouAnim)
-	{
-		delete(gerListaAnim);
-		deletouAnim = true;
-	}
+	
 }
 
 

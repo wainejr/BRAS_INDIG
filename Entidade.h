@@ -46,8 +46,8 @@ protected:
 	float velMaxY;
 	int ID;
 
-	static gerenciaAnim* gerListaAnim;
-	static bool deletouAnim;
+	gerenciaAnim gerListaAnim;
+	
 	ListaAnimacao* listaAnim;
 
 public:
