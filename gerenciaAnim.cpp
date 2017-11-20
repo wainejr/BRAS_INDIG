@@ -28,14 +28,15 @@ Animacao* gerenciaAnim::plataforma = nullptr;
 
 
 bool gerenciaAnim::carregouCorda = false;
-
+Animacao* gerenciaAnim::corda_esc = nullptr;
+Animacao* gerenciaAnim::corda_nEsc = nullptr;
 
 bool gerenciaAnim::carregouArmadilha = false;
 Animacao* gerenciaAnim::armd_desativada = nullptr;
 Animacao* gerenciaAnim::armd_ativada = nullptr;
 
 bool gerenciaAnim::carregouEspinho = false;
-
+Animacao* gerenciaAnim::espinho = nullptr;
 
 bool gerenciaAnim::carregouRede = false;
 
@@ -50,7 +51,16 @@ gerenciaAnim::~gerenciaAnim()
 {
 	if(plataforma)
 		delete (plataforma);
-	//	DAR DELETE EM TODAS ANIMAÇÕES
+	
+	if(corda_esc)
+		delete(corda_esc);
+	if(corda_nEsc)
+		delete(corda_nEsc);
+
+	if(armd_desativada)
+		delete(armd_desativada);
+	if(armd_desativada)
+		delete(armd_ativada);
 }
 
 ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
@@ -148,6 +158,8 @@ ListaAnimacao* const gerenciaAnim::listaAnimEsp()
 	if (!carregouEspinho)
 		carregaAnimEspinho();
 	
+	pAnim = espinho->copiaAnimacao();
+	pListaAnim->addAnimacao(espinho);
 	// ADICIONA AS ANIMAÇÕES A LISTA
 
 	return pListaAnim;
@@ -216,7 +228,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimCorda()
 	if (!carregouCorda)
 		carregaAnimCorda();
 
-	// ADICIONA AS ANIMAÇÕES A LISTA
+	pAnim = corda_esc->copiaAnimacao();
+	pListaAnim->addAnimacao(pAnim);
+
+	pAnim = corda_nEsc->copiaAnimacao();
+	pListaAnim->addAnimacao(pAnim);
 
 	return pListaAnim;
 }
@@ -229,14 +245,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimArmadilha()
 	if (!carregouArmadilha)
 		carregaAnimArmadilha();
 	
-	pAnim = new Animacao;
 	pAnim = armd_desativada->copiaAnimacao();
 	pListaAnim->addAnimacao(pAnim);
 
-	pAnim = new Animacao;
 	pAnim = armd_ativada->copiaAnimacao();
 	pListaAnim->addAnimacao(pAnim);
-	// ADICIONA AS ANIMAÇÕES A LISTA
 
 	return pListaAnim;
 }
@@ -315,18 +328,26 @@ void gerenciaAnim::carregaAnimPlat()
 	ALLEGRO_BITMAP* image;
 
 	image = al_load_bitmap("sprite_teste.png");
-	//image = al_create_bitmap(20, 20);
-	//al_set_target_bitmap(image);
-	//al_draw_filled_circle(10, 10, 10, al_map_rgb(255, 0, 0));
-
 	plataforma->setSprite(image, 0, 256, 256, 6, 0.1);
-
+	carregouPlat = true;
 }
 
 
 void gerenciaAnim::carregaAnimCorda()
 {
-	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	ALLEGRO_BITMAP* img_corda_esc;
+	ALLEGRO_BITMAP* img_corda_nEsc;
+	
+	corda_esc = new Animacao;
+	corda_nEsc = new Animacao;
+
+	img_corda_esc = al_load_bitmap("sprites/plats/corda_esc.png");
+	img_corda_nEsc = al_load_bitmap("sprites/plats/corda_nEsc.png");
+
+	corda_esc->setSprite(img_corda_esc, 0, al_get_bitmap_width(img_corda_esc), al_get_bitmap_height(img_corda_esc));
+	corda_nEsc->setSprite(img_corda_nEsc, 1, al_get_bitmap_width(img_corda_nEsc), al_get_bitmap_height(img_corda_nEsc));
+	
+	carregouCorda = true;
 }
 
 
@@ -336,13 +357,14 @@ void gerenciaAnim::carregaAnimArmadilha()
 	ALLEGRO_BITMAP* img_armd_desativada;
 	armd_ativada = new Animacao;
 	armd_desativada = new Animacao;
+	
 	img_armd_ativada = al_load_bitmap("sprites/obstaculos/armadilha_ativada.png");
 	img_armd_desativada = al_load_bitmap("sprites/obstaculos/armadilha_desativada.png");
+
 	armd_desativada->setSprite(img_armd_desativada, 0, al_get_bitmap_width(img_armd_desativada), al_get_bitmap_height(img_armd_desativada));
 	armd_ativada->setSprite(img_armd_ativada, 1, al_get_bitmap_width(img_armd_ativada), al_get_bitmap_height(img_armd_ativada));
 
 	carregouArmadilha = true;
-	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
 }
 
 

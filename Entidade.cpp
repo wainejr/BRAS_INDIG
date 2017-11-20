@@ -1,5 +1,9 @@
 #include "Entidade.h"
 
+gerenciaAnim* Entidade::gerListaAnim = new gerenciaAnim;
+
+bool Entidade::deletouAnim = false;
+
 Entidade::Entidade()
 {
 	velMaxX = 0.0f;
@@ -9,7 +13,11 @@ Entidade::Entidade()
 
 Entidade::~Entidade()
 {
-
+	if (!deletouAnim)
+	{
+		delete(gerListaAnim);
+		deletouAnim = true;
+	}
 }
 
 

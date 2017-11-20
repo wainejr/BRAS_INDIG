@@ -49,13 +49,16 @@ void Rede::builderRede(const int ax, const int ay, const int aLinhaX, const int 
 	{
 		Corda* pLinha = new Corda;
 		linha = pLinha;
+		linha->builderCorda(aLinhaX, aLinhaY, LIM_X_LINHA_REDE, LIM_Y_LINHA_REDE, true, false);
 	}
 	linha->setAtivo(true);
+	/*
 	linha->setEscalavel(false);
 	linha->setLimX(LIM_X_LINHA_REDE);
 	linha->setLimY(LIM_Y_LINHA_REDE);
 	linha->setX(aLinhaX);
 	linha->setY(aLinhaY);
+	*/
 }
 
 
@@ -79,7 +82,7 @@ void Rede::draw(const int aPosFaseX, const int aPosFaseY)
 {
 	al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 255, 255));
 	if(linha->getAtivo())
-		al_draw_filled_rectangle(linha->getX() - aPosFaseX, linha->getY() - aPosFaseY, linha->getX() + linha->getLimX() - aPosFaseX, linha->getY() - linha->getLimY() - aPosFaseY, al_map_rgb(255, 0, 0));
+		linha->draw(aPosFaseX, aPosFaseY);
 }
 
 

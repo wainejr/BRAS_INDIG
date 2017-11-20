@@ -11,9 +11,10 @@ public:
 	~ListaAnimacao();
 	void addAnimacao(Animacao* pAnim);
 	void drawAnimacao(const int aID, const int aPosX, const int aPosY);
-	ListaAnimacao* const copiaListaAnim();
 	void resetaAnims();
 	void stopTimers();
 	void resumeTimers();
+	void drawDeAte_X(const int aID, const int aPosX, const int aPosY, const int aPosLimX);
+	void drawDeAte_Y(const int aID, const int aPosX, const int aPosY, const int aPosLimY);
 };
 

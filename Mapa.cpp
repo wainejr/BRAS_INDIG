@@ -858,17 +858,25 @@ const bool Mapa::jogadorPodeSubir(Jogador* const pJog)
 			Corda* pCorda = cordas.objI(i);
 			if (pCorda->getAtivo() && pCorda->getEscalavel())
 			{
-				//	se o jogador colidiu com a corda e está com o no mínimo 
-				//	VEL_SUBIDA+1 pixels "mais baixo" que a parte mais alta da corda...	
+				//	se a diferença entre o centro do jogador e da corda for menor
+				//	ou igual DIFFCENT_CORDA e o jogador está com a no mínimo VEL_SUBIDA+1 
+				//	pixels "mais baixo" que a parte mais alta da corda...	
 				//	Obs.: o valor dos pixels de diferença devem ser maior que o 
-				//	"VEL_SUBIDA" pela sequência de atualizações que a Mapa segue
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
+				//	"VEL_SUBIDA" pela sequência de atualizações que o Mapa segue
 				{
-					if ((pJog->getY() - (pCorda->getY() - pCorda->getLimY())) > VEL_SUBIDA + 1)
-						return true;
-					else
-						pJog->setVelY(0);
-					return false;
+					if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
+					{
+						int diffCent = pJog->getX() + pJog->getLimX() / 2 - (pCorda->getX() + pCorda->getLimX() / 2);
+						if (diffCent < 0)
+							diffCent = -diffCent;
+						if (diffCent <= DIFFCENT_CORDA)
+						{
+							if ((pJog->getY() - (pCorda->getY() - pCorda->getLimY())) > VEL_SUBIDA + 1)
+								return true;
+							else
+								pJog->setVelY(0);
+						}
+					}
 				}
 			}
 		}
@@ -891,9 +899,17 @@ const bool Mapa::jogadorEstaNumaCorda(Jogador* const pJog)
 		for (int i = 0; i < cordas.numObjs(); i++)
 		{
 			pCorda = cordas.objI(i);
-			if (pCorda->getAtivo() && pCorda->getEscalavel())
+			if (pCorda->getAtivo() && pCorda->getEscalavel()){
 				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
-					return true;
+				{
+					int diffCent = pJog->getX() + pJog->getLimX() / 2 - (pCorda->getX() + pCorda->getLimX() / 2);
+					if (diffCent < 0)
+						diffCent = -diffCent;
+
+					if (diffCent <= DIFFCENT_CORDA)
+						return true;
+				}
+			}
 		}
 	}
 	return false;

@@ -53,6 +53,7 @@ void Fase1::buildEntidades()
 	cords[0]->builderCorda(430, ALT - 10, 10, 130, true, true);
 
 	armds[0]->builderArmadilha(100, ALT - 10, true);
+	//armds[1]->builderArmadilha(150, ALT - 10, true);
 
 	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true);
 

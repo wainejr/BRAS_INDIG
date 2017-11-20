@@ -17,6 +17,7 @@
 
 // ----------  PLATAFORMAS	----------
 //	#include "Corda.h" - em Rede.h
+#include "Plataforma.h"
 
 // ----------  OBSTACULOS	----------
 #include "Armadilha.h"

@@ -58,8 +58,10 @@ void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, 
 	ativo = aAtivo;
 
 	colisaoBaixo = aColisaoBaixo;
-	if (listaAnim == nullptr)
-		listaAnim = gerListaAnim.listaAnimEnt(ID);
+	if (listaAnim == nullptr) 
+	{
+		//listaAnim = gerListaAnim.listaAnimEnt(ID);
+	}
 }
 
 

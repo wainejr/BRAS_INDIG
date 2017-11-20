@@ -14,6 +14,7 @@ private:
 	int largFrame;  
 	int altFrame;
 	int numFrames;
+	bool deletou;
 public:
 	Animacao();
 	~Animacao();
@@ -26,5 +27,7 @@ public:
 	void resetaAnim();
 	void stopTimer();
 	void resumeTimer();
+	void drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX);
+	void drawDeAte_Y(const int aPosX, const int aPosY, const int aPosLimY);
 };
 

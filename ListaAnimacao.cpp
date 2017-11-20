@@ -14,7 +14,7 @@ ListaAnimacao::~ListaAnimacao()
 	{
 		pAnim = listaSprites.objI(0);
 		listaSprites.retirarObj(pAnim);
-		delete(pAnim);
+		//delete(pAnim);
 	}
 }
 
@@ -43,22 +43,6 @@ void ListaAnimacao::drawAnimacao(const int aID, const int aPosX, const int aPosY
 		else
 			pAnim->resetaAnim();
 	}
-}
-
-
-ListaAnimacao* const ListaAnimacao::copiaListaAnim()
-{
-	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
-	for (int i = 0; i < listaSprites.numObjs(); i++)
-	{
-		pAnim = listaSprites.objI(i);
-		if (pAnim != nullptr)
-		{
-			pListaAnim->addAnimacao(pAnim->copiaAnimacao());
-		}
-	}
-	return pListaAnim;
 }
 
 
@@ -104,5 +88,37 @@ void ListaAnimacao::resumeTimers()
 	{
 		pAnim = listaSprites.objI(i);
 		pAnim->resumeTimer();
+	}
+}
+
+
+void ListaAnimacao::drawDeAte_X(const int aID, const int aPosX, const int aPosY, const int aPosLimX)
+{
+	Animacao* pAnim;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAnim = listaSprites.objI(i);
+		if (pAnim->getID() == aID)
+		{
+			pAnim->drawDeAte_X(aPosX, aPosY, aPosLimX);
+		}
+		else
+			pAnim->resetaAnim();
+	}
+}
+
+
+void ListaAnimacao::drawDeAte_Y(const int aID, const int aPosX, const int aPosY, const int aPosLimY)
+{
+	Animacao* pAnim;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAnim = listaSprites.objI(i);
+		if (pAnim->getID() == aID)
+		{
+			pAnim->drawDeAte_Y(aPosX, aPosY, aPosLimY);
+		}
+		else
+			pAnim->resetaAnim();
 	}
 }

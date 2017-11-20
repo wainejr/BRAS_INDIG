@@ -33,6 +33,8 @@ private:
 	static bool carregouPlat;
 
 	//	ANIMACOES CORDA
+	static Animacao* corda_esc;
+	static Animacao* corda_nEsc;
 	static bool carregouCorda;
 
 	//	ANIMACOES ARMADILHA
@@ -41,6 +43,7 @@ private:
 	static bool carregouArmadilha;
 
 	//	ANIMACOES ESPINHO
+	static Animacao* espinho;
 	static bool carregouEspinho;
 
 	//	ANIMACOES REDE

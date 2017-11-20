@@ -78,3 +78,4 @@
 #define LIM_Y_LINHA_REDE 5
 
 #define DIFFCENT_ARMD 5
+#define DIFFCENT_CORDA 10

@@ -9,13 +9,20 @@ Animacao::Animacao()
 	largFrame = 0;
 	altFrame = 0;
 	numFrames = 0;
+	deletou = false;
 }
 
 
+
 Animacao::~Animacao()
-{	
-	al_destroy_timer(periodo);
-	al_destroy_bitmap(sprite);
+{
+	if (!deletou) 
+	{
+		al_destroy_timer(periodo);
+		al_destroy_bitmap(sprite);
+		deletou = true;
+	}
+
 }
 
 
@@ -35,7 +42,7 @@ void Animacao::setSprite(ALLEGRO_BITMAP* const pSprite, const int aID, const int
 	}
 }
 
-
+//	o valor de aPosX deve ser o valor do meio da entidade
 void Animacao::draw(const int aPosX, const int aPosY)
 {
 	if (currFrame >= numFrames)
@@ -43,7 +50,8 @@ void Animacao::draw(const int aPosX, const int aPosY)
 		currFrame = 0;
 	}
 	
-	al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, aPosX-al_get_bitmap_width(sprite)/2, aPosY - altFrame, 0);
+	al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
+		aPosX-al_get_bitmap_width(sprite)/2, aPosY - altFrame, 0);
 
 	if (periodo != nullptr) 
 	{
@@ -90,4 +98,74 @@ void Animacao::resumeTimer()
 {
 	if (periodo != nullptr)
 		al_resume_timer(periodo);
+}
+
+
+void Animacao::drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX)
+{
+	if (aPosLimX > aPosX)
+	{
+		if (currFrame >= numFrames)
+		{
+			currFrame = 0;
+		}
+		//	desenha no começo da posição requerida
+		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
+			aPosX - al_get_bitmap_width(sprite) / 2, aPosY - altFrame, 0);
+		
+		//	desenha no final da posição requerida
+		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
+			aPosLimX - al_get_bitmap_width(sprite) / 2 , aPosY - altFrame, 0);
+		
+		//	desenha entre o começo e o final da posição requerida
+		for (int i = 1; aPosX + i*largFrame < aPosLimX; i++)
+		{
+			al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
+				aPosX - al_get_bitmap_width(sprite) / 2 + i*largFrame, aPosY - altFrame, 0);
+		}
+
+		if (periodo != nullptr)
+		{
+			if (al_get_timer_count(periodo) >= 1)
+			{
+				al_set_timer_count(periodo, 0);
+				currFrame++;
+			}
+		}
+	}
+}
+
+
+void Animacao::drawDeAte_Y(const int aPosX, const int aPosY, const int aPosLimY)
+{
+	if (aPosLimY > aPosX)
+	{
+		if (currFrame >= numFrames)
+		{
+			currFrame = 0;
+		}
+		//	desenha no começo da posição requerida
+		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame,
+			aPosX - al_get_bitmap_width(sprite) / 2, aPosY - altFrame, 0);
+
+		//	desenha no final da posição requerida
+		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame,
+			aPosX - al_get_bitmap_width(sprite) / 2, aPosLimY - altFrame, 0);
+
+		//	desenha entre o começo e o final da posição requerida
+		for (int i = 1; aPosY + i*altFrame < aPosLimY; i++)
+		{
+			al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame,
+				aPosX - al_get_bitmap_width(sprite) / 2, aPosY - altFrame + i*altFrame, 0);
+		}
+
+		if (periodo != nullptr)
+		{
+			if (al_get_timer_count(periodo) >= 1)
+			{
+				al_set_timer_count(periodo, 0);
+				currFrame++;
+			}
+		}
+	}
 }
