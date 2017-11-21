@@ -25,6 +25,7 @@ Espadachim::Espadachim()
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
+	criouTimers = false;
 
 	alvo = nullptr;
 }
@@ -60,6 +61,10 @@ void Espadachim::builderEspadachim(const int ax, const int ay, const bool aAtivo
 		Arma* pArma = constroiArma();
 		if (pArma != nullptr)
 			arma = pArma;
+	}
+	if (!criouTimers)
+	{
+		createTimers();
 	}
 	if (pAlvo != nullptr)
 	{
@@ -146,6 +151,7 @@ void Espadachim::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
 	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_ESP);
+	criouTimers = true;
 }
 
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "Entidade.h"
+#include "Plataforma.h"
 class Corda :
-	public Entidade
+	public Plataforma
 {
 private:
 	bool escalavel;

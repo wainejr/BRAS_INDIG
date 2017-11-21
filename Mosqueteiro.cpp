@@ -25,6 +25,7 @@ Mosqueteiro::Mosqueteiro()
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
+	criouTimers = false;
 
 	alvo = nullptr;
 }
@@ -60,6 +61,10 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const bool aAti
 		Arma* pArma = constroiArma();
 		if (pArma != nullptr)
 			arma = pArma;
+	}
+	if (!criouTimers)
+	{
+		createTimers();
 	}
 
 	if (pAlvo != nullptr)
@@ -127,6 +132,7 @@ void Mosqueteiro::createTimers()
 	timer_ataque = al_create_timer(PER_ATAQ_MOSQ);
 	timer_atacando = al_create_timer(TEMP_ATAQ_MOSQ);
 	timer_invuneravel = al_create_timer(TEMP_INVUN_MOSQ);
+	criouTimers = true;
 }
 
 

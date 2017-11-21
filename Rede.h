@@ -4,13 +4,17 @@
 class Rede :
 	public Obstaculo
 {
-public:
-	Rede();
-	~Rede();
 private:
 	Corda* linha;
 	bool ativada;
+	void initTimer();
+	void createTimer();
+	void resetaTimer();
+	void stopTimers();
+	void resumeTimers();
 public:
+	Rede();
+	~Rede();	
 	Corda* const getCorda();
 	void builderRede(const int ax, const int ay, const int aLinhaX, const int aLinhaY, const bool aAtivo);
 	void ativar();

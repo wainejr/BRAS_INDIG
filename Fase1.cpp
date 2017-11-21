@@ -6,6 +6,7 @@ Fase1::Fase1()
 {
 	numEntidades();
 	alocaEntidades();
+	numFase = 1;
 }
 
 
@@ -57,13 +58,13 @@ void Fase1::buildEntidades()
 
 	espins[0]->builderEspinho(500, ALT - 10, 50, 5, true);
 
-	reds[0]->builderRede(800, ALT - 200, 700, ALT-15, true);
+	reds[0]->builderRede(800, ALT - 200, 700, ALT-10, true);
 
-	//cavs[0]->builderEspadachimCav(1200, ALT-20, true, jog1);
+	cavs[0]->builderEspadachimCav(1200, ALT-20, true, jog1);
 
-	//esps[0]->builderEspadachim(700, ALT-20, true, jog1);
+	esps[0]->builderEspadachim(700, ALT-20, true, jog1);
 
-	//mosqs[0]->builderMosqueteiro(500, ALT-20, true, jog1);
+	mosqs[0]->builderMosqueteiro(500, ALT-20, true, jog1);
 }
 
 
@@ -76,7 +77,7 @@ void Fase1::numEntidades()
 	num_espinhos = 1;
 	num_redes = 1;
 
-	num_cavs = 0;
-	num_esps = 0;
-	num_mosq = 0;
+	num_cavs = 1;
+	num_esps = 1;
+	num_mosq = 1;
 }

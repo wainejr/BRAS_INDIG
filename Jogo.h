@@ -1,8 +1,11 @@
 #pragma once
 #include "ListaFases.h"
+#include "Fase1.h"
+#include "Fase2.h"
+#include "FaseFinal.h"
 #include "gerenciadorBotoes.h"
 #include "MenuPrincipal.h"
-
+#include "Jogador.h"
 class Jogo
 {
 private:
@@ -33,6 +36,13 @@ private:
 	Botao botao_raoni;
 	Botao botao_voltar;
 	
+	Fase1 fase1;
+	Fase2 fase2;
+	FaseFinal faseFinal;
+
+	Jogador raoni;
+	Jogador teca;
+
 	//	MANUTENÇÃO DA FASE
 	bool carregouAllegro;
 	static bool done;
@@ -43,6 +53,8 @@ private:
 	void destroyAllegroObjs();
 	void draw();
 	void carregaBotoes();
+	void buildJogadores();
+	void resetaJogs();
 	void resetaBotoesExceto(Botao* const pBotao);
 	void addBotoes();
 	void exec();

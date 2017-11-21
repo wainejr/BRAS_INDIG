@@ -21,7 +21,7 @@ protected:
 	ALLEGRO_TIMER*  timer_ataque;
 	ALLEGRO_TIMER*  timer_atacando;
 	ALLEGRO_TIMER*  timer_invuneravel;
-	
+	bool criouTimers;
 public:
 	Personagem();
 	~Personagem();

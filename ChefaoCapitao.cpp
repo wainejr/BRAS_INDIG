@@ -16,6 +16,10 @@ ChefaoCapitao::ChefaoCapitao()
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
+	if (!criouTimers)
+	{
+		createTimers();
+	}
 
 	listaAnim = nullptr;
 }

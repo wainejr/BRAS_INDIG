@@ -4,7 +4,6 @@
 
 Corda::Corda()
 {
-
 	posX = 0;
 	posY = 0;
 	limX = 0;
@@ -17,13 +16,15 @@ Corda::Corda()
 	velMaxY = 0;
 	ID = CORDA;
 
+	colisaoBaixo = false;
+
 	escalavel = false;
 }
 
 
 Corda::~Corda()
 {
-	delete(listaAnim);
+	//delete(listaAnim);
 }
 
 

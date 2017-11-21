@@ -40,6 +40,10 @@ void Espinho::builderEspinho(const int ax, const int ay, const int aLimX, const 
 	velMaxX = 0;
 	velMaxY = 0;
 	ID = ESPINHO;
+	if (listaAnim == nullptr)
+	{
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
+	}
 
 	dano = DANO_ESPINHO;
 }
@@ -47,10 +51,33 @@ void Espinho::builderEspinho(const int ax, const int ay, const int aLimX, const 
 
 void Espinho::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 0, 255));
+	if(limX > limY)
+		listaAnim->drawDeAte_X(0, posX - aPosFaseX, posY - aPosFaseY, posX - aPosFaseX + limX);
 }
 
 void Espinho::atualizar()
 {
 
+}
+
+
+void Espinho::initTimer()
+{
+}
+
+void Espinho::createTimer()
+{
+
+}
+
+void Espinho::resetaTimer()
+{
+}
+
+void Espinho::stopTimers()
+{
+}
+
+void Espinho::resumeTimers()
+{
 }

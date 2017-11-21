@@ -389,6 +389,7 @@ void Fase::restart()
 	mapaFase.retiraTodosObjs();
 	buildEntidades();
 	addEntidades();
+	mapaFase.resumeTimers();
 	//adicionar código aqui pra clicar pra reiniciar e tals
 }
 
@@ -515,17 +516,17 @@ void Fase::addEntidades()
 
 	for (i = 0; i < num_esps; i++)
 	{
-		mapaFase.addMosqueteiro(mosqs[i]);
+		mapaFase.addInimigo(static_cast<Inimigo*>(mosqs[i]));
 	}
 
 	for (i = 0; i < num_esps; i++)
 	{
-		mapaFase.addEspadachim(esps[i]);
+		mapaFase.addInimigo(static_cast<Inimigo*>(esps[i]));
 	}
 
 	for (i = 0; i < num_cavs; i++)
 	{
-		mapaFase.addCavaleiro(cavs[i]);
+		mapaFase.addInimigo(static_cast<Inimigo*>(cavs[i]));
 	}
 
 	for (i = 0; i < num_plats; i++)
@@ -535,22 +536,22 @@ void Fase::addEntidades()
 
 	for (i = 0; i < num_cordas; i++)
 	{
-		mapaFase.addCorda(cords[i]);
+		mapaFase.addPlataforma(static_cast<Plataforma*>(cords[i]));
 	}
 
 	for (i = 0; i < num_armds; i++)
 	{
-		mapaFase.addArmadilha(armds[i]);
+		mapaFase.addObstaculo(static_cast<Obstaculo*>(armds[i]));
 	}
 
 	for (i = 0; i < num_espinhos; i++)
 	{
-		mapaFase.addEspinho(espins[i]);
+		mapaFase.addObstaculo(static_cast<Obstaculo*>(espins[i]));
 	}
 
 	for (i = 0; i < num_redes; i++)
 	{
-		mapaFase.addRede(reds[i]);
+		mapaFase.addObstaculo(static_cast<Obstaculo*>(reds[i]));
 	}
 }
 
@@ -648,4 +649,10 @@ void Fase::drawPause()
 	al_draw_bitmap(fundo_pause, 0, 0, 0);
 	al_draw_bitmap(tipo_pause, LARG / 2 - al_get_bitmap_width(tipo_pause) / 2, 100 - al_get_bitmap_height(tipo_pause) / 2, 0);
 	gerBotoesFase.desenhaBotoes();
+}
+
+
+const int Fase::getNumFase()
+{
+	return numFase;
 }

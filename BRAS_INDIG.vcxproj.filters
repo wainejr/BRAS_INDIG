@@ -183,6 +183,21 @@
     <ClInclude Include="defineCarac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ListaInimigos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaProjeteis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaEntidades.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaObstaculos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaPlataformas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -213,9 +228,6 @@
       <Filter>Source Files\Entidades\Armas</Filter>
     </ClCompile>
     <ClCompile Include="Espada.cpp">
-      <Filter>Source Files\Entidades\Armas</Filter>
-    </ClCompile>
-    <ClCompile Include="Lanca.cpp">
       <Filter>Source Files\Entidades\Armas</Filter>
     </ClCompile>
     <ClCompile Include="Mosquete.cpp">
@@ -292,6 +304,24 @@
     </ClCompile>
     <ClCompile Include="MenuPause.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaInimigos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaProjeteis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaEntidades.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaObstaculos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaPlataformas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lanca.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

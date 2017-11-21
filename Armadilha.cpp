@@ -21,6 +21,7 @@ Armadilha::Armadilha()
 
 	acionada = false;
 	timer_acionada = nullptr;
+	criouTimer = false;
 }
 
 
@@ -43,6 +44,10 @@ void Armadilha::builderArmadilha(const int ax, const int ay, const bool aAtivo)
 	acionada = false;
 	if (listaAnim == nullptr)
 		listaAnim = gerListaAnim.listaAnimEnt(ID);
+	if (!criouTimer)
+	{
+		createTimer();
+	}
 }
 
 
@@ -108,18 +113,7 @@ void Armadilha::initTimer()
 void Armadilha::createTimer()
 {
 	timer_acionada = al_create_timer(TEMP_ACION_ARMD);
-}
-
-
-void Armadilha::reset(const int ax, const int ay, const bool aAtivo)
-{
-	posX = ax;
-	posY = ay;
-	velX = 0;
-	velY = 0;
-	ativo = aAtivo;
-
-	acionada = false;
+	criouTimer = true;
 }
 
 void Armadilha::resetaTimer()

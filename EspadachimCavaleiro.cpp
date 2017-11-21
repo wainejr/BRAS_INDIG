@@ -25,6 +25,7 @@ EspadachimCavaleiro::EspadachimCavaleiro()
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
+	criouTimers = false;
 
 	alvo = nullptr;
 }
@@ -60,6 +61,10 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 		Arma* pArma = constroiArma();
 		if (pArma != nullptr)
 			arma = pArma;
+	}
+	if (!criouTimers)
+	{
+		createTimers();
 	}
 
 	if (pAlvo != nullptr)
@@ -155,8 +160,9 @@ void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 void EspadachimCavaleiro::createTimers()
 {
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
-	timer_atacando = al_create_timer(1.0); // não será utilizado
+	timer_atacando = al_create_timer(1.0); // não será utilizado, o ataque é do cavaleiro é pelo contato
 	timer_invuneravel = al_create_timer(TEMP_INVUN_CAV);
+	criouTimers = true;
 }
 
 

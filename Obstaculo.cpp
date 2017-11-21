@@ -18,7 +18,6 @@ const int Obstaculo::getDano()
 	return dano;
 }
 
-
 void Obstaculo::setDano(const int aDano)
 {
 	dano = aDano;

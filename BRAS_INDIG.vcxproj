@@ -143,7 +143,12 @@
     <ClInclude Include="Lanca.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="ListaAnimacao.h" />
+    <ClInclude Include="ListaEntidades.h" />
     <ClInclude Include="ListaFases.h" />
+    <ClInclude Include="ListaInimigos.h" />
+    <ClInclude Include="ListaObstaculos.h" />
+    <ClInclude Include="ListaPlataformas.h" />
+    <ClInclude Include="ListaProjeteis.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuPause.h" />
@@ -182,7 +187,12 @@
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="Lanca.cpp" />
     <ClCompile Include="ListaAnimacao.cpp" />
+    <ClCompile Include="ListaEntidades.cpp" />
     <ClCompile Include="ListaFases.cpp" />
+    <ClCompile Include="ListaInimigos.cpp" />
+    <ClCompile Include="ListaObstaculos.cpp" />
+    <ClCompile Include="ListaPlataformas.cpp" />
+    <ClCompile Include="ListaProjeteis.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuPause.cpp" />

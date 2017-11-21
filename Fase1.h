@@ -6,12 +6,8 @@ class Fase1 :
 	public Fase
 {
 private:
-
 	void numEntidades();
 	void buildEntidades();
-
-	//FUNÇÃO PARA TESTES RETIRAR DEPOIS
-	void imprimeVida();
 	
 public:
 	Fase1();

@@ -32,8 +32,12 @@ void Jogo::exec()
 	bool keys[2] = { false, false };
 	ALLEGRO_EVENT ev;
 	initAllegroObjs();
+	listaFases.addFase(&fase1);
+	listaFases.addFase(&fase2);
+	listaFases.addFase(&faseFinal);
 	addBotoes();
 	listaFases.setDisplays(display);
+	buildJogadores();
 	al_start_timer(timer);
 
 	while (!done)
@@ -126,7 +130,7 @@ void Jogo::exec()
 					if (botao_voltar.getSelec())
 					{
 						estadoJogo = ESCOLHA_PLAYER;
-						Fase::anulaJogs();
+						listaFases.anulaJogs();
 						estadoJogoMudou = true;
 					}
 					else if (botao_campanha.getSelec())
@@ -134,6 +138,7 @@ void Jogo::exec()
 						gerBotoes.resetaSelecBotoes();
 						al_stop_timer(timer);
 						listaFases.campanha();
+						listaFases.anulaJogs();
 						al_resume_timer(timer);
 						al_flush_event_queue(queue);
 						estadoJogo = MENU;
@@ -144,6 +149,8 @@ void Jogo::exec()
 						gerBotoes.resetaSelecBotoes();
 						al_stop_timer(timer);
 						listaFases.carregaFaseN(1);
+						listaFases.anulaJogs();
+						resetaJogs();
 						al_resume_timer(timer);
 						al_flush_event_queue(queue);
 						estadoJogo = MENU;
@@ -154,6 +161,8 @@ void Jogo::exec()
 						gerBotoes.resetaSelecBotoes();
 						al_stop_timer(timer);
 						listaFases.carregaFaseN(2);
+						listaFases.anulaJogs();
+						resetaJogs();
 						al_resume_timer(timer);
 						al_flush_event_queue(queue);
 						estadoJogo = MENU;
@@ -164,6 +173,8 @@ void Jogo::exec()
 						gerBotoes.resetaSelecBotoes();
 						al_stop_timer(timer);
 						listaFases.carregaFaseN(3);
+						listaFases.anulaJogs();
+						resetaJogs();
 						al_resume_timer(timer);
 						al_flush_event_queue(queue);
 						estadoJogo = MENU;
@@ -181,30 +192,30 @@ void Jogo::exec()
 					else if (botao_raoni.getSelec())
 					{
 						listaFases.defineNumJogadores(1);
-						listaFases.defineJog(RAONI, 1);
+						listaFases.defineJog(&raoni, 1);
 						estadoJogo = ESCOLHA_FASE;
 						estadoJogoMudou = true;
 					}
 					else if (botao_teca.getSelec())
 					{
 						listaFases.defineNumJogadores(1);
-						listaFases.defineJog(TECA, 1);
+						listaFases.defineJog(&teca, 1);
 						estadoJogo = ESCOLHA_FASE;
 						estadoJogoMudou = true;
 					}
 					else if (botao_tecaRaoni.getSelec())
 					{
 						listaFases.defineNumJogadores(2);
-						listaFases.defineJog(TECA, 1);
-						listaFases.defineJog(RAONI, 2);
+						listaFases.defineJog(&teca, 1);
+						listaFases.defineJog(&raoni, 2);
 						estadoJogo = ESCOLHA_FASE;
 						estadoJogoMudou = true;
 					}
 					else if (botao_raoniTeca.getSelec())
 					{
 						listaFases.defineNumJogadores(2);
-						listaFases.defineJog(RAONI, 1);
-						listaFases.defineJog(TECA, 2);
+						listaFases.defineJog(&raoni, 1);
+						listaFases.defineJog(&teca, 2);
 						estadoJogo = ESCOLHA_FASE;
 						estadoJogoMudou = true;
 					}
@@ -433,4 +444,18 @@ void Jogo::addBotoes()
 	gerBotoes.addBotao(&botao_teca);
 	gerBotoes.addBotao(&botao_raoni);
 	gerBotoes.addBotao(&botao_voltar);
+}
+
+
+void Jogo::buildJogadores()
+{
+	raoni.builderJogador(0, 0, false, RAONI, 3);
+	teca.builderJogador(0, 0, false, TECA, 3);
+}
+
+
+void Jogo::resetaJogs()
+{
+	teca.builderJogador(0, 0, false, TECA, 3);
+	raoni.builderJogador(0, 0, false, RAONI, 3);
 }

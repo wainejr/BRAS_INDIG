@@ -1,23 +1,25 @@
 #pragma once
 #include "EntConcreteClasses.h"
 #include "Lista.h"
+#include "ListaEntidades.h"
+#include "ListaInimigos.h"
+#include "ListaObstaculos.h"
+#include "ListaProjeteis.h"
+#include "ListaPlataformas.h"
 #include "definesMacros.h"
 
 class Mapa
 {
 private:
-	//	LISTA DE ENTIDADES QUE ESTARÃO PRESENTES NO MAPA
-	Lista <Jogador*> jogadores;
-	Lista <Plataforma*> plataformas;
-	Lista <Mosqueteiro*> mosqueteiros;
-	Lista <Espadachim*> espadachins;
-	Lista <EspadachimCavaleiro*> cavaleiros;
-	Lista <Projetil*> projeteis;
-	Lista <Corda*> cordas;
-	Lista <Armadilha*> armadilhas;
-	Lista <Espinho*> espinhos;
-	Lista <Rede*> redes;
+	Jogador* jog1;
+	Jogador* jog2;
 
+	ListaEntidades entidades;
+	ListaInimigos inimigos;
+	ListaProjeteis projeteis;
+	ListaObstaculos obstaculos;
+	ListaPlataformas plataformas;
+	
 	//	PROPRIEDADES DE POSIÇÃO DO MAPA
 	int limX;
 	int limY;
@@ -52,10 +54,7 @@ private:
 	const bool colisaoEntPlat(Entidade* const pEnt);	//	apenas vê se a colisão ocorreu
 
 	void colisaoProjeteis(Personagem* const pPers);
-	void colisaoEspinhos(Personagem* const pPers);
-	void colisaoArmadilhas(Jogador* const pJog);
 	void colisaoLinhaRede(Jogador* const pJog);
-	void colisaoRede(Jogador* const pJog);
 
 	const bool colisaoPersChao(Personagem* const pPers, Plataforma* const pPlataforma);
 	const bool colisaoEntEnt(Entidade* const pEnt1, Entidade* const pEnt2);
@@ -64,15 +63,9 @@ private:
 	//	GERENCIA OS ATAQUES DOS INIMGOS
 	void ataqueInimigos();
 
-	void desenhaProjeteis();
-	void desenhaCordas();
-	void desenhaPlataformas();
-	void desenhaEspinhos();
-	void desenhaArmadilhas();
-	void desenhaRedes();
-	void desenhaInimigos();
-	void desenhaJogadores();
-
+	void colisaoObstaculos(Personagem* const pPers);
+	const int diffCent(Entidade* const pEnt1, Entidade* const pEnt2);
+	
 public:
 	Mapa();
 	~Mapa();
@@ -96,18 +89,14 @@ public:
 
 	void addPlayer(Jogador* const pPlayer);
 	void addPlataforma(Plataforma* const pPlataforma);
-	void addCorda(Corda* const pCorda);
-	void addMosqueteiro(Mosqueteiro* const pMosq);
-	void addEspadachim(Espadachim* const pEsp);
-	void addCavaleiro(EspadachimCavaleiro* const pCav);
+	void addInimigo(Inimigo* const pIni);
 	void addProjetil(Projetil* const pProj);
-	void addArmadilha(Armadilha* const pArmd);
-	void addEspinho(Espinho* const pEspinho);
-	void addRede(Rede* const pRede);
+	void addObstaculo(Obstaculo* const pObs);
 
 	void criarTimers();
 	void initTimers();
 	void stopTimers();
 	void resumeTimers();
+	void resetTimers();
 };
 

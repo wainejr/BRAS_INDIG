@@ -1,17 +1,14 @@
 #pragma once
-#include "Fase1.h"
-#include "Fase2.h"
-#include "FaseFinal.h"
+#include "Fase.h"
+#include "vector"
+
+using namespace std;
 
 class ListaFases
 {
 private:
-	Fase1 fase1;
-	Fase2 fase2;
-	FaseFinal faseFinal;
-
-	Jogador* raoni;
-	Jogador* teca;
+	vector<Fase*> fases;
+	vector<Fase*>::iterator it;
 	
 public:
 	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
@@ -21,9 +18,9 @@ public:
 	bool defineNumJogadores(const int aNumJogs);
 	void carregaFaseN(const int aN);
 	void campanha();
-	void defineJog(const int aID, const int aNum);
-
-	void resetaJogs();
+	void defineJog(Jogador* const pJog, const int aNum);
 	void setDisplays(ALLEGRO_DISPLAY* const pDisplay);
+	void addFase(Fase* const pFase);
+	void anulaJogs();
 };
 

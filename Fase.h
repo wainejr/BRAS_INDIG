@@ -59,6 +59,7 @@ protected:
 
 	static bool campanha;
 	bool fase_completa;
+	int numFase;
 	
 	void initTimers();
 	void criarTimers();
@@ -97,4 +98,5 @@ public:
 	static void anulaJogs();
 	void setDisplay(ALLEGRO_DISPLAY* const pDisplay);
 	void drawPause();
+	const int getNumFase();
 };

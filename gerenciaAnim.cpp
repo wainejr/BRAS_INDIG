@@ -265,6 +265,8 @@ ListaAnimacao* const gerenciaAnim::listaAnimEspinho()
 		carregaAnimEspinho();
 
 	// ADICIONA AS ANIMAÇÕES A LISTA
+	pAnim = espinho->copiaAnimacao();
+	pListaAnim->addAnimacao(pAnim);
 
 	return pListaAnim;
 }
@@ -372,7 +374,13 @@ void gerenciaAnim::carregaAnimArmadilha()
 
 void gerenciaAnim::carregaAnimEspinho()
 {
-	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	ALLEGRO_BITMAP* img_espinho;
+	espinho = new Animacao;
+	
+	img_espinho = al_load_bitmap("sprites/obstaculos/espinho.png");
+	espinho->setSprite(img_espinho, 0, al_get_bitmap_width(img_espinho), al_get_bitmap_height(img_espinho));
+
+	carregouEspinho = true;
 }
 
 

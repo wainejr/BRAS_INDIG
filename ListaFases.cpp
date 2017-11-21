@@ -4,43 +4,27 @@
 
 ListaFases::ListaFases()
 {
-	raoni = new Jogador;
-	teca = new Jogador;
-
-	raoni->builderJogador(0, 0, false, RAONI, 3);
-	teca->builderJogador(0, 0, false, TECA, 3);
+	
 }
 
 
 ListaFases::~ListaFases()
 {
-	delete (raoni);
-	delete (teca);
+	
 }
 
 
 void ListaFases::carregaFaseN(const int aN)
 {
 	//	carrega a fase predeterminada
-	switch (aN)
+	for (it = fases.begin(); it != fases.end(); it++)
 	{
-	case 1:
-		fase1.setCampanha(false);
-		fase1.initFase();
-		resetaJogs();
-		break;
-	case 2:
-		fase2.setCampanha(false);
-		fase2.initFase();
-		resetaJogs();
-		break;
-	case 3:
-		faseFinal.setCampanha(false);
-		faseFinal.initFase();
-		resetaJogs();
-		break;
-	default:
-		break;
+		if ((*it)->getNumFase() == aN)
+		{
+			(*it)->setCampanha(false);
+			(*it)->initFase();
+			break;
+		}
 	}
 }
 
@@ -49,7 +33,10 @@ bool ListaFases::defineNumJogadores(const int aNumJogs)
 {
 	if (aNumJogs == 2 || aNumJogs == 1)
 	{
-		fase1.setNumJogs(aNumJogs);
+		for (it = fases.begin(); it != fases.end(); it++)
+		{
+			(*it)->setNumJogs(aNumJogs);
+		}
 		return true;
 	}
 	else
@@ -59,63 +46,55 @@ bool ListaFases::defineNumJogadores(const int aNumJogs)
 
 void ListaFases::campanha()
 {
-	fase1.setCampanha(true);
-	// cutscene e tals
+	for(unsigned int i = 1; i <= fases.size(); i++)
+	{ 
+		carregaFaseN(i);
+		//	condição para ter passado de fase...
+		//	se passou, mostra pontos, cutscene ou coisa assim e então inicia outra fase
+	}
 
-	fase1.initFase();
 	//	condição para ter passado de fase...
 	//	se passou, mostra pontos, cutscene ou coisa assim e então inicia outra fase
 	
-	fase2.initFase();
-	//	condição para ter passado de fase...
-	//	se passou, mostra pontos, cutscene ou coisa assim e então inicia outra fase
-
-	faseFinal.initFase();
-	//	condição para ter passado de fase...
-	//	se passou, mostra pontos, cutscene ou coisa assim e então inicia outra fase
-
-	resetaJogs();
 	// créditos
 }
 
 
-void ListaFases::defineJog(const int aID, const int aNum)
+void ListaFases::defineJog(Jogador* const pJog, const int aNum)
 {
-	if (fase1.getNumJogs() >= 1 && aNum == 1)
+	if (pJog != nullptr)
 	{
-		if (aID == TECA)
+		for (it = fases.begin(); it != fases.end(); it++)
 		{
-			fase1.setJog1(teca);	
-		}
-		else if (aID == RAONI)
-		{
-			fase1.setJog1(raoni);
-		}
-		
-	}
-	if (fase1.getNumJogs() == 2 && aNum == 2)
-	{
-		if (aID == TECA)
-		{
-			fase1.setJog2(teca);
-		}
-		else if (aID == RAONI)
-		{
-			fase1.setJog2(raoni);
+			if ((*it)->getNumJogs() >= 1 && aNum >= 1)
+			{
+				(*it)->setJog1(pJog);
+			}
+			if ((*it)->getNumJogs() == 2 && aNum == 2)
+			{
+				(*it)->setJog2(pJog);
+			}
 		}
 	}
-}
-
-void ListaFases::resetaJogs()
-{
-	teca->builderJogador(0, 0, false, TECA, 3);
-	raoni->builderJogador(0, 0, false, RAONI, 3);
 }
 
 
 void ListaFases::setDisplays(ALLEGRO_DISPLAY* const pDisplay)
 {
-	fase1.setDisplay(pDisplay);
-	fase2.setDisplay(pDisplay);
-	faseFinal.setDisplay(pDisplay);
+	for (it = fases.begin(); it != fases.end(); it++)
+	{
+		(*it)->setDisplay(pDisplay);
+	}
+}
+
+
+void ListaFases::addFase(Fase* const pFase)
+{
+	fases.push_back(pFase);
+}
+
+
+void ListaFases::anulaJogs()
+{
+	Fase::anulaJogs();
 }

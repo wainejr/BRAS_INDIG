@@ -4,6 +4,8 @@
 
 Mapa::Mapa()
 {
+	jog1 = nullptr;
+	jog2 = nullptr;
 }
 
 
@@ -14,53 +16,61 @@ Mapa::~Mapa()
 
 void Mapa::retiraTodosObjs()
 {
-	while (jogadores.numObjs() > 0)
+	Inimigo* pIni;
+	Obstaculo* pObs;
+	Projetil* pProj;
+	Plataforma* pPlat;
+	Entidade* pEnt;
+	///	ADICIONAR UM CLEAR NA LISTA PARA SÓ CHAMAR ISSO AO FAZER ISSO
+
+	while (entidades.numEnt() > 0)
 	{
-		jogadores.objI(0)->resetaTimers();
-		jogadores.retirarObj(jogadores.objI(0));
+		pEnt = entidades.entPosI(0);
+		entidades.retirarEnt(pEnt);
 	}
-	while (mosqueteiros.numObjs() > 0)
+
+	if (jog1 != nullptr)
 	{
-		mosqueteiros.objI(0)->resetaTimers();
-		mosqueteiros.retirarObj(mosqueteiros.objI(0));
+		jog1 = nullptr;
 	}
-	while (espadachins.numObjs() > 0)
+
+	if (jog2 != nullptr)
 	{
-		espadachins.objI(0)->resetaTimers();
-		espadachins.retirarObj(espadachins.objI(0));
+		jog2 = nullptr;
 	}
-	while (cavaleiros.numObjs() > 0)
+
+	while (inimigos.numInim() > 0)
 	{
-		cavaleiros.objI(0)->resetaTimers();
-		cavaleiros.retirarObj(cavaleiros.objI(0));
+		pIni = inimigos.inimPosi(0);
+		inimigos.retiraInim(pIni);
 	}
+
 	//	projeteis são deletados por serem criados durante a execução da Mapa
-	while (projeteis.numObjs() > 0)
-		delete(projeteis.retirarObj(projeteis.objI(0)));
-
-	while (cordas.numObjs() > 0)
-		cordas.retirarObj(cordas.objI(0));
-
-	while (plataformas.numObjs() > 0)
-		plataformas.retirarObj(plataformas.objI(0));
-
-	while (armadilhas.numObjs() > 0)
+	while (projeteis.numProj() > 0)
 	{
-		armadilhas.objI(0)->resetaTimer();
-		armadilhas.retirarObj(armadilhas.objI(0));
+		pProj = projeteis.projPosi(0);
+		projeteis.retirarProj(pProj);
+		delete(pProj);
 	}
-	while (espinhos.numObjs() > 0)
-		espinhos.retirarObj(espinhos.objI(0));
-
-	while (redes.numObjs() > 0)
-		redes.retirarObj(redes.objI(0));
+	
+	while (plataformas.numPlat() > 0)
+	{
+		pPlat = plataformas.platPosi(0);
+		plataformas.retiraPlat(pPlat);
+	}
+	
+	while (obstaculos.numObst() > 0)
+	{
+		pObs = obstaculos.obstPosi(0);
+		obstaculos.retirarObst(pObs);
+	}
 }
 
 
 void Mapa::atualizaMapa()
 {
 	atualizaObjs();
-	if (jogadores.numObjs() == 2)
+	if (jog1 != nullptr || jog2 != nullptr)
 		atualizaAlvos();
 	ataqueInimigos();
 	gerenciaColisoes();
@@ -72,69 +82,15 @@ void Mapa::atualizaMapa()
 void Mapa::atualizaObjs()
 {
 	int i;
-	Jogador* pJog;
-	Espadachim* pEsp;
-	Mosqueteiro* pMosq;
-	EspadachimCavaleiro* pCav;
-	Projetil* pProj;
-	Rede* pRede;
-	Armadilha* pArmd;
 
-	for (i = 0; i < jogadores.numObjs(); i++)
+	Entidade* pEnt;
+	for (i = 0; i < entidades.numEnt(); i++)
 	{
-		pJog = jogadores.objI(i);
-		if (pJog->getAtivo())
+		pEnt = entidades.entPosI(i);
+		if (pEnt->getAtivo())
 		{
-			pJog->atualizar();
+			pEnt->atualizar();
 		}
-	}
-
-	for (i = 0; i < espadachins.numObjs(); i++)
-	{
-		pEsp = espadachins.objI(i);
-		if (pEsp->getAtivo())
-		{
-			pEsp->atualizar();
-		}
-	}
-
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
-	{
-		pMosq = mosqueteiros.objI(i);
-		if (pMosq->getAtivo())
-		{
-			pMosq->atualizar();
-		}
-	}
-
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		pCav = cavaleiros.objI(i);
-		if (pCav->getAtivo())
-		{
-			pCav->atualizar();
-		}
-	}
-
-	for (i = 0; i < projeteis.numObjs(); i++)
-	{
-		pProj = projeteis.objI(i);
-		if (pProj->getAtivo())
-			pProj->atualizar();
-	}
-
-	for (i = 0; i < redes.numObjs(); i++)
-	{
-		pRede = redes.objI(i);
-		if (pRede->getAtivo())
-			pRede->atualizar();
-	}
-
-	for (i = 0; i < armadilhas.numObjs(); i++)
-	{
-		pArmd = armadilhas.objI(i);
-		if (pArmd->getAtivo())
-			pArmd->atualizar();
 	}
 }
 
@@ -142,106 +98,83 @@ void Mapa::atualizaObjs()
 void Mapa::atualizaAtivos()
 {
 	int i;
-	Jogador* pJog;
-	Mosqueteiro* pMosq;
-	Espadachim* pEsp;
-	EspadachimCavaleiro* pCav;
+	Inimigo* pIni;
 	Projetil* pProj;
 
 	//	Depois de o inimimigo ser "ultrapassado", ele é retirado da lista de inimigos
 	//	já caso o inimigo seja "alcançado", ele é ativado.
 	///	TALVEZ COLOCAR UMA TOLERÂNCIA AQUI
 	///	FAZER O MESMO PARA REDES, ESPINHOS E ARMADILHAS
-	for (i = 0; i < jogadores.numObjs(); i++)
-	{
-		pJog = jogadores.objI(i);
-		if (pJog->getAtivo() && pJog->getVida() <= 0)
-		{
-			pJog->setAtivo(false);
-			pJog->resetaTimers();
-			jogadores.retirarObj(pJog);
-		}
-	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
-	{
-		pMosq = mosqueteiros.objI(i);
-		if (pMosq->getAtivo())
-		{
-			if (pMosq->getVida() <= 0)
-			{
-				pMosq->setAtivo(false);
-				pMosq->resetaTimers();
-				mosqueteiros.retirarObj(pMosq);
-			}
-			else if ((pMosq->getX() + pMosq->getLimX()) < posRelX)
-			{
-				pMosq->setAtivo(false);
-				pMosq->resetaTimers();
-				mosqueteiros.retirarObj(pMosq);
-			}
-		}
-		else if (!pMosq->getAtivo() && (pMosq->getX() - (posRelX + LARG)) < 0)
-			pMosq->setAtivo(true);
-	}
-	for (i = 0; i < espadachins.numObjs(); i++)
-	{
-		pEsp = espadachins.objI(i);
-		if (pEsp->getAtivo())
-		{
-			if (pEsp->getVida() <= 0)
-			{
-				pEsp->setAtivo(false);
-				pEsp->resetaTimers();
-				espadachins.retirarObj(pEsp);
-			}
-			else if ((pEsp->getX() + pEsp->getLimX()) < posRelX)
-			{
-				pEsp->setAtivo(false);
-				pEsp->resetaTimers();
-				espadachins.retirarObj(pEsp);
-			}
-		}
-		else if (!pEsp->getAtivo() && (pEsp->getX() - (posRelX + LARG)) < 0)
-			pEsp->setAtivo(true);
-	}
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		pCav = cavaleiros.objI(i);
-		if (pCav->getAtivo())
-		{
-			if (pCav->getVida() <= 0)
-			{
-				pCav->setAtivo(false);
-				pCav->resetaTimers();
-				cavaleiros.retirarObj(pCav);
-			}
-			else if ((pCav->getX() + pCav->getLimX()) < posRelX)
-			{
-				pCav->setAtivo(false);
-				pCav->resetaTimers();
-				cavaleiros.retirarObj(pCav);
-			}
 
-		}
-		else if (!pCav->getAtivo() && (pCav->getX() - (posRelX + LARG)) < 0)
-			pCav->setAtivo(true);
-	}
-	
-	for (i = 0; i < projeteis.numObjs(); i++)
+	if (jog1 != nullptr)
 	{
-		pProj = projeteis.objI(i);
-		if (pProj->getAtivo() && (pProj->getX() >(LARG + posRelX + 20) || pProj->getX() < (posRelX - 20) ||
+		if (jog1->getAtivo() && jog1->getVida() <= 0)
+		{
+			jog1->setAtivo(false);
+			jog1->resetaTimers();
+			entidades.retirarEnt(static_cast<Entidade*>(jog1));
+			jog1 = nullptr;
+		}
+	}
+
+	if (jog2 != nullptr)
+	{
+		if (jog2->getAtivo() && jog2->getVida() <= 0)
+		{
+			jog2->setAtivo(false);
+			jog2->resetaTimers();
+			entidades.retirarEnt(static_cast<Entidade*>(jog2));
+			jog2 = nullptr;
+		}
+	}
+
+
+	for (i = 0; i < inimigos.numInim(); i++)
+	{
+		pIni = inimigos.inimPosi(i);
+		if ((pIni->getX() - (posRelX + LARG)) < 0)
+			pIni->setAtivo(true);
+		else
+			pIni->setAtivo(false);
+		
+		if (pIni->getAtivo())
+		{
+			if (pIni->getVida() <= 0)
+			{
+				pIni->setAtivo(false);
+				pIni->resetaTimers();
+				inimigos.retiraInim(pIni);
+				entidades.retirarEnt(static_cast<Entidade*>(pIni));
+			}
+		}
+	}
+
+	//	CRIAR UM ESTA NA TELA COM TOLERANCIA E TALS
+	for (i = 0; i < projeteis.numProj(); i++)
+	{
+		pProj = projeteis.projPosi(i);
+		if (pProj->getAtivo() && (pProj->getX() > (LARG + posRelX + 20) || pProj->getX() < (posRelX - 20) ||
 			pProj->getY() > (ALT - posRelY - 20) || pProj->getY() < (-posRelY + 20)))
-			delete(projeteis.retirarObj(pProj));
+		{
+			projeteis.retirarProj(pProj);
+			entidades.retirarEnt(static_cast<Entidade*>(pProj));
+			delete(pProj);
+		}
+			
 	}
 }
 
 
 void Mapa::atualizaAlvos()
 {
+	/*
 	Mosqueteiro* pMosq;
 	Espadachim* pEsp;
 	EspadachimCavaleiro* pCav;
+	*/
+	Inimigo* pIni;
+
+	/*
 	for (int i = 0; i < mosqueteiros.numObjs(); i++)
 	{
 		pMosq = mosqueteiros.objI(i);
@@ -266,47 +199,65 @@ void Mapa::atualizaAlvos()
 			alvoInimigo(static_cast<Inimigo*>(pCav));
 		}
 	}
+	*/
+	for (int i = 0; i < inimigos.numInim(); i++)
+	{
+		pIni = inimigos.inimPosi(i);
+		if (pIni->getAtivo())
+		{
+			alvoInimigo(pIni);
+		}
+	}
 }
 
 
 void Mapa::alvoInimigo(Inimigo* const pIni)
 {
-	Jogador* pJog1 = jogadores.objI(0);
-	Jogador* pJog2 = jogadores.objI(1);
-	//	se ambos os jogadores estão na mesma altura do inimigo...
-	if (pJog1->getY() > pIni->getY() - pIni->getLimY() && pJog1->getY() - pJog1->getLimY() < pIni->getY() &&
-		pJog2->getY() > pIni->getY() - pIni->getLimY() && pJog2->getY() - pJog2->getLimY() < pIni->getY())
+	Jogador* pJog1 = jog1;
+	Jogador* pJog2 = jog2;
+	if (pJog1 != nullptr && pJog2 != nullptr)
 	{
-		int distIniJog1 = pJog1->getX() + pJog1->getLimX() / 2 - (pIni->getX() + pIni->getLimX() / 2);
-		int distIniJog2 = pJog2->getX() + pJog2->getLimX() / 2 - (pIni->getX() + pIni->getLimX() / 2);
-		if (distIniJog1 < 0)
+		//	se ambos os jogadores estão na mesma altura do inimigo...
+		if (pJog1->getY() > pIni->getY() - pIni->getLimY() && pJog1->getY() - pJog1->getLimY() < pIni->getY() &&
+			pJog2->getY() > pIni->getY() - pIni->getLimY() && pJog2->getY() - pJog2->getLimY() < pIni->getY())
 		{
-			distIniJog1 *= -1;
-		}
-		if (distIniJog2 < 0)
-		{
-			distIniJog2 *= -1;
-		}
+			int distIniJog1 = pJog1->getX() + pJog1->getLimX() / 2 - (pIni->getX() + pIni->getLimX() / 2);
+			int distIniJog2 = pJog2->getX() + pJog2->getLimX() / 2 - (pIni->getX() + pIni->getLimX() / 2);
+			if (distIniJog1 < 0)
+			{
+				distIniJog1 *= -1;
+			}
+			if (distIniJog2 < 0)
+			{
+				distIniJog2 *= -1;
+			}
 
-		if (distIniJog1 < distIniJog2)
+			if (distIniJog1 < distIniJog2)
+			{
+				pIni->setAlvo(pJog1);
+			}
+			else
+			{
+				pIni->setAlvo(pJog2);
+			}
+		}
+		//	se só o jogador 1 está na altura do inimigo...
+		else if (pJog1->getY() > pIni->getY() - pIni->getLimY() && pJog1->getY() - pJog1->getLimY() < pIni->getY())
 		{
 			pIni->setAlvo(pJog1);
 		}
-		else
+		//	se só o jogador 2 está na altura do inimigo...
+		else if (pJog2->getY() > pIni->getY() - pIni->getLimY() && pJog2->getY() - pJog2->getLimY() < pIni->getY())
 		{
 			pIni->setAlvo(pJog2);
 		}
 	}
-	//	se só o jogador 1 está na altura do inimigo...
-	else if (pJog1->getY() > pIni->getY() - pIni->getLimY() && pJog1->getY() - pJog1->getLimY() < pIni->getY())
+	else if (pJog1 != nullptr)
 	{
 		pIni->setAlvo(pJog1);
 	}
-	//	se só o jogador 2 está na altura do inimigo...
-	else if (pJog2->getY() > pIni->getY() - pIni->getLimY() && pJog2->getY() - pJog2->getLimY() < pIni->getY())
-	{
+	else
 		pIni->setAlvo(pJog2);
-	}
 }
 
 
@@ -321,102 +272,84 @@ void Mapa::gerenciaColisaoPlatObstProj()
 {
 	int i;
 	Jogador* pJog;
-	Mosqueteiro* pMosq;
-	Espadachim* pEsp;
-	EspadachimCavaleiro* pCav;
+	Inimigo* pIni;
 	Projetil* pProj;
-	Rede* pRede;
+	Obstaculo* pObs;
 
 	//	colisoes com projeteis, plataformas e obstaculos
-	for (i = 0; i < jogadores.numObjs(); i++)
+	for (i = 0; i < 2; i++)
 	{
-		pJog = jogadores.objI(i);
-		if (pJog->getAtivo())
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
+		if (pJog != nullptr)
 		{
-			if (!pJog->getInvuneravel())
+			if (pJog->getAtivo())
 			{
-				colisaoRede(pJog);
-				colisaoArmadilhas(pJog);
-				colisaoInimigo(pJog);
-				colisaoEspinhos(static_cast<Personagem*>(pJog));
-				colisaoProjeteis(static_cast<Personagem*>(pJog));
-			}
-			if (pJog->getFisica() && !personagemPodePular(static_cast<Personagem*>(pJog)))
-			{
-				if (jogadorEstaNumaCorda(pJog))
+				if (!pJog->getInvuneravel())
 				{
-					if (!pJog->getSubindo())
-						pJog->setVelY(0);
+					colisaoObstaculos(static_cast<Personagem*>(pJog));
+					colisaoInimigo(pJog);
+					colisaoProjeteis(static_cast<Personagem*>(pJog));
 				}
-				else
-					pJog->cair(((float)GRAV / FPS));
+				if (pJog->getFisica() && !personagemPodePular(static_cast<Personagem*>(pJog)))
+				{
+					if (jogadorEstaNumaCorda(pJog))
+					{
+						if (!pJog->getSubindo())
+							pJog->setVelY(0);
+					}
+					else
+						pJog->cair(((float)GRAV / FPS));
+				}
+				colisaoLinhaRede(pJog);
+				colisaoPlat(static_cast<Entidade*>(pJog));
 			}
-			colisaoLinhaRede(pJog);
-			colisaoPlat(static_cast<Entidade*>(pJog));
+		}
+	}
 
-		}
-	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		pMosq = mosqueteiros.objI(i);
-		if (pMosq->getAtivo())
+		pIni = inimigos.inimPosi(i);
+		if (pIni->getAtivo())
 		{
-			if (!pMosq->getInvuneravel())
+			if (!pIni->getInvuneravel())
 			{
-				colisaoEspinhos(static_cast<Personagem*>(pMosq));
-				colisaoProjeteis(static_cast<Personagem*>(pMosq));
+				colisaoObstaculos(static_cast<Personagem*>(pIni));
+				colisaoProjeteis(static_cast<Personagem*>(pIni));
 			}
-			if (pMosq->getFisica() && !personagemPodePular(static_cast<Personagem*>(pMosq)))
-				pMosq->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(pMosq));
+			if (pIni->getFisica() && !personagemPodePular(static_cast<Personagem*>(pIni)))
+				pIni->cair(((float)GRAV / FPS));
+			colisaoPlat(static_cast<Entidade*>(pIni));
 		}
 	}
-	for (i = 0; i < espadachins.numObjs(); i++)
+
+	for (i = 0; i < projeteis.numProj(); i++)
 	{
-		pEsp = espadachins.objI(i);
-		if (pEsp->getAtivo())
-		{
-			if (!pEsp->getInvuneravel())
-			{
-				colisaoEspinhos(static_cast<Personagem*>(pEsp));
-				colisaoProjeteis(static_cast<Personagem*>(pEsp));
-			}
-			if (pEsp->getFisica() && !personagemPodePular(static_cast<Personagem*>(pEsp)))
-				pEsp->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(pEsp));
-		}
-	}
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		pCav = cavaleiros.objI(i);
-		if (pCav->getAtivo())
-		{
-			if (!pCav->getInvuneravel())
-			{
-				colisaoEspinhos(static_cast<Personagem*>(pCav));
-				colisaoProjeteis(static_cast<Personagem*>(pCav));
-			}
-			if (pCav->getFisica() && !personagemPodePular(static_cast<Personagem*>(pCav)))
-				pCav->cair(((float)GRAV / FPS));
-			colisaoPlat(static_cast<Entidade*>(pCav));
-		}
-	}
-	for (i = 0; i < projeteis.numObjs(); i++)
-	{
-		pProj = projeteis.objI(i);
+		pProj = projeteis.projPosi(i);
 		if (pProj->getAtivo())
 		{
 			if (colisaoEntPlat(static_cast<Entidade*>(pProj)))
-				delete(projeteis.retirarObj(pProj));
+			{
+				projeteis.retirarProj(pProj);
+				entidades.retirarEnt(static_cast<Entidade*>(pProj));
+				delete(pProj);
+			}
 		}
 	}
-	for (i = 0; i < redes.numObjs(); i++)
+
+	for (int i = 0; i < obstaculos.numObst(); i++)
 	{
-		pRede = redes.objI(i);
-		if (pRede->getAtivo())
+		pObs = obstaculos.obstPosi(i);
+		if (pObs->getAtivo() && pObs->getID() == REDE)
 		{
-			if (colisaoEntPlat(static_cast<Entidade*>(pRede)))
-				redes.retirarObj(pRede);
+			if (colisaoEntPlat(static_cast<Entidade*>(pObs)))
+			{
+				pObs->setAtivo(false);
+				obstaculos.retirarObst(pObs);
+				entidades.retirarEnt(static_cast<Entidade*>(pObs));
+			}
 		}
 	}
 }
@@ -425,75 +358,68 @@ void Mapa::gerenciaColisaoPlatObstProj()
 void Mapa::gerenciaColisaoAtaques()
 {
 	Jogador* pJog;
-	Espadachim* pEsp;
-	Mosqueteiro* pMosq;
-	EspadachimCavaleiro* pCav;
+	Inimigo* pIni;
 	Arma* pArma;
 	//	colisão com ataques
-	for (int i = 0; i < jogadores.numObjs(); i++)
+	for (int i = 0; i < 2; i++)
 	{
-		pJog = jogadores.objI(i);
-		if (pJog->getAtacando() && pJog->getAtivo())
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
+		if (pJog != nullptr) 
 		{
-			pArma = pJog->getArma();
-			int u;
-			for (u = 0; u < espadachins.numObjs(); u++)
+			if (pJog->getAtacando() && pJog->getAtivo())
 			{
-				pEsp = espadachins.objI(u);
-				if (pEsp->getAtivo() && !pEsp->getInvuneravel() && colisaoEntEnt
-				(static_cast<Entidade*>(pEsp), static_cast<Entidade*>(pArma)))
+				pArma = pJog->getArma();
+				int u;
+				for (u = 0; u < inimigos.numInim(); u++)
 				{
-					if (((int)pJog->getX() + pJog->getLimX() / 2) < ((int)pEsp->getX() + pEsp->getLimX() / 2))
-						pEsp->tomaDano(pArma->getDano(), 1);
-					else
-						pEsp->tomaDano(pArma->getDano(), -1);
+					pIni = inimigos.inimPosi(u);
+					if (pIni->getAtivo() && !pIni->getInvuneravel() && colisaoEntEnt
+					(static_cast<Entidade*>(pIni), static_cast<Entidade*>(pArma)))
+					{
+						if (pIni->getID() != ESP_CAVALEIRO)
+						{
+							if (((int)pJog->getX() + pJog->getLimX() / 2) < ((int)pIni->getX() + pIni->getLimX() / 2))
+								pIni->tomaDano(pArma->getDano(), 1);
+							else
+								pIni->tomaDano(pArma->getDano(), -1);
+						}
+						else
+							pIni->tomaDano(pArma->getDano(), 0);
+					}
 				}
 			}
-			for (u = 0; u < mosqueteiros.numObjs(); u++)
+		}
+	}
+	for (int i = 0; i < inimigos.numInim(); i++)
+	{
+		pIni = inimigos.inimPosi(i);
+		if (pIni->getAtivo() && pIni->getID() == ESPADACHIM && pIni->getAtacando())
+		{
+			pArma = pIni->getArma();
+			for (int u = 0; u < 2; u++)
 			{
-				pMosq = mosqueteiros.objI(u);
-				if (pMosq->getAtivo() && !pMosq->getInvuneravel() && colisaoEntEnt
-				(static_cast<Entidade*>(pMosq), static_cast<Entidade*>(pArma)))
+				if (i == 0)
+					pJog = jog1;
+				else
+					pJog = jog2;
+				if (pJog != nullptr)
 				{
-					if (((int)pJog->getX() + pJog->getLimX() / 2) < ((int)pMosq->getX() + pMosq->getLimX() / 2))
-						pMosq->tomaDano(pArma->getDano(), 1);
-					else
-						pMosq->tomaDano(pArma->getDano(), -1);
-
-				}
-			}
-			for (u = 0; u < cavaleiros.numObjs(); u++)
-			{
-				pCav = cavaleiros.objI(u);
-				if (pCav->getAtivo() && !pCav->getInvuneravel() && colisaoEntEnt
-				(static_cast<Entidade*>(pCav), static_cast<Entidade*>(pArma)))
-				{
-					pCav->tomaDano(pArma->getDano(), 0);
+					if (pJog->getAtivo() && !pJog->getInvuneravel() && colisaoEntEnt
+					(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni->getArma())))
+					{
+						if (((int)pIni->getX() + pIni->getLimX() / 2) < ((int)pJog->getX() + pJog->getLimX() / 2))
+							pJog->tomaDano(pArma->getDano(), 1);
+						else
+							pJog->tomaDano(pArma->getDano(), -1);
+					}
 				}
 			}
 		}
 	}
 
-	for (int i = 0; i < espadachins.numObjs(); i++)
-	{
-		pEsp = espadachins.objI(i);
-		pArma = pEsp->getArma();
-		if (pEsp->getAtivo() && pEsp->getAtacando())
-		{
-			for (int u = 0; u < jogadores.numObjs(); u++)
-			{
-				pJog = jogadores.objI(u);
-				if (pJog->getAtivo() && !pJog->getInvuneravel() && colisaoEntEnt
-				(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pEsp->getArma())))
-				{
-					if (((int)pEsp->getX() + pEsp->getLimX() / 2) < ((int)pJog->getX() + pJog->getLimX() / 2))
-						pJog->tomaDano(pArma->getDano(), 1);
-					else
-						pJog->tomaDano(pArma->getDano(), -1);
-				}
-			}
-		}
-	}
 }
 
 
@@ -501,6 +427,8 @@ void Mapa::perDescePlat(Personagem* const pPers)
 {
 	if (pPers->getAtivo() && persPodeDescerPlat(pPers))
 	{
+		//	3 pixels para não haver risco de voltar a posição do 
+		//	personagem na sequência da atualização da fase
 		pPers->setY(pPers->getY() + 3);
 	}
 }
@@ -511,10 +439,10 @@ const bool Mapa::colisaoChao(Personagem* const pPers)
 	Plataforma* pPlat;
 	if (pPers->getAtivo())
 	{
-		for (int i = 0; i < plataformas.numObjs(); i++)
+		for (int i = 0; i < plataformas.numPlat(); i++)
 		{
-			pPlat = plataformas.objI(i);
-			if (pPlat->getAtivo())
+			pPlat = plataformas.platPosi(i);
+			if (pPlat->getAtivo() && pPlat->getID() == PLATAFORMA)
 			{
 				if (colisaoPersChao(pPers, pPlat))
 					return true;
@@ -531,45 +459,17 @@ const bool Mapa::colisaoInimigo(Jogador* const pJog)
 	bool colid = false;
 	if (pJog->getAtivo())
 	{
-		for (int i = 0; i < cavaleiros.numObjs(); i++)
+		for (int i = 0; i < inimigos.numInim(); i++)
 		{
-			pIni = static_cast<Inimigo*>(cavaleiros.objI(i));
-			if (pIni->getAtivo())
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
-				{
-					if (pIni->getVelX() <= 0)
-						pJog->tomaDano(pIni->getArma()->getDano(), -1);
-					else
-						pJog->tomaDano(pIni->getArma()->getDano(), 1);
-					colid = true;
-				}
-		}
-		for (int i = 0; i < espadachins.numObjs(); i++)
-		{
-			pIni = static_cast<Inimigo*>(espadachins.objI(i));
-			if (pIni->getAtivo())
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
-				{
-					if (pIni->getX() + pIni->getLimX() / 2 >= pJog->getX() + pJog->getLimX() / 2)
-						pJog->tomaDano(pIni->getArma()->getDano(), -1);
-					else
-						pJog->tomaDano(pIni->getArma()->getDano(), 1);
-					colid = true;
-				}
-
-		}
-		for (int i = 0; i < mosqueteiros.numObjs(); i++)
-		{
-			pIni = static_cast<Inimigo*>(mosqueteiros.objI(i));
-			if (pIni->getAtivo())
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
-				{
-					if (pIni->getX() + pIni->getLimX() / 2 >= pJog->getX() + pJog->getLimX() / 2)
-						pJog->tomaDano(pIni->getArma()->getDano(), -1);
-					else
-						pJog->tomaDano(pIni->getArma()->getDano(), 1);
-					colid = true;
-				}
+			pIni = inimigos.inimPosi(i);
+			if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pIni)))
+			{
+				if (pIni->getX() + pIni->getLimX() / 2 >= pJog->getX() + pJog->getLimX() / 2)
+					pJog->tomaDano(pIni->getArma()->getDano(), -1);
+				else
+					pJog->tomaDano(pIni->getArma()->getDano(), 1);
+				colid = true;
+			}
 		}
 	}
 	return colid;
@@ -581,10 +481,10 @@ const bool Mapa::colisaoPlat(Entidade* const pEnt)
 	int i;
 	bool colid = false;
 	Plataforma* pPlat;
-	for (i = 0; i < plataformas.numObjs(); i++)
+	for (i = 0; i < plataformas.numPlat(); i++)
 	{
-		pPlat = plataformas.objI(i);
-		if (pPlat->getAtivo())
+		pPlat = plataformas.platPosi(i);
+		if (pPlat->getAtivo() && pPlat->getID() == PLATAFORMA)
 		{
 			if (colisaoEntEnt(pEnt, static_cast<Entidade*>(pPlat)) && pPlat->getColisaoBaixo())
 			{
@@ -602,10 +502,10 @@ const bool Mapa::colisaoEntPlat(Entidade* const pEnt)
 	int i;
 	bool colid = false;
 	Plataforma* pPlat;
-	for (i = 0; i < plataformas.numObjs(); i++)
+	for (i = 0; i < plataformas.numPlat(); i++)
 	{
-		pPlat = plataformas.objI(i);
-		if (colisaoEntEnt(pEnt, static_cast<Entidade*>(pPlat)))
+		pPlat = plataformas.platPosi(i);
+		if (pPlat->getID() == PLATAFORMA && colisaoEntEnt(pEnt, static_cast<Entidade*>(pPlat)))
 			return true;
 	}
 	return false;
@@ -615,9 +515,9 @@ const bool Mapa::colisaoEntPlat(Entidade* const pEnt)
 void Mapa::colisaoProjeteis(Personagem* const pPers)
 {
 	Projetil* pProj;
-	for (int i = 0; i < projeteis.numObjs(); i++)
+	for (int i = 0; i < projeteis.numProj(); i++)
 	{
-		pProj = projeteis.objI(i);
+		pProj = projeteis.projPosi(i);
 		if (pProj->getAtivo())
 		{
 			//	se o projetil for do inimigo e o alvo jogador ou se o projetil
@@ -638,52 +538,73 @@ void Mapa::colisaoProjeteis(Personagem* const pPers)
 					}
 					else
 						pPers->tomaDano(pProj->getArmaProj()->getDano(), 0);
-					delete(projeteis.retirarObj(pProj));
+					projeteis.retirarProj(pProj);
+					entidades.retirarEnt(static_cast<Entidade*>(pProj));
+					delete(pProj);
 				}
 			}
 		}
 	}
 }
 
-
-void Mapa::colisaoEspinhos(Personagem* const pPers)
+const int Mapa::diffCent(Entidade* const pEnt1, Entidade* const pEnt2)
 {
-	int i;
-	Espinho* pEspinho;
-	for (i = 0; i < espinhos.numObjs(); i++)
-	{
-		pEspinho = espinhos.objI(i);
-		if (pEspinho->getAtivo() && colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pEspinho)))
-		{
-			//	caso o player esteja andando para direita ou parado
-			//	recebe dano e um knock back para esquerda, caso 
-			//	contrário recebe dano e um knock back para direita
-			if (pPers->getVelX() >= 0)
-				pPers->tomaDano(pEspinho->getDano(), -1);
-			else
-				pPers->tomaDano(pEspinho->getDano(), 1);
-		}
-	}
+	int diffCent = pEnt1->getX() + pEnt1->getLimX() / 2 - (pEnt2->getX() + pEnt2->getLimX() / 2);
+	if (diffCent < 0)
+		diffCent = -diffCent;
+	return diffCent;
 }
 
-
-void Mapa::colisaoArmadilhas(Jogador* const pJog)
+void Mapa::colisaoObstaculos(Personagem* const pPers)
 {
-	Armadilha* pArmd;
-	for (int i = 0; i < armadilhas.numObjs(); i++)
+	int i;
+	Obstaculo* pObs;
+	Jogador* pJog;
+	if (!pPers->getInvuneravel())
 	{
-		pArmd = armadilhas.objI(i);
-		if (pArmd->getAtivo() && !pArmd->getAcionada() && (pJog->getY()) >= (pArmd->getY() - pArmd->getLimY()) &&
-			(pJog->getY() - pJog->getLimY()) <= pArmd->getY())
+		for (i = 0; i < obstaculos.numObst(); i++)
 		{
-			int diffCent = pJog->getX() + pJog->getLimX()/2 - (pArmd->getX() + pArmd->getLimX()/2);
-			if (diffCent < 0)
-				diffCent = -diffCent;
-			if (diffCent < DIFFCENT_ARMD)
+			pObs = obstaculos.obstPosi(i);
+			if (pObs->getAtivo())
 			{
-				pJog->tomaDano(pArmd->getDano(), 2);
-				pArmd->setX(pJog->getX() + pJog->getLimX() / 2 - pArmd->getLimX() / 2);
-				pArmd->acionar();
+				if (pObs->getID() == ESPINHO)
+				{
+					//	COLISAO PARA TODOS
+					if (colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pObs)))
+					{
+						//	caso o personagem esteja andando para direita ou parado
+						//	recebe dano e um knock back para esquerda, caso 
+						//	contrário recebe dano e um knock back para direita
+						if (pPers->getVelX() >= 0)
+							pPers->tomaDano(pObs->getDano(), -1);
+						else
+							pPers->tomaDano(pObs->getDano(), 1);
+					}
+				}
+				//	COLISAO APENAS PARA JOGADORES
+				else if (pPers->getID() == RAONI || pPers->getID() == TECA)
+				{
+					pJog = static_cast<Jogador*>(pPers);
+					if (pObs->getID() == ARMADILHA)
+					{
+						if (diffCent(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pObs)) <= DIFFCENT_ARMD && 
+							colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pObs)))
+						{
+							pJog->tomaDano(pObs->getDano(), 2);
+							static_cast<Armadilha*>(pObs)->acionar();
+						}
+					}
+					else if (pObs->getID() == REDE)
+					{
+						if (static_cast<Rede*>(pObs)->getAtivada() && colisaoEntEnt
+						(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pObs)))
+						{
+							pJog->tomaDano(pObs->getDano(), 3);
+							pObs->setAtivo(false);
+							obstaculos.retirarObst(pObs);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -694,11 +615,13 @@ void Mapa::colisaoLinhaRede(Jogador* const pJog)
 {
 	Corda* pCorda;
 	Rede* pRede;
-	for (int i = 0; i < redes.numObjs(); i++)
+	Obstaculo* pObs;
+	for (int i = 0; i < obstaculos.numObst(); i++)
 	{
-		pRede = redes.objI(i);
-		if (pRede->getAtivo())
+		pObs = obstaculos.obstPosi(i);
+		if (pObs->getID() == REDE && pObs->getAtivo())
 		{
+			pRede = static_cast<Rede*>(pObs);
 			if (!pRede->getAtivada())
 			{
 				pCorda = pRede->getCorda();
@@ -707,24 +630,6 @@ void Mapa::colisaoLinhaRede(Jogador* const pJog)
 					if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
 						pRede->ativar();
 				}
-			}
-		}
-	}
-}
-
-
-void Mapa::colisaoRede(Jogador* const pJog)
-{
-	Rede* pRede;
-	for (int i = 0; i < redes.numObjs(); i++)
-	{
-		pRede = redes.objI(i);
-		if (pRede->getAtivo() && pRede->getAtivada())
-		{
-			if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pRede)))
-			{
-				pJog->tomaDano(pRede->getDano(), 3);
-				pRede->setAtivo(false);
 			}
 		}
 	}
@@ -822,22 +727,21 @@ void Mapa::gereColisao(Entidade* const pMovel, Entidade* const pParado)
 
 void Mapa::ataqueInimigos()
 {
-	Mosqueteiro* pMosq;
-	Espadachim* pEsp;
-	for (int i = 0; i < mosqueteiros.numObjs(); i++)
+	Inimigo* pIni;
+	Projetil* pProj;
+	for (int i = 0; i < inimigos.numInim(); i++)
 	{
-		pMosq = mosqueteiros.objI(i);
-		if (pMosq->getAtivo() && pMosq->persPodeAtacar())
+		pIni = inimigos.inimPosi(i);
+		if (pIni->getAtivo() && pIni->persPodeAtacar())
 		{
-			projeteis.addObj(pMosq->atirar());
-		}
-	}
-	for (int i = 0; i < espadachins.numObjs(); i++)
-	{
-		pEsp = espadachins.objI(i);
-		if (pEsp->getAtivo() && pEsp->persPodeAtacar())
-		{
-			pEsp->atacar();
+			if (pIni->getID() == ESPADACHIM)
+				pIni->atacar();
+			else if (pIni->getID() == MOSQUETEIRO)
+			{
+				pProj = pIni->atirar();
+				projeteis.addProj(pProj);
+				entidades.addEnt(static_cast<Entidade*>(pProj));
+			}
 		}
 	}
 }
@@ -851,30 +755,36 @@ const bool Mapa::personagemPodeAtacar(Personagem* const pPers)
 
 const bool Mapa::jogadorPodeSubir(Jogador* const pJog)
 {
+	Plataforma* pPlat;
+	Corda* pCorda;
 	if (pJog->getAtivo())
 	{
-		for (int i = 0; i < cordas.numObjs(); i++)
+		for (int i = 0; i < plataformas.numPlat(); i++)
 		{
-			Corda* pCorda = cordas.objI(i);
-			if (pCorda->getAtivo() && pCorda->getEscalavel())
+			pPlat = plataformas.platPosi(i);
+			if (pPlat->getAtivo() && pPlat->getID() == CORDA)
 			{
-				//	se a diferença entre o centro do jogador e da corda for menor
-				//	ou igual DIFFCENT_CORDA e o jogador está com a no mínimo VEL_SUBIDA+1 
-				//	pixels "mais baixo" que a parte mais alta da corda...	
-				//	Obs.: o valor dos pixels de diferença devem ser maior que o 
-				//	"VEL_SUBIDA" pela sequência de atualizações que o Mapa segue
+				pCorda = static_cast<Corda*>(pPlat);
+				if (pCorda->getEscalavel())
 				{
-					if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
+					//	se a diferença entre o centro do jogador e da corda for menor
+					//	ou igual DIFFCENT_CORDA e o jogador está com a no mínimo VEL_SUBIDA+1 
+					//	pixels "mais baixo" que a parte mais alta da corda...	
+					//	Obs.: o valor dos pixels de diferença devem ser maior que o 
+					//	"VEL_SUBIDA" pela sequência de atualizações que o Mapa segue
 					{
-						int diffCent = pJog->getX() + pJog->getLimX() / 2 - (pCorda->getX() + pCorda->getLimX() / 2);
-						if (diffCent < 0)
-							diffCent = -diffCent;
-						if (diffCent <= DIFFCENT_CORDA)
+						if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
 						{
-							if ((pJog->getY() - (pCorda->getY() - pCorda->getLimY())) > VEL_SUBIDA + 1)
-								return true;
-							else
-								pJog->setVelY(0);
+							int diffCent = pJog->getX() + pJog->getLimX() / 2 - (pCorda->getX() + pCorda->getLimX() / 2);
+							if (diffCent < 0)
+								diffCent = -diffCent;
+							if (diffCent <= DIFFCENT_CORDA)
+							{
+								if ((pJog->getY() - (pCorda->getY() - pCorda->getLimY())) > VEL_SUBIDA + 1)
+									return true;
+								else
+									pJog->setVelY(0);
+							}
 						}
 					}
 				}
@@ -893,21 +803,24 @@ const bool Mapa::personagemPodePular(Personagem* const pPers)
 
 const bool Mapa::jogadorEstaNumaCorda(Jogador* const pJog)
 {
+	Plataforma* pPlat;
+	Corda* pCorda;
 	if (pJog->getAtivo())
-	{
-		Corda* pCorda;
-		for (int i = 0; i < cordas.numObjs(); i++)
+	{	
+		for (int i = 0; i < plataformas.numPlat(); i++)
 		{
-			pCorda = cordas.objI(i);
-			if (pCorda->getAtivo() && pCorda->getEscalavel()){
-				if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
+			pPlat = plataformas.platPosi(i);
+			if (pPlat->getAtivo() && pPlat->getID() == CORDA)
+			{
+				pCorda = static_cast<Corda*>(pPlat);
+				if (pCorda->getEscalavel()) 
 				{
-					int diffCent = pJog->getX() + pJog->getLimX() / 2 - (pCorda->getX() + pCorda->getLimX() / 2);
-					if (diffCent < 0)
-						diffCent = -diffCent;
-
-					if (diffCent <= DIFFCENT_CORDA)
-						return true;
+					if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
+					{
+						int diff = diffCent(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda));
+						if (diff <= DIFFCENT_CORDA)
+							return true;
+					}
 				}
 			}
 		}
@@ -921,9 +834,9 @@ const bool Mapa::persPodeDescerPlat(Personagem* const pPers)
 	Plataforma* pPlat;
 	if (pPers->getAtivo())
 	{
-		for (int i = 0; i < plataformas.numObjs(); i++)
+		for (int i = 0; i < plataformas.numPlat(); i++)
 		{
-			pPlat = plataformas.objI(i);
+			pPlat = plataformas.platPosi(i);
 			if (pPlat->getAtivo() && !pPlat->getColisaoBaixo())
 			{
 				if (colisaoPersChao(pPers, pPlat))
@@ -937,115 +850,16 @@ const bool Mapa::persPodeDescerPlat(Personagem* const pPers)
 
 void Mapa::desenhaObjs()
 {
-	desenhaProjeteis();
-	desenhaPlataformas();
-	desenhaCordas();
-	desenhaEspinhos();
-	desenhaRedes();
-	desenhaInimigos();
-	desenhaJogadores();	
-
-	desenhaArmadilhas();
-}
-
-
-void Mapa::desenhaProjeteis()
-{
-	for (int i = 0; i < projeteis.numObjs(); i++)
+	Entidade* pEnt;
+	for (int i = 0; i < entidades.numEnt(); i++)
 	{
-		if (projeteis.objI(i)->getAtivo())
-			projeteis.objI(i)->draw(posRelX, posRelY);
+		pEnt = entidades.entPosI(i);
+		if (pEnt->getAtivo())
+		{
+			pEnt->draw(posRelX, posRelY);
+		}
 	}
 }
-
-
-void Mapa::desenhaCordas()
-{
-	Corda* pCorda;
-	for (int i = 0; i < cordas.numObjs(); i++)
-	{
-		pCorda = cordas.objI(i);
-		if (pCorda->getAtivo())
-			pCorda->draw(posRelX, posRelY);
-	}
-}
-
-
-void Mapa::desenhaPlataformas()
-{
-	for (int i = 0; i < plataformas.numObjs(); i++)
-	{
-		if (plataformas.objI(i)->getAtivo())
-			plataformas.objI(i)->draw(posRelX, posRelY);
-	}
-}
-
-
-void Mapa::desenhaEspinhos()
-{
-	Espinho* pEspinho;
-	for (int i = 0; i < espinhos.numObjs(); i++)
-	{
-		pEspinho = espinhos.objI(i);
-		if (pEspinho->getAtivo())
-			pEspinho->draw(posRelX, posRelY);
-	}
-}
-
-
-void Mapa::desenhaArmadilhas()
-{
-	Armadilha* pArmd;
-	for (int i = 0; i < armadilhas.numObjs(); i++)
-	{
-		pArmd = armadilhas.objI(i);
-		if (pArmd->getAtivo())
-			pArmd->draw(posRelX, posRelY);
-	}
-}
-
-
-void Mapa::desenhaRedes()
-{
-	Rede* pRede;
-	for (int i = 0; i < redes.numObjs(); i++)
-	{
-		pRede = redes.objI(i);
-		if (pRede->getAtivo())
-			pRede->draw(posRelX, posRelY);
-	}
-}
-
-
-void Mapa::desenhaInimigos()
-{
-	for (int i = 0; i < espadachins.numObjs(); i++)
-	{
-		if (espadachins.objI(i)->getAtivo())
-			espadachins.objI(i)->draw(posRelX, posRelY);
-	}
-	for (int i = 0; i < mosqueteiros.numObjs(); i++)
-	{
-		if (mosqueteiros.objI(i)->getAtivo())
-			mosqueteiros.objI(i)->draw(posRelX, posRelY);
-	}
-	for (int i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		if (cavaleiros.objI(i)->getAtivo())
-			cavaleiros.objI(i)->draw(posRelX, posRelY);
-	}
-}
-
-
-void Mapa::desenhaJogadores()
-{
-	for (int i = 0; i < jogadores.numObjs(); i++)
-	{
-		if (jogadores.objI(i)->getAtivo())
-			jogadores.objI(i)->draw(posRelX, posRelY);
-	}
-}
-
 
 const int Mapa::getLimX()
 {
@@ -1073,71 +887,69 @@ void Mapa::setLimY(const int aLimY)
 
 void Mapa::addPlataforma(Plataforma* const pPlataforma)
 {
-	plataformas.addObj(pPlataforma);
-}
-
-
-void Mapa::addEspadachim(Espadachim* const pEsp)
-{
-	espadachins.addObj(pEsp);
-}
-
-
-void Mapa::addMosqueteiro(Mosqueteiro* const pMosq)
-{
-	mosqueteiros.addObj(pMosq);
+	if (pPlataforma != nullptr)
+	{
+		plataformas.addPlat(pPlataforma);
+		entidades.addEnt(static_cast<Entidade*>(pPlataforma));
+	}
 }
 
 
 void Mapa::addPlayer(Jogador* const pPlayer)
 {
-	jogadores.addObj(pPlayer);
+	if (pPlayer != nullptr)
+	{
+		if (jog1 == nullptr)
+		{
+			jog1 = pPlayer;
+			entidades.addEnt(static_cast<Entidade*>(jog1));
+		}
+		else if (jog2 == nullptr)
+		{
+			jog2 = pPlayer;
+			entidades.addEnt(static_cast<Entidade*>(jog2));
+		}
+	}
 }
 
 
 void Mapa::addProjetil(Projetil* const pProj)
 {
-	projeteis.addObj(pProj);
+	if (pProj != nullptr)
+	{
+		projeteis.addProj(pProj);
+		entidades.addEnt(static_cast<Entidade*>(pProj));
+	}
 }
 
-
-void Mapa::addCavaleiro(EspadachimCavaleiro* const pCav)
+void Mapa::addObstaculo(Obstaculo* const pObs)
 {
-	cavaleiros.addObj(pCav);
+	if (pObs != nullptr)
+		obstaculos.addObst(pObs);
+	entidades.addEnt(static_cast<Entidade*>(pObs));
 }
 
 
-void Mapa::addCorda(Corda* const pCorda)
+void Mapa::addInimigo(Inimigo* const pIni)
 {
-	cordas.addObj(pCorda);
+	if (pIni != nullptr)
+	{
+		inimigos.addInim(pIni);
+		entidades.addEnt(static_cast<Entidade*>(pIni));
+	}
 }
-
-
-void Mapa::addArmadilha(Armadilha* const pArmd)
-{
-	armadilhas.addObj(pArmd);
-}
-
-
-void Mapa::addEspinho(Espinho* const pEspinho)
-{
-	espinhos.addObj(pEspinho);
-}
-
-
-void Mapa::addRede(Rede* const pRede)
-{
-	redes.addObj(pRede);
-}
-
 
 void Mapa::atualizaPosMapa()
 {
 	if (posRelX >= 0)
 	{
-		if (jogadores.numObjs() == 1)
+		if (jog1 != nullptr && jog2 == nullptr || jog1 == nullptr && jog2 != nullptr)
 		{
-			Jogador* pJog1 = jogadores.objI(0);
+			Jogador* pJog1;
+			if (jog1 != nullptr)
+				pJog1 = jog1;
+			else
+				pJog1 = jog2;
 			//MUDAR ESSA CONODIÇÃO DEPOIS PARA QUANDO FOREM 2 PLAYERS
 			if (pJog1->getX() > (posRelX + LARG / 2))
 			{
@@ -1148,16 +960,16 @@ void Mapa::atualizaPosMapa()
 				posRelX = pJog1->getX() - LARG / 3;
 			}
 		}
-		else if (jogadores.numObjs() == 2)
+		else if (jog1 != nullptr && jog2 != nullptr)
 		{
-			Jogador* pJog1 = jogadores.objI(0);
-			Jogador* pJog2 = jogadores.objI(1);
+			Jogador* pJog1 = jog1;
+			Jogador* pJog2 = jog2;
 
 			//	se a média da posição dos jogadores não está dentro dos limites
 			//	definidos da fase...
 			if ((pJog1->getX() + pJog2->getX()) / 2 > (posRelX + LARG / 2))
 			{
-				posRelX = (jogadores.objI(0)->getX() + pJog2->getX()) / 2 - LARG / 2;
+				posRelX = (pJog1->getX() + pJog2->getX()) / 2 - LARG / 2;
 			}
 			else if ((pJog1->getX() + pJog2->getX()) / 2 < (posRelX + LARG / 3))
 			{
@@ -1193,8 +1005,6 @@ void Mapa::atualizaPosMapa()
 				pJog2->setX(posRelX + LARG - pJog2->getLimX());
 				pJog2->setVelX(0);
 			}
-
-
 		}
 	}
 	if (posRelX < 0)
@@ -1204,25 +1014,28 @@ void Mapa::atualizaPosMapa()
 void Mapa::criarTimers()
 {
 	int i;
-	for (i = 0; i < jogadores.numObjs(); i++)
+	Inimigo* pIni;
+	Obstaculo* pObs;
+	Jogador* pJog;
+	for (i = 0; i < 2; i++)
 	{
-		jogadores.objI(i)->createTimers();
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
+		
+		if(pJog != nullptr)
+			pJog->createTimers();
 	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		mosqueteiros.objI(i)->createTimers();
+		pIni = inimigos.inimPosi(i);
+		pIni->createTimers();
 	}
-	for (i = 0; i < espadachins.numObjs(); i++)
+	for (i = 0; i < obstaculos.numObst(); i++)
 	{
-		espadachins.objI(i)->createTimers();
-	}
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		cavaleiros.objI(i)->createTimers();
-	}
-	for (i = 0; i < armadilhas.numObjs(); i++)
-	{
-		armadilhas.objI(i)->createTimer();
+		pObs = obstaculos.obstPosi(i);
+		pObs->createTimer();
 	}
 }
 
@@ -1230,76 +1043,119 @@ void Mapa::criarTimers()
 void Mapa::initTimers()
 {
 	int i;
-	for (i = 0; i < jogadores.numObjs(); i++)
+	Obstaculo* pObs;
+	Inimigo* pIni;
+	Jogador* pJog;
+	for (i = 0; i < 2; i++)
 	{
-		jogadores.objI(i)->initTimer();
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
+
+		if (pJog != nullptr)
+			pJog->initTimer();
 	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
+
+	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		mosqueteiros.objI(i)->initTimer();
+		pIni = inimigos.inimPosi(i);
+		pIni->initTimer();
 	}
-	for (i = 0; i < espadachins.numObjs(); i++)
+
+	
+	for (i = 0; i < obstaculos.numObst(); i++)
 	{
-		espadachins.objI(i)->initTimer();
-	}
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		cavaleiros.objI(i)->initTimer();
-	}
-	for (i = 0; i < armadilhas.numObjs(); i++)
-	{
-		armadilhas.objI(i)->initTimer();
+		pObs = obstaculos.obstPosi(i);
+		pObs->initTimer();
 	}
 }
 
 void Mapa::stopTimers()
 {
 	int i;
-	for (i = 0; i < jogadores.numObjs(); i++)
+	Obstaculo* pObs;
+	Inimigo* pIni;
+	Jogador* pJog;
+	for (i = 0; i < 2; i++)
 	{
-		jogadores.objI(i)->stopTimers();
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
+
+		if (pJog != nullptr)
+			pJog->stopTimers();
 	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		mosqueteiros.objI(i)->stopTimers();
+		pIni = inimigos.inimPosi(i);
+		pIni->stopTimers();
 	}
-	for (i = 0; i < espadachins.numObjs(); i++)
+
+	for (i = 0; i < obstaculos.numObst(); i++)
 	{
-		espadachins.objI(i)->stopTimers();
+		pObs = obstaculos.obstPosi(i);
+		pObs->stopTimers();
 	}
-	for (i = 0; i < cavaleiros.numObjs(); i++)
-	{
-		cavaleiros.objI(i)->stopTimers();
-	}
-	for (i = 0; i < armadilhas.numObjs(); i++)
-	{
-		armadilhas.objI(i)->stopTimers();
-	}
+
 }
 
 
 void Mapa::resumeTimers()
 {
 	int i;
+	Inimigo* pIni;
+	Obstaculo* pObs;
+	Jogador* pJog;
+	for (i = 0; i < 2; i++)
+	{
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
 
-	for (i = 0; i < jogadores.numObjs(); i++)
-	{
-		jogadores.objI(i)->resumeTimers();
+		if (pJog != nullptr)
+			pJog->resumeTimers();
 	}
-	for (i = 0; i < mosqueteiros.numObjs(); i++)
+	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		mosqueteiros.objI(i)->resumeTimers();
+		pIni = inimigos.inimPosi(i);
+		pIni->resumeTimers();
 	}
-	for (i = 0; i < espadachins.numObjs(); i++)
+
+	for (i = 0; i < obstaculos.numObst(); i++)
 	{
-		espadachins.objI(i)->resumeTimers();
+		pObs = obstaculos.obstPosi(i);
+		pObs->resumeTimers();
 	}
-	for (i = 0; i < cavaleiros.numObjs(); i++)
+}
+
+void Mapa::resetTimers()
+{
+	int i;
+	Inimigo* pIni;
+	Obstaculo* pObs;
+	Jogador* pJog;
+	for (i = 0; i < 2; i++)
 	{
-		cavaleiros.objI(i)->resumeTimers();
+		if (i == 0)
+			pJog = jog1;
+		else
+			pJog = jog2;
+
+		if (pJog != nullptr)
+			pJog->resetaTimers();
 	}
-	for (i = 0; i < armadilhas.numObjs(); i++)
+	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		armadilhas.objI(i)->resumeTimers();
+		pIni = inimigos.inimPosi(i);
+		pIni->resetaTimers();
+	}
+
+	for (i = 0; i < obstaculos.numObst(); i++)
+	{
+		pObs = obstaculos.obstPosi(i);
+		pObs->resetaTimer();
 	}
 }

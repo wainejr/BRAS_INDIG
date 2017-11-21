@@ -24,6 +24,7 @@ Jogador::Jogador()
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
+	criouTimers = false;
 
 	chances = 0; //	3 chances é o padrão inicial
 	subindo = false;
@@ -65,6 +66,10 @@ void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, cons
 		Arma* pArma = constroiArma();
 		if (pArma != nullptr)
 			arma = pArma;
+	}
+	if (!criouTimers)
+	{
+		createTimers();
 	}
 
 	if (aChances != -1)
@@ -183,6 +188,7 @@ void Jogador::createTimers()
 	timer_invuneravel = al_create_timer(TEMP_INVUN_JOG);
 	timer_atacando = al_create_timer(TEMP_ATAQ_JOG);
 	timer_imovel = al_create_timer(TEMP_IMOVEL);
+	criouTimers = true;
 }
 
 

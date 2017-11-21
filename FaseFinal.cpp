@@ -6,6 +6,7 @@ FaseFinal::FaseFinal()
 {
 	numEntidades();
 	alocaEntidades();
+	numFase = 3;
 }
 
 

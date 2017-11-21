@@ -44,3 +44,9 @@ Jogador* const Inimigo::getAlvo()
 {
 	return alvo;
 }
+
+
+Projetil* const Inimigo::atirar()
+{
+	return nullptr;
+}

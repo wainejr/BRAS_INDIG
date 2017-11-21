@@ -107,17 +107,17 @@ void Animacao::drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX)
 		}
 		//	desenha no começo da posição requerida
 		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
-			aPosX - al_get_bitmap_width(sprite) / 2, aPosY - altFrame, 0);
+			aPosX, aPosY - altFrame, 0);
 		
 		//	desenha no final da posição requerida
 		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
-			aPosLimX - al_get_bitmap_width(sprite) / 2 , aPosY - altFrame, 0);
+			aPosLimX, aPosY - altFrame, 0);
 		
 		//	desenha entre o começo e o final da posição requerida
 		for (int i = 1; aPosX + i*largFrame < aPosLimX; i++)
 		{
 			al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
-				aPosX - al_get_bitmap_width(sprite) / 2 + i*largFrame, aPosY - altFrame, 0);
+				aPosX + i*largFrame, aPosY - altFrame, 0);
 		}
 
 		if (periodo != nullptr)

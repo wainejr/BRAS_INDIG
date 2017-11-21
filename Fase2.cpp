@@ -6,6 +6,7 @@ Fase2::Fase2()
 {
 	numEntidades();
 	alocaEntidades();
+	numFase = 2;
 }
 
 

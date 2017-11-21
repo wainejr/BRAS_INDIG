@@ -110,3 +110,24 @@ void Rede::reset(const int ax, const int ay, const bool aAtivo)
 
 	ativada = false;
 }
+
+void Rede::initTimer()
+{
+}
+
+void Rede::createTimer()
+{
+
+}
+
+void Rede::resetaTimer()
+{
+}
+
+void Rede::stopTimers()
+{
+}
+
+void Rede::resumeTimers()
+{
+}
