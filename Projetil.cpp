@@ -20,16 +20,20 @@ Projetil::Projetil()
 	armaProjetil = nullptr;
 }
 
+Projetil::Projetil(Arma* const pArma, const int aLimX, const int aLimY):Entidade(VEL_MAX_PROJ, 0, VEL_MAX_PROJ, 0, -1, false, 0, 0, aLimX, aLimY)
+{
+	if(pArma != nullptr)
+		armaProjetil = pArma;
+}
+
 
 Projetil::~Projetil()
-{
-	delete(listaAnim);
-	
+{	
 	armaProjetil = nullptr;
 }
 
 
-void Projetil::builderProjetil(const int ax, const int ay, const int aVelX, const bool aAtivo, const int aID, Arma* const pArma)
+void Projetil::buildProjetil(const int ax, const int ay, const int aVelX, const bool aAtivo, const int aID, Arma* const pArma)
 {
 	posX = ax;
 	posY = ay;

@@ -30,16 +30,23 @@ void Jogo::exec()
 	int y = 0;
 	enum KEYS { MOUSE_ESQ, ESC };
 	bool keys[2] = { false, false };
-	ALLEGRO_EVENT ev;
-	initAllegroObjs();
-	listaFases.addFase(&fase1);
-	listaFases.addFase(&fase2);
-	listaFases.addFase(&faseFinal);
-	addBotoes();
-	listaFases.setDisplays(display);
-	buildJogadores();
-	al_start_timer(timer);
 
+	initAllegroObjs();
+	ALLEGRO_EVENT ev;
+
+	listaFases.addFaseIni(&fase1);
+	listaFases.addFaseIni(&fase2);
+	listaFases.addFaseIni(&faseFinal);
+	listaFases.setDisplays(display);
+	listaFases.setGerPont(&gerPont);
+	gerPont.setDisplay(display);
+	gerPont.setFonte(arial18);
+
+	addBotoes();
+	
+	buildJogadores();
+	
+	al_start_timer(timer);
 	while (!done)
 	{
 		al_wait_for_event(queue, &ev);
@@ -86,6 +93,7 @@ void Jogo::exec()
 				case MENU:
 					botao_novoJogo.setAtivo(true);
 					botao_sair.setAtivo(true);
+					botao_pontuacao.setAtivo(true);
 					break;
 				case ESCOLHA_PLAYER:
 					botao_raoni.setAtivo(true);
@@ -99,6 +107,9 @@ void Jogo::exec()
 					botao_fase1.setAtivo(true);
 					botao_fase2.setAtivo(true);
 					botao_fase3.setAtivo(true);
+					botao_voltar.setAtivo(true);
+					break;
+				case PONTUACAO:
 					botao_voltar.setAtivo(true);
 					break;
 				default:
@@ -120,12 +131,22 @@ void Jogo::exec()
 						estadoJogo = ESCOLHA_PLAYER;
 						estadoJogoMudou = true;
 					}
+					else if (botao_pontuacao.getSelec())
+					{
+						estadoJogo = PONTUACAO;
+						estadoJogoMudou = true;
+					}
 					else if (botao_sair.getSelec())
 						done = true;
 					break;
-
-				//	HÁ UM PEQUENO BUG AO VOLTAR DA FASE PARA O MENU QUE UM 
-				//	BOTÃO FICA SELECIONADO POR UM PEQUENO PERÍODO DE TEMPO
+				case PONTUACAO:
+					if (botao_voltar.getSelec())
+					{
+						estadoJogo = MENU;
+						estadoJogoMudou = true;
+					}
+					break;
+				
 				case ESCOLHA_FASE:
 					if (botao_voltar.getSelec())
 					{
@@ -220,7 +241,6 @@ void Jogo::exec()
 						estadoJogoMudou = true;
 					}
 					break;
-
 				default:
 					break;
 				}
@@ -300,7 +320,14 @@ void Jogo::draw()
 		al_draw_bitmap(tipo_2jogadores, 3*LARG / 4 - al_get_bitmap_width(tipo_2jogadores) / 2,
 			100 - al_get_bitmap_height(tipo_2jogadores) / 2, 0);
 	}
+	else if (estadoJogo == PONTUACAO)
+	{
+		gerPont.desenhaPont(0, 100, 50);
+		gerPont.desenhaPont(1, 250, 50);
+		gerPont.desenhaPont(2, 400, 50);
+	}
 }
+
 
 void Jogo::carregaBotoes()
 {
@@ -313,13 +340,21 @@ void Jogo::carregaBotoes()
 	botao_novoJogo.setX(LARG / 2 - al_get_bitmap_width(image_novoJogo) / 2);
 	botao_novoJogo.setY(200 - al_get_bitmap_height(image_novoJogo) / 2);
 
+	ALLEGRO_BITMAP* image_pontuacao;
+	ALLEGRO_BITMAP* imageSelec_pontuacao;
+	image_pontuacao = al_load_bitmap("sprites/botoes/botao_pontuacao.png");
+	imageSelec_pontuacao = al_load_bitmap("sprites/botoes/botao_pontuacaoSelec.png");
+	botao_pontuacao.setSprite(image_pontuacao, imageSelec_pontuacao, LARG_BOTAO, ALT_BOTAO);
+	botao_pontuacao.setX(LARG / 2 - al_get_bitmap_width(image_pontuacao) / 2);
+	botao_pontuacao.setY(250 - al_get_bitmap_height(image_pontuacao) / 2);
+
 	ALLEGRO_BITMAP* image_sair;
 	ALLEGRO_BITMAP* imageSelec_sair;
 	image_sair = al_load_bitmap("sprites/botoes/botao_sair.png");
 	imageSelec_sair = al_load_bitmap("sprites/botoes/botao_sairSelec.png");
 	botao_sair.setSprite(image_sair, imageSelec_sair, LARG_BOTAO, ALT_BOTAO);
 	botao_sair.setX(LARG / 2 - al_get_bitmap_width(image_sair) / 2);
-	botao_sair.setY(250 - al_get_bitmap_height(image_sair) / 2);
+	botao_sair.setY(300 - al_get_bitmap_height(image_sair) / 2);
 
 	ALLEGRO_BITMAP* image_campanha;
 	ALLEGRO_BITMAP* imageSelec_campanha;
@@ -444,18 +479,26 @@ void Jogo::addBotoes()
 	gerBotoes.addBotao(&botao_teca);
 	gerBotoes.addBotao(&botao_raoni);
 	gerBotoes.addBotao(&botao_voltar);
+	gerBotoes.addBotao(&botao_pontuacao);
 }
 
 
 void Jogo::buildJogadores()
 {
-	raoni.builderJogador(0, 0, false, RAONI, 3);
-	teca.builderJogador(0, 0, false, TECA, 3);
+	raoni.buildJogador(0, 0, false, RAONI, 3);
+	teca.buildJogador(0, 0, false, TECA, 3);
 }
 
 
 void Jogo::resetaJogs()
 {
-	teca.builderJogador(0, 0, false, TECA, 3);
-	raoni.builderJogador(0, 0, false, RAONI, 3);
+	teca.buildJogador(0, 0, false, TECA, 3);
+	raoni.buildJogador(0, 0, false, RAONI, 3);
+}
+
+
+void Jogo::salvaPontuacao(const float aPont, const int aN)
+{
+	al_draw_bitmap(fundo, 0, 0, 0);
+
 }

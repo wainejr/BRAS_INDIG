@@ -2,49 +2,17 @@
 
 
 
-Espadachim::Espadachim()
+Espadachim::Espadachim():Inimigo(VIDA_MAX_ESP, 0, 0, VEL_MAX_X_PERS, VEL_PULO, ESPADACHIM, true, 0, 0, LIM_X_ESP, LIM_Y_ESP, false)
 {
-	posX = 0;
-	posY = 0;
-	limX = LIM_X_ESP;
-	limY = LIM_Y_ESP;
-	velX = 0;
-	velY = 0;
-	fisica = true;
-	ativo = false;
-	velMaxX = VEL_MAX_X_PERS;
-	velMaxY = VEL_PULO;
-	ID = ESPADACHIM;
-
-	vida = VIDA_MAX_ESP;
-	arma = nullptr;
-	dir = true;
-	podeAtacar = false;
-	atacando = false;
-	invuneravel = false;
-	timer_ataque = nullptr;
-	timer_atacando = nullptr;
-	timer_invuneravel = nullptr;
-	criouTimers = false;
-
-	alvo = nullptr;
 }
 
 
 Espadachim::~Espadachim()
 {
-	delete(listaAnim);
-
-	delete (arma);
-	al_destroy_timer(timer_ataque);
-	al_destroy_timer(timer_atacando);
-	al_destroy_timer(timer_invuneravel);
-
-	alvo = nullptr;
 }
 
 
-void Espadachim::builderEspadachim(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
+void Espadachim::buildEspadachim(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
 {
 	posX = ax;
 	posY = ay;
@@ -83,14 +51,14 @@ void Espadachim::mover()
 			if (posX - (alvo->getX() + alvo->getLimX()) > arma->getLimX() - 1)
 			{
 				if (velX > -velMaxX)
-					velX -= (float)ACEL_X_PERS;
+					velX -= (float)ACEL_X_INI;
 				if(velX < -velMaxX)
 					velX = -velMaxX;
 			}
 			else if (alvo->getX() - (posX + limX) > arma->getLimX() - 1)
 			{
 				if (velX < velMaxX)
-					velX += (float)ACEL_X_PERS;
+					velX += (float)ACEL_X_INI;
 				if(velX > velMaxX)
 					velX = velMaxX;
 			}

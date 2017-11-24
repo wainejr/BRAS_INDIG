@@ -6,7 +6,7 @@ class Mosquete :
 public:
 	Mosquete();
 	~Mosquete();
-	void builderMosquete(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma);
+	void buildMosquete(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma);
 	void draw(const int aPosFaseX, const int aPosFaseY);
 };
 

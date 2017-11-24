@@ -4,9 +4,9 @@ class Espinho :
 	public Obstaculo
 {
 public:
-	Espinho();
+	Espinho(const int aLimX = 50, const int aLimY = 5);
 	~Espinho();
-	void builderEspinho(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo);
+	void buildEspinho(const int ax, const int ay, const int aLimX, const int aLimY, const bool aAtivo);
 	void draw(const int aPosFaseX, const int aPosFaseY);
 	void atualizar();
 	void initTimer();

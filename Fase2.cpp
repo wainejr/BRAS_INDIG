@@ -6,7 +6,6 @@ Fase2::Fase2()
 {
 	numEntidades();
 	alocaEntidades();
-	numFase = 2;
 }
 
 
@@ -24,3 +23,8 @@ Fase2::~Fase2()
 
 void Fase2::restart(){}
 void Fase2::initFase(){}
+
+void Fase2::carregaFundoMapa()
+{
+
+}

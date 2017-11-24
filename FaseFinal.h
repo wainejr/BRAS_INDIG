@@ -6,6 +6,8 @@ class FaseFinal :
 public:
 	FaseFinal();
 	~FaseFinal();
+
+	void carregaFundoMapa();
 	void restart();
 	void initFase();
 

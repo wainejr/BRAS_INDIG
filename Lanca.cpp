@@ -2,35 +2,17 @@
 
 
 
-Lanca::Lanca()
+Lanca::Lanca():Arma(DANO_LANCA, 0, 0, LANCA)
 {
-	posX = 0;
-	posY = 0;
-	limX = 0;
-	limY = 0;
-	velX = 0;
-	velY = 0;
-	fisica = false;
-	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
-	ID = LANCA;
-	listaAnim = nullptr;
-
-	dano = DANO_LANCA;
-	donoArma = nullptr;
 }
 
 
 Lanca::~Lanca()
 {
-	delete(listaAnim);
-
-	donoArma = nullptr;
 }
 
 
-void Lanca::builderLanca(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
+void Lanca::buildLanca(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
 {
 	posX = ax;
 	posY = ay;

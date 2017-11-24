@@ -11,8 +11,7 @@ class Personagem :
 protected:
 	int vida;
 	Arma* arma;
-	//	verdadeiro para personagem virado para direita,
-	//	falso para personagem virado para esquerda
+	
 	bool dir;
 	bool podeAtacar;
 	bool atacando;
@@ -24,6 +23,10 @@ protected:
 	bool criouTimers;
 public:
 	Personagem();
+	Personagem(const int aVida, const float aVelX, const float aVelY, const float aVelMaxX,
+		const float aVelMaxY, const int aID, const bool aFisica = true,
+		const float aPosX = 0, const float aPosY = 0, const int aLimX = 0,
+		const int aLimY = 0, const bool aAtivo = false);
 	~Personagem();
 	const int getVida();
 	void setVida(const int aVida);
@@ -54,5 +57,12 @@ public:
 	virtual void resetaTimers();
 	virtual void stopTimers();
 	virtual void resumeTimers();
+
+	bool operator!()
+	{
+		if (vida <= 0)
+			return true;
+		return false;
+	}
 };
 

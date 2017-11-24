@@ -2,38 +2,22 @@
 
 
 
-Armadilha::Armadilha()
+Armadilha::Armadilha():Obstaculo(DANO_REDE, ARMADILHA, LIM_X_ARMD, LIM_Y_ARMD)
 {
-	posX = 0;
-	posY = 0;
-	limX = LIM_X_ARMD;
-	limY = LIM_Y_ARMD;
-	velX = 0;
-	velY = 0;
-	fisica = true;
-	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
-	ID = ARMADILHA;
-	listaAnim = nullptr;
-
-	dano = DANO_ARMD;
-
 	acionada = false;
 	timer_acionada = nullptr;
 	criouTimer = false;
+	desarmou = false;
 }
 
 
 Armadilha::~Armadilha()
 {
-	delete(listaAnim);
-
 	al_destroy_timer(timer_acionada);
 }
 
 
-void Armadilha::builderArmadilha(const int ax, const int ay, const bool aAtivo)
+void Armadilha::buildArmadilha(const int ax, const int ay, const bool aAtivo)
 {
 	posX = ax;
 	posY = ay;
@@ -48,6 +32,7 @@ void Armadilha::builderArmadilha(const int ax, const int ay, const bool aAtivo)
 	{
 		createTimer();
 	}
+	desarmou = false;
 }
 
 
@@ -72,8 +57,8 @@ void Armadilha::atualizar()
 	{
 		if (al_get_timer_count(timer_acionada) >= 1)
 		{
-			ativo = false;
 			acionada = false;
+			desarmou = true;
 			al_stop_timer(timer_acionada);
 			al_set_timer_count(timer_acionada, 0);
 		}
@@ -132,4 +117,9 @@ void Armadilha::resumeTimers()
 {
 	if(acionada)
 		al_resume_timer(timer_acionada);
+}
+
+const bool Armadilha::getDesarmou()
+{
+	return desarmou;
 }

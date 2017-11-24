@@ -2,51 +2,17 @@
 
 
 
-Arco::Arco()
+Arco::Arco():Arma(DANO_ARCO, 0, 0, ARCO)
 {
-	posX = 0;
-	posY = 0;
-	limX = 0;
-	limY = 0;
-	velX = 0;
-	velY = 0;
-	fisica = false;
-	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
-	ID = ARCO;
-	listaAnim = nullptr;
-
-	dano = DANO_ARCO;
-	donoArma = nullptr;
-
-	forca = 0.0f;
 }
 
 
 Arco::~Arco()
 {
-	delete(listaAnim);
-
-	donoArma = nullptr;
 }
 
 
-void Arco::setForca(const float aForca)
-{
-	forca = aForca;
-}
-
-
-const float Arco::getForca()
-{
-	return forca;
-}
-
-
-
-
-void Arco::builderArco(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
+void Arco::buildArco(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
 {
 	posX = ax;
 	posY = ay;

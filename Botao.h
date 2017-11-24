@@ -2,36 +2,26 @@
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
 #include "allegro5\allegro_primitives.h" //	PARA TESTES
-#define LARG_BOTAO 128
-#define ALT_BOTAO 32
+#include "ProtoEntidade.h"
 
-class Botao
+class Botao :
+	public ProtoEntidade
 {
 private:
 	// FAZER DUAS SPRITES PELO MENOS, UM PRA NORMAL OUTRO PRA PRESSOINADO/BOTAO EM CIMA
 	ALLEGRO_BITMAP* spriteBot;
 	ALLEGRO_BITMAP* spriteBotSelec;
-	int larg;
-	int alt;
 	bool selec;
-	int posX;
-	int posY;
-	bool ativo;
+
 public:
 	Botao();
 	~Botao();
-	void draw();
+	Botao(ALLEGRO_BITMAP* const pBot, ALLEGRO_BITMAP* const pBotSelec, const float aPosX = 0,
+		const float aPosY = 0, const int aLimX = 0, const int aLimY = 0, const bool aAtivo = false);
+	void draw(const int aPosFaseX = 0, const int aPosFaseY = 0);
 	void setSprite(ALLEGRO_BITMAP* const pSpriteBot, ALLEGRO_BITMAP* const
 		pSpriteBotSelec, const int aLarg, const int aAlt);
 	void botaoSelec(bool const aSelec);
 	const bool getSelec();
-	const int getLarg();
-	const int getAlt();
-	void setX(const int ax);
-	void setY(const int ay);
-	const int getX();
-	const int getY();
-	void setAtivo(const bool aAtivo);
-	const bool getAtivo();
 };
 

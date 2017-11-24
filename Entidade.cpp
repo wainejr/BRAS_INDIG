@@ -1,76 +1,34 @@
 #include "Entidade.h"
 
 
-Entidade::Entidade()
+Entidade::Entidade():ProtoEntidade()
 {
-	velMaxX = 0.0f;
-	velMaxY = 0.0f;
+	velX = 0;
+	velY = 0;
+	velMaxX = 0;
+	velMaxY = 0;
+	ID = -1;
+	fisica = false;
+	listaAnim = nullptr;
+}
+
+Entidade::Entidade(const int aVelX, const int aVelY, const int aVelMaxX, const int aVelMaxY,
+	const int aID, const bool aFisica, const float aPosX, const float aPosY, 
+	const int aLimX, const int aLimY, const bool aAtivo):ProtoEntidade(aPosX, aPosY, aLimX, aLimY, aAtivo)
+{
+	velX = aVelX;
+	velY = aVelY;
+	velMaxX = aVelMaxX;
+	velMaxY = aVelMaxY;
+	ID = aID;
+	fisica = aFisica;
+	listaAnim = nullptr;
 }
 
 
 Entidade::~Entidade()
 {
-	
-}
-
-
-void Entidade::setX(const float px)
-{
-	posX = px;
-}
-
-
-const float Entidade::getX()
-{
-	return posX;
-}
-
-
-void Entidade::setY(const float py)
-{
-	posY = py;
-}
-
-
-const float Entidade::getY()
-{
-	return posY;
-}
-
-
-void Entidade::setLimX(const int aLimX)
-{
-	limX = aLimX;
-}
-
-
-const int Entidade::getLimX()
-{
-	return limX;
-}
-
-
-void Entidade::setLimY(const int aLimY)
-{
-	limY = aLimY;
-}
-
-
-const int Entidade::getLimY()
-{
-	return limY;
-}
-
-
-const bool Entidade::getAtivo()
-{
-	return ativo;
-}
-
-
-void Entidade::setAtivo(const bool aAtivo)
-{
-	ativo = aAtivo;
+	delete(listaAnim);
 }
 
 

@@ -2,16 +2,12 @@
 
 
 
-Botao::Botao()
+Botao::Botao():ProtoEntidade()
 {
-	larg = 0;
-	alt = 0;
 	selec = false;
 	spriteBot = nullptr;
 	spriteBotSelec = nullptr;
 	ativo = false;
-	posX = 0;
-	posY = 0;
 }
 
 
@@ -21,16 +17,24 @@ Botao::~Botao()
 	al_destroy_bitmap(spriteBotSelec);
 }
 
+Botao::Botao(ALLEGRO_BITMAP* const pBot, ALLEGRO_BITMAP* const pBotSelec, const float aPosX, 
+	const float aPosY, const int aLimX, const int aLimY, const bool aAtivo):ProtoEntidade(aPosX, aPosY, aLimX, aLimY, aAtivo)
+{
+	selec = false;
+	spriteBot = pBot;
+	spriteBotSelec = pBotSelec;
+}
 
-void Botao::draw()
+
+void Botao::draw(const int aPosFaseX, const int aPosFaseY)
 {
 	if (!selec)
 	{	
-		al_draw_bitmap(spriteBot, posX, posY, 0);
+		al_draw_bitmap(spriteBot, posX - aPosFaseX, posY - aPosFaseY, 0);
 	}
 	else
 	{
-		al_draw_bitmap(spriteBotSelec, posX, posY, 0);
+		al_draw_bitmap(spriteBotSelec, posX - aPosFaseX, posY - aPosFaseY, 0);
 	}
 }
 
@@ -42,8 +46,8 @@ void Botao::setSprite(ALLEGRO_BITMAP* const pSpriteBot, ALLEGRO_BITMAP* const
 		spriteBot = pSpriteBot;
 	if (pSpriteBotSelec != nullptr)
 		spriteBotSelec = pSpriteBotSelec;
-	larg = aLarg;
-	alt = aAlt;
+	limX = aLarg;
+	limY = aAlt;
 }
 
 
@@ -56,52 +60,4 @@ void Botao::botaoSelec(bool const aSelec)
 const bool Botao::getSelec()
 {
 	return selec;
-}
-
-
-const int Botao::getLarg()
-{
-	return larg;
-}
-
-
-const int Botao::getAlt()
-{
-	return alt;
-}
-
-
-void Botao::setX(const int ax)
-{
-	posX = ax;
-}
-
-
-void Botao::setY(const int ay)
-{
-	posY = ay;
-}
-
-
-const int Botao::getX()
-{
-	return posX;
-}
-
-
-const int Botao::getY()
-{
-	return posY;
-}
-
-
-void Botao::setAtivo(const bool aAtivo)
-{
-	ativo = aAtivo;
-}
-
-
-const bool Botao::getAtivo()
-{
-	return ativo;
 }

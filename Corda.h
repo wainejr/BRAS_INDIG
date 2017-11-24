@@ -6,12 +6,12 @@ class Corda :
 private:
 	bool escalavel;
 public:
-	Corda();
+	Corda(const bool aEscalavel = true);
 	~Corda();
 	void setEscalavel(const bool aEscalav);
 	const bool getEscalavel();
 	void draw(const int aPosFaseX, const int aPosFaseY);
-	void builderCorda(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const bool aEscalavel);
+	void buildCorda(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const bool aEscalavel);
 	void atualizar();
 };
 

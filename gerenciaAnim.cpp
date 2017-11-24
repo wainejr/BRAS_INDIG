@@ -81,7 +81,7 @@ ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
 	case ESPADACHIM:
 		return listaAnimEsp();
 		break;
-	case ESP_CAVALEIRO:
+	case CAVALEIRO:
 		return listaAnimCav();
 		break;
 	case CHEFAO_CAP:

@@ -81,6 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,14 +123,13 @@
     <ClInclude Include="Arma.h" />
     <ClInclude Include="Armadilha.h" />
     <ClInclude Include="Botao.h" />
-    <ClInclude Include="ChefaoCapitao.h" />
     <ClInclude Include="Corda.h" />
     <ClInclude Include="defineCarac.h" />
     <ClInclude Include="definesMacros.h" />
     <ClInclude Include="Entidade.h" />
     <ClInclude Include="Espada.h" />
     <ClInclude Include="Espadachim.h" />
-    <ClInclude Include="EspadachimCavaleiro.h" />
+    <ClInclude Include="Cavaleiro.h" />
     <ClInclude Include="Espinho.h" />
     <ClInclude Include="Fase.h" />
     <ClInclude Include="Fase1.h" />
@@ -137,6 +137,7 @@
     <ClInclude Include="FaseFinal.h" />
     <ClInclude Include="gerenciaAnim.h" />
     <ClInclude Include="gerenciadorBotoes.h" />
+    <ClInclude Include="gerenciaPontuacoes.h" />
     <ClInclude Include="Inimigo.h" />
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
@@ -150,15 +151,13 @@
     <ClInclude Include="ListaPlataformas.h" />
     <ClInclude Include="ListaProjeteis.h" />
     <ClInclude Include="Mapa.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="MenuPause.h" />
-    <ClInclude Include="MenuPrincipal.h" />
     <ClInclude Include="Mosquete.h" />
     <ClInclude Include="Mosqueteiro.h" />
     <ClInclude Include="Obstaculo.h" />
     <ClInclude Include="Personagem.h" />
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Projetil.h" />
+    <ClInclude Include="ProtoEntidade.h" />
     <ClInclude Include="Rede.h" />
     <ClInclude Include="EntConcreteClasses.h" />
     <ClInclude Include="resource.h" />
@@ -169,12 +168,11 @@
     <ClCompile Include="Arma.cpp" />
     <ClCompile Include="Armadilha.cpp" />
     <ClCompile Include="Botao.cpp" />
-    <ClCompile Include="ChefaoCapitao.cpp" />
     <ClCompile Include="Corda.cpp" />
     <ClCompile Include="Entidade.cpp" />
     <ClCompile Include="Espada.cpp" />
     <ClCompile Include="Espadachim.cpp" />
-    <ClCompile Include="EspadachimCavaleiro.cpp" />
+    <ClCompile Include="Cavaleiro.cpp" />
     <ClCompile Include="Espinho.cpp" />
     <ClCompile Include="Fase.cpp" />
     <ClCompile Include="Fase1.cpp" />
@@ -182,6 +180,7 @@
     <ClCompile Include="FaseFinal.cpp" />
     <ClCompile Include="gerenciaAnim.cpp" />
     <ClCompile Include="gerenciadorBotoes.cpp" />
+    <ClCompile Include="gerenciaPontuacoes.cpp" />
     <ClCompile Include="Inimigo.cpp" />
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
@@ -194,15 +193,13 @@
     <ClCompile Include="ListaPlataformas.cpp" />
     <ClCompile Include="ListaProjeteis.cpp" />
     <ClCompile Include="Mapa.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MenuPause.cpp" />
-    <ClCompile Include="MenuPrincipal.cpp" />
     <ClCompile Include="Mosquete.cpp" />
     <ClCompile Include="Mosqueteiro.cpp" />
     <ClCompile Include="Obstaculo.cpp" />
     <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="Plataforma.cpp" />
     <ClCompile Include="Projetil.cpp" />
+    <ClCompile Include="ProtoEntidade.cpp" />
     <ClCompile Include="Rede.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>

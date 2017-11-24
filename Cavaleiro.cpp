@@ -1,50 +1,19 @@
-#include "EspadachimCavaleiro.h"
+#include "Cavaleiro.h"
 
 
 
-EspadachimCavaleiro::EspadachimCavaleiro()
+Cavaleiro::Cavaleiro():Inimigo(VIDA_MAX_ESP, 0, 0, VEL_MAX_X_PERS, VEL_PULO, ESPADACHIM, true, 0, 0, LIM_X_CAV, LIM_Y_CAV, false)
 {
-	posX = 0;
-	posY = 0;
-	limX = LIM_X_CAV;
-	limY = LIM_Y_CAV;
-	velX = 0;
-	velY = 0;
-	fisica = true;
-	ativo = false;
-	velMaxX = VEL_MAX_X_CAV;
-	velMaxY = VEL_PULO;
-	ID = ESP_CAVALEIRO;
-
-	vida = VIDA_MAX_CAV;
-	arma = nullptr;
-	dir = true;
-	podeAtacar = false;
-	atacando = false;
-	invuneravel = false;
-	timer_ataque = nullptr;
-	timer_atacando = nullptr;
-	timer_invuneravel = nullptr;
-	criouTimers = false;
-
-	alvo = nullptr;
 }
 
 
-EspadachimCavaleiro::~EspadachimCavaleiro()
+Cavaleiro::~Cavaleiro()
 {
-	delete(listaAnim);
-
-	delete (arma);
-	al_destroy_timer(timer_ataque);
-	al_destroy_timer(timer_atacando);
-	al_destroy_timer(timer_invuneravel);
-
-	alvo = nullptr;
+	
 }
 
 
-void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
+void Cavaleiro::buildCav(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
 {
 	posX = ax;
 	posY = ay;
@@ -53,7 +22,7 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 	ativo = aAtivo;
 
 	vida = VIDA_MAX_MOSQ;
-	podeAtacar = false;
+	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
 	if (arma == nullptr)
@@ -74,7 +43,7 @@ void EspadachimCavaleiro::builderEspadachimCav(const int ax, const int ay, const
 }
 
 //	o cavaleiro passa do alvo, só começando a parar um tempo depois
-void EspadachimCavaleiro::mover()
+void Cavaleiro::mover()
 {
 	//	o cavaleiro tem que estar no máximo há DIFF_PIXELS_SEGUIR_Y de distância
 	//	do alvo para começar a segui-lo
@@ -117,7 +86,7 @@ void EspadachimCavaleiro::mover()
 }
 
 
-void EspadachimCavaleiro::atualizar()
+void Cavaleiro::atualizar()
 {
 	mover();
 	posX += velX;
@@ -135,20 +104,7 @@ void EspadachimCavaleiro::atualizar()
 }
 
 
-
-const bool EspadachimCavaleiro::getCavalo()
-{
-	return cavalo;
-}
-
-
-void EspadachimCavaleiro::setCavalo(const bool aCavalo)
-{
-	cavalo = aCavalo;
-}
-
-
-void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
+void Cavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 {
 	if(!invuneravel)
 		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(155, 100, 55));
@@ -157,7 +113,7 @@ void EspadachimCavaleiro::draw(const int aPosFaseX, const int aPosFaseY)
 }
 
 
-void EspadachimCavaleiro::createTimers()
+void Cavaleiro::createTimers()
 {
 	timer_ataque = al_create_timer(PER_ATAQ_ESP);
 	timer_atacando = al_create_timer(1.0); // não será utilizado, o ataque é do cavaleiro é pelo contato
@@ -166,7 +122,7 @@ void EspadachimCavaleiro::createTimers()
 }
 
 
-void EspadachimCavaleiro::atualizaAtaque() 
+void Cavaleiro::atualizaAtaque() 
 {
 	podeAtacar = true;
 }

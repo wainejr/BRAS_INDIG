@@ -58,8 +58,8 @@ void gerenciadorBotoes::desenhaBotoes()
 
 const bool gerenciadorBotoes::mouseEstaNoBotao(Botao* const pBotao, const int mouseX, const int mouseY)
 {
-	if (mouseX <= (pBotao->getX() + pBotao->getLarg()) && mouseX >= pBotao->getX()
-		&& mouseY >= pBotao->getY() && mouseY <= pBotao->getY() + pBotao->getAlt())
+	if (mouseX <= (pBotao->getX() + pBotao->getLimX()) && mouseX >= pBotao->getX()
+		&& mouseY >= pBotao->getY() && mouseY <= pBotao->getY() + pBotao->getLimY())
 		return true;
 	return false;
 }

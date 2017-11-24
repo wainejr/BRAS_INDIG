@@ -10,6 +10,10 @@ protected:
 
 public:
 	Inimigo();
+	Inimigo(const int aVida, const float aVelX, const float aVelY, const float aVelMaxX,
+		const float aVelMaxY, const int aID, const bool aFisica = true,
+		const float aPosX = 0, const float aPosY = 0, const int aLimX = 0,
+		const int aLimY = 0, const bool aAtivo = false);
 	virtual ~Inimigo();
 	virtual void mover() = 0;
 	virtual void atacar();

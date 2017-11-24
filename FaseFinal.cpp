@@ -6,7 +6,6 @@ FaseFinal::FaseFinal()
 {
 	numEntidades();
 	alocaEntidades();
-	numFase = 3;
 }
 
 
@@ -24,3 +23,9 @@ FaseFinal::~FaseFinal()
 
 void FaseFinal::restart() {}
 void FaseFinal::initFase() {}
+
+
+void FaseFinal::carregaFundoMapa()
+{
+
+}

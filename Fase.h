@@ -5,6 +5,8 @@
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#define PER_FASECOMP 2.5
+#define PER_PONT 0.02
 
 class Fase
 {	
@@ -19,7 +21,7 @@ protected:
 	Espadachim** esps;
 	int num_esps;
 
-	EspadachimCavaleiro** cavs;
+	Cavaleiro** cavs;
 	int num_cavs;
 
 	Plataforma** plats;
@@ -40,12 +42,14 @@ protected:
 
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_TIMER* timer;
+	ALLEGRO_TIMER* tempo_pontuacao;
 	ALLEGRO_EVENT_QUEUE* queue;
 	ALLEGRO_FONT* arial18;
-	ALLEGRO_BITMAP* fundo;
+	
 	ALLEGRO_BITMAP* fundo_pause;
 	ALLEGRO_BITMAP* tipo_pause;
 	bool carregouAllegro;
+	bool carregouFundoMapa;
 	
 	//	OBJETOS COMUNS A TODAS FASES
 	static Jogador* jog1;
@@ -59,7 +63,7 @@ protected:
 
 	static bool campanha;
 	bool fase_completa;
-	int numFase;
+	bool derrota;
 	
 	void initTimers();
 	void criarTimers();
@@ -78,7 +82,10 @@ protected:
 	void deletaEntidades();
 	virtual void buildEntidades() = 0;
 	void addEntidades();
-	
+	void drawLayout();
+	virtual void carregaFundoMapa() = 0;
+	void drawPause();
+
 public:
 	Fase();
 	virtual ~Fase();
@@ -88,15 +95,16 @@ public:
 	const int getNumJogs();
 	void setNumJogs(const int aNumJogs);
 	
-	Jogador* const getJog1();
-	Jogador* const getJog2();
-	void setJog1(Jogador* const pJog1);
-	void setJog2(Jogador* const pJog2);
+	static Jogador* const getJog1();
+	static Jogador* const getJog2();
+	static void setJog1(Jogador* const pJog1);
+	static void setJog2(Jogador* const pJog2);
 
 	void setFaseCompleta(const bool aCompleta);
 	const bool getFaseCompleta();
 	static void anulaJogs();
 	void setDisplay(ALLEGRO_DISPLAY* const pDisplay);
-	void drawPause();
-	const int getNumFase();
+	void resumeTimers();
+	void stopTimers();
+	const float getPontuacao();
 };

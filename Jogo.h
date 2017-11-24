@@ -4,12 +4,14 @@
 #include "Fase2.h"
 #include "FaseFinal.h"
 #include "gerenciadorBotoes.h"
-#include "MenuPrincipal.h"
 #include "Jogador.h"
+
+
 class Jogo
 {
 private:
-	enum estadosJogo { MENU, ESCOLHA_FASE, ESCOLHA_PLAYER };
+	enum estadosJogo { MENU, ESCOLHA_FASE, ESCOLHA_PLAYER, PONTUACAO };
+
 	//VARIAVEIS ALLEGRO
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_TIMER* timer;
@@ -23,6 +25,7 @@ private:
 	//	OBJETOS
 	ListaFases listaFases;
 	gerenciadorBotoes gerBotoes;
+	gerenciaPontuacoes gerPont;
 	Botao botao_sair;
 	Botao botao_controles; //	A FAZER E IMPLEMENTAR UM NOVO ESTADO NO JOGO
 	Botao botao_novoJogo;
@@ -35,6 +38,7 @@ private:
 	Botao botao_teca;
 	Botao botao_raoni;
 	Botao botao_voltar;
+	Botao botao_pontuacao;
 	
 	Fase1 fase1;
 	Fase2 fase2;
@@ -62,5 +66,6 @@ public:
 	Jogo();
 	~Jogo();
 	static void setDone(const bool aDone);
+	void salvaPontuacao(const float aPont, const int aN);
 };
 

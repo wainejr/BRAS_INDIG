@@ -5,7 +5,7 @@
 //	----------	INMIGOS	----------
 #include "Mosqueteiro.h"
 #include "Espadachim.h"
-#include "EspadachimCavaleiro.h"
+#include "Cavaleiro.h"
 //	#include "ChefaoCapitao.h" - incluso diretamente na Fase Final
 
 //	----------	 ARMAS	----------

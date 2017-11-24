@@ -8,11 +8,15 @@
 #include "ListaPlataformas.h"
 #include "definesMacros.h"
 
+// a cada RATE_MF de movimentação do mapa o fundo se move 1 pixel
+#define RATE_MF 5
 class Mapa
 {
 private:
 	Jogador* jog1;
 	Jogador* jog2;
+
+	ALLEGRO_BITMAP* fundo;
 
 	ListaEntidades entidades;
 	ListaInimigos inimigos;
@@ -27,10 +31,6 @@ private:
 	int posRelY;
 	
 	void atualizaPosMapa();
-	const int getLimX();
-	void setLimX(const int aLimX);
-	const int getLimY();
-	void setLimY(const int aLimY);
 
 	//	CHAMA O ATUALIZAR DAS ENTIDADES
 	void atualizaObjs();
@@ -65,7 +65,12 @@ private:
 
 	void colisaoObstaculos(Personagem* const pPers);
 	const int diffCent(Entidade* const pEnt1, Entidade* const pEnt2);
+
+	void desenhaFundo();
 	
+	void validaPosPers();
+	const bool estaNaTela(Entidade* const pEnt);
+
 public:
 	Mapa();
 	~Mapa();
@@ -98,5 +103,13 @@ public:
 	void stopTimers();
 	void resumeTimers();
 	void resetTimers();
+
+	void setFundo(ALLEGRO_BITMAP* const pFundo);
+
+	const int getLimX();
+	void setLimX(const int aLimX);
+	const int getLimY();
+	void setLimY(const int aLimY);
+	const bool haInimigos();
 };
 

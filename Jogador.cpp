@@ -1,21 +1,22 @@
 #include "Jogador.h"
 
-Jogador::Jogador()
+Jogador::Jogador():Personagem(VIDA_MAX_JOG, 0, 0, VEL_MAX_X_JOG, VEL_PULO, -1, true, 0, 0, LIM_X_JOG, LIM_Y_JOG, false)
 {
-	posX = 0;
-	posY = 0;
-	limX = LIM_X_JOG;
-	limY = LIM_Y_JOG;
-	velX = 0;
-	velY = 0;
-	fisica = true;
-	ativo = false;
-	velMaxX = VEL_MAX_X_JOG;
-	velMaxY = VEL_PULO;
-	ID = -1;
-	listaAnim = nullptr;
+	chances = 3; //	3 chances é o padrão inicial
+	subindo = false;
+	subiu = false;
+	imovel = false;
+	timer_imovel = nullptr;
+}
 
-	vida = VIDA_MAX_JOG;
+Jogador::Jogador(const int aChances, const int aID, const int aVida, const float aVelX,
+	const float aVelY, const float aVelMaxX, const float aVelMaxY, const bool aFisica, const float aPosX,
+	const float aPosY, const int aLimX, const int aLimY, const bool aAtivo):
+	Personagem(aVida, aVelX, aVelY, aVelMaxX, aVelMaxY, aID, aFisica, aPosX, aPosY, aLimX, aLimY, aAtivo)
+{
+	chances = aChances;
+	ID = aID;
+
 	arma = nullptr;
 	dir = true;
 	podeAtacar = false;
@@ -26,7 +27,6 @@ Jogador::Jogador()
 	timer_invuneravel = nullptr;
 	criouTimers = false;
 
-	chances = 0; //	3 chances é o padrão inicial
 	subindo = false;
 	subiu = false;
 	imovel = false;
@@ -36,18 +36,11 @@ Jogador::Jogador()
 
 Jogador::~Jogador()
 {
-	delete(listaAnim);
-
-	delete (arma);
-	al_destroy_timer(timer_ataque);
-	al_destroy_timer(timer_atacando);
-	al_destroy_timer(timer_invuneravel);
-
 	al_destroy_timer(timer_imovel);
 }
 
 
-void Jogador::builderJogador(const int ax, const int ay, const bool aAtivo, const int aID, const int aChances)
+void Jogador::buildJogador(const int ax, const int ay, const bool aAtivo, const int aID, const int aChances)
 {
 	posX = ax;
 	posY = ay;
@@ -99,7 +92,7 @@ void Jogador::moverDir()
 	if (!imovel)
 	{
 		if (velX < velMaxX)
-			velX += (float)ACEL_X_PERS;
+			velX += (float)ACEL_X_JOG;
 		if (velX > velMaxX)
 			velX = velMaxX;
 		if (!atacando)
@@ -113,7 +106,7 @@ void Jogador::moverEsq()
 	if (!imovel)
 	{
 		if (velX > -velMaxX)
-			velX -= (float)ACEL_X_PERS;
+			velX -= (float)ACEL_X_JOG;
 		if (velX < -velMaxX)
 			velX = -velMaxX;
 		if (!atacando)
@@ -312,10 +305,11 @@ Projetil* const Jogador::atirar()
 	{
 		Projetil* pProj = new Projetil();
 		pProj->setID(PROJETIL_ARCO);
+		pProj->setLimX(LIM_X_PROJ_ARCO);
 		if (dir)
-			pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
+			pProj->buildProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 		else
-			pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
+			pProj->buildProjetil(arma->getX()-pProj->getLimX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 
 		pProj->setArmaProj(arma);
 		atacando = true;

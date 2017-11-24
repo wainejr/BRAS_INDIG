@@ -9,13 +9,14 @@ ListaAnimacao::ListaAnimacao()
 
 ListaAnimacao::~ListaAnimacao()
 {
+	/*
 	Animacao* pAnim;
 	while (listaSprites.numObjs() > 0)
 	{
 		pAnim = listaSprites.objI(0);
 		listaSprites.retirarObj(pAnim);
-		//delete(pAnim);
 	}
+	*/
 }
 
 

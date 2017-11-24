@@ -2,35 +2,17 @@
 
 
 
-Mosquete::Mosquete()
+Mosquete::Mosquete():Arma(DANO_MOSQUETE, 0, 0, MOSQUETE)
 {
-	posX = 0;
-	posY = 0;
-	limX = 0;
-	limY = 0;
-	velX = 0;
-	velY = 0;
-	fisica = false;
-	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
-	ID = MOSQUETE;
-	listaAnim = nullptr;
-
-	dano = DANO_MOSQUETE;
-	donoArma = nullptr;
 }
 
 
 Mosquete::~Mosquete()
 {
-	delete(listaAnim);
-
-	donoArma = nullptr;
 }
 
 
-void Mosquete::builderMosquete(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
+void Mosquete::buildMosquete(const int ax, const int ay, const bool aAtivo, Personagem* const pDonoArma)
 {
 	posX = ax;
 	posY = ay;

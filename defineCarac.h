@@ -1,10 +1,11 @@
 #pragma once
-#define ACEL_X_PERS 0.4
+#define ACEL_X_INI 0.6
+#define ACEL_X_JOG 0.4
 #define ACEL_REDE 0.6
 #define ACEL_X_CAV 0.12
 
 #define VEL_PULO 5
-#define VEL_MAX_X_PERS 3
+#define VEL_MAX_X_PERS 2
 #define VEL_MAX_X_JOG 5
 #define VEL_MAX_X_CAV 5
 #define VEL_MAX_PROJ 7
@@ -51,23 +52,23 @@
 #define DANO_ESPINHO 10
 #define DANO_REDE 50
 
-#define LIM_X_JOG 30
-#define LIM_Y_JOG 50
-#define LIM_X_ESP 30
-#define LIM_Y_ESP 50
-#define LIM_X_MOSQ 30
-#define LIM_Y_MOSQ 50
-#define LIM_X_CAV 50
-#define LIM_Y_CAV 25
+#define LIM_X_JOG 24
+#define LIM_Y_JOG 48
+#define LIM_X_ESP 24
+#define LIM_Y_ESP 48
+#define LIM_X_MOSQ 24
+#define LIM_Y_MOSQ 48
+#define LIM_X_CAV 64
+#define LIM_Y_CAV 48
 
-#define LIM_X_ESPADA_ESP 15
+#define LIM_X_ESPADA_ESP 18
 #define LIM_Y_ESPADA_ESP 5
-#define LIM_X_ESPADA_JOG 20
+#define LIM_X_ESPADA_JOG 24
 #define LIM_Y_ESPADA_JOG 5
 
 #define LIM_X_PROJ_MOSQ 4
 #define LIM_Y_PROJ_MOSQ 4
-#define LIM_X_PROJ_ARCO 16
+#define LIM_X_PROJ_ARCO 24
 #define LIM_Y_PROJ_ARCO 4
 
 #define LIM_X_ARMD 14

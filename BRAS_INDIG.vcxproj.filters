@@ -72,9 +72,6 @@
     <ClInclude Include="Armadilha.h">
       <Filter>Header Files\Entidades\Obstáculos</Filter>
     </ClInclude>
-    <ClInclude Include="ChefaoCapitao.h">
-      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
-    </ClInclude>
     <ClInclude Include="Corda.h">
       <Filter>Header Files\Entidades\Plataformas</Filter>
     </ClInclude>
@@ -88,9 +85,6 @@
       <Filter>Header Files\Entidades\Armas</Filter>
     </ClInclude>
     <ClInclude Include="Espadachim.h">
-      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
-    </ClInclude>
-    <ClInclude Include="EspadachimCavaleiro.h">
       <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
     </ClInclude>
     <ClInclude Include="Espinho.h">
@@ -171,15 +165,6 @@
     <ClInclude Include="gerenciadorBotoes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuPrincipal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuPause.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="defineCarac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -196,6 +181,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListaPlataformas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cavaleiro.h">
+      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtoEntidade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gerenciaPontuacoes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -263,13 +257,7 @@
     <ClCompile Include="Entidade.cpp">
       <Filter>Source Files\Entidades</Filter>
     </ClCompile>
-    <ClCompile Include="ChefaoCapitao.cpp">
-      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
-    </ClCompile>
     <ClCompile Include="Espadachim.cpp">
-      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
-    </ClCompile>
-    <ClCompile Include="EspadachimCavaleiro.cpp">
       <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
     </ClCompile>
     <ClCompile Include="Mosqueteiro.cpp">
@@ -296,15 +284,6 @@
     <ClCompile Include="gerenciadorBotoes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuPrincipal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuPause.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ListaInimigos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -322,6 +301,15 @@
     </ClCompile>
     <ClCompile Include="Lanca.cpp">
       <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Cavaleiro.cpp">
+      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtoEntidade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gerenciaPontuacoes.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,15 +1,32 @@
 #pragma once
 #include "Fase.h"
-#include "vector"
+#include "gerenciaPontuacoes.h"
 
-using namespace std;
+class FaseAnin;
 
 class ListaFases
 {
 private:
-	vector<Fase*> fases;
-	vector<Fase*>::iterator it;
-	
+	class FaseAnin
+	{
+	private:
+		Fase* curr;
+		FaseAnin* proxFase;
+		FaseAnin* antFase;
+	public:
+		FaseAnin();
+		~FaseAnin();
+		void setProx(FaseAnin* const pAninFase);
+		void setAnt(FaseAnin* const pAninFase);
+		void setCurr(Fase* const pFase);
+		FaseAnin* const getProx();
+		FaseAnin* const getAnt();
+		Fase* const getFase();
+		const bool isThereProx();
+	};
+	FaseAnin* topo;
+	FaseAnin* ultimo;
+	gerenciaPontuacoes* gerPont;
 public:
 	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
 	//	CLICAR PARA INICIAR O JOGO
@@ -20,7 +37,8 @@ public:
 	void campanha();
 	void defineJog(Jogador* const pJog, const int aNum);
 	void setDisplays(ALLEGRO_DISPLAY* const pDisplay);
-	void addFase(Fase* const pFase);
+	void addFaseIni(Fase* const pFase);
 	void anulaJogs();
+	void setGerPont(gerenciaPontuacoes* const pGer);
 };
 

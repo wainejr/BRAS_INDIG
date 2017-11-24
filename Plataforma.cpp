@@ -2,28 +2,21 @@
 
 
 
-Plataforma::Plataforma()
+Plataforma::Plataforma():Entidade(0, 0, 0, 0, PLATAFORMA, false)
 {
-	posX = 0;
-	posY = 0;
-	limX = 0;
-	limY = 0;
-	velX = 0;
-	velY = 0;
-	fisica = false;
-	ativo = false;
-	velMaxX = 0;
-	velMaxY = 0;
-	ID = PLATAFORMA;
-	listaAnim = nullptr;
-
 	colisaoBaixo = false;
+}
+
+Plataforma::Plataforma(const bool aColisaoBaixo, const int aID, const int aPosX, const int aPosY, const int aLimX, const int aLimY):
+	Entidade(0, 0, 0, 0, aID, false, aPosX, aPosY, aLimX, aLimY, false)
+{
+	colisaoBaixo = aColisaoBaixo;
 }
 
 
 Plataforma::~Plataforma()
 {
-	delete(listaAnim);
+
 }
 
 
@@ -49,7 +42,7 @@ void Plataforma::draw(const int aPosFaseX, const int aPosFaseY)
 }
 
 
-void Plataforma::builderPlataforma(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const bool aColisaoBaixo)
+void Plataforma::buildPlataforma(const int ax, const int ay, const int aLimX, const int aLimy, const bool aAtivo, const bool aColisaoBaixo)
 {
 	posX = ax;
 	posY = ay;

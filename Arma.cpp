@@ -1,16 +1,21 @@
 #include "Arma.h"
 
-Arma::Arma()
+Arma::Arma():Entidade(0, 0, 0, 0, -1, false, 0, 0, 0, 0)
 {
-	listaAnim = nullptr;
-
 	dano = 0;
 	donoArma = nullptr;
+}
+
+Arma::Arma(const int aDano, const int aLimX, const int aLimY, const int aID):
+	Entidade(0, 0, 0, 0, aID, false, 0, 0, aLimX, aLimY)
+{
+	dano = aDano;
 }
 
 
 Arma::~Arma()
 {
+	donoArma = nullptr;
 }
 
 const int Arma::getDano()

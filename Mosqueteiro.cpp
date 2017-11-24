@@ -2,49 +2,18 @@
 
 
 
-Mosqueteiro::Mosqueteiro()
+Mosqueteiro::Mosqueteiro():Inimigo(VIDA_MAX_ESP, 0, 0, VEL_MAX_X_PERS, VEL_PULO, MOSQUETEIRO, true, 0, 0, LIM_X_MOSQ, LIM_Y_MOSQ, false)
 {
-	posX = 0;
-	posY = 0;
-	limX = LIM_X_MOSQ;
-	limY = LIM_Y_MOSQ;
-	velX = 0;
-	velY = 0;
-	fisica = true;
-	ativo = false;
-	velMaxX = VEL_MAX_X_PERS;
-	velMaxY = VEL_PULO;
-	ID = MOSQUETEIRO;
-
-	vida = VIDA_MAX_MOSQ;
-	arma = nullptr;
-	dir = true;
-	podeAtacar = false;
-	atacando = false;
-	invuneravel = false;
-	timer_ataque = nullptr;
-	timer_atacando = nullptr;
-	timer_invuneravel = nullptr;
-	criouTimers = false;
-
-	alvo = nullptr;
 }
 
 
 Mosqueteiro::~Mosqueteiro()
 {
-	delete(listaAnim);
-
-	delete (arma);
-	al_destroy_timer(timer_ataque);
-	al_destroy_timer(timer_atacando);
-	al_destroy_timer(timer_invuneravel);
-
-	alvo = nullptr;
+	
 }
 
 
-void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
+void Mosqueteiro::buildMosqueteiro(const int ax, const int ay, const bool aAtivo, Jogador* const pAlvo)
 {
 	posX = ax;
 	posY = ay;
@@ -53,7 +22,7 @@ void Mosqueteiro::builderMosqueteiro(const int ax, const int ay, const bool aAti
 	ativo = aAtivo;
 
 	vida = VIDA_MAX_MOSQ;
-	podeAtacar = false;
+	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
 	if (arma == nullptr)
@@ -113,10 +82,11 @@ Projetil* const Mosqueteiro::atirar()
 	//	OU ESPECIFICAR O TAMANHO DOS PROJETEIS
 	Projetil* pProj = new Projetil();
 	pProj->setID(PROJETIL_MOSQ);
+	pProj->setLimX(LIM_X_PROJ_MOSQ);
 	if(dir) 
-		pProj->builderProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_MOSQ, arma);
+		pProj->buildProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_MOSQ, arma);
 	else
-		pProj->builderProjetil(arma->getX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_MOSQ, arma);
+		pProj->buildProjetil(arma->getX()-pProj->getLimX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_MOSQ, arma);
 	pProj->setArmaProj(arma);
 	atacando = true;
 	podeAtacar = false;

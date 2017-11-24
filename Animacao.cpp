@@ -15,10 +15,9 @@ Animacao::Animacao()
 
 Animacao::~Animacao()
 {
-
 	al_destroy_timer(periodo);
 	al_destroy_bitmap(sprite);
-		
+	delete(this);	//	todas as animações são alocadas dinamicamente
 }
 
 
@@ -111,10 +110,10 @@ void Animacao::drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX)
 		
 		//	desenha no final da posição requerida
 		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
-			aPosLimX, aPosY - altFrame, 0);
+			aPosLimX-largFrame, aPosY - altFrame, 0);
 		
 		//	desenha entre o começo e o final da posição requerida
-		for (int i = 1; aPosX + i*largFrame < aPosLimX; i++)
+		for (int i = 1; aPosX + i*largFrame < aPosLimX-largFrame; i++)
 		{
 			al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
 				aPosX + i*largFrame, aPosY - altFrame, 0);
@@ -134,7 +133,7 @@ void Animacao::drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX)
 
 void Animacao::drawDeAte_Y(const int aPosX, const int aPosY, const int aPosLimY)
 {
-	if (aPosLimY > aPosX)
+	if (aPosLimY > aPosY)
 	{
 		if (currFrame >= numFrames)
 		{
@@ -142,17 +141,17 @@ void Animacao::drawDeAte_Y(const int aPosX, const int aPosY, const int aPosLimY)
 		}
 		//	desenha no começo da posição requerida
 		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame,
-			aPosX - al_get_bitmap_width(sprite) / 2, aPosY - altFrame, 0);
+			aPosX - al_get_bitmap_width(sprite) / 2, aPosY, 0);
 
 		//	desenha no final da posição requerida
 		al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame,
 			aPosX - al_get_bitmap_width(sprite) / 2, aPosLimY - altFrame, 0);
 
 		//	desenha entre o começo e o final da posição requerida
-		for (int i = 1; aPosY + i*altFrame < aPosLimY; i++)
+		for (int i = 1; aPosY + i*altFrame < aPosLimY-altFrame; i++)
 		{
 			al_draw_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame,
-				aPosX - al_get_bitmap_width(sprite) / 2, aPosY - altFrame + i*altFrame, 0);
+				aPosX - al_get_bitmap_width(sprite) / 2, aPosY + i*altFrame, 0);
 		}
 
 		if (periodo != nullptr)

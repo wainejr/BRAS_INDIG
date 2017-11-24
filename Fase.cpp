@@ -5,12 +5,21 @@
 Fase::Fase()
 {
 	carregouBotoes = false;
+	carregouFundoMapa = false;
+	carregouAllegro = false;
+	fase_completa = false;
+	derrota = false;
 }
 
 
 Fase::~Fase()
 {
-	
+	if (carregouAllegro)
+	{
+		al_destroy_timer(timer);
+		al_destroy_font(arial18);
+		al_destroy_event_queue(queue);
+	}
 }
 
 bool Fase::campanha = false;
@@ -29,7 +38,10 @@ void Fase::execFase()
 	bool done = false;
 	bool redraw = false;
 	bool resetar = false;
+	bool jog1Morr = false;
+	bool jog2Morr = false;
 	fase_completa = false;
+	derrota = false;
 	bool pausado = false;
 	int x = 0;
 	int y = 0;
@@ -39,7 +51,8 @@ void Fase::execFase()
 
 	//	VARIAVEIS ALLEGRO DO LOOP
 	ALLEGRO_EVENT ev;
-
+	
+	// só sera resumido quando a fase for completa
 	// ----------- LOOP PRINCIPAL ---------------------
 	criarTimers();
 	initTimers();
@@ -48,6 +61,8 @@ void Fase::execFase()
 		if (resetar)
 		{
 			restart();
+			jog1Morr = false;
+			jog2Morr = false;
 			resetar = false;
 			al_flush_event_queue(queue);
 		}
@@ -152,140 +167,165 @@ void Fase::execFase()
 		{
 			redraw = true;
 			{
-				if (keys[P] && !pausado)
+				if (!mapaFase.haInimigos())
 				{
-					pausado = true;
-					al_flush_event_queue(queue);
-					mapaFase.stopTimers();
+					fase_completa = true;
+					stopTimers();
 				}
 				//	LOOP JOGO
-				if (!pausado)
+				if (!fase_completa && !derrota)
 				{
-					if (num_jogs >= 1 && jog1->getAtivo())
+					if (keys[P] && !pausado)
 					{
-						if (jog1->getVida() <= 0)
-						{
-							jog1->setChances(jog1->getChances() - 1);
-							//if (jog1->getChances() <= 0)
-							//num_jogs--;
-						}
-						else
-						{
-							if (keys[LEFT])
-							{
-								jog1->moverEsq();
-							}
-							if (keys[RIGHT])
-							{
-								jog1->moverDir();
-							}
-							if (keys[UP])
-							{
-								if (mapaFase.jogadorPodeSubir(jog1))
-									jog1->subir();
-								else if (mapaFase.personagemPodePular(static_cast<Personagem*>(jog1)))
-									jog1->pular();
-							}
-							if (keys[CTRL] && mapaFase.personagemPodeAtacar(static_cast<Personagem*>(jog1)))
-							{
-								if (jog1->getArma()->getID() == ARCO)
-									mapaFase.addProjetil(jog1->atirar());
-								else if (jog1->getArma()->getID() == ESPADA)
-									jog1->atacar();
-								keys[CTRL] = false; //evitar ataques contínuos
-							}
-							if (!keys[LEFT] && !keys[RIGHT])
-							{
-								jog1->parar();
-							}
-							if (keys[DOWN])
-							{
-								if (mapaFase.jogadorEstaNumaCorda(jog1) && !mapaFase.personagemPodePular(static_cast<Personagem*>(jog1)))
-									jog1->descer();
-								else if (mapaFase.persPodeDescerPlat(static_cast<Personagem*>(jog1)))
-									mapaFase.perDescePlat(static_cast<Personagem*>(jog1));
-							}
-						}
+						pausado = true;
+						al_flush_event_queue(queue);
+						stopTimers();
 					}
-					if (num_jogs == 2 && jog2->getAtivo())
+					if (!pausado)
 					{
-						if (jog2->getVida() <= 0)
+						if (num_jogs >= 1)
 						{
-							jog2->setChances(jog2->getChances() - 1);
-							//if (jog2->getChances() <= 0)
-							//num_jogs--;
+							if (!(*jog1) && !jog1Morr)
+							{
+								(*jog1)--;
+								jog1->setAtivo(false);
+								jog1Morr = true;
+							}
+							else if(jog1->getAtivo())
+							{
+								if (keys[LEFT])
+								{
+									jog1->moverEsq();
+								}
+								if (keys[RIGHT])
+								{
+									jog1->moverDir();
+								}
+								if (keys[UP])
+								{
+									if (mapaFase.jogadorPodeSubir(jog1))
+										jog1->subir();
+									else if (mapaFase.personagemPodePular(static_cast<Personagem*>(jog1)))
+									{
+										jog1->pular();
+										keys[UP] = false; // evitar segurar para pular
+									}
+								}
+								if (keys[CTRL] && mapaFase.personagemPodeAtacar(static_cast<Personagem*>(jog1)))
+								{
+									if (jog1->getArma()->getID() == ARCO)
+										mapaFase.addProjetil(jog1->atirar());
+									else if (jog1->getArma()->getID() == ESPADA)
+										jog1->atacar();
+									keys[CTRL] = false; //evitar ataques contínuos
+								}
+								if (!keys[LEFT] && !keys[RIGHT])
+								{
+									jog1->parar();
+								}
+								if (keys[DOWN])
+								{
+									if (mapaFase.jogadorEstaNumaCorda(jog1) && !mapaFase.personagemPodePular(static_cast<Personagem*>(jog1)))
+										jog1->descer();
+									else if (mapaFase.persPodeDescerPlat(static_cast<Personagem*>(jog1)))
+										mapaFase.perDescePlat(static_cast<Personagem*>(jog1));
+								}
+							}
 						}
-						else {
-							if (keys[A])
+						if (num_jogs == 2)
+						{
+							if (!(*jog2) && !jog2Morr)
 							{
-								jog2->moverEsq();
+								(*jog2)--;
+								jog2->setAtivo(false);
+								jog2Morr = true;
 							}
-							if (keys[D])
+							else if(jog2->getAtivo())
 							{
-								jog2->moverDir();
-							}
-							if (keys[W])
-							{
-								if (mapaFase.jogadorPodeSubir(jog2))
-									jog2->subir();
-								else if (mapaFase.personagemPodePular(static_cast<Personagem*>(jog2)))
-									jog2->pular();
-							}
-							if (keys[SPACE] && mapaFase.personagemPodeAtacar(static_cast<Personagem*>(jog2)))
-							{
-								if (jog2->getArma()->getID() == ARCO)
-									mapaFase.addProjetil(jog2->atirar());
-								else if (jog2->getArma()->getID() == ESPADA)
-									jog2->atacar();
-								keys[SPACE] = false; //evitar ataques contínuos
-							}
-							if (!keys[A] && !keys[D])
-							{
-								jog2->parar();
-							}
-							if (keys[S])
-							{
-								if (mapaFase.jogadorEstaNumaCorda(jog2) && !mapaFase.personagemPodePular(static_cast<Personagem*>(jog2)))
-									jog2->descer();
-								else if (mapaFase.persPodeDescerPlat(static_cast<Personagem*>(jog2)))
-									mapaFase.perDescePlat(static_cast<Personagem*>(jog2));
+								if (keys[A])
+								{
+									jog2->moverEsq();
+								}
+								if (keys[D])
+								{
+									jog2->moverDir();
+								}
+								if (keys[W])
+								{
+									if (mapaFase.jogadorPodeSubir(jog2))
+										jog2->subir();
+									else if (mapaFase.personagemPodePular(static_cast<Personagem*>(jog2)))
+									{
+										jog2->pular();
+										keys[W] = false; //	evitar segurar para pular
+									}
+								}
+								if (keys[SPACE] && mapaFase.personagemPodeAtacar(static_cast<Personagem*>(jog2)))
+								{
+									if (jog2->getArma()->getID() == ARCO)
+										mapaFase.addProjetil(jog2->atirar());
+									else if (jog2->getArma()->getID() == ESPADA)
+										jog2->atacar();
+									keys[SPACE] = false; //evitar ataques contínuos
+								}
+								if (!keys[A] && !keys[D])
+								{
+									jog2->parar();
+								}
+								if (keys[S])
+								{
+									if (mapaFase.jogadorEstaNumaCorda(jog2) && !mapaFase.personagemPodePular(static_cast<Personagem*>(jog2)))
+										jog2->descer();
+									else if (mapaFase.persPodeDescerPlat(static_cast<Personagem*>(jog2)))
+										mapaFase.perDescePlat(static_cast<Personagem*>(jog2));
+								}
 							}
 						}
-					}
 
-					if (jog1->getChances() <= 0 && jog2->getChances() <= 0)
-					{
-						done = true;
-						redraw = false;
-						resetar = false;
+						if (num_jogs == 2)
+						{
+							if (jog1->getChances() <= 0 && jog2->getChances() <= 0)
+							{
+								derrota = true;
+							}
+						}
+						else if (num_jogs == 1)
+						{
+							if (jog1->getChances() <= 0)
+							{
+								derrota = true;
+							}
+						}
+						
+						if(!derrota)
+						{
+							if (num_jogs == 1 && jog1->getVida() <= 0)
+							{
+								resetar = true;
+							}
+							else if (num_jogs == 2 && jog1->getVida() <= 0 && jog2->getVida() <= 0)
+							{
+								resetar = true;
+							}
+						}
+
+						if (!resetar && !done && !derrota && !fase_completa)
+							mapaFase.atualizaMapa();
 					}
 					else
 					{
-						if (num_jogs == 1 && !jog1->getAtivo())
+						gerBotoesFase.checaSelec(x, y);
+						if (botao_continuar.getSelec() && keys[MOUSE_ESQ] || !keys[P])
 						{
-							resetar = true;
+							pausado = false;
+							resumeTimers();
+							keys[P] = false;
+							al_flush_event_queue(queue);
 						}
-						else if (num_jogs == 2 && !jog1->getAtivo() && !jog2->getAtivo())
+						else if (botao_menu.getSelec() && keys[MOUSE_ESQ])
 						{
-							resetar = true;
+							done = true;
 						}
-					}
-					if (!resetar && !done)
-						mapaFase.atualizaMapa();
-				}
-				else
-				{
-					gerBotoesFase.checaSelec(x, y);
-					if (botao_continuar.getSelec() && keys[MOUSE_ESQ] || !keys[P])
-					{
-						pausado = false;
-						mapaFase.resumeTimers();
-						keys[P] = false;
-						al_flush_event_queue(queue);
-					}
-					else if (botao_menu.getSelec() && keys[MOUSE_ESQ])
-					{
-						done = true;
 					}
 				}
 			}
@@ -295,8 +335,21 @@ void Fase::execFase()
 		{
 			if (!pausado)
 			{
-				al_draw_bitmap(fundo, 0, 0, 0);
 				mapaFase.desenhaObjs();
+				if (fase_completa)
+				{
+					//	DESENHA TIPO FASE COMPLETA
+					al_draw_filled_circle(LARG / 2, ALT / 2, 200, al_map_rgb(255, 255, 255));
+					done = true;
+				}
+				else if (derrota)
+				{
+					//	DESENHA TIPO VOCE FOI COLONIZADO
+					al_draw_text(arial18, al_map_rgb(255, 0, 0), LARG / 2, ALT / 2, ALLEGRO_ALIGN_CENTER, "VOCE FOI COLONIZADO");
+					done = true;
+				}
+				else
+					drawLayout();
 			}
 			else
 			{
@@ -305,20 +358,29 @@ void Fase::execFase()
 			redraw = false;
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
+			if (fase_completa || derrota)
+			{
+				al_rest(PER_FASECOMP);
+			}
 		}
 	}
 	al_flush_event_queue(queue);
+	mapaFase.resetTimers();
 	mapaFase.retiraTodosObjs();
 	//	ANULA OS JOGADORES PARA NÃO HAVER CONFLITO COM A PRÓXIMA ESCOLHA DE JOGADORES
-	anulaJogs();
+	if(!campanha)
+		anulaJogs();
 	al_stop_timer(timer);
+	al_stop_timer(tempo_pontuacao);
 }
 
 
 void Fase::initTimers()
 {
 	mapaFase.initTimers();
+	al_start_timer(tempo_pontuacao);
 	al_start_timer(timer);
+	al_set_timer_count(tempo_pontuacao, 0);
 }
 
 
@@ -410,10 +472,10 @@ void Fase::alocaEntidades()
 		esps[i] = new Espadachim;
 	}
 
-	cavs = new EspadachimCavaleiro*[num_cavs];
+	cavs = new Cavaleiro*[num_cavs];
 	for (i = 0; i < num_cavs; i++)
 	{
-		cavs[i] = new EspadachimCavaleiro;
+		cavs[i] = new Cavaleiro;
 	}
 
 	plats = new Plataforma*[num_plats];
@@ -447,7 +509,7 @@ void Fase::alocaEntidades()
 	}
 }
 
-//	TA DANDO LEAK DE MEMÓRIA NO DESTRUIR A SPRITE DA ANIMAÇAO
+
 void Fase::deletaEntidades()
 {
 	int i;
@@ -505,53 +567,61 @@ void Fase::addEntidades()
 {
 	int i;
 
-	if (num_jogs >= 1)
+	if (num_jogs >= 1 && jog1->getChances() > 0)
 	{
 		mapaFase.addPlayer(jog1);
 	}
-	if (num_jogs == 2)
+	if (num_jogs == 2 && jog2->getChances() > 0)
 	{
 		mapaFase.addPlayer(jog2);
 	}
 
-	for (i = 0; i < num_esps; i++)
+	for (i = 0; i < num_mosq; i++)
 	{
-		mapaFase.addInimigo(static_cast<Inimigo*>(mosqs[i]));
+		if(mosqs[i]->getAtivo())
+			mapaFase.addInimigo(static_cast<Inimigo*>(mosqs[i]));
 	}
 
 	for (i = 0; i < num_esps; i++)
 	{
-		mapaFase.addInimigo(static_cast<Inimigo*>(esps[i]));
+		if (esps[i]->getAtivo())
+			mapaFase.addInimigo(static_cast<Inimigo*>(esps[i]));
 	}
 
 	for (i = 0; i < num_cavs; i++)
 	{
-		mapaFase.addInimigo(static_cast<Inimigo*>(cavs[i]));
+		if (cavs[i]->getAtivo())
+			mapaFase.addInimigo(static_cast<Inimigo*>(cavs[i]));
 	}
 
 	for (i = 0; i < num_plats; i++)
 	{
-		mapaFase.addPlataforma(plats[i]);
+		if (plats[i]->getAtivo())
+			mapaFase.addPlataforma(plats[i]);
 	}
 
 	for (i = 0; i < num_cordas; i++)
 	{
-		mapaFase.addPlataforma(static_cast<Plataforma*>(cords[i]));
+		if (cords[i]->getAtivo())
+			mapaFase.addPlataforma(static_cast<Plataforma*>(cords[i]));
 	}
 
 	for (i = 0; i < num_armds; i++)
 	{
-		mapaFase.addObstaculo(static_cast<Obstaculo*>(armds[i]));
+		if (armds[i]->getAtivo())
+			mapaFase.addObstaculo(static_cast<Obstaculo*>(armds[i]));
 	}
 
 	for (i = 0; i < num_espinhos; i++)
 	{
-		mapaFase.addObstaculo(static_cast<Obstaculo*>(espins[i]));
+		if (espins[i]->getAtivo())
+			mapaFase.addObstaculo(static_cast<Obstaculo*>(espins[i]));
 	}
 
 	for (i = 0; i < num_redes; i++)
 	{
-		mapaFase.addObstaculo(static_cast<Obstaculo*>(reds[i]));
+		if (reds[i]->getAtivo())
+			mapaFase.addObstaculo(static_cast<Obstaculo*>(reds[i]));
 	}
 }
 
@@ -572,9 +642,10 @@ void Fase::initAllegroObjs()
 		arial18 = al_load_ttf_font("arial.ttf", 18, 0);
 		queue = al_create_event_queue();
 		timer = al_create_timer(1.0 / FPS);
-		fundo = al_load_bitmap("sprites/backgrounds/fundoFase.png");
+		tempo_pontuacao = al_create_timer(PER_PONT);
 		tipo_pause = al_load_bitmap("sprites/tipos/tipo_pause.png");
 		fundo_pause = al_load_bitmap("sprites/backgrounds/Image11.png");
+		carregaFundoMapa();
 		
 		//	----------	ADD FONTES À FILA DE EVENTOS   -------------
 		al_register_event_source(queue, al_get_keyboard_event_source());
@@ -595,6 +666,7 @@ void Fase::destroyAllegroObjs()
 	}
 }
 
+
 void Fase::anulaJogs()
 {
 	jog1 = nullptr;
@@ -614,6 +686,7 @@ void Fase::carregaBotoes()
 		carregouBotoes = true;
 	}
 }
+
 
 void Fase::initBotoes()
 {
@@ -636,11 +709,12 @@ void Fase::initBotoes()
 }
 
 
-
-
 void Fase::setDisplay(ALLEGRO_DISPLAY* const pDisplay)
 {
-	display = pDisplay;
+	if (pDisplay != nullptr)
+	{
+		display = pDisplay;
+	}
 }
 
 
@@ -652,7 +726,45 @@ void Fase::drawPause()
 }
 
 
-const int Fase::getNumFase()
+void Fase::drawLayout()
 {
-	return numFase;
+	if (num_jogs >= 1)
+	{
+		//	DEPOIS FAZER ISSO DECENTEMENTE
+		al_draw_rectangle(10, 10, 10 + 100, 10 + 10, al_map_rgb(255, 255, 255), 3);
+		if(jog1->getVida() > 0)
+			al_draw_filled_rectangle(10, 10, 10 + jog1->getVida(), 10 + 10, al_map_rgb(0, 255, 0));
+		al_draw_textf(arial18, al_map_rgb(255, 255, 255), LARG - 10, 10, 
+			ALLEGRO_ALIGN_RIGHT, "x %d", jog1->getChances());
+	}
+	if (num_jogs == 2)
+	{
+		al_draw_rectangle(10, 40, 10 + 100, 40 + 10, al_map_rgb(255, 255, 255), 3);
+		if (jog2->getVida() > 0)
+			al_draw_filled_rectangle(10, 40, 10 + jog2->getVida(), 40 + 10, al_map_rgb(0, 255, 0));
+		al_draw_textf(arial18, al_map_rgb(255, 255, 255), LARG - 10, 40, 
+			ALLEGRO_ALIGN_RIGHT, "x %d", jog2->getChances());
+	}
+	al_draw_textf(arial18, al_map_rgb(255, 255, 255), LARG / 2, 20, 
+		ALLEGRO_ALIGN_INTEGER, "%.2f", (float)al_get_timer_count(tempo_pontuacao)*PER_PONT);
+}
+
+
+void Fase::resumeTimers()
+{
+	mapaFase.resumeTimers();
+	al_resume_timer(tempo_pontuacao);
+}
+
+
+void Fase::stopTimers()
+{
+	mapaFase.stopTimers();
+	al_stop_timer(tempo_pontuacao);
+}
+
+
+const float Fase::getPontuacao()
+{
+	return (float)al_get_timer_count(tempo_pontuacao)*PER_PONT;
 }

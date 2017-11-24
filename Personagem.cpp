@@ -2,21 +2,46 @@
 
 
 
-Personagem::Personagem()
+Personagem::Personagem():Entidade(0, 0, 0, VEL_SUBIDA, -1, false)
 {
-	fisica = true;
-	vida = 10;
-	dir = true;
-	atacando = false;
+	vida = 0;
 	arma = nullptr;
+	dir = true;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
 	timer_ataque = nullptr;
 	timer_atacando = nullptr;
 	timer_invuneravel = nullptr;
+	criouTimers = false;
+}
+
+Personagem::Personagem(const int aVida, const float aVelX, const float aVelY, const float aVelMaxX, const float aVelMaxY,
+	const int aID, const bool aFisica, const float aPosX, const float aPosY, const int aLimX, 
+	const int aLimY, const bool aAtivo):Entidade(aVelX, aVelY,  aVelMaxX, aVelMaxY,
+		 aID, aFisica, aPosX, aPosY,  aLimX, aLimY, aAtivo)
+{
+	vida = aVida;
+	arma = nullptr;
+	dir = true;
+	podeAtacar = true;
+	atacando = false;
+	invuneravel = false;
+	timer_ataque = nullptr;
+	timer_atacando = nullptr;
+	timer_invuneravel = nullptr;
+	criouTimers = false;
 }
 
 
 Personagem::~Personagem()
 {
+	delete(arma);
+
+	al_destroy_timer(timer_ataque);
+	al_destroy_timer(timer_atacando);
+	al_destroy_timer(timer_invuneravel);
+	
 }
 
 // recebe como parâmetro a aceleração de vY
@@ -85,16 +110,16 @@ void Personagem::parar()
 {
 	if (velX != 0) 
 	{
-		if (velX < ACEL_X_PERS && velX > 0 || velX > -ACEL_X_PERS && velX < 0)
+		if (velX < ACEL_X_INI && velX > 0 || velX > -ACEL_X_INI && velX < 0)
 		{
 			velX = 0;
 		}
 		else if (velX > 0)
 		{
-			velX -= (float)ACEL_X_PERS;
+			velX -= (float)ACEL_X_INI;
 		}
 		else
-			velX += (float)ACEL_X_PERS;
+			velX += (float)ACEL_X_INI;
 	}
 }
 
@@ -114,8 +139,7 @@ const bool Personagem::getAtacando()
 void Personagem::initTimer()
 {
 	al_start_timer(timer_ataque);
-	//	o timer só será resumido quando a função "atacar" for acionada 
-	
+
 	al_start_timer(timer_atacando);
 	al_stop_timer(timer_atacando);
 	//	o timer só será resumido quando a função "atacar" for acionada
@@ -219,32 +243,32 @@ Arma* const Personagem::constroiArma()
 	if (ID == RAONI)
 	{
 		Espada* pEspada = new Espada;
-		pEspada->builderEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
+		pEspada->buildEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
 		return pEspada;
 	}
 	else if (ID == TECA)
 	{
 		Arco* pArco = new Arco;
-		pArco->builderArco(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
+		pArco->buildArco(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pArco;
 	}
 	else if (ID == MOSQUETEIRO)
 	{
 		Mosquete* pMosquete = new Mosquete;
-		pMosquete->builderMosquete(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
+		pMosquete->buildMosquete(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pMosquete;
 		
 	}
 	else if (ID == ESPADACHIM)
 	{
 		Espada* pEspada = new Espada;
-		pEspada->builderEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, true, DANO_ESPADA_ESP, static_cast<Personagem*>(this));
+		pEspada->buildEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_ESP, LIM_Y_ESPADA_ESP, true, DANO_ESPADA_ESP, static_cast<Personagem*>(this));
 		return pEspada;
 	}
-	else if (ID == ESP_CAVALEIRO)
+	else if (ID == CAVALEIRO)
 	{
 		Lanca* pLanca = new Lanca;
-		pLanca->builderLanca(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
+		pLanca->buildLanca(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
 		return pLanca;
 	}
 	return nullptr;
@@ -274,9 +298,11 @@ void Personagem::stopTimers()
 
 void Personagem::resumeTimers()
 {
-	al_resume_timer(timer_atacando);
+	if(atacando)
+		al_resume_timer(timer_atacando);
 	al_resume_timer(timer_ataque);
-	al_resume_timer(timer_invuneravel);
+	if(invuneravel)
+		al_resume_timer(timer_invuneravel);
 	if (listaAnim != nullptr)
 		listaAnim->resumeTimers();
 }

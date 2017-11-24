@@ -5,23 +5,25 @@
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
 #include <allegro5\allegro_image.h>
+#include "ProtoEntidade.h"
 #include "gerenciaAnim.h"
 #include "defineCarac.h"
 
 //	O TAMANHO DOS INIMGOS/JOGADORES E A VELOCIDADE DAS BALAS DEVEM SER
 //	DIMENSIONADOS PARA QUE OS PROJETEIS NAO PASSEM DELES
 
-//	MUDAR OS BUILDERS AO FINAL DO PROJETO PARA MAIOR FACILIDADE DE DESENVOLVIMENTO
+//	MUDAR OS buildS AO FINAL DO PROJETO PARA MAIOR FACILIDADE DE DESENVOLVIMENTO
 
-//	FAZER COM QUE OS BUILDERS DEFINAM TODAS AS PROPRIEDADES DAS ENTIDADES
+//	FAZER COM QUE OS buildS DEFINAM TODAS AS PROPRIEDADES DAS ENTIDADES
 
 
 
-enum IDS{RAONI, TECA, MOSQUETEIRO, ESPADACHIM, ESP_CAVALEIRO, CHEFAO_CAP, 
+enum IDS{RAONI, TECA, MOSQUETEIRO, ESPADACHIM, CAVALEIRO, CHEFAO_CAP, 
 	ESPADA, LANCA, MOSQUETE, ARCO, PROJETIL_MOSQ, PROJETIL_ARCO, PLATAFORMA, CORDA, 
 	ARMADILHA, ESPINHO, REDE, CORDA_REDE};
 
-class Entidade
+class Entidade :
+	public ProtoEntidade
 {
 protected:
 	//	float foi optado na posição para ser possível adicionar
@@ -34,35 +36,23 @@ protected:
 	//	A velocidade em y positiva corresponde ao personagem subir
 	//	na tela, negativa, descer.
 
-	float posX;
-	float posY;
-	int limX;
-	int limY;
 	float velX;
 	float velY;
-	bool fisica;
-	bool ativo;
 	float velMaxX;
 	float velMaxY;
 	int ID;
-
+	bool fisica;
 	gerenciaAnim gerListaAnim;
 	
 	ListaAnimacao* listaAnim;
 
 public:
 	Entidade();
+	Entidade(const int aVelX, const int aVelY, const int aVelMaxX,
+		const int aVelMaxY, const int aID, const bool aFisica,
+		const float aPosX = 0, const float aPosY = 0, const int aLimX = 0,
+		const int aLimY = 0, const bool aAtivo = 0);
 	virtual ~Entidade();
-	void setX(const float px);
-	const float getX();
-	void setY(const float py);
-	const float getY();
-	void setLimX(const int aLimX);
-	const int getLimX();
-	void setLimY(const int aLimY);
-	const int getLimY();
-	void setAtivo(const bool aAtivo);
-	const bool getAtivo();
 	void setFisica(const bool aFisica);
 	const bool getFisica();
 	const float getVelMaxX();
@@ -71,7 +61,6 @@ public:
 	void setVelMaxY(const float aVelMaxY);
 
 	const int getID();
-	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;
 	void setVelX(const float aVelX);
 	const int getVelX();
 	void setVelY(const float aVelY);

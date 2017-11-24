@@ -2,22 +2,8 @@
 
 
 
-Rede::Rede()
+Rede::Rede():Obstaculo(DANO_REDE, REDE, LIM_X_REDE, LIM_Y_REDE, 0, 0, 0, 0, 0, VEL_SUBIDA, false, false)
 {
-	posX = 0;
-	posY = 0;
-	limX = LIM_X_REDE;
-	limY = LIM_Y_REDE;
-	velX = 0;
-	velMaxX = 0;
-	velMaxY = VEL_MAX_REDE;
-	fisica = true;
-	ativo = false;
-	ID = REDE;
-	listaAnim = nullptr;
-
-	dano = DANO_REDE;
-
 	ativada = false;
 	linha = nullptr;
 }
@@ -25,8 +11,6 @@ Rede::Rede()
 
 Rede::~Rede()
 {
-	delete(listaAnim);
-
 	delete(linha);
 }
 
@@ -37,7 +21,7 @@ Corda* const Rede::getCorda()
 }
 
 
-void Rede::builderRede(const int ax, const int ay, const int aLinhaX, const int aLinhaY, const bool aAtivo)
+void Rede::buildRede(const int ax, const int ay, const int aLinhaX, const int aLinhaY, const bool aAtivo)
 {
 	posX = ax;
 	posY = ay;
@@ -47,18 +31,11 @@ void Rede::builderRede(const int ax, const int ay, const int aLinhaX, const int 
 	ativada = false;
 	if (linha == nullptr)
 	{
-		Corda* pLinha = new Corda;
+		Corda* pLinha = new Corda(false);
 		linha = pLinha;
-		linha->builderCorda(aLinhaX, aLinhaY, LIM_X_LINHA_REDE, LIM_Y_LINHA_REDE, true, false);
+		linha->buildCorda(aLinhaX, aLinhaY, LIM_X_LINHA_REDE, LIM_Y_LINHA_REDE, true, false);
 	}
 	linha->setAtivo(true);
-	/*
-	linha->setEscalavel(false);
-	linha->setLimX(LIM_X_LINHA_REDE);
-	linha->setLimY(LIM_Y_LINHA_REDE);
-	linha->setX(aLinhaX);
-	linha->setY(aLinhaY);
-	*/
 }
 
 
