@@ -100,7 +100,7 @@ void Animacao::drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX)
 {
 	if (aPosLimX > aPosX)
 	{
-		if (currFrame >= numFrames)
+		//if (currFrame >= numFrames)
 		{
 			currFrame = 0;
 		}
@@ -164,3 +164,37 @@ void Animacao::drawDeAte_Y(const int aPosX, const int aPosY, const int aPosLimY)
 		}
 	}
 }
+
+
+void Animacao::drawInvertido(const int aPosX, const int aPosY)
+{
+	if (currFrame >= numFrames)
+	{
+		currFrame = 0;
+	}
+
+	al_draw_tinted_scaled_rotated_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
+		al_map_rgb(255, 255, 255), largFrame*currFrame + largFrame / 2, altFrame / 2, aPosX, aPosY, 1, 1, 3.14152, 0);
+
+	if (periodo != nullptr)
+	{
+		if (al_get_timer_count(periodo) >= 1)
+		{
+			al_set_timer_count(periodo, 0);
+			currFrame++;
+		}
+	}
+}
+
+const int Animacao::getLarg()
+{
+	return largFrame;
+}
+
+const int Animacao::getAlt()
+{
+	return altFrame;
+}
+
+
+

@@ -9,14 +9,12 @@ ListaAnimacao::ListaAnimacao()
 
 ListaAnimacao::~ListaAnimacao()
 {
-	/*
 	Animacao* pAnim;
 	while (listaSprites.numObjs() > 0)
 	{
 		pAnim = listaSprites.objI(0);
 		listaSprites.retirarObj(pAnim);
 	}
-	*/
 }
 
 
@@ -122,4 +120,34 @@ void ListaAnimacao::drawDeAte_Y(const int aID, const int aPosX, const int aPosY,
 		else
 			pAnim->resetaAnim();
 	}
+}
+
+void ListaAnimacao::drawAnimacaoInver(const int aID, const int aPosX, const int aPosY)
+{
+	Animacao* pAnim;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAnim = listaSprites.objI(i);
+		if (pAnim->getID() == aID)
+		{
+			pAnim->drawInvertido(aPosX, aPosY);
+			
+		}
+		else
+			pAnim->resetaAnim();
+	}
+}
+
+Animacao * const ListaAnimacao::getAnimacaoID(const int aID)
+{
+	Animacao* pAnim;
+	for (int i = 0; i < listaSprites.numObjs(); i++)
+	{
+		pAnim = listaSprites.objI(i);
+		if (pAnim->getID() == aID)
+		{
+			return pAnim;
+		}
+	}
+	return nullptr;
 }

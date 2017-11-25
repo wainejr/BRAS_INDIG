@@ -22,5 +22,6 @@ public:
 	void draw(const int aPosFaseX, const int aPosFaseY);
 	void atualizar();
 	void reset(const int ax, const int ay, const bool aAtivo);
+	Corda* const getLinha();
 };
 

@@ -54,13 +54,13 @@ void Mapa::retiraTodosObjs()
 		projeteis.retirarProj(pProj);
 		delete(pProj);
 	}
-	
+
 	while (plataformas.numPlat() > 0)
 	{
 		pPlat = plataformas.platPosi(0);
 		plataformas.retiraPlat(pPlat);
 	}
-	
+
 	while (obstaculos.numObst() > 0)
 	{
 		pObs = obstaculos.obstPosi(0);
@@ -119,15 +119,24 @@ void Mapa::atualizaAtivos()
 		{
 			if (!estaNaTela(pEnt))
 			{
-				pEnt->setAtivo(false);
-				if (pEnt->getID() == MOSQUETEIRO || pEnt->getID() == CAVALEIRO
-					|| pEnt->getID() == ESPADACHIM)
+				if (pEnt->getID() != REDE)
 				{
-					static_cast<Inimigo*>(pEnt)->stopTimers();
+					pEnt->setAtivo(false);
+					if (pEnt->getID() == MOSQUETEIRO || pEnt->getID() == CAVALEIRO
+						|| pEnt->getID() == ESPADACHIM)
+					{
+						static_cast<Inimigo*>(pEnt)->stopTimers();
+					}
+					else if (pEnt->getID() == ARMADILHA)
+					{
+						static_cast<Armadilha*>(pEnt)->stopTimers();
+					}
 				}
-				else if (pEnt->getID() == ARMADILHA)
+				else
 				{
-					static_cast<Armadilha*>(pEnt)->stopTimers();
+					Rede* pRede = static_cast<Rede*>(pEnt);
+					if (!estaNaTela(pRede->getLinha()))
+						pRede->setAtivo(false);
 				}
 			}
 		}
@@ -146,6 +155,13 @@ void Mapa::atualizaAtivos()
 					static_cast<Armadilha*>(pEnt)->resumeTimers();
 				}
 			}
+			else if (pEnt->getID() == REDE)
+			{
+				Rede* pRede = static_cast<Rede*>(pEnt);
+				if (estaNaTela(pRede->getLinha()))
+					pRede->setAtivo(true);
+			}
+
 		}
 	}
 
@@ -175,7 +191,7 @@ void Mapa::atualizaAtivos()
 
 	for (i = 0; i < inimigos.numInim(); i++)
 	{
-		pIni = inimigos.inimPosi(i);		
+		pIni = inimigos.inimPosi(i);
 		if (pIni->getAtivo())
 		{
 			if (!(*pIni))
@@ -388,7 +404,7 @@ void Mapa::gerenciaColisaoAtaques()
 			pJog = jog1;
 		else
 			pJog = jog2;
-		if (pJog != nullptr) 
+		if (pJog != nullptr)
 		{
 			if (pJog->getAtacando() && pJog->getAtivo() && pJog->getArma()->getID() == ESPADA)
 			{
@@ -545,8 +561,8 @@ void Mapa::colisaoProjeteis(Personagem* const pPers)
 			//	for do jogador e o alvo inimigo...
 			if (((pPers->getID() == RAONI || pPers->getID() == TECA) &&
 				pProj->getID() == PROJETIL_MOSQ) || ((pPers->getID() == CAVALEIRO ||
-					pPers->getID() == ESPADACHIM || pPers->getID() == MOSQUETEIRO ||
-					pPers->getID() == CHEFAO_CAP) && pProj->getID() == PROJETIL_ARCO))
+					pPers->getID() == ESPADACHIM || pPers->getID() == MOSQUETEIRO) 
+					&& pProj->getID() == PROJETIL_ARCO))
 			{
 				if (colisaoEntEnt(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pProj)))
 				{
@@ -611,7 +627,7 @@ void Mapa::colisaoObstaculos(Personagem* const pPers)
 						if (!static_cast<Armadilha*>(pObs)->getAcionada())
 						{
 							if (diffCent(static_cast<Entidade*>(pPers), static_cast<Entidade*>(pObs)) <= DIFFCENT_ARMD &&
-								pObs->getY() >= pPers->getY()-pPers->getLimY() && pObs->getY()-pObs->getLimY() <= pPers->getY())
+								pObs->getY() >= pPers->getY() - pPers->getLimY() && pObs->getY() - pObs->getLimY() <= pPers->getY())
 							{
 								pJog->tomaDano(pObs->getDano(), 2);
 								static_cast<Armadilha*>(pObs)->acionar();
@@ -829,14 +845,14 @@ const bool Mapa::jogadorEstaNumaCorda(Jogador* const pJog)
 	Plataforma* pPlat;
 	Corda* pCorda;
 	if (pJog->getAtivo())
-	{	
+	{
 		for (int i = 0; i < plataformas.numPlat(); i++)
 		{
 			pPlat = plataformas.platPosi(i);
 			if (pPlat->getAtivo() && pPlat->getID() == CORDA)
 			{
 				pCorda = static_cast<Corda*>(pPlat);
-				if (pCorda->getEscalavel()) 
+				if (pCorda->getEscalavel())
 				{
 					if (colisaoEntEnt(static_cast<Entidade*>(pJog), static_cast<Entidade*>(pCorda)))
 					{
@@ -875,10 +891,44 @@ void Mapa::desenhaObjs()
 {
 	Entidade* pEnt;
 	desenhaFundo();
+
+	//	layers
 	for (int i = 0; i < entidades.numEnt(); i++)
 	{
 		pEnt = entidades.entPosI(i);
-		if (pEnt->getAtivo())
+		if (pEnt->getAtivo() && pEnt->getID() == PROJETIL_ARCO || pEnt->getID() == PROJETIL_MOSQ)
+		{
+			pEnt->draw(posRelX, posRelY);
+		}
+	}
+	for (int i = 0; i < entidades.numEnt(); i++)
+	{
+		pEnt = entidades.entPosI(i);
+		if (pEnt->getAtivo() && pEnt->getID() == PLATAFORMA || pEnt->getID() == CORDA)
+		{
+			pEnt->draw(posRelX, posRelY);
+		}
+	}
+	for (int i = 0; i < entidades.numEnt(); i++)
+	{
+		pEnt = entidades.entPosI(i);
+		if (pEnt->getAtivo() && pEnt->getID() == ARMADILHA || pEnt->getID() == REDE || pEnt->getID() == ESPINHO)
+		{
+			pEnt->draw(posRelX, posRelY);
+		}
+	}
+	for (int i = 0; i < entidades.numEnt(); i++)
+	{
+		pEnt = entidades.entPosI(i);
+		if (pEnt->getAtivo() && pEnt->getID() == CAVALEIRO|| pEnt->getID() == MOSQUETEIRO|| pEnt->getID() == ESPADACHIM)
+		{
+			pEnt->draw(posRelX, posRelY);
+		}
+	}
+	for (int i = 0; i < entidades.numEnt(); i++)
+	{
+		pEnt = entidades.entPosI(i);
+		if (pEnt->getAtivo() && pEnt->getID() == RAONI || pEnt->getID() == TECA)
 		{
 			pEnt->draw(posRelX, posRelY);
 		}
@@ -975,7 +1025,7 @@ void Mapa::atualizaPosMapa()
 			else
 				pJog1 = jog2;
 			//MUDAR ESSA CONODIÇÃO DEPOIS PARA QUANDO FOREM 2 PLAYERS
-			if (pJog1->getX()+pJog1->getLimX() > (posRelX + LARG / 2) && posRelX+LARG < limX)
+			if (pJog1->getX() + pJog1->getLimX() > (posRelX + LARG / 2) && posRelX + LARG < limX)
 			{
 				posRelX = pJog1->getX() + pJog1->getLimX() - LARG / 2;
 			}
@@ -991,13 +1041,13 @@ void Mapa::atualizaPosMapa()
 
 			//	se a média da posição dos jogadores não está dentro dos limites
 			//	definidos da fase...
-			if ((pJog1->getX() + pJog1->getLimX()/2 + pJog2->getX() + pJog2->getLimX()/2) / 2 > (posRelX + LARG / 2) && posRelX + LARG < limX)
+			if ((pJog1->getX() + pJog1->getLimX() / 2 + pJog2->getX() + pJog2->getLimX() / 2) / 2 > (posRelX + LARG / 2) && posRelX + LARG < limX)
 			{
-				posRelX = (pJog1->getX() + pJog1->getLimX()/2 + pJog2->getX() + pJog2->getLimX()/2) / 2 - LARG / 2;
+				posRelX = (pJog1->getX() + pJog1->getLimX() / 2 + pJog2->getX() + pJog2->getLimX() / 2) / 2 - LARG / 2;
 			}
-			else if ((pJog1->getX() + pJog1->getLimX()/2 + pJog2->getX() + pJog2->getLimX()/2) / 2 < (posRelX + LARG / 4))
+			else if ((pJog1->getX() + pJog1->getLimX() / 2 + pJog2->getX() + pJog2->getLimX() / 2) / 2 < (posRelX + LARG / 4))
 			{
-				posRelX = (pJog1->getX() + pJog1->getLimX()/2 + pJog2->getX() + pJog2->getLimX()/2) / 2 - LARG / 4;
+				posRelX = (pJog1->getX() + pJog1->getLimX() / 2 + pJog2->getX() + pJog2->getLimX() / 2) / 2 - LARG / 4;
 			}
 
 			//	se o jogador 1 está "para trás" da fase...
@@ -1051,8 +1101,8 @@ void Mapa::criarTimers()
 			pJog = jog1;
 		else
 			pJog = jog2;
-		
-		if(pJog != nullptr)
+
+		if (pJog != nullptr)
 			pJog->createTimers();
 	}
 	for (i = 0; i < inimigos.numInim(); i++)
@@ -1091,7 +1141,7 @@ void Mapa::initTimers()
 		pIni->initTimer();
 	}
 
-	
+
 	for (i = 0; i < obstaculos.numObst(); i++)
 	{
 		pObs = obstaculos.obstPosi(i);
@@ -1205,12 +1255,12 @@ void Mapa::desenhaFundo()
 		int larg_fundo = al_get_bitmap_width(fundo);
 		posMapa %= larg_fundo;
 		int posDirFundo = posMapa + LARG;
-		if(posDirFundo <= larg_fundo)
+		if (posDirFundo <= larg_fundo)
 			al_draw_bitmap_region(fundo, posMapa, 0, LARG, ALT, 0, 0, 0);
 		else
-		{	
+		{
 			al_draw_bitmap_region(fundo, posMapa, 0, LARG - (larg_fundo - posDirFundo), ALT, 0, 0, 0);
-			al_draw_bitmap_region(fundo, 0, 0, posDirFundo - larg_fundo, ALT, larg_fundo-posMapa, 0, 0);
+			al_draw_bitmap_region(fundo, 0, 0, posDirFundo - larg_fundo, ALT, larg_fundo - posMapa, 0, 0);
 		}
 	}
 }

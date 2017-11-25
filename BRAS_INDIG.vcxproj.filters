@@ -123,9 +123,6 @@
     <ClInclude Include="ListaFases.h">
       <Filter>Header Files\Gerenciadores</Filter>
     </ClInclude>
-    <ClInclude Include="FaseFinal.h">
-      <Filter>Header Files\Elementos Jogo</Filter>
-    </ClInclude>
     <ClInclude Include="Fase.h">
       <Filter>Header Files\Elementos Jogo</Filter>
     </ClInclude>
@@ -207,9 +204,6 @@
       <Filter>Source Files\Elementos Jogo</Filter>
     </ClCompile>
     <ClCompile Include="Fase1.cpp">
-      <Filter>Source Files\Elementos Jogo</Filter>
-    </ClCompile>
-    <ClCompile Include="FaseFinal.cpp">
       <Filter>Source Files\Elementos Jogo</Filter>
     </ClCompile>
     <ClCompile Include="Jogo.cpp">

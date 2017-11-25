@@ -29,5 +29,8 @@ public:
 	void resumeTimer();
 	void drawDeAte_X(const int aPosX, const int aPosY, const int aPosLimX);
 	void drawDeAte_Y(const int aPosX, const int aPosY, const int aPosLimY);
+	void drawInvertido(const int aPosX, const int aPosY);
+	const int getLarg();
+	const int getAlt();
 };
 

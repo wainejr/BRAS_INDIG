@@ -2,7 +2,7 @@
 
 
 
-Armadilha::Armadilha():Obstaculo(DANO_REDE, ARMADILHA, LIM_X_ARMD, LIM_Y_ARMD)
+Armadilha::Armadilha():Obstaculo(DANO_ARMD, ARMADILHA, LIM_X_ARMD, LIM_Y_ARMD)
 {
 	acionada = false;
 	timer_acionada = nullptr;

@@ -2,7 +2,6 @@
 #include "ListaFases.h"
 #include "Fase1.h"
 #include "Fase2.h"
-#include "FaseFinal.h"
 #include "gerenciadorBotoes.h"
 #include "Jogador.h"
 
@@ -18,10 +17,13 @@ private:
 	ALLEGRO_EVENT_QUEUE* queue;
 	ALLEGRO_FONT* arial18;
 	ALLEGRO_BITMAP* fundo;
-	ALLEGRO_BITMAP* tipo_brasilIndig;
-	ALLEGRO_BITMAP* tipo_1jogador;
-	ALLEGRO_BITMAP* tipo_2jogadores;
-	
+	ALLEGRO_BITMAP* logo_brasilIndig;
+	ALLEGRO_BITMAP* logo_1jogador;
+	ALLEGRO_BITMAP* logo_2jogadores;
+	ALLEGRO_BITMAP* logo_campanha;
+	ALLEGRO_BITMAP* logo_fase1;
+	ALLEGRO_BITMAP* logo_fase2;
+
 	//	OBJETOS
 	ListaFases listaFases;
 	gerenciadorBotoes gerBotoes;
@@ -32,7 +34,6 @@ private:
 	Botao botao_campanha;
 	Botao botao_fase1;
 	Botao botao_fase2;
-	Botao botao_fase3;
 	Botao botao_tecaRaoni;
 	Botao botao_raoniTeca;
 	Botao botao_teca;
@@ -42,7 +43,6 @@ private:
 	
 	Fase1 fase1;
 	Fase2 fase2;
-	FaseFinal faseFinal;
 
 	Jogador raoni;
 	Jogador teca;

@@ -7,7 +7,7 @@ class FaseAnin;
 class ListaFases
 {
 private:
-	class FaseAnin
+	class FaseAnin // Fase aninhada
 	{
 	private:
 		Fase* curr;
@@ -26,7 +26,7 @@ private:
 	};
 	FaseAnin* topo;
 	FaseAnin* ultimo;
-	gerenciaPontuacoes* gerPont;
+	static gerenciaPontuacoes* gerPont;
 public:
 	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
 	//	CLICAR PARA INICIAR O JOGO
@@ -39,6 +39,6 @@ public:
 	void setDisplays(ALLEGRO_DISPLAY* const pDisplay);
 	void addFaseIni(Fase* const pFase);
 	void anulaJogs();
-	void setGerPont(gerenciaPontuacoes* const pGer);
+	static void setGerPont(gerenciaPontuacoes* const pGer);
 };
 

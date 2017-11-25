@@ -26,10 +26,13 @@ private:
 	static bool carregouChefaoCap;
 
 	//	ANIMACOES PROJETIL
+	static Animacao* flecha;
+	static Animacao* tiro;
 	static bool carregouProj;
 
 	//	ANIMACOES PLATAFORMA
-	static Animacao* plataforma;
+	static Animacao* plataforma_grama;
+	static Animacao* plataforma_chao;
 	static bool carregouPlat;
 
 	//	ANIMACOES CORDA
@@ -47,6 +50,8 @@ private:
 	static bool carregouEspinho;
 
 	//	ANIMACOES REDE
+	static Animacao* rede_caindo;
+	static Animacao* rede_parada;
 	static bool carregouRede;
 
 	void carregaAnimRaoni();

@@ -3,15 +3,14 @@
 class Fase2 :
 	public Fase
 {
+private:
+	void numEntidades();
+	void buildEntidades();
 public:
 	Fase2();
 	~Fase2();
-
-	void carregaFundoMapa();
-	void restart();
 	void initFase();
-
-	void numEntidades() {}
-	void buildEntidades() {}
+	void carregaFundoMapa();
+	
 };
 

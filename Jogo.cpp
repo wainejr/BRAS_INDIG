@@ -36,12 +36,9 @@ void Jogo::exec()
 
 	listaFases.addFaseIni(&fase1);
 	listaFases.addFaseIni(&fase2);
-	listaFases.addFaseIni(&faseFinal);
 	listaFases.setDisplays(display);
 	listaFases.setGerPont(&gerPont);
-	gerPont.setDisplay(display);
 	gerPont.setFonte(arial18);
-
 	addBotoes();
 	
 	buildJogadores();
@@ -106,7 +103,6 @@ void Jogo::exec()
 					botao_campanha.setAtivo(true);
 					botao_fase1.setAtivo(true);
 					botao_fase2.setAtivo(true);
-					botao_fase3.setAtivo(true);
 					botao_voltar.setAtivo(true);
 					break;
 				case PONTUACAO:
@@ -182,18 +178,6 @@ void Jogo::exec()
 						gerBotoes.resetaSelecBotoes();
 						al_stop_timer(timer);
 						listaFases.carregaFaseN(2);
-						listaFases.anulaJogs();
-						resetaJogs();
-						al_resume_timer(timer);
-						al_flush_event_queue(queue);
-						estadoJogo = MENU;
-						estadoJogoMudou = true;
-					}
-					else if (botao_fase3.getSelec())
-					{
-						gerBotoes.resetaSelecBotoes();
-						al_stop_timer(timer);
-						listaFases.carregaFaseN(3);
 						listaFases.anulaJogs();
 						resetaJogs();
 						al_resume_timer(timer);
@@ -277,9 +261,12 @@ void Jogo::initAllegroObjs()
 		queue = al_create_event_queue();
 		timer = al_create_timer(1.0 / FPS);
 		fundo = al_load_bitmap("sprites/backgrounds/fundoMenu.png");
-		tipo_brasilIndig = al_load_bitmap("sprites/tipos/tipo_brasilIndig.png");
-		tipo_1jogador = al_load_bitmap("sprites/tipos/tipo_1jogador.png");
-		tipo_2jogadores = al_load_bitmap("sprites/tipos/tipo_2jogadores.png");
+		logo_brasilIndig = al_load_bitmap("sprites/logos/logo_brasilIndig.png");
+		logo_1jogador = al_load_bitmap("sprites/logos/logo_1jogador.png");
+		logo_2jogadores = al_load_bitmap("sprites/logos/logo_2jogadores.png");
+		logo_fase1 = al_load_bitmap("sprites/logos/logo_fase1.png");
+		logo_fase2 = al_load_bitmap("sprites/logos/logo_fase2.png");
+		logo_campanha = al_load_bitmap("sprites/logos/logo_campanha.png");
 		carregaBotoes();
 
 		//	----------	ADD FONTES À FILA DE EVENTOS   -------------
@@ -310,21 +297,24 @@ void Jogo::draw()
 	al_draw_bitmap(fundo, 0, 0, 0);
 	if (estadoJogo == MENU)
 	{
-		al_draw_bitmap(tipo_brasilIndig, LARG / 2 - al_get_bitmap_width(tipo_brasilIndig) / 2,
-			75 - al_get_bitmap_height(tipo_brasilIndig) / 2, 0);
+		al_draw_bitmap(logo_brasilIndig, LARG / 2 - al_get_bitmap_width(logo_brasilIndig) / 2,
+			75 - al_get_bitmap_height(logo_brasilIndig) / 2, 0);
 	}
 	else if (estadoJogo == ESCOLHA_PLAYER)
 	{
-		al_draw_bitmap(tipo_1jogador, LARG / 4 - al_get_bitmap_width(tipo_1jogador) / 2,
-			100 - al_get_bitmap_height(tipo_1jogador) / 2, 0);
-		al_draw_bitmap(tipo_2jogadores, 3*LARG / 4 - al_get_bitmap_width(tipo_2jogadores) / 2,
-			100 - al_get_bitmap_height(tipo_2jogadores) / 2, 0);
+		al_draw_bitmap(logo_1jogador, LARG / 4 - al_get_bitmap_width(logo_1jogador) / 2,
+			100 - al_get_bitmap_height(logo_1jogador) / 2, 0);
+		al_draw_bitmap(logo_2jogadores, 3*LARG / 4 - al_get_bitmap_width(logo_2jogadores) / 2,
+			100 - al_get_bitmap_height(logo_2jogadores) / 2, 0);
 	}
 	else if (estadoJogo == PONTUACAO)
 	{
-		gerPont.desenhaPont(0, 100, 50);
-		gerPont.desenhaPont(1, 250, 50);
-		gerPont.desenhaPont(2, 400, 50);
+		al_draw_bitmap(logo_campanha, LARG / 5 - al_get_bitmap_width(logo_campanha) / 2, 75, 0);
+		al_draw_bitmap(logo_fase1, 3*LARG / 5 - al_get_bitmap_width(logo_fase1) / 2, 75, 0);
+		al_draw_bitmap(logo_fase2, 4*LARG / 5 - al_get_bitmap_width(logo_fase2) / 2+45, 75, 0);
+		gerPont.desenhaPont(0, LARG / 5 -al_get_bitmap_width(logo_campanha) / 2, 100);
+		gerPont.desenhaPont(1, 3 * LARG / 5 - al_get_bitmap_width(logo_fase1) / 2+10, 100);
+		gerPont.desenhaPont(2, 4 * LARG / 5 - al_get_bitmap_width(logo_fase2) / 2+55, 100);
 	}
 }
 
@@ -379,14 +369,6 @@ void Jogo::carregaBotoes()
 	botao_fase2.setSprite(image_fase2, imageSelec_fase2, LARG_BOTAO, ALT_BOTAO);
 	botao_fase2.setX(LARG / 2 - al_get_bitmap_width(image_fase2) / 2);
 	botao_fase2.setY(200 - al_get_bitmap_height(image_fase2) / 2);
-
-	ALLEGRO_BITMAP* image_faseFinal;
-	ALLEGRO_BITMAP* imageSelec_faseFinal;
-	image_faseFinal = al_load_bitmap("sprites/botoes/botao_faseFinal.png");
-	imageSelec_faseFinal = al_load_bitmap("sprites/botoes/botao_faseFinalSelec.png");
-	botao_fase3.setSprite(image_faseFinal, imageSelec_faseFinal, LARG_BOTAO, ALT_BOTAO);
-	botao_fase3.setX(LARG / 2 - al_get_bitmap_width(image_faseFinal) / 2);
-	botao_fase3.setY(250 - al_get_bitmap_height(image_faseFinal) / 2);
 
 	ALLEGRO_BITMAP* image_teca;
 	ALLEGRO_BITMAP* imageSelec_teca;
@@ -451,8 +433,6 @@ void Jogo::resetaBotoesExceto(Botao* const pBotao)
 		botao_fase1.botaoSelec(false);
 	if (pBotao != &botao_fase2)
 		botao_fase2.botaoSelec(false);
-	if (pBotao != &botao_fase3)
-		botao_fase3.botaoSelec(false);
 	if (pBotao != &botao_tecaRaoni)
 		botao_tecaRaoni.botaoSelec(false);
 	if (pBotao != &botao_raoniTeca)
@@ -473,7 +453,6 @@ void Jogo::addBotoes()
 	gerBotoes.addBotao(&botao_campanha);
 	gerBotoes.addBotao(&botao_fase1);
 	gerBotoes.addBotao(&botao_fase2);
-	gerBotoes.addBotao(&botao_fase3);
 	gerBotoes.addBotao(&botao_tecaRaoni);
 	gerBotoes.addBotao(&botao_raoniTeca);
 	gerBotoes.addBotao(&botao_teca);

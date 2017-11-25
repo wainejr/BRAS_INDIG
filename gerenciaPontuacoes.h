@@ -12,7 +12,6 @@ private:
 	void organizaIDs();
 	void organizaPont();
 	ALLEGRO_BITMAP* fundo_salvar;
-	ALLEGRO_DISPLAY* display;
 	ALLEGRO_FONT* font;
 	bool carregou_fundo;
 	void carregaFundo();
@@ -40,7 +39,6 @@ public:
 	~gerenciaPontuacoes();
 	void salvarPont(float const pPont, const int aN);
 
-	void setDisplay(ALLEGRO_DISPLAY* const pDisp);
 	void setFonte(ALLEGRO_FONT* const pFont);
 	void desenhaPont(const int aID, const int posX, const int posY);
 	void deleta();

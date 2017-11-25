@@ -1,10 +1,11 @@
 #include "ListaFases.h"
 
+gerenciaPontuacoes* ListaFases::gerPont = nullptr;
 
 ListaFases::ListaFases()
 {
 	topo = nullptr;
-	gerPont = nullptr;
+	
 }
 
 

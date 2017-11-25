@@ -134,7 +134,6 @@
     <ClInclude Include="Fase.h" />
     <ClInclude Include="Fase1.h" />
     <ClInclude Include="Fase2.h" />
-    <ClInclude Include="FaseFinal.h" />
     <ClInclude Include="gerenciaAnim.h" />
     <ClInclude Include="gerenciadorBotoes.h" />
     <ClInclude Include="gerenciaPontuacoes.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="Fase.cpp" />
     <ClCompile Include="Fase1.cpp" />
     <ClCompile Include="Fase2.cpp" />
-    <ClCompile Include="FaseFinal.cpp" />
     <ClCompile Include="gerenciaAnim.cpp" />
     <ClCompile Include="gerenciadorBotoes.cpp" />
     <ClCompile Include="gerenciaPontuacoes.cpp" />

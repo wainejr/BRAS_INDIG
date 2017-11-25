@@ -135,13 +135,15 @@ void Jogador::subir()
 
 void Jogador::atualizar()
 {
+	if (imovel)
+		parar();
 	posY -= velY;
 	posX += velX;
-
 	if (subiu)
 		subindo = true;
 	else
 		subindo = false;
+
 	subiu = false;
 	atualizaAtaque();
 	atualizaInvuneravel();
@@ -356,6 +358,8 @@ void Jogador::atualizaAtaque()
 		al_stop_timer(timer_ataque);
 		podeAtacar = true;
 	}
+	else
+		al_resume_timer(timer_ataque);
 }
 
 void Jogador::resetaTimers()

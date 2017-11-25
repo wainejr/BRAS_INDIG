@@ -21,10 +21,13 @@ bool gerenciaAnim::carregouChefaoCap = false;
 
 
 bool gerenciaAnim::carregouProj = false;
+Animacao* gerenciaAnim::flecha = nullptr;
+Animacao* gerenciaAnim::tiro = nullptr;
 
 
 bool gerenciaAnim::carregouPlat = false;
-Animacao* gerenciaAnim::plataforma = nullptr;
+Animacao* gerenciaAnim::plataforma_grama = nullptr;
+Animacao* gerenciaAnim::plataforma_chao = nullptr;
 
 
 bool gerenciaAnim::carregouCorda = false;
@@ -38,31 +41,19 @@ Animacao* gerenciaAnim::armd_ativada = nullptr;
 bool gerenciaAnim::carregouEspinho = false;
 Animacao* gerenciaAnim::espinho = nullptr;
 
-bool gerenciaAnim::carregouRede = false;
 
+bool gerenciaAnim::carregouRede = false;
+Animacao* gerenciaAnim::rede_caindo = nullptr;
+Animacao* gerenciaAnim::rede_parada = nullptr;
 
 gerenciaAnim::gerenciaAnim()
 {
-	plataforma = nullptr;
+	
 }
 
 
 gerenciaAnim::~gerenciaAnim()
 {
-	/*
-	if(plataforma)
-		delete (plataforma);
-	
-	if(corda_esc)
-		delete(corda_esc);
-	if(corda_nEsc)
-		delete(corda_nEsc);
-
-	if(armd_desativada)
-		delete(armd_desativada);
-	if(armd_desativada)
-		delete(armd_ativada);
-	*/
 }
 
 ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
@@ -84,9 +75,6 @@ ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
 	case CAVALEIRO:
 		return listaAnimCav();
 		break;
-	case CHEFAO_CAP:
-		return listaAnimChefaoCap();
-		break;
 	case PROJETIL_MOSQ:
 		return listaAnimProj();
 		break;
@@ -103,7 +91,7 @@ ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
 		return listaAnimArmadilha();
 		break;
 	case ESPINHO:
-		return listaAnimEsp();
+		return listaAnimEspinho();
 		break;
 	case REDE:
 		return listaAnimRede();
@@ -117,7 +105,6 @@ ListaAnimacao* const gerenciaAnim::listaAnimEnt(const int aID)
 ListaAnimacao* const gerenciaAnim::listaAnimRaoni()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouRaoni)
 		carregaAnimRaoni();
 
@@ -130,7 +117,6 @@ ListaAnimacao* const gerenciaAnim::listaAnimRaoni()
 ListaAnimacao* const gerenciaAnim::listaAnimTeca()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouTeca)
 		carregaAnimTeca();
 
@@ -143,7 +129,6 @@ ListaAnimacao* const gerenciaAnim::listaAnimTeca()
 ListaAnimacao* const gerenciaAnim::listaAnimMosq()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouMosq)
 		carregaAnimMosq();
 
@@ -156,12 +141,10 @@ ListaAnimacao* const gerenciaAnim::listaAnimMosq()
 ListaAnimacao* const gerenciaAnim::listaAnimEsp()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouEspinho)
 		carregaAnimEspinho();
 	
-	pAnim = espinho->copiaAnimacao();
-	pListaAnim->addAnimacao(espinho);
+	
 	// ADICIONA AS ANIMAÇÕES A LISTA
 
 	return pListaAnim;
@@ -171,7 +154,6 @@ ListaAnimacao* const gerenciaAnim::listaAnimEsp()
 ListaAnimacao* const gerenciaAnim::listaAnimCav()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouCav)
 		carregaAnimCav();
 
@@ -184,7 +166,6 @@ ListaAnimacao* const gerenciaAnim::listaAnimCav()
 ListaAnimacao* const gerenciaAnim::listaAnimChefaoCap()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouChefaoCap)
 		carregaAnimChefaoCap();
 
@@ -197,10 +178,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimChefaoCap()
 ListaAnimacao* const gerenciaAnim::listaAnimProj()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouProj)
 		carregaAnimProj();
 
+	pListaAnim->addAnimacao(tiro->copiaAnimacao());
+	pListaAnim->addAnimacao(flecha->copiaAnimacao());
 	// ADICIONA AS ANIMAÇÕES A LISTA
 
 	return pListaAnim;
@@ -210,14 +192,13 @@ ListaAnimacao* const gerenciaAnim::listaAnimProj()
 ListaAnimacao* const gerenciaAnim::listaAnimPlat()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouPlat)
 		carregaAnimPlat();
 
 	// ADICIONA AS ANIMAÇÕES A LISTA
 
-	pAnim = plataforma->copiaAnimacao();
-	pListaAnim->addAnimacao(pAnim);
+	pListaAnim->addAnimacao(plataforma_chao->copiaAnimacao());
+	pListaAnim->addAnimacao(plataforma_grama->copiaAnimacao());
 	
 	return pListaAnim;
 }
@@ -226,15 +207,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimPlat()
 ListaAnimacao* const gerenciaAnim::listaAnimCorda()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouCorda)
 		carregaAnimCorda();
 
-	pAnim = corda_esc->copiaAnimacao();
-	pListaAnim->addAnimacao(pAnim);
-
-	pAnim = corda_nEsc->copiaAnimacao();
-	pListaAnim->addAnimacao(pAnim);
+	pListaAnim->addAnimacao(corda_esc->copiaAnimacao());
+	pListaAnim->addAnimacao(corda_nEsc->copiaAnimacao());
 
 	return pListaAnim;
 }
@@ -243,15 +220,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimCorda()
 ListaAnimacao* const gerenciaAnim::listaAnimArmadilha()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouArmadilha)
 		carregaAnimArmadilha();
 	
-	pAnim = armd_desativada->copiaAnimacao();
-	pListaAnim->addAnimacao(pAnim);
-
-	pAnim = armd_ativada->copiaAnimacao();
-	pListaAnim->addAnimacao(pAnim);
+	pListaAnim->addAnimacao(armd_desativada->copiaAnimacao());
+	pListaAnim->addAnimacao(armd_ativada->copiaAnimacao());
 
 	return pListaAnim;
 }
@@ -260,13 +233,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimArmadilha()
 ListaAnimacao* const gerenciaAnim::listaAnimEspinho()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouEspinho)
 		carregaAnimEspinho();
 
 	// ADICIONA AS ANIMAÇÕES A LISTA
-	pAnim = espinho->copiaAnimacao();
-	pListaAnim->addAnimacao(pAnim);
+	pListaAnim->addAnimacao(espinho->copiaAnimacao());
 
 	return pListaAnim;
 }
@@ -275,12 +246,12 @@ ListaAnimacao* const gerenciaAnim::listaAnimEspinho()
 ListaAnimacao* const gerenciaAnim::listaAnimRede()
 {
 	ListaAnimacao* pListaAnim = new ListaAnimacao;
-	Animacao* pAnim;
 	if (!carregouRede)
 		carregaAnimRede();
 
 	// ADICIONA AS ANIMAÇÕES A LISTA
-
+	pListaAnim->addAnimacao(rede_caindo->copiaAnimacao());
+	pListaAnim->addAnimacao(rede_parada->copiaAnimacao());
 	return pListaAnim;
 }
 
@@ -323,16 +294,35 @@ void gerenciaAnim::carregaAnimChefaoCap()
 void gerenciaAnim::carregaAnimProj()
 {
 	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	tiro = new Animacao;
+	flecha = new Animacao;
+
+	ALLEGRO_BITMAP* image_tiro;
+	ALLEGRO_BITMAP* image_flecha;
+
+	image_tiro = al_load_bitmap("sprites/proj/projetil_tiro.png");
+	image_flecha = al_load_bitmap("sprites/proj/projetil_flecha.png");
+	
+	tiro->setSprite(image_tiro, 0, al_get_bitmap_width(image_tiro), al_get_bitmap_height(image_tiro));
+	flecha->setSprite(image_flecha, 1, al_get_bitmap_width(image_flecha), al_get_bitmap_height(image_flecha));
+
+	carregouProj = true;
 }
 
 
 void gerenciaAnim::carregaAnimPlat()
 {
-	plataforma = new Animacao;
-	ALLEGRO_BITMAP* image;
+	plataforma_chao = new Animacao;
+	plataforma_grama = new Animacao;
+	ALLEGRO_BITMAP* image_terra;
+	ALLEGRO_BITMAP* image_grama;
 
-	image = al_load_bitmap("sprite_teste.png");
-	plataforma->setSprite(image, 0, 256, 256, 6, 0.1);
+	image_terra = al_load_bitmap("sprites/plats/plat_terra.png");
+	image_grama = al_load_bitmap("sprites/plats/plat_grama.png");
+
+	plataforma_chao->setSprite(image_terra, 1, al_get_bitmap_width(image_terra), al_get_bitmap_height(image_terra), 1);
+	plataforma_grama->setSprite(image_grama, 0, al_get_bitmap_width(image_grama), al_get_bitmap_height(image_grama), 1);
+
 	carregouPlat = true;
 }
 
@@ -387,4 +377,16 @@ void gerenciaAnim::carregaAnimEspinho()
 void gerenciaAnim::carregaAnimRede()
 {
 	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	rede_caindo = new Animacao;
+	rede_parada = new Animacao;
+
+	ALLEGRO_BITMAP* image_caindo;
+	ALLEGRO_BITMAP* image_parada;
+
+	image_caindo = al_load_bitmap("sprites/obstaculos/rede_caindo.png");
+	image_parada = al_load_bitmap("sprites/obstaculos/rede_parada.png");
+
+	rede_caindo->setSprite(image_caindo, 1, al_get_bitmap_width(image_caindo), al_get_bitmap_height(image_caindo));
+	rede_parada->setSprite(image_parada, 0, al_get_bitmap_width(image_parada), al_get_bitmap_height(image_parada));
+	carregouRede = true;
 }

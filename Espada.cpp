@@ -2,7 +2,7 @@
 
 
 
-Espada::Espada():Arma(0, 0, 0)
+Espada::Espada():Arma(0, 0, 0, ESPADA)
 {
 }
 

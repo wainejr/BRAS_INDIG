@@ -17,22 +17,11 @@
 //	FAZER COM QUE OS buildS DEFINAM TODAS AS PROPRIEDADES DAS ENTIDADES
 
 
-
-enum IDS{RAONI, TECA, MOSQUETEIRO, ESPADACHIM, CAVALEIRO, CHEFAO_CAP, 
-	ESPADA, LANCA, MOSQUETE, ARCO, PROJETIL_MOSQ, PROJETIL_ARCO, PLATAFORMA, CORDA, 
-	ARMADILHA, ESPINHO, REDE, CORDA_REDE};
-
 class Entidade :
 	public ProtoEntidade
 {
 protected:
-	//	float foi optado na posição para ser possível adicionar
-	//	frações com relação a movimentação, tanto em X quanto em Y
-	//					---------------
-	//	A posição x e y correspondem a posição do canto esquerdo
-	//	inferior do objeto. A posição x+limX e y+limY correspondem
-	//	ao canto direito superior do objeto
-	//					---------------
+
 	//	A velocidade em y positiva corresponde ao personagem subir
 	//	na tela, negativa, descer.
 

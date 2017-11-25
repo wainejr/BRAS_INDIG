@@ -16,5 +16,7 @@ public:
 	void resumeTimers();
 	void drawDeAte_X(const int aID, const int aPosX, const int aPosY, const int aPosLimX);
 	void drawDeAte_Y(const int aID, const int aPosX, const int aPosY, const int aPosLimY);
+	void drawAnimacaoInver(const int aID, const int aPosX, const int aPosY);
+	Animacao* const getAnimacaoID(const int aID);
 };
 

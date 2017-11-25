@@ -58,7 +58,7 @@ public:
 	virtual void stopTimers();
 	virtual void resumeTimers();
 
-	bool operator!()
+	const bool operator!()
 	{
 		if (vida <= 0)
 			return true;

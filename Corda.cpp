@@ -41,9 +41,11 @@ void Corda::buildCorda(const int ax, const int ay, const int aLimX, const int aL
 void Corda::draw(const int posRelX, const int posRelY)
 {
 	if (escalavel)
-		listaAnim->drawDeAte_Y(0, posX - posRelX + limX/2, posY - posRelY - limY, posY - posRelY);
+		listaAnim->drawDeAte_Y(0, posX - posRelX + limX / 2, posY - posRelY - limY, posY - posRelY);
 	else
-		listaAnim->drawAnimacao(1, posX - posRelX + limX/2, posY - posRelY);
+	{
+		listaAnim->drawAnimacao(1, posX - posRelX + limX / 2, posY - posRelY);
+	}
 }
 
 void Corda::atualizar()

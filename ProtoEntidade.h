@@ -2,6 +2,13 @@
 class ProtoEntidade
 {
 protected:
+	//	float foi optado na posição para ser possível adicionar
+	//	frações com relação a movimentação, tanto em X quanto em Y
+	//					---------------
+	//	Para entidades, posição x e y correspondem a posição do canto esquerdo
+	//	inferior do objeto. A posição x+limX e y+limY correspondem
+	//	ao canto direito superior do objeto
+
 	float posX;
 	float posY;
 	int limX;

@@ -45,7 +45,10 @@ void Projetil::buildProjetil(const int ax, const int ay, const int aVelX, const 
 	{
 		armaProjetil = pArma;
 	}
-
+	if (listaAnim == nullptr)
+	{
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
+	}
 	if (aID == PROJETIL_MOSQ)
 	{
 		limX = LIM_X_PROJ_MOSQ;
@@ -82,5 +85,20 @@ Arma* const Projetil::getArmaProj()
 
 void Projetil::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	 al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX+limX-aPosFaseX, posY-limY-aPosFaseY, al_map_rgb(0, 255, 255));
+	 //al_draw_filled_rectangle(posX-aPosFaseX, posY-aPosFaseY, posX+limX-aPosFaseX, posY-limY-aPosFaseY, al_map_rgb(0, 255, 255));
+	
+	if (ID == PROJETIL_ARCO)
+	{
+		if (velX >= 0)
+			listaAnim->drawAnimacao(1, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+		else
+		{
+			listaAnim->drawAnimacaoInver(1, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+		}
+	}
+	else if (ID == PROJETIL_MOSQ)
+	{
+		listaAnim->drawAnimacao(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	}
+	
 }

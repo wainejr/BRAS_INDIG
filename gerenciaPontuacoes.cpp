@@ -65,7 +65,7 @@ void gerenciaPontuacoes::organiza()
 {
 	organizaIDs();
 	organizaPont();
-	//deleta();
+	deleta();
 }
 
 
@@ -97,11 +97,14 @@ void gerenciaPontuacoes::organizaPont()
 	while (posF < (int)pontuacoes.size())
 	{
 		int aID = pontuacoes[posI]->getID();
-		while (pontuacoes[posF]->getID() == aID && posF < (int)pontuacoes.size() - 1)
+		while (pontuacoes[posF]->getID() == aID)
 		{
 			posF++;
+			if (posF >= (int)pontuacoes.size())
+				break;
 		}
 		posF--;
+
 		if (posI != posF)
 		{
 			bool ordem = false;
@@ -134,14 +137,6 @@ void gerenciaPontuacoes::carregaFundo()
 	carregou_fundo = true;
 }
 
-
-void gerenciaPontuacoes::setDisplay(ALLEGRO_DISPLAY* const pDisp)
-{
-	if(pDisp != nullptr)
-		display = pDisp;
-}
-
-
 void gerenciaPontuacoes::setFonte(ALLEGRO_FONT* const pFont)
 {
 	if (pFont != nullptr)
@@ -165,7 +160,7 @@ void gerenciaPontuacoes::desenhaPont(const int aID, const int posX, const int po
 	int pos = 1;
 	while (pontuacoes[i]->getID() == aID)
 	{
-		al_draw_textf(font, al_map_rgb(186, 94, 78), posX, posY + (al_get_font_ascent(font)+10)*pos,
+		al_draw_textf(font, al_map_rgb(225, 255, 0), posX, posY + (al_get_font_ascent(font)+10)*pos,
 			ALLEGRO_ALIGN_LEFT, "%d: %.2f", pos, pontuacoes[i]->getPontos());
 		i++;
 		pos++;

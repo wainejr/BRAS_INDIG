@@ -47,7 +47,9 @@ protected:
 	ALLEGRO_FONT* arial18;
 	
 	ALLEGRO_BITMAP* fundo_pause;
-	ALLEGRO_BITMAP* tipo_pause;
+	ALLEGRO_BITMAP* logo_pause;
+	ALLEGRO_BITMAP* logo_colonizado;
+	ALLEGRO_BITMAP* logo_fase_completa;
 	bool carregouAllegro;
 	bool carregouFundoMapa;
 	

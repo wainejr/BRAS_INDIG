@@ -14,6 +14,8 @@ Fase::Fase()
 
 Fase::~Fase()
 {
+	deletaEntidades();
+	anulaJogs();
 	if (carregouAllegro)
 	{
 		al_destroy_timer(timer);
@@ -338,14 +340,15 @@ void Fase::execFase()
 				mapaFase.desenhaObjs();
 				if (fase_completa)
 				{
-					//	DESENHA TIPO FASE COMPLETA
-					al_draw_filled_circle(LARG / 2, ALT / 2, 200, al_map_rgb(255, 255, 255));
+					al_draw_bitmap(logo_fase_completa, LARG / 2 - al_get_bitmap_width(logo_fase_completa)/2,
+						ALT / 2 - al_get_bitmap_height(logo_fase_completa) / 2, 0);
 					done = true;
 				}
 				else if (derrota)
 				{
-					//	DESENHA TIPO VOCE FOI COLONIZADO
-					al_draw_text(arial18, al_map_rgb(255, 0, 0), LARG / 2, ALT / 2, ALLEGRO_ALIGN_CENTER, "VOCE FOI COLONIZADO");
+
+					al_draw_bitmap(logo_colonizado, LARG / 2 - al_get_bitmap_width(logo_colonizado)/2,
+						ALT / 2 - al_get_bitmap_height(logo_colonizado) / 2, 0);
 					done = true;
 				}
 				else
@@ -643,8 +646,10 @@ void Fase::initAllegroObjs()
 		queue = al_create_event_queue();
 		timer = al_create_timer(1.0 / FPS);
 		tempo_pontuacao = al_create_timer(PER_PONT);
-		tipo_pause = al_load_bitmap("sprites/tipos/tipo_pause.png");
-		fundo_pause = al_load_bitmap("sprites/backgrounds/Image11.png");
+		logo_pause = al_load_bitmap("sprites/logos/logo_pause.png");
+		fundo_pause = al_load_bitmap("sprites/backgrounds/fundoPause.png");
+		logo_colonizado = al_load_bitmap("sprites/logos/logo_colonizado.png");
+		logo_fase_completa = al_load_bitmap("sprites/logos/logo_faseCompleta.png");
 		carregaFundoMapa();
 		
 		//	----------	ADD FONTES À FILA DE EVENTOS   -------------
@@ -721,7 +726,7 @@ void Fase::setDisplay(ALLEGRO_DISPLAY* const pDisplay)
 void Fase::drawPause()
 {
 	al_draw_bitmap(fundo_pause, 0, 0, 0);
-	al_draw_bitmap(tipo_pause, LARG / 2 - al_get_bitmap_width(tipo_pause) / 2, 100 - al_get_bitmap_height(tipo_pause) / 2, 0);
+	al_draw_bitmap(logo_pause, LARG / 2 - al_get_bitmap_width(logo_pause) / 2, 100 - al_get_bitmap_height(logo_pause) / 2, 0);
 	gerBotoesFase.desenhaBotoes();
 }
 

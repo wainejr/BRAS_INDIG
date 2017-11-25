@@ -1,4 +1,24 @@
 #pragma once
+
+
+#define RAONI 1
+#define TECA 2
+#define MOSQUETEIRO 3
+#define ESPADACHIM 4
+#define CAVALEIRO 5
+#define ESPADA 6
+#define LANCA 7
+#define MOSQUETE 8
+#define ARCO 9
+#define PROJETIL_MOSQ 10
+#define PROJETIL_ARCO 11
+#define PLATAFORMA 12
+#define CORDA 13
+#define ARMADILHA 14
+#define ESPINHO 15
+#define REDE 16
+
+
 #define ACEL_X_INI 0.6
 #define ACEL_X_JOG 0.4
 #define ACEL_REDE 0.6
@@ -16,8 +36,8 @@
 
 //	Período de tempo entre ataques de cada Personagem 
 //	(contando o tempo que o pers fica em estado ataque)
-#define PER_ATAQ_MOSQ 2.5
-#define PER_ATAQ_ESP 2.0
+#define PER_ATAQ_MOSQ 1.5
+#define PER_ATAQ_ESP 1.0
 #define PER_ATAQ_JOG 0.5
 
 //Tempo que o jogador "fica" atacando, ou seja, que a arma fica esticada
@@ -35,21 +55,21 @@
 
 #define VIDA_MAX_JOG 100
 #define VIDA_MAX_ESP 50
-#define VIDA_MAX_MOSQ 30
+#define VIDA_MAX_MOSQ 25
 #define VIDA_MAX_CAV 40
 
 #define DIFF_PIXELS_PARAR_X 10
 #define DIFF_PIXELS_SEGUIR_Y 40
 #define DIFF_PIXELS_CAV_PARAR 60
 
-#define DANO_MOSQUETE 15
-#define DANO_ESPADA_ESP 20
+#define DANO_MOSQUETE 10
+#define DANO_ESPADA_ESP 15
 #define DANO_ESPADA_JOG	25
 #define DANO_LANCA 30
-#define DANO_ARCO 20
+#define DANO_ARCO 15
 
-#define DANO_ARMD 20
-#define DANO_ESPINHO 10
+#define DANO_ARMD 25
+#define DANO_ESPINHO 15
 #define DANO_REDE 50
 
 #define LIM_X_JOG 24
@@ -63,7 +83,7 @@
 
 #define LIM_X_ESPADA_ESP 18
 #define LIM_Y_ESPADA_ESP 5
-#define LIM_X_ESPADA_JOG 24
+#define LIM_X_ESPADA_JOG 32
 #define LIM_Y_ESPADA_JOG 5
 
 #define LIM_X_PROJ_MOSQ 4

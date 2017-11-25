@@ -34,10 +34,28 @@ const bool Plataforma::getColisaoBaixo()
 
 void Plataforma::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	if(colisaoBaixo)
-		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(150, 150, 150));
+	if (colisaoBaixo)
+	{
+		//	esses numeros vem das sprites da plataforma
+		if(limY <= 30)
+			listaAnim->drawDeAte_X(0, posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX);
+		else
+		{
+			Animacao* pAux = listaAnim->getAnimacaoID(0);
+			int alt1 = pAux->getAlt();
+			listaAnim->drawDeAte_X(0, posX - aPosFaseX, posY - aPosFaseY-limY+pAux->getAlt(), posX + limX - aPosFaseX);
+			pAux = listaAnim->getAnimacaoID(1);
+			for (int i = 1; limY - i *  pAux->getAlt() > 0; i++)
+			{
+				listaAnim->drawDeAte_X(1, posX - aPosFaseX, posY + alt1 - aPosFaseY - limY + i * pAux->getAlt(), posX + limX - aPosFaseX);
+			}
+			listaAnim->drawDeAte_X(1, posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX);
+		}
+	}
 	else
-		al_draw_filled_rectangle(posX- aPosFaseX, posY- aPosFaseY, posX + limX- aPosFaseX, posY - limY- aPosFaseY, al_map_rgb(255, 255, 255));
+	{
+		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 255, 255));
+	}
 	//	listaAnim->drawAnimacao(0, posX-aPosFaseX, posY-aPosFaseY);
 }
 
@@ -53,7 +71,7 @@ void Plataforma::buildPlataforma(const int ax, const int ay, const int aLimX, co
 	colisaoBaixo = aColisaoBaixo;
 	if (listaAnim == nullptr) 
 	{
-		//listaAnim = gerListaAnim.listaAnimEnt(ID);
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
 	}
 }
 

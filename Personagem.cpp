@@ -240,13 +240,13 @@ void Personagem::atualizaAtaque()
 
 Arma* const Personagem::constroiArma()
 {
-	if (ID == RAONI)
+	if (ID == TECA)
 	{
 		Espada* pEspada = new Espada;
 		pEspada->buildEspada(posX + limX, posY - limY / 2, LIM_X_ESPADA_JOG, LIM_Y_ESPADA_JOG, true, DANO_ESPADA_JOG, static_cast<Personagem*>(this));
 		return pEspada;
 	}
-	else if (ID == TECA)
+	else if (ID == RAONI)
 	{
 		Arco* pArco = new Arco;
 		pArco->buildArco(posX + limX, posY - limY / 2, true, static_cast<Personagem*>(this));
