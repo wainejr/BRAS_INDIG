@@ -92,7 +92,7 @@ public:
 	Fase();
 	virtual ~Fase();
 
-	virtual void initFase() = 0;
+	void initFase();
 	void setCampanha(const bool aCamp);
 	const int getNumJogs();
 	void setNumJogs(const int aNumJogs);

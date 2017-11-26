@@ -12,7 +12,7 @@ private:
 public:
 	Fase1();
 	~Fase1();
-	void initFase();
+	
 	void carregaFundoMapa();
 };
 

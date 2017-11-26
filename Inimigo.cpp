@@ -31,15 +31,6 @@ void Inimigo::atacar()
 }
 
 
-void Inimigo::atualizar()
-{
-	mover();
-	posX += velX;
-	posY -= velY;
-	atualizaArma();
-}
-
-
 void Inimigo::setAlvo(Jogador* const pJog)
 {
 	if(pJog != nullptr)

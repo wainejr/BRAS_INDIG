@@ -26,7 +26,7 @@ private:
 	};
 	FaseAnin* topo;
 	FaseAnin* ultimo;
-	static gerenciaPontuacoes* gerPont;
+	gerenciaPontuacoes* gerPont;
 public:
 	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
 	//	CLICAR PARA INICIAR O JOGO
@@ -39,6 +39,6 @@ public:
 	void setDisplays(ALLEGRO_DISPLAY* const pDisplay);
 	void addFaseIni(Fase* const pFase);
 	void anulaJogs();
-	static void setGerPont(gerenciaPontuacoes* const pGer);
+	void setGerPont(gerenciaPontuacoes* const pGer);
 };
 

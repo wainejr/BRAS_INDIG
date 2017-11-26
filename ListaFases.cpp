@@ -1,11 +1,9 @@
 #include "ListaFases.h"
 
-gerenciaPontuacoes* ListaFases::gerPont = nullptr;
-
 ListaFases::ListaFases()
 {
 	topo = nullptr;
-	
+	gerPont = nullptr;
 }
 
 
@@ -23,6 +21,9 @@ ListaFases::~ListaFases()
 		}
 		delete(pAux1);
 	}
+	topo = nullptr;
+	ultimo = nullptr;
+	gerPont = nullptr;
 }
 
 

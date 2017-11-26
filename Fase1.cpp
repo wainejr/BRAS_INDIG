@@ -15,16 +15,6 @@ Fase1::~Fase1()
 }
 
 
-void Fase1::initFase()
-{
-	initAllegroObjs();
-	if (!carregouBotoes) {
-		carregaBotoes();
-	}
-	buildEntidades();
-	addEntidades();
-	execFase();
-}
 
 
 void Fase1::buildEntidades()
@@ -35,7 +25,8 @@ void Fase1::buildEntidades()
 	if (num_jogs >= 1)
 	{
 		jog1->buildJogador(40, ALT - 50, true);
-		//jog1->setChances(1);
+	
+
 	}
 	if (num_jogs == 2)
 	{
@@ -57,9 +48,9 @@ void Fase1::buildEntidades()
 	plats[5]->buildPlataforma(LARG*5+50, ALT - 95, 50, 10, true, false);
 
 	//	corda esq
-	cords[0]->buildCorda(LARG*3+135, ALT - 30, 10, 230, true, true);
+	cords[0]->buildCorda(LARG*3+135, ALT - 30, 10, 210, true, true);
 	//	corda dir
-	cords[1]->buildCorda(LARG*4+305, ALT - 30, 10, 230, true, true);
+	cords[1]->buildCorda(LARG*4+305, ALT - 30, 10, 210, true, true);
 	
 	//	armd 1 op 80%
 	armds[0]->buildArmadilha(LARG+100, ALT - 30, true);

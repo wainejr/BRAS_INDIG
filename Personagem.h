@@ -32,7 +32,7 @@ public:
 	void setVida(const int aVida);
 	Arma* const getArma();
 	void parar();
-	virtual void atacar() {}
+	virtual void atacar() = 0;
 	virtual void atualizar() = 0;
 	void atualizaArma();
 	virtual void draw(const int aPosFaseX, const int aPosFaseY) = 0;

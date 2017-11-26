@@ -2,8 +2,9 @@
 #include "Entidade.h"
 #include "allegro5\allegro_primitives.h"
 
-bool gerenciaAnim::carregouRaoni = false;
 
+bool gerenciaAnim::carregouRaoni = false;
+Animacao* gerenciaAnim::raoni_anda = nullptr;
 
 bool gerenciaAnim::carregouTeca = false;
 
@@ -21,13 +22,14 @@ bool gerenciaAnim::carregouChefaoCap = false;
 
 
 bool gerenciaAnim::carregouProj = false;
-Animacao* gerenciaAnim::flecha = nullptr;
 Animacao* gerenciaAnim::tiro = nullptr;
+Animacao* gerenciaAnim::flecha = nullptr;
 
 
 bool gerenciaAnim::carregouPlat = false;
 Animacao* gerenciaAnim::plataforma_grama = nullptr;
 Animacao* gerenciaAnim::plataforma_chao = nullptr;
+Animacao* gerenciaAnim::plataforma_cima = nullptr;
 
 
 bool gerenciaAnim::carregouCorda = false;
@@ -108,7 +110,7 @@ ListaAnimacao* const gerenciaAnim::listaAnimRaoni()
 	if (!carregouRaoni)
 		carregaAnimRaoni();
 
-	// ADICIONA AS ANIMAÇÕES A LISTA
+	pListaAnim->addAnimacao(raoni_anda);
 
 	return pListaAnim;
 }
@@ -199,7 +201,8 @@ ListaAnimacao* const gerenciaAnim::listaAnimPlat()
 
 	pListaAnim->addAnimacao(plataforma_chao->copiaAnimacao());
 	pListaAnim->addAnimacao(plataforma_grama->copiaAnimacao());
-	
+	pListaAnim->addAnimacao(plataforma_cima->copiaAnimacao());
+
 	return pListaAnim;
 }
 
@@ -257,7 +260,17 @@ ListaAnimacao* const gerenciaAnim::listaAnimRede()
 
 void gerenciaAnim::carregaAnimRaoni()
 {
-	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	raoni_anda = new Animacao;
+	ALLEGRO_BITMAP* image_anda;
+	//ALLEGRO_BITMAP* image_flecha;
+
+	image_anda = al_load_bitmap("sprites/jogs/raoni_anda.png");
+	//image_flecha = al_load_bitmap("sprites/proj/projetil_flecha.png");
+
+	raoni_anda->setSprite(image_anda, 0, 28, al_get_bitmap_height(image_anda), 8, 1.0/15);
+	//flecha->setSprite(image_flecha, 1, al_get_bitmap_width(image_flecha), al_get_bitmap_height(image_flecha));
+	
+	carregouRaoni = true;
 }
 
 
@@ -314,14 +327,18 @@ void gerenciaAnim::carregaAnimPlat()
 {
 	plataforma_chao = new Animacao;
 	plataforma_grama = new Animacao;
+	plataforma_cima = new Animacao;
 	ALLEGRO_BITMAP* image_terra;
 	ALLEGRO_BITMAP* image_grama;
+	ALLEGRO_BITMAP* image_cima;
 
 	image_terra = al_load_bitmap("sprites/plats/plat_terra.png");
 	image_grama = al_load_bitmap("sprites/plats/plat_grama.png");
+	image_cima = al_load_bitmap("sprites/plats/plat_cima.png");
 
 	plataforma_chao->setSprite(image_terra, 1, al_get_bitmap_width(image_terra), al_get_bitmap_height(image_terra), 1);
 	plataforma_grama->setSprite(image_grama, 0, al_get_bitmap_width(image_grama), al_get_bitmap_height(image_grama), 1);
+	plataforma_cima->setSprite(image_cima, 2, al_get_bitmap_width(image_cima), al_get_bitmap_height(image_cima), 1);
 
 	carregouPlat = true;
 }

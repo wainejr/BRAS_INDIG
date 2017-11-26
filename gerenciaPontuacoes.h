@@ -32,7 +32,7 @@ private:
 	};
 
 	vector<Pontuacao*> pontuacoes;
-	vector<Pontuacao*>::iterator it;
+
 public:
 	
 	gerenciaPontuacoes();

@@ -9,7 +9,6 @@ private:
 public:
 	Fase2();
 	~Fase2();
-	void initFase();
 	void carregaFundoMapa();
 	
 };

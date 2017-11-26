@@ -49,6 +49,10 @@ void Jogador::buildJogador(const int ax, const int ay, const bool aAtivo, const 
 	ativo = aAtivo;
 	if (aID != -1)
 		ID = aID;
+	if (listaAnim == nullptr)
+	{
+		listaAnim = gerListaAnim.listaAnimEnt(ID);
+	}
 
 	vida = VIDA_MAX_JOG;
 	podeAtacar = false;
@@ -64,7 +68,7 @@ void Jogador::buildJogador(const int ax, const int ay, const bool aAtivo, const 
 	{
 		createTimers();
 	}
-
+	
 	if (aChances != -1)
 		chances = aChances;
 	subindo = false;
@@ -162,6 +166,14 @@ void Jogador::draw(const int aPosFaseX, const int aPosFaseY)
 	if (atacando)
 		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX()
 			- aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(255, 150, 0));
+
+	if (ID == RAONI)
+	{
+		if (velX > 0.5)
+			listaAnim->drawAnimacao(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+		else if (velX < -0.5)
+			listaAnim->drawAnimacaoInver(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	}
 }
 
 

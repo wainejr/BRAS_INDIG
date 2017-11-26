@@ -55,6 +55,7 @@ void Plataforma::draw(const int aPosFaseX, const int aPosFaseY)
 	else
 	{
 		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(255, 255, 255));
+		listaAnim->drawDeAte_X(2, posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX);
 	}
 	//	listaAnim->drawAnimacao(0, posX-aPosFaseX, posY-aPosFaseY);
 }

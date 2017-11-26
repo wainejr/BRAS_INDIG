@@ -730,6 +730,16 @@ void Fase::drawPause()
 	gerBotoesFase.desenhaBotoes();
 }
 
+void Fase::initFase()
+{
+	initAllegroObjs();
+	if (!carregouBotoes) {
+		carregaBotoes();
+	}
+	buildEntidades();
+	addEntidades();
+	execFase();
+}
 
 void Fase::drawLayout()
 {

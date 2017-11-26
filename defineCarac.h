@@ -22,7 +22,7 @@
 #define ACEL_X_INI 0.6
 #define ACEL_X_JOG 0.4
 #define ACEL_REDE 0.6
-#define ACEL_X_CAV 0.12
+#define ACEL_X_CAV 0.08
 
 #define VEL_PULO 5
 #define VEL_MAX_X_PERS 2

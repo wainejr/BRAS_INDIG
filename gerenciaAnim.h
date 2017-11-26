@@ -8,6 +8,7 @@ private:
 	//	DEIXAR TODAS ANIMAÇÕES ESTÁTICAS
 	
 	//	ANIMACOES RAONI
+	static Animacao* raoni_anda;
 	static bool carregouRaoni;
 
 	//	ANIMACOES TECA
@@ -33,6 +34,7 @@ private:
 	//	ANIMACOES PLATAFORMA
 	static Animacao* plataforma_grama;
 	static Animacao* plataforma_chao;
+	static Animacao* plataforma_cima;
 	static bool carregouPlat;
 
 	//	ANIMACOES CORDA

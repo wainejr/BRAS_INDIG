@@ -46,7 +46,8 @@ void Espadachim::mover()
 	//	valor da distância para parar definido pela arma empunhada
 	if (alvo != nullptr)
 	{
-		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY() - alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
+		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y && (posY - limY/2) >= (alvo->getY()-alvo->getLimY()/2) ||
+			(posY - (alvo->getY() - alvo->getLimY())) >= -DIFF_PIXELS_SEGUIR_Y && (posY - limY / 2) <= (alvo->getY() - alvo->getLimY() / 2))
 		{
 			if (posX - (alvo->getX() + alvo->getLimX()) > arma->getLimX() - 1)
 			{

@@ -2,7 +2,7 @@
 
 
 
-Cavaleiro::Cavaleiro():Inimigo(VIDA_MAX_ESP, 0, 0, VEL_MAX_X_PERS, VEL_PULO, ESPADACHIM, true, 0, 0, LIM_X_CAV, LIM_Y_CAV, false)
+Cavaleiro::Cavaleiro():Inimigo(VIDA_MAX_CAV, 0,0,  VEL_MAX_X_CAV, VEL_PULO, CAVALEIRO, true, 0, 0, LIM_X_CAV, LIM_Y_CAV, false)
 {
 }
 
@@ -21,7 +21,7 @@ void Cavaleiro::buildCav(const int ax, const int ay, const bool aAtivo, Jogador*
 	velY = 0;
 	ativo = aAtivo;
 
-	vida = VIDA_MAX_MOSQ;
+	vida = VIDA_MAX_CAV;
 	podeAtacar = true;
 	atacando = false;
 	invuneravel = false;
@@ -49,7 +49,8 @@ void Cavaleiro::mover()
 	//	do alvo para começar a segui-lo
 	if (alvo != nullptr)
 	{
-		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y || (posY - (alvo->getY() - alvo->getLimY())) <= -DIFF_PIXELS_SEGUIR_Y)
+		if ((posY - limY - alvo->getY()) <= DIFF_PIXELS_SEGUIR_Y && (posY - limY / 2) >= (alvo->getY() - alvo->getLimY() / 2) ||
+			(posY - (alvo->getY() - alvo->getLimY())) >= -DIFF_PIXELS_SEGUIR_Y && (posY - limY / 2) <= (alvo->getY() - alvo->getLimY() / 2))
 		{
 			//	se o cavaleiro estiver parado, vai na direção do alvo
 			if (velX == 0)
