@@ -4,14 +4,22 @@
 class gerenciaAnim
 {
 private:
-	//	TODAS ANIMA합ES DO JOGO 
-	//	DEIXAR TODAS ANIMA합ES EST햀ICAS
+	//	TODAS ANIMA합ES DO JOGO
 	
 	//	ANIMACOES RAONI
 	static Animacao* raoni_anda;
+	static Animacao* raoni_parado;
+	static Animacao* raoni_atacando;
+	static Animacao* raoni_subindo;
+	static Animacao* raoni_corda;
 	static bool carregouRaoni;
 
 	//	ANIMACOES TECA
+	static Animacao* teca_anda;
+	static Animacao* teca_parada;
+	static Animacao* teca_atacando;
+	static Animacao* teca_subindo;
+	static Animacao* teca_corda;
 	static bool carregouTeca;
 
 	//	ANIMACOES MOSQUETEIRO

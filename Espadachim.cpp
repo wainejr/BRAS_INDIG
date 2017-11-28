@@ -124,20 +124,6 @@ void Espadachim::createTimers()
 }
 
 
-void Espadachim::reset(const int ax, const int ay, const bool aAtivo)
-{
-	posX = ax;
-	posY = ay;
-	velX = 0;
-	velY = 0;
-	ativo = aAtivo;
-
-	vida = VIDA_MAX_ESP;
-	podeAtacar = true;
-	atacando = false;
-	invuneravel = false;
-}
-
 void Espadachim::atualizaAtaque()
 {
 	if (al_get_timer_count(timer_ataque) >= 1 && !podeAtacar && !atacando)

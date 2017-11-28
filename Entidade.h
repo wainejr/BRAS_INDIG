@@ -12,11 +12,6 @@
 //	O TAMANHO DOS INIMGOS/JOGADORES E A VELOCIDADE DAS BALAS DEVEM SER
 //	DIMENSIONADOS PARA QUE OS PROJETEIS NAO PASSEM DELES
 
-//	MUDAR OS buildS AO FINAL DO PROJETO PARA MAIOR FACILIDADE DE DESENVOLVIMENTO
-
-//	FAZER COM QUE OS buildS DEFINAM TODAS AS PROPRIEDADES DAS ENTIDADES
-
-
 class Entidade :
 	public ProtoEntidade
 {
@@ -56,6 +51,7 @@ public:
 	const int getVelY();
 	virtual void atualizar() = 0;
 	void setID(const int aID);
-	virtual void reset(const int ax, const int ay, const bool aAtivo);
+	void resumeTimerAnim();
+	void stopTimerAnim();
 };
 

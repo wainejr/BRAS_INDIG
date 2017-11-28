@@ -3,5 +3,5 @@
 
 void main()
 {
-	Jogo brasileirinho;
+	Jogo brasileirinho;	
 }

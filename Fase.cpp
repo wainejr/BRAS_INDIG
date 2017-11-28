@@ -54,8 +54,8 @@ void Fase::execFase()
 	//	VARIAVEIS ALLEGRO DO LOOP
 	ALLEGRO_EVENT ev;
 	
-	// só sera resumido quando a fase for completa
 	// ----------- LOOP PRINCIPAL ---------------------
+	al_flush_event_queue(queue);
 	criarTimers();
 	initTimers();
 	while (!done)
@@ -174,7 +174,6 @@ void Fase::execFase()
 					fase_completa = true;
 					stopTimers();
 				}
-				//	LOOP JOGO
 				if (!fase_completa && !derrota)
 				{
 					if (keys[P] && !pausado)
@@ -219,7 +218,7 @@ void Fase::execFase()
 										mapaFase.addProjetil(jog1->atirar());
 									else if (jog1->getArma()->getID() == ESPADA)
 										jog1->atacar();
-									keys[CTRL] = false; //evitar ataques contínuos
+									keys[CTRL] = false; // evitar ataques contínuos
 								}
 								if (!keys[LEFT] && !keys[RIGHT])
 								{
@@ -268,7 +267,7 @@ void Fase::execFase()
 										mapaFase.addProjetil(jog2->atirar());
 									else if (jog2->getArma()->getID() == ESPADA)
 										jog2->atacar();
-									keys[SPACE] = false; //evitar ataques contínuos
+									keys[SPACE] = false; // evitar ataques contínuos
 								}
 								if (!keys[A] && !keys[D])
 								{
@@ -455,7 +454,6 @@ void Fase::restart()
 	buildEntidades();
 	addEntidades();
 	mapaFase.resumeTimers();
-	//adicionar código aqui pra clicar pra reiniciar e tals
 }
 
 
@@ -745,7 +743,6 @@ void Fase::drawLayout()
 {
 	if (num_jogs >= 1)
 	{
-		//	DEPOIS FAZER ISSO DECENTEMENTE
 		al_draw_rectangle(10, 10, 10 + 100, 10 + 10, al_map_rgb(255, 255, 255), 3);
 		if(jog1->getVida() > 0)
 			al_draw_filled_rectangle(10, 10, 10 + jog1->getVida(), 10 + 10, al_map_rgb(0, 255, 0));

@@ -39,6 +39,7 @@ void Jogo::exec()
 	listaFases.setDisplays(display);
 	listaFases.setGerPont(&gerPont);
 	gerPont.setFonte(arial18);
+	gerPont.carregaTxt();
 	addBotoes();
 	
 	buildJogadores();
@@ -240,6 +241,8 @@ void Jogo::exec()
 			redraw = false;
 		}
 	}
+
+	gerPont.salvaTxt();
 }
 
 
@@ -404,7 +407,7 @@ void Jogo::carregaBotoes()
 
 	ALLEGRO_BITMAP* image_voltar;
 	ALLEGRO_BITMAP* imageSelec_voltar;
-	//	MUDAR DEPOIS
+	
 	image_voltar = al_load_bitmap("sprites/botoes/botao_voltar.png");
 	imageSelec_voltar = al_load_bitmap("sprites/botoes/botao_voltarSelec.png");
 	botao_voltar.setSprite(image_voltar, imageSelec_voltar, LARG_BOTAO, ALT_BOTAO);

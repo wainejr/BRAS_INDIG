@@ -36,9 +36,9 @@
 
 //	Período de tempo entre ataques de cada Personagem 
 //	(contando o tempo que o pers fica em estado ataque)
-#define PER_ATAQ_MOSQ 1.5
-#define PER_ATAQ_ESP 1.0
-#define PER_ATAQ_JOG 0.5
+#define PER_ATAQ_MOSQ 2.0
+#define PER_ATAQ_ESP 1.5
+#define PER_ATAQ_JOG 0.6
 
 //Tempo que o jogador "fica" atacando, ou seja, que a arma fica esticada
 #define TEMP_ATAQ_JOG 0.2
@@ -63,27 +63,27 @@
 #define DIFF_PIXELS_CAV_PARAR 60
 
 #define DANO_MOSQUETE 10
-#define DANO_ESPADA_ESP 15
-#define DANO_ESPADA_JOG	25
-#define DANO_LANCA 30
-#define DANO_ARCO 15
+#define DANO_ESPADA_ESP 10
+#define DANO_ESPADA_JOG	30
+#define DANO_LANCA 25
+#define DANO_ARCO 20
 
 #define DANO_ARMD 25
 #define DANO_ESPINHO 15
 #define DANO_REDE 50
 
-#define LIM_X_JOG 24
-#define LIM_Y_JOG 48
+#define LIM_X_JOG 18
+#define LIM_Y_JOG 40
 #define LIM_X_ESP 24
-#define LIM_Y_ESP 48
+#define LIM_Y_ESP 40
 #define LIM_X_MOSQ 24
-#define LIM_Y_MOSQ 48
+#define LIM_Y_MOSQ 40
 #define LIM_X_CAV 64
 #define LIM_Y_CAV 48
 
-#define LIM_X_ESPADA_ESP 18
+#define LIM_X_ESPADA_ESP 16
 #define LIM_Y_ESPADA_ESP 5
-#define LIM_X_ESPADA_JOG 32
+#define LIM_X_ESPADA_JOG 14
 #define LIM_Y_ESPADA_JOG 5
 
 #define LIM_X_PROJ_MOSQ 4

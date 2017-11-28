@@ -8,6 +8,7 @@ private:
 	bool subindo;
 	bool subiu;		//	gerenciamento interno apenas
 	bool imovel;	//	gerenciamento interno apenas
+	bool corda;
 	ALLEGRO_TIMER*	timer_imovel;
 
 public:
@@ -40,7 +41,6 @@ public:
 	void destruirTimer();
 	void initTimer();
 	Projetil* const atirar();
-	void reset(const int ax, const int ay, const bool aAtivo);
 	void resetChances();
 	void atualizaAtaque();
 	void resetaTimers();
@@ -58,5 +58,6 @@ public:
 		return--(*this);
 	}
 	
+	void setCorda(const bool pCorda);
 };
 

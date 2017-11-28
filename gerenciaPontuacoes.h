@@ -4,6 +4,8 @@
 #include "allegro5/allegro_font.h"
 #include <vector>
 #include <iostream>
+#include <fstream>
+
 using namespace std;
 
 class gerenciaPontuacoes
@@ -24,6 +26,7 @@ private:
 		int ID;
 	public:
 		Pontuacao();
+		Pontuacao(int aID, float aPont);
 		~Pontuacao();
 		void setID(const int aID);
 		const int getID();
@@ -42,5 +45,7 @@ public:
 	void setFonte(ALLEGRO_FONT* const pFont);
 	void desenhaPont(const int aID, const int posX, const int posY);
 	void deleta();
+	void salvaTxt();
+	void carregaTxt();
 };
 

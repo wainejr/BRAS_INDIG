@@ -103,7 +103,16 @@ void Entidade::setID(const int aID)
 }
 
 
-void Entidade::reset(const int ax, const int ay, const bool aAtivo)
-{
 
+void Entidade::resumeTimerAnim()
+{
+	if(listaAnim != nullptr)
+		listaAnim->resumeTimers();
+}
+
+
+void Entidade::stopTimerAnim()
+{
+	if(listaAnim != nullptr)
+		listaAnim->stopTimers();
 }

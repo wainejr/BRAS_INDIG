@@ -58,7 +58,7 @@ protected:
 	static Jogador* jog2;
 	static int num_jogs;
 	gerenciadorBotoes gerBotoesFase;
-	Botao botao_continuar;	//MUDAR PARA PONTEIRO PARA BOTÃO DEPOIS
+	Botao botao_continuar;	
 	Botao botao_menu;
 	bool carregouBotoes;
 

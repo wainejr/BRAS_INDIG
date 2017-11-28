@@ -29,7 +29,7 @@ private:
 	gerenciadorBotoes gerBotoes;
 	gerenciaPontuacoes gerPont;
 	Botao botao_sair;
-	Botao botao_controles; //	A FAZER E IMPLEMENTAR UM NOVO ESTADO NO JOGO
+	Botao botao_controles; 
 	Botao botao_novoJogo;
 	Botao botao_campanha;
 	Botao botao_fase1;

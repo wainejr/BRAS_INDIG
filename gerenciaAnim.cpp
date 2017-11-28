@@ -5,9 +5,17 @@
 
 bool gerenciaAnim::carregouRaoni = false;
 Animacao* gerenciaAnim::raoni_anda = nullptr;
+Animacao* gerenciaAnim::raoni_parado = nullptr;
+Animacao* gerenciaAnim::raoni_atacando = nullptr;
+Animacao* gerenciaAnim::raoni_subindo = nullptr;
+Animacao* gerenciaAnim::raoni_corda = nullptr;
 
 bool gerenciaAnim::carregouTeca = false;
-
+Animacao* gerenciaAnim::teca_anda = nullptr;
+Animacao* gerenciaAnim::teca_parada = nullptr;
+Animacao* gerenciaAnim::teca_atacando = nullptr;
+Animacao* gerenciaAnim::teca_subindo = nullptr;
+Animacao* gerenciaAnim::teca_corda = nullptr;
 
 bool gerenciaAnim::carregouMosq = false;
 
@@ -110,7 +118,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimRaoni()
 	if (!carregouRaoni)
 		carregaAnimRaoni();
 
-	pListaAnim->addAnimacao(raoni_anda);
+	pListaAnim->addAnimacao(raoni_anda->copiaAnimacao());
+	pListaAnim->addAnimacao(raoni_parado->copiaAnimacao());
+	pListaAnim->addAnimacao(raoni_subindo->copiaAnimacao());
+	pListaAnim->addAnimacao(raoni_atacando->copiaAnimacao());
+	pListaAnim->addAnimacao(raoni_corda->copiaAnimacao());
 
 	return pListaAnim;
 }
@@ -122,7 +134,11 @@ ListaAnimacao* const gerenciaAnim::listaAnimTeca()
 	if (!carregouTeca)
 		carregaAnimTeca();
 
-	// ADICIONA AS ANIMAÇÕES A LISTA
+	pListaAnim->addAnimacao(teca_anda->copiaAnimacao());
+	pListaAnim->addAnimacao(teca_parada->copiaAnimacao());
+	pListaAnim->addAnimacao(teca_subindo->copiaAnimacao());
+	pListaAnim->addAnimacao(teca_atacando->copiaAnimacao());
+	pListaAnim->addAnimacao(teca_corda->copiaAnimacao());
 
 	return pListaAnim;
 }
@@ -261,28 +277,86 @@ ListaAnimacao* const gerenciaAnim::listaAnimRede()
 void gerenciaAnim::carregaAnimRaoni()
 {
 	raoni_anda = new Animacao;
+	raoni_parado = new Animacao;
+	raoni_atacando = new Animacao;
+	raoni_subindo = new Animacao;
+	raoni_corda = new Animacao;
+
 	ALLEGRO_BITMAP* image_anda;
-	//ALLEGRO_BITMAP* image_flecha;
+	ALLEGRO_BITMAP* image_parado;
+	ALLEGRO_BITMAP* image_ataque;
+	ALLEGRO_BITMAP* image_subindo;
+	ALLEGRO_BITMAP* image_corda;
 
 	image_anda = al_load_bitmap("sprites/jogs/raoni_anda.png");
-	//image_flecha = al_load_bitmap("sprites/proj/projetil_flecha.png");
+	image_parado = al_load_bitmap("sprites/jogs/raoni_parado.png");
+	image_ataque = al_load_bitmap("sprites/jogs/raoni_atacando.png");
+	image_subindo = al_load_bitmap("sprites/jogs/raoni_subindo.png");
+	image_corda = al_load_bitmap("sprites/jogs/raoni_corda.png");
 
-	raoni_anda->setSprite(image_anda, 0, 28, al_get_bitmap_height(image_anda), 8, 1.0/15);
-	//flecha->setSprite(image_flecha, 1, al_get_bitmap_width(image_flecha), al_get_bitmap_height(image_flecha));
-	
+	raoni_anda->setSprite(image_anda, 0, 28, al_get_bitmap_height(image_anda), 8, 1.0 / 15);
+	raoni_parado->setSprite(image_parado, 1, 28, al_get_bitmap_height(image_parado));
+	raoni_atacando->setSprite(image_ataque, 2, 33, al_get_bitmap_height(image_ataque), 6, 1.0 / 30);
+	raoni_subindo->setSprite(image_subindo, 3, 30, al_get_bitmap_height(image_subindo), 4, 1.0 / 10);
+	raoni_corda->setSprite(image_corda, 4, 30, al_get_bitmap_height(image_corda));
+
 	carregouRaoni = true;
 }
 
 
 void gerenciaAnim::carregaAnimTeca()
 {
-	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	teca_anda = new Animacao;
+	teca_parada = new Animacao;
+	teca_atacando = new Animacao;
+	teca_subindo = new Animacao;
+	teca_corda = new Animacao;
+
+	ALLEGRO_BITMAP* image_anda;
+	ALLEGRO_BITMAP* image_parada;
+	ALLEGRO_BITMAP* image_ataque;
+	ALLEGRO_BITMAP* image_subindo;
+	ALLEGRO_BITMAP* image_corda;
+
+	image_anda = al_load_bitmap("sprites/jogs/teca_anda.png");
+	image_parada = al_load_bitmap("sprites/jogs/teca_parada.png");
+	image_ataque = al_load_bitmap("sprites/jogs/teca_atacando.png");
+	image_subindo = al_load_bitmap("sprites/jogs/teca_subindo.png");
+	image_corda = al_load_bitmap("sprites/jogs/teca_corda.png");
+
+	teca_anda->setSprite(image_anda, 0, 25, al_get_bitmap_height(image_anda), 8, 1.0 / 15);
+	teca_parada->setSprite(image_parada, 1, 25, al_get_bitmap_height(image_parada));
+	teca_atacando->setSprite(image_ataque, 2, 27, al_get_bitmap_height(image_ataque), 5, 1.0 / 30);
+	teca_subindo->setSprite(image_subindo, 3, 30, al_get_bitmap_height(image_subindo), 4, 1.0 / 10);
+	teca_corda->setSprite(image_corda, 4, 30, al_get_bitmap_height(image_corda));
 }
 
 
 void gerenciaAnim::carregaAnimMosq()
 {
-	//	CARREGA OS BITMAPS E DEFINE AS ANIMAÇOES, SEUS IDS E LARGURA E TD
+	raoni_anda = new Animacao;
+	raoni_parado = new Animacao;
+	raoni_atacando = new Animacao;
+	raoni_subindo = new Animacao;
+	raoni_corda = new Animacao;
+
+	ALLEGRO_BITMAP* image_anda;
+	ALLEGRO_BITMAP* image_parado;
+	ALLEGRO_BITMAP* image_ataque;
+	ALLEGRO_BITMAP* image_subindo;
+	ALLEGRO_BITMAP* image_corda;
+
+	image_anda = al_load_bitmap("sprites/jogs/raoni_anda.png");
+	image_parado = al_load_bitmap("sprites/jogs/raoni_parado.png");
+	image_ataque = al_load_bitmap("sprites/jogs/raoni_atacando.png");
+	image_subindo = al_load_bitmap("sprites/jogs/raoni_subindo.png");
+	image_corda = al_load_bitmap("sprites/jogs/raoni_corda.png");
+
+	raoni_anda->setSprite(image_anda, 0, 28, al_get_bitmap_height(image_anda), 8, 1.0 / 15);
+	raoni_parado->setSprite(image_parado, 1, 28, al_get_bitmap_height(image_parado));
+	raoni_atacando->setSprite(image_ataque, 2, 33, al_get_bitmap_height(image_ataque), 6, 1.0 / 30);
+	raoni_subindo->setSprite(image_subindo, 3, 30, al_get_bitmap_height(image_subindo), 4, 1.0 / 10);
+	raoni_corda->setSprite(image_corda, 4, 30, al_get_bitmap_height(image_corda));
 }
 
 

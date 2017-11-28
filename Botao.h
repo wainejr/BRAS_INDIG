@@ -1,14 +1,13 @@
 #pragma once
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
-#include "allegro5\allegro_primitives.h" //	PARA TESTES
 #include "ProtoEntidade.h"
 
 class Botao :
 	public ProtoEntidade
 {
 private:
-	// FAZER DUAS SPRITES PELO MENOS, UM PRA NORMAL OUTRO PRA PRESSOINADO/BOTAO EM CIMA
+	
 	ALLEGRO_BITMAP* spriteBot;
 	ALLEGRO_BITMAP* spriteBotSelec;
 	bool selec;

@@ -192,3 +192,121 @@ void gerenciaPontuacoes::deleta()
 		}
 	}
 }
+
+
+void gerenciaPontuacoes::salvaTxt()
+{
+	string s = "";
+	for (int i = 0; i < (int)pontuacoes.size(); i++)
+	{
+		s += (pontuacoes[i]->getID()+48);
+		s += "-";
+		int num = 1000 * pontuacoes[i]->getPontos();
+		num /= 10;
+		int aux = num;
+		int casa = 0;
+		while (aux > 0)
+		{
+			aux /= 10;
+			casa++;
+		}
+		
+		int u = 0;
+		while (u < casa)
+		{
+			s += num % 10 + 48;
+			num /= 10;
+			u++;
+		}
+		s += "/";
+	}
+	ofstream outfile;
+	outfile.open("pontuacoes.txt", ios::out | ios::trunc);
+	outfile << s.c_str();
+	outfile.close();
+}
+
+gerenciaPontuacoes::Pontuacao::Pontuacao(const int aID, const float aPont)
+{
+	ID = aID;
+	pont = aPont;
+}
+
+
+void gerenciaPontuacoes::carregaTxt()
+{
+	ifstream infile;
+	infile.open("pontuacoes.txt", ios::in);
+	if (!infile.is_open())
+		return;
+	string s = "";
+	
+	while (!infile.eof())
+		s += infile.get();
+	bool done = false;
+	for (int i = 0; i < (int)s.size(); i++)
+	{
+		int ID = -1;
+		int pot = 1;
+		while (s[i] > '9' || s[i] < '0')
+		{
+			i++;
+			if (i >= s.size())
+			{
+				done = true;
+				break;
+			}
+		}
+		if (done)
+			break;
+		
+		while (s[i] <= '9' && s[i] >= '0')
+		{
+			if (ID == -1)
+				ID = 0;
+			ID += (s[i] - 48)*pot;
+			i++;
+			pot *= 10;
+			if (i >= s.size())
+			{
+				done = true;
+				break;
+			}
+		}
+		if (done)
+			break;
+		int pont = -1;
+		
+		pot = 1;
+		while (s[i] > '9' || s[i] < '0')
+		{
+			i++;
+			if (i >= s.size())
+			{
+				done = true;
+				break;
+			}
+		}
+		if (done)
+			break;
+
+		while (s[i] <= '9' && s[i] >= '0')
+		{
+			if (pont == -1)
+				pont = 0;
+			pont += (s[i] - 48)*pot;
+			i++;
+			pot *= 10;
+			if (i >= s.size())
+				break;
+		}
+
+		float tempo = pont;
+		if (ID != -1 && pont != -1)
+		{
+			Pontuacao* pont = new Pontuacao(ID, tempo / 100);
+			pontuacoes.push_back(pont);
+		}
+	}
+	organiza();
+}

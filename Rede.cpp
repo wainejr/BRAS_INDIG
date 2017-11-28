@@ -87,17 +87,6 @@ void Rede::atualizar()
 }
 
 
-void Rede::reset(const int ax, const int ay, const bool aAtivo)
-{
-	posX = ax;
-	posY = ay;
-	velX = 0;
-	velY = 0;
-	ativo = aAtivo;
-
-	ativada = false;
-}
-
 void Rede::initTimer()
 {
 }

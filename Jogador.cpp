@@ -1,6 +1,6 @@
 #include "Jogador.h"
 
-Jogador::Jogador():Personagem(VIDA_MAX_JOG, 0, 0, VEL_MAX_X_JOG, VEL_PULO, -1, true, 0, 0, LIM_X_JOG, LIM_Y_JOG, false)
+Jogador::Jogador() :Personagem(VIDA_MAX_JOG, 0, 0, VEL_MAX_X_JOG, VEL_PULO, -1, true, 0, 0, LIM_X_JOG, LIM_Y_JOG, false)
 {
 	chances = 3; //	3 chances é o padrão inicial
 	subindo = false;
@@ -11,7 +11,7 @@ Jogador::Jogador():Personagem(VIDA_MAX_JOG, 0, 0, VEL_MAX_X_JOG, VEL_PULO, -1, t
 
 Jogador::Jogador(const int aChances, const int aID, const int aVida, const float aVelX,
 	const float aVelY, const float aVelMaxX, const float aVelMaxY, const bool aFisica, const float aPosX,
-	const float aPosY, const int aLimX, const int aLimY, const bool aAtivo):
+	const float aPosY, const int aLimX, const int aLimY, const bool aAtivo) :
 	Personagem(aVida, aVelX, aVelY, aVelMaxX, aVelMaxY, aID, aFisica, aPosX, aPosY, aLimX, aLimY, aAtivo)
 {
 	chances = aChances;
@@ -68,7 +68,7 @@ void Jogador::buildJogador(const int ax, const int ay, const bool aAtivo, const 
 	{
 		createTimers();
 	}
-	
+
 	if (aChances != -1)
 		chances = aChances;
 	subindo = false;
@@ -159,21 +159,38 @@ void Jogador::atualizar()
 
 void Jogador::draw(const int aPosFaseX, const int aPosFaseY)
 {
-	if (!invuneravel)
-		al_draw_filled_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0));
-	else
-		al_draw_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0), 2);
-	if (atacando)
-		al_draw_filled_rectangle(arma->getX() - aPosFaseX, arma->getY() - aPosFaseY, arma->getX() + arma->getLimX()
-			- aPosFaseX, arma->getY() - arma->getLimY() - aPosFaseY, al_map_rgb(255, 150, 0));
+	if(invuneravel)
+		al_draw_rectangle(posX - aPosFaseX, posY - aPosFaseY, posX + limX - aPosFaseX, posY - limY - aPosFaseY, al_map_rgb(0, 255, 0), 1);
 
-	if (ID == RAONI)
+	if (atacando)
 	{
-		if (velX > 0.5)
-			listaAnim->drawAnimacao(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
-		else if (velX < -0.5)
-			listaAnim->drawAnimacaoInver(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+		if (dir)
+		{
+			listaAnim->drawAnimacao(2, posX - aPosFaseX + limX / 2 + 5, posY - aPosFaseY);
+		}
+		else
+		{
+			listaAnim->drawAnimacaoInver(2, posX - aPosFaseX + limX / 2 - 5, posY - aPosFaseY);
+		}
 	}
+	else if (subindo)
+	{
+		listaAnim->drawAnimacao(3, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	}
+	else if (corda)
+	{
+		listaAnim->drawAnimacao(4, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	}
+	else if (velX > 0.5)
+		listaAnim->drawAnimacao(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	else if (velX < -0.5)
+		listaAnim->drawAnimacaoInver(0, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	else if (dir)
+		listaAnim->drawAnimacao(1, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+	else
+		listaAnim->drawAnimacaoInver(1, posX - aPosFaseX + limX / 2, posY - aPosFaseY);
+
+
 }
 
 
@@ -216,6 +233,7 @@ void Jogador::descer()
 	if (!imovel)
 	{
 		velY = -VEL_SUBIDA;
+		subiu = true;
 	}
 }
 
@@ -323,7 +341,7 @@ Projetil* const Jogador::atirar()
 		if (dir)
 			pProj->buildProjetil(arma->getX(), arma->getY(), VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 		else
-			pProj->buildProjetil(arma->getX()-pProj->getLimX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
+			pProj->buildProjetil(arma->getX() - pProj->getLimX(), arma->getY(), -VEL_MAX_PROJ, true, PROJETIL_ARCO, arma);
 
 		pProj->setArmaProj(arma);
 		atacando = true;
@@ -335,25 +353,6 @@ Projetil* const Jogador::atirar()
 		return pProj;
 	}
 	return nullptr;
-}
-
-
-void Jogador::reset(const int ax, const int ay, const bool aAtivo)
-{
-	posX = ax;
-	posY = ay;
-	velX = 0;
-	velY = 0;
-	ativo = aAtivo;
-
-	vida = VIDA_MAX_JOG;
-	podeAtacar = false;
-	atacando = false;
-	invuneravel = false;
-
-	subindo = false;
-	subiu = false;
-	imovel = false;
 }
 
 
@@ -412,4 +411,10 @@ void Jogador::resumeTimers()
 		al_resume_timer(timer_invuneravel);
 	if (listaAnim != nullptr)
 		listaAnim->resumeTimers();
+}
+
+
+void Jogador::setCorda(const bool pCorda)
+{
+	corda = pCorda;
 }

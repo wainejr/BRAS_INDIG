@@ -342,6 +342,10 @@ void Mapa::gerenciaColisaoPlatObstProj()
 				}
 				colisaoLinhaRede(pJog);
 				colisaoPlat(static_cast<Entidade*>(pJog));
+				if (jogadorEstaNumaCorda(pJog))
+					pJog->setCorda(true);
+				else
+					pJog->setCorda(false);
 			}
 		}
 	}
@@ -1147,6 +1151,11 @@ void Mapa::initTimers()
 		pObs = obstaculos.obstPosi(i);
 		pObs->initTimer();
 	}
+
+	for (i = 0; i < entidades.numEnt(); i++)
+	{
+		entidades.entPosI(i)->resumeTimerAnim();
+	}
 }
 
 void Mapa::stopTimers()
@@ -1177,6 +1186,10 @@ void Mapa::stopTimers()
 		pObs->stopTimers();
 	}
 
+	for (i = 0; i < entidades.numEnt(); i++)
+	{
+		entidades.entPosI(i)->stopTimerAnim();
+	}
 }
 
 
@@ -1206,6 +1219,11 @@ void Mapa::resumeTimers()
 	{
 		pObs = obstaculos.obstPosi(i);
 		pObs->resumeTimers();
+	}
+
+	for (i = 0; i < entidades.numEnt(); i++)
+	{
+		entidades.entPosI(i)->resumeTimerAnim();
 	}
 }
 

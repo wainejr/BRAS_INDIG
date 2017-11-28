@@ -28,8 +28,7 @@ private:
 	FaseAnin* ultimo;
 	gerenciaPontuacoes* gerPont;
 public:
-	//	FAZER UMA FUNÇÃO PARA INICIALIZAR AS OPÇÕES E TALS QUANDO
-	//	CLICAR PARA INICIAR O JOGO
+		
 	ListaFases();
 	~ListaFases();
 	bool defineNumJogadores(const int aNumJogs);

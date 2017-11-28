@@ -174,7 +174,7 @@ void Animacao::drawInvertido(const int aPosX, const int aPosY)
 	}
 
 	al_draw_tinted_scaled_rotated_bitmap_region(sprite, largFrame*currFrame, 0, largFrame, altFrame, 
-		al_map_rgb(255, 255, 255), largFrame*currFrame + largFrame / 2, altFrame / 2, aPosX-largFrame*currFrame, aPosY-altFrame/2, -1, 1, 0, 0);
+		al_map_rgb(255, 255, 255), 0, 0, aPosX+largFrame/2, aPosY-altFrame, -1, 1, 0, 0);
 
 	if (periodo != nullptr)
 	{
