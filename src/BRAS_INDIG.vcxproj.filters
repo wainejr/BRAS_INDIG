@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Entidades">
+      <UniqueIdentifier>{29c1445c-31e9-4a75-b878-83d1a30fbc1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Personagens">
+      <UniqueIdentifier>{b5e8aaef-aa15-40c2-a699-30ae738efc9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Armas">
+      <UniqueIdentifier>{7b047057-ae0c-4e32-b709-f8965679bdca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Obstáculos">
+      <UniqueIdentifier>{c022dc78-2f19-41cc-bc3b-b88f47fefdfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Personagens\Inimigos">
+      <UniqueIdentifier>{9beefdce-e7b0-424b-ad47-70f957b751e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Plataformas">
+      <UniqueIdentifier>{9c359f7d-bb45-4b65-9576-924e4d6d28ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gerenciadores">
+      <UniqueIdentifier>{35759c38-99e2-4f1d-bfb7-19b549b33499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Elementos Jogo">
+      <UniqueIdentifier>{4d8c3211-17ae-48dd-bf97-d22eee35a733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entidades">
+      <UniqueIdentifier>{9590f351-dbc5-4280-80db-27b8e1947363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gerenciadores">
+      <UniqueIdentifier>{dd2d5473-2c21-405b-953d-8d0972bfcb2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elementos Jogo">
+      <UniqueIdentifier>{8002b549-e6e2-453f-9ca4-f97c064c5cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entidades\Plataformas">
+      <UniqueIdentifier>{87134d4a-fcad-4d91-9b6a-41f6aba9a1f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entidades\Obstáculos">
+      <UniqueIdentifier>{243b291d-94d5-4652-a914-8ca2629c4b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entidades\Personagens">
+      <UniqueIdentifier>{6487bf38-713a-4a25-b45f-6cbd519bd691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entidades\Armas">
+      <UniqueIdentifier>{d4adc30b-6ba0-480a-932d-3a569c2643c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entidades\Personagens\Inimigos">
+      <UniqueIdentifier>{3ff80fa9-149e-4032-9640-f53e03c93bd3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Arco.h">
+      <Filter>Header Files\Entidades\Armas</Filter>
+    </ClInclude>
+    <ClInclude Include="Arma.h">
+      <Filter>Header Files\Entidades\Armas</Filter>
+    </ClInclude>
+    <ClInclude Include="Armadilha.h">
+      <Filter>Header Files\Entidades\Obstáculos</Filter>
+    </ClInclude>
+    <ClInclude Include="Corda.h">
+      <Filter>Header Files\Entidades\Plataformas</Filter>
+    </ClInclude>
+    <ClInclude Include="Plataforma.h">
+      <Filter>Header Files\Entidades\Plataformas</Filter>
+    </ClInclude>
+    <ClInclude Include="Entidade.h">
+      <Filter>Header Files\Entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Espada.h">
+      <Filter>Header Files\Entidades\Armas</Filter>
+    </ClInclude>
+    <ClInclude Include="Espadachim.h">
+      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
+    </ClInclude>
+    <ClInclude Include="Espinho.h">
+      <Filter>Header Files\Entidades\Obstáculos</Filter>
+    </ClInclude>
+    <ClInclude Include="Inimigo.h">
+      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
+    </ClInclude>
+    <ClInclude Include="Jogador.h">
+      <Filter>Header Files\Entidades\Personagens</Filter>
+    </ClInclude>
+    <ClInclude Include="Lanca.h">
+      <Filter>Header Files\Entidades\Armas</Filter>
+    </ClInclude>
+    <ClInclude Include="Mosquete.h">
+      <Filter>Header Files\Entidades\Armas</Filter>
+    </ClInclude>
+    <ClInclude Include="Mosqueteiro.h">
+      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstaculo.h">
+      <Filter>Header Files\Entidades\Obstáculos</Filter>
+    </ClInclude>
+    <ClInclude Include="Personagem.h">
+      <Filter>Header Files\Entidades\Personagens</Filter>
+    </ClInclude>
+    <ClInclude Include="Rede.h">
+      <Filter>Header Files\Entidades\Obstáculos</Filter>
+    </ClInclude>
+    <ClInclude Include="Projetil.h">
+      <Filter>Header Files\Entidades\Armas</Filter>
+    </ClInclude>
+    <ClInclude Include="EntConcreteClasses.h">
+      <Filter>Header Files\Gerenciadores</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaFases.h">
+      <Filter>Header Files\Gerenciadores</Filter>
+    </ClInclude>
+    <ClInclude Include="Fase.h">
+      <Filter>Header Files\Elementos Jogo</Filter>
+    </ClInclude>
+    <ClInclude Include="Fase1.h">
+      <Filter>Header Files\Elementos Jogo</Filter>
+    </ClInclude>
+    <ClInclude Include="Fase2.h">
+      <Filter>Header Files\Elementos Jogo</Filter>
+    </ClInclude>
+    <ClInclude Include="Jogo.h">
+      <Filter>Header Files\Elementos Jogo</Filter>
+    </ClInclude>
+    <ClInclude Include="definesMacros.h">
+      <Filter>Header Files\Gerenciadores</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lista.h">
+      <Filter>Header Files\Gerenciadores</Filter>
+    </ClInclude>
+    <ClInclude Include="Mapa.h">
+      <Filter>Header Files\Elementos Jogo</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaAnimacao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animacao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gerenciaAnim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Botao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gerenciadorBotoes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="defineCarac.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaInimigos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaProjeteis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaEntidades.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaObstaculos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListaPlataformas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cavaleiro.h">
+      <Filter>Header Files\Entidades\Personagens\Inimigos</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtoEntidade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gerenciaPontuacoes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaFases.cpp">
+      <Filter>Source Files\Gerenciadores</Filter>
+    </ClCompile>
+    <ClCompile Include="Fase2.cpp">
+      <Filter>Source Files\Elementos Jogo</Filter>
+    </ClCompile>
+    <ClCompile Include="Fase.cpp">
+      <Filter>Source Files\Elementos Jogo</Filter>
+    </ClCompile>
+    <ClCompile Include="Fase1.cpp">
+      <Filter>Source Files\Elementos Jogo</Filter>
+    </ClCompile>
+    <ClCompile Include="Jogo.cpp">
+      <Filter>Source Files\Elementos Jogo</Filter>
+    </ClCompile>
+    <ClCompile Include="Arco.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Arma.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Espada.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Mosquete.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Projetil.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Rede.cpp">
+      <Filter>Source Files\Entidades\Obstáculos</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstaculo.cpp">
+      <Filter>Source Files\Entidades\Obstáculos</Filter>
+    </ClCompile>
+    <ClCompile Include="Espinho.cpp">
+      <Filter>Source Files\Entidades\Obstáculos</Filter>
+    </ClCompile>
+    <ClCompile Include="Armadilha.cpp">
+      <Filter>Source Files\Entidades\Obstáculos</Filter>
+    </ClCompile>
+    <ClCompile Include="Corda.cpp">
+      <Filter>Source Files\Entidades\Plataformas</Filter>
+    </ClCompile>
+    <ClCompile Include="Plataforma.cpp">
+      <Filter>Source Files\Entidades\Plataformas</Filter>
+    </ClCompile>
+    <ClCompile Include="Personagem.cpp">
+      <Filter>Source Files\Entidades\Personagens</Filter>
+    </ClCompile>
+    <ClCompile Include="Jogador.cpp">
+      <Filter>Source Files\Entidades\Personagens</Filter>
+    </ClCompile>
+    <ClCompile Include="Entidade.cpp">
+      <Filter>Source Files\Entidades</Filter>
+    </ClCompile>
+    <ClCompile Include="Espadachim.cpp">
+      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Mosqueteiro.cpp">
+      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Inimigo.cpp">
+      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapa.cpp">
+      <Filter>Source Files\Elementos Jogo</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaAnimacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animacao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gerenciaAnim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Botao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gerenciadorBotoes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaInimigos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaProjeteis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaEntidades.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaObstaculos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListaPlataformas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lanca.cpp">
+      <Filter>Source Files\Entidades\Armas</Filter>
+    </ClCompile>
+    <ClCompile Include="Cavaleiro.cpp">
+      <Filter>Source Files\Entidades\Personagens\Inimigos</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtoEntidade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gerenciaPontuacoes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BRAS_INDIG.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
